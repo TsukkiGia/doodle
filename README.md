@@ -1,4 +1,3 @@
-# doodle
 Original App Design Project - README Template
 ===
 
