@@ -82,11 +82,10 @@ Change the World is a take on Facebook Events and is an app that allows users to
 * Search Event
     * Event Details
 * My Events
-   * None
+   * Event Details
 
 ## Wireframes
-[Add picture of your hand sketched wireframes in this section]
-<img src="wireframe2.png" width=600>
+<img src="wireframe3.png" width=600>
 
 ### [BONUS] Digital Wireframes & Mockups
 
