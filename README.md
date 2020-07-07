@@ -86,6 +86,7 @@ Change the World is a take on Facebook Events and is an app that allows users to
 
 ## Wireframes
 <img src="wireframe3.png" width=600>
+<img src="HardcopyWireFrame.JPG" width=600>
 
 ### [BONUS] Digital Wireframes & Mockups
 
