@@ -90,6 +90,8 @@ Change the World is a take on Facebook Events and is an app that allows users to
 
 ### [BONUS] Digital Wireframes & Mockups
 
+img src="DigitalWireframe.JPG" width=600>
+
 ### [BONUS] Interactive Prototype
 
 ## Schema 
