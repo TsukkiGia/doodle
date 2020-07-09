@@ -129,19 +129,12 @@ Change the World is a take on Facebook Events and is an app that allows users to
    ```swift
             ParseUser.logInInBackground(username, password, new LogInCallback() 
             ```
-- get function that returns events that a user RSVPed
-   ```swift {
-           ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
-           query.whereContains(Event.A, keyword);
-           query.setLimit(20);
-           query.addDescendingOrder(Event.KEY_DATE_TIME);
-           query.findInBackground() ```
+- get function that returns events that a user RSVPed (Better to add events to user table or event table?)
 - get function that returns events with a keyword that the user searched
    ```swift {
            ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
            query.whereContains(Event.KEY_DESCRIPTION, keyword);
            query.setLimit(20);
-           //how do you search within an array of pointers
            query.addDescendingOrder(Event.KEY_DATE_TIME);
            query.findInBackground() ```
 - get function that returns events close to the user (how?) There is a query.wherewithinkilometers function
