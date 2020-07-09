@@ -149,10 +149,8 @@ Change the World is a take on Facebook Events and is an app that allows users to
            event.setImage(new ParseFile(photoFile)); //if available
            event.setOrganizer(ParseUser.getCurrentUser);
            event.setDateandTime(DateTime);
-           event.saveInBackground()
-- get function that returns events that a user RSVPed
-- post that adds user to attendee list
-- get function that returns events close to the user
+           event.saveInBackground();
+- get function that returns events close to user
 ```swift {
            ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
            query.whereContains(Event.KEY_DESCRIPTION, keyword);
@@ -160,3 +158,12 @@ Change the World is a take on Facebook Events and is an app that allows users to
            query.whereWithinKilometers(Event.KEY_LOCATION,100);
            query.addDescendingOrder(Event.KEY_DATE_TIME);
            query.findInBackground();
+           
+- post function that adds user to attendee list
+```swift {
+           ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
+           query.whereEqualTo(Event.Object_ID, event.getObjectID());
+           query.findInBackground();
+           //add user to the array
+           event.setattendees(attendees);
+           event.saveInBackground();
