@@ -116,13 +116,50 @@ Change the World is a take on Facebook Events and is an app that allows users to
    | description       | String   | image description by organizer |
    | dateAndTime     | DateTime | date when the event takes place|
    | location     | ? | location where the event takes place|
-   | attendees (stretch story) | Array of pointers to users | Array of the users who are attending the event  |
+   | attendees  | Array of pointers to users | Array of the users who are attending the event  |
    
 ### Networking
+- signup function that signs user up
+   ```swift {
+           ParseUser user = new ParseUser();
+           user.setUsername(username);
+           user.setPassword(password);
+           user.signUpInBackground(new SignUpCallback())} ```
+- login function that logs user in
+   ```swift
+            ParseUser.logInInBackground(username, password, new LogInCallback() 
+            ```
 - get function that returns events that a user RSVPed
+   ```swift {
+           ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
+           query.whereContains(Event.A, keyword);
+           query.setLimit(20);
+           query.addDescendingOrder(Event.KEY_DATE_TIME);
+           query.findInBackground() ```
 - get function that returns events with a keyword that the user searched
-- get function that returns events close to the user
+   ```swift {
+           ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
+           query.whereContains(Event.KEY_DESCRIPTION, keyword);
+           query.setLimit(20);
+           //how do you search within an array of pointers
+           query.addDescendingOrder(Event.KEY_DATE_TIME);
+           query.findInBackground() ```
+- get function that returns events close to the user (how?) There is a query.wherewithinkilometers function
 - post function that adds a user's post underneath an event
+   ```swift {
+           Post post = new Post();
+           post.setDescription(description);
+           post.setImage(new ParseFile(photoFile));
+           post.setUser(ParseUser.getCurrentUser);
+           post.saveInBackground() ```
 - post function that adds a user's event
+   ```swift {
+           Event event = new Event();
+           event.setDescription(description);
+           event.setImage(new ParseFile(photoFile)); //if available
+           event.setOrganizer(ParseUser.getCurrentUser);
+           event.setDateandTime(DateTime);
+           event.saveInBackground() ```
+
 ##### Stretch networking
 - post that adds user to attendee list
