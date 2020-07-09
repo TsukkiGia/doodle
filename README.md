@@ -124,11 +124,10 @@ Change the World is a take on Facebook Events and is an app that allows users to
            ParseUser user = new ParseUser();
            user.setUsername(username);
            user.setPassword(password);
-           user.signUpInBackground(new SignUpCallback())} ```
+           user.signUpInBackground(new SignUpCallback())}
 - login function that logs user in
    ```swift
             ParseUser.logInInBackground(username, password, new LogInCallback() 
-            ```
 - get function that returns events that a user RSVPed (Better to add events to user table or event table?)
 - get function that returns events with a keyword that the user searched
    ```swift {
@@ -136,7 +135,7 @@ Change the World is a take on Facebook Events and is an app that allows users to
            query.whereContains(Event.KEY_DESCRIPTION, keyword);
            query.setLimit(20);
            query.addDescendingOrder(Event.KEY_DATE_TIME);
-           query.findInBackground() ```
+           query.findInBackground() 
 - get function that returns events close to the user (how?) There is a query.wherewithinkilometers function
 - post function that adds a user's post underneath an event
    ```swift {
@@ -144,15 +143,15 @@ Change the World is a take on Facebook Events and is an app that allows users to
            post.setDescription(description);
            post.setImage(new ParseFile(photoFile));
            post.setUser(ParseUser.getCurrentUser);
-           post.saveInBackground() ```
+           post.saveInBackground() 
 - post function that adds a user's event
-```swift {
-        Event event = new Event();
-        event.setDescription(description);
-        event.setImage(new ParseFile(photoFile)); //if available
-        event.setOrganizer(ParseUser.getCurrentUser);
-        event.setDateandTime(DateTime);
-        event.saveInBackground()
+   ```swift {
+           Event event = new Event();
+           event.setDescription(description);
+           event.setImage(new ParseFile(photoFile)); //if available
+           event.setOrganizer(ParseUser.getCurrentUser);
+           event.setDateandTime(DateTime);
+           event.saveInBackground()
 
 ##### Stretch networking
 - post that adds user to attendee list
