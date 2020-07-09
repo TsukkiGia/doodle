@@ -146,13 +146,13 @@ Change the World is a take on Facebook Events and is an app that allows users to
            post.setUser(ParseUser.getCurrentUser);
            post.saveInBackground() ```
 - post function that adds a user's event
-   ```swift {
-           Event event = new Event();
-           event.setDescription(description);
-           event.setImage(new ParseFile(photoFile)); //if available
-           event.setOrganizer(ParseUser.getCurrentUser);
-           event.setDateandTime(DateTime);
-           event.saveInBackground() ```
+```swift {
+        Event event = new Event();
+        event.setDescription(description);
+        event.setImage(new ParseFile(photoFile)); //if available
+        event.setOrganizer(ParseUser.getCurrentUser);
+        event.setDateandTime(DateTime);
+        event.saveInBackground()
 
 ##### Stretch networking
 - post that adds user to attendee list
