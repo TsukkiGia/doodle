@@ -102,24 +102,26 @@ Change the World is a take on Facebook Events and is an app that allows users to
    | objectId      | String   | unique id for the user post (default field) |
    | author        | Pointer to User| image author |
    | image         | File     | image that user posts |
-   | description       | String   | image caption by author |
-   | cheers    | Array of users   | Array of users who cheered for the post |
+   | description       | String   | image description by author |
+   | cheerers    | Array of users   | array of users who cheered for the post |
    | createdAt     | DateTime | date when post is created (default field) |
-   | eventId     | Pointer to Event | date when post is created (default field) |
+   | eventId     | Pointer to Event | unique id for the user event|
    
 #### Event
    | Property      | Type     | Description |
    | ------------- | -------- | ------------|
-   | objectId      | String   | unique id for the event (default field) |
+   | eventId      | String   | unique id for the event (default field) |
    | organizer        | Pointer to User| event organizer |
    | image         | File     | image that organizer adds |
    | description       | String   | image caption by author |
-   | createdAt     | DateTime | date when post is created (default field) |
-   | attendees (stretch story)    | Array of pointers to users | Array of the users who are attending the event  |
+   | dateAndTime     | DateTime | date when the event takes place|
+   | location     | ? | location where the event takes place|
+   | attendees (stretch story) | Array of pointers to users | Array of the users who are attending the event  |
    
 ### Networking
 - get function that returns events that a user RSVPed
 - get function that returns events with a keyword that the user searched
+- get function that returns events close to the user
 - post function that adds a user's post underneath an event
 - post function that adds a user's event
 ##### Stretch networking
