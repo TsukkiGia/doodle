@@ -95,6 +95,7 @@ Change the World is a take on Facebook Events and is an app that allows users to
 ### [BONUS] Interactive Prototype
 
 ## Schema 
+### Models
 #### Post
    | Property      | Type     | Description |
    | ------------- | -------- | ------------|
@@ -102,12 +103,24 @@ Change the World is a take on Facebook Events and is an app that allows users to
    | author        | Pointer to User| image author |
    | image         | File     | image that user posts |
    | description       | String   | image caption by author |
-   | cheerCount    | Number   | number of cheers for the post |
+   | cheers    | Array of users   | Array of users who cheered for the post |
    | createdAt     | DateTime | date when post is created (default field) |
+   | eventId     | Pointer to Event | date when post is created (default field) |
+   
+#### Event
+   | Property      | Type     | Description |
+   | ------------- | -------- | ------------|
+   | objectId      | String   | unique id for the event (default field) |
+   | organizer        | Pointer to User| event organizer |
+   | image         | File     | image that organizer adds |
+   | description       | String   | image caption by author |
+   | createdAt     | DateTime | date when post is created (default field) |
+   | attendees (stretch story)    | Array of pointers to users | Array of the users who are attending the event  |
+   
 ### Networking
-### Models
-[Add table of models]
-### Networking
-- [Add list of network requests by screen ]
-- [Create basic snippets for each Parse network request]
-- [OPTIONAL: List endpoints if using existing API such as Yelp]
+- get function that returns events that a user RSVPed
+- get function that returns events with a keyword that the user searched
+- post function that adds a user's post underneath an event
+- post function that adds a user's event
+##### Stretch networking
+- post that adds user to attendee list
