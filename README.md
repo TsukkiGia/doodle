@@ -96,6 +96,7 @@ Change the World is a take on Facebook Events and is an app that allows users to
 
 ## Schema 
 ### Models
+##### User will have an array of events attending
 #### Post
    | Property      | Type     | Description |
    | ------------- | -------- | ------------|
