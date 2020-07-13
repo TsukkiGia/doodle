@@ -19,8 +19,17 @@ public class Event extends ParseObject {
     public static final String KEY_IMAGE = "EventImage";
     public static final String KEY_ATTENDEES = "Attendees";
     public static final String KEY_ORGANIZER = "Organizer";
+    public static final String KEY_EVENTNAME = "EventName";
 
     public Event() {
+    }
+
+    public String getEventName(){
+        return getString(KEY_EVENTNAME);
+    }
+
+    public void putEventName(String eventName) {
+        put(KEY_EVENTNAME,eventName);
     }
 
     public JSONArray getAttendees(){
