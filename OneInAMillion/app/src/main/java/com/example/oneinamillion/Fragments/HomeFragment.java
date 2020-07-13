@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,21 +14,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.oneinamillion.Event;
+import com.example.oneinamillion.Models.ComposeDialogFragment;
+import com.example.oneinamillion.Models.Event;
 import com.example.oneinamillion.R;
 import com.example.oneinamillion.adapters.EventAdapter;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 
 import java.util.ArrayList;
 import java.util.List;
-
+//https://icons8.com
 
 public class HomeFragment extends Fragment {
     RecyclerView rvEvents;
     EventAdapter eventAdapter;
     List<Event> events;
+    FloatingActionButton fabCreate;
     public static final String TAG = "HomeFragment";
 
     public HomeFragment() {
@@ -46,11 +50,24 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         rvEvents = view.findViewById(R.id.rvEvents);
+        fabCreate = view.findViewById(R.id.fabCreate);
         events = new ArrayList<>();
         eventAdapter = new EventAdapter(getContext(),events);
         rvEvents.setLayoutManager(new LinearLayoutManager(getContext()));
         rvEvents.setAdapter(eventAdapter);
+        fabCreate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showEditDialog();
+            }
+        });
         queryEvents();
+    }
+
+    private void showEditDialog() {
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        ComposeDialogFragment editNameDialogFragment = ComposeDialogFragment.newInstance("Some Title");
+        editNameDialogFragment.show(fm, "activity_create");
     }
 
     private void queryEvents() {

@@ -1,4 +1,4 @@
-package com.example.oneinamillion;
+package com.example.oneinamillion.Models;
 
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
