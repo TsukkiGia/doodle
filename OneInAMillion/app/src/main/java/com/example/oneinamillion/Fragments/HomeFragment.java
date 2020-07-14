@@ -1,11 +1,11 @@
 package com.example.oneinamillion.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,7 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.oneinamillion.Models.ComposeDialogFragment;
+import com.example.oneinamillion.AddEventActivity;
 import com.example.oneinamillion.Models.Event;
 import com.example.oneinamillion.R;
 import com.example.oneinamillion.adapters.EventAdapter;
@@ -65,9 +65,8 @@ public class HomeFragment extends Fragment {
     }
 
     private void showEditDialog() {
-        FragmentManager fm = getActivity().getSupportFragmentManager();
-        ComposeDialogFragment editNameDialogFragment = ComposeDialogFragment.newInstance("Some Title");
-        editNameDialogFragment.show(fm, "activity_create");
+        Intent i = new Intent(getContext(), AddEventActivity.class);
+        startActivity(i);
     }
 
     private void queryEvents() {
