@@ -69,6 +69,26 @@
         android:layout_below="@+id/tvMyOrganizedEvents"
         android:layout_marginTop="16dp"
         android:visibility="gone"/>
+
+        <ImageView
+            android:id="@+id/ivDropdownAttending"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignTop="@+id/tvMyUpcomingEvents"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/dropdown" />
+
+        <ImageView
+            android:id="@+id/ivDropdownOrganizing"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_below="@+id/rvUpcoming"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
+            android:src="@drawable/dropdown" />
     </RelativeLayout>
 </ScrollView>
 </RelativeLayout>

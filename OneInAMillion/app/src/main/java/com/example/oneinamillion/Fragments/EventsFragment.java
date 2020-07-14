@@ -25,7 +25,7 @@ import com.parse.ParseQuery;
 import java.util.ArrayList;
 import java.util.List;
 
-//drop down arrow by Roselin Christina.S from the Noun Project
+//<a href="https://iconscout.com/icons/dropdown" target="_blank">Dropdown Icon</a> by <a href="https://iconscout.com/contributors/google-inc" target="_blank">Google Inc.</a>
 public class EventsFragment extends Fragment {
 
     RecyclerView rvCreated;
@@ -37,6 +37,8 @@ public class EventsFragment extends Fragment {
     EventAdapter eventAdapterForOrganized;
     List<Event> attendingEvents;
     List<Event> organizedEvents;
+    ImageView ivDropdownOrganized;
+    ImageView ivDropdownAttending;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,6 +52,8 @@ public class EventsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         rvCreated = view.findViewById(R.id.rvCreated);
         rvUpcoming = view.findViewById(R.id.rvUpcoming);
+        ivDropdownAttending = view.findViewById(R.id.ivDropdownAttending);
+        ivDropdownOrganized = view.findViewById(R.id.ivDropdownOrganizing);
         attendingEvents = new ArrayList<>();
         organizedEvents = new ArrayList<>();
         eventAdapterForAttending = new EventAdapter(getContext(), attendingEvents);
@@ -60,13 +64,39 @@ public class EventsFragment extends Fragment {
         rvUpcoming.setLayoutManager(new LinearLayoutManager(getContext()));
         tvMyOrganizedEvents = view.findViewById(R.id.tvMyOrganizedEvents);
         tvMyUpcomingEvents = view.findViewById(R.id.tvMyUpcomingEvents);
+        ivDropdownOrganized.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (rvCreated.getVisibility() == View.GONE) {
+                    rvCreated.setVisibility(View.VISIBLE);
+                    ivDropdownOrganized.setImageDrawable(getContext().getResources().getDrawable(R.drawable.close_dropdown));
+                } else {
+                    rvCreated.setVisibility(View.GONE);
+                    ivDropdownOrganized.setImageDrawable(getContext().getResources().getDrawable(R.drawable.dropdown));
+                }
+            }
+        });
+        ivDropdownAttending.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (rvUpcoming.getVisibility() == View.GONE) {
+                    rvUpcoming.setVisibility(View.VISIBLE);
+                    ivDropdownAttending.setImageDrawable(getContext().getResources().getDrawable(R.drawable.close_dropdown));
+                } else {
+                    rvUpcoming.setVisibility(View.GONE);
+                    ivDropdownAttending.setImageDrawable(getContext().getResources().getDrawable(R.drawable.dropdown));
+                }
+            }
+        });
         tvMyOrganizedEvents.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (rvCreated.getVisibility() == View.GONE) {
                     rvCreated.setVisibility(View.VISIBLE);
+                    ivDropdownOrganized.setImageDrawable(getContext().getResources().getDrawable(R.drawable.close_dropdown));
                 } else {
                     rvCreated.setVisibility(View.GONE);
+                    ivDropdownOrganized.setImageDrawable(getContext().getResources().getDrawable(R.drawable.dropdown));
                 }
             }
         });
@@ -75,8 +105,10 @@ public class EventsFragment extends Fragment {
             public void onClick(View v) {
                 if (rvUpcoming.getVisibility() == View.GONE) {
                     rvUpcoming.setVisibility(View.VISIBLE);
+                    ivDropdownAttending.setImageDrawable(getContext().getResources().getDrawable(R.drawable.close_dropdown));
                 } else {
                     rvUpcoming.setVisibility(View.GONE);
+                    ivDropdownAttending.setImageDrawable(getContext().getResources().getDrawable(R.drawable.dropdown));
                 }
             }
         });
