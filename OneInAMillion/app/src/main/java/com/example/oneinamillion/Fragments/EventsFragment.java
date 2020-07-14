@@ -25,7 +25,7 @@ import com.parse.ParseQuery;
 import java.util.ArrayList;
 import java.util.List;
 
-
+//drop down arrow by Roselin Christina.S from the Noun Project
 public class EventsFragment extends Fragment {
 
     RecyclerView rvCreated;

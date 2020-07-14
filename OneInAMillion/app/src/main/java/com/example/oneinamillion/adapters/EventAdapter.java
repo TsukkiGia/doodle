@@ -75,8 +75,10 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         public void bind(Event event) {
             tvLocation.setText("Hawaii");
             tvEventName.setText(event.getEventName());
-            tvDateTime.setText(event.getDate().toString());
-            Glide.with(context).load(event.getImage().getUrl()).into(ivEventImage);
+            tvDateTime.setText(event.getDate());
+            if (event.getImage() != null) {
+                Glide.with(context).load(event.getImage().getUrl()).into(ivEventImage);
+            }
         }
 
         @Override
