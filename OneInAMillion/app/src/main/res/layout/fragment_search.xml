@@ -12,7 +12,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="#03dac4"
+        android:background="@color/colorAccent"
         app:layout_scrollFlags="scroll|enterAlways"
         app:menu="@menu/search_frag">
         <TextView

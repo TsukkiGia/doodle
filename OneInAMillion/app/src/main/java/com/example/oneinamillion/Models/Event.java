@@ -7,14 +7,16 @@ import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 import org.json.JSONArray;
+import org.parceler.Parcel;
 
 import java.util.Date;
 
 @ParseClassName("Event")
-//@Parcel(analyze={Event.class})
+@Parcel(analyze={Event.class})
 public class Event extends ParseObject {
     public static final String KEY_LOCATION = "Location";
-    public static final String KEY_DATETIME = "DateAndTime";
+    public static final String KEY_DATE = "Date";
+    public static final String KEY_TIME = "Time";
     public static final String KEY_DESCRIPTION = "Description";
     public static final String KEY_IMAGE = "EventImage";
     public static final String KEY_ATTENDEES = "Attendees";
@@ -28,7 +30,7 @@ public class Event extends ParseObject {
         return getString(KEY_EVENTNAME);
     }
 
-    public void putEventName(String eventName) {
+    public void setEventName(String eventName) {
         put(KEY_EVENTNAME,eventName);
     }
 
@@ -45,23 +47,31 @@ public class Event extends ParseObject {
         return getParseGeoPoint(KEY_LOCATION);
     }
 
-    public void putLocation(ParseGeoPoint geoPoint){
+    public void setLocation(ParseGeoPoint geoPoint){
         put(KEY_LOCATION,geoPoint);
     }
 
-    public Date getDateTime(){
-        return getDate(KEY_DATETIME);
+    public String getDate(){
+        return getString(KEY_DATE);
     }
 
-    public void putDateTime(Date date){
-        put(KEY_DATETIME,date);
+    public void setDate(String date){
+        put(KEY_DATE,date);
+    }
+
+    public String getTime(){
+        return getString(KEY_TIME);
+    }
+
+    public void setTime(String time){
+        put(KEY_TIME,time);
     }
 
     public String getDescription() {
         return getString(KEY_DESCRIPTION);
     }
 
-    public void putDescription(String description){
+    public void setDescription(String description){
         put(KEY_DESCRIPTION,description);
     }
 

@@ -1,6 +1,7 @@
 package com.example.oneinamillion.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +12,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.oneinamillion.DetailsActivity;
 import com.example.oneinamillion.Models.Event;
 import com.example.oneinamillion.R;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -53,7 +57,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         return events.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView tvDateTime;
         TextView tvLocation;
         TextView tvEventName;
@@ -65,13 +69,23 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
             tvLocation = itemView.findViewById(R.id.tvLocation);
             tvEventName = itemView.findViewById(R.id.tvEventName);
             ivEventImage = itemView.findViewById(R.id.ivEvent);
+            ivEventImage.setOnClickListener(this);
         }
 
         public void bind(Event event) {
             tvLocation.setText("Hawaii");
             tvEventName.setText(event.getEventName());
-            tvDateTime.setText(event.getDateTime().toString());
+            tvDateTime.setText(event.getDate().toString());
             Glide.with(context).load(event.getImage().getUrl()).into(ivEventImage);
+        }
+
+        @Override
+        public void onClick(View view) {
+            int position = getAdapterPosition();
+            Event event = events.get(position);
+            Intent i = new Intent(context, DetailsActivity.class);
+            i.putExtra(Event.class.getSimpleName(),Parcels.wrap(event));
+            context.startActivity(i);
         }
     }
 }

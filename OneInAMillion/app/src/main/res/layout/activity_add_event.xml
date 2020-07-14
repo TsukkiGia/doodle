@@ -28,8 +28,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="29dp"
-        android:layout_marginTop="88dp"
+        android:layout_marginStart="27dp"
+        android:layout_marginTop="75dp"
         android:text="Event Name" />
 
     <TextView
@@ -58,8 +58,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvEventTime"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="29dp"
-        android:layout_marginTop="47dp"
+        android:layout_marginStart="27dp"
+        android:layout_marginTop="35dp"
         android:text="Event Date" />
 
     <TextView
@@ -68,8 +68,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvEventDate"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="29dp"
-        android:layout_marginTop="49dp"
+        android:layout_marginStart="27dp"
+        android:layout_marginTop="32dp"
         android:text="Event Description" />
 
     <TextView
@@ -78,8 +78,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvEventDate"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="29dp"
-        android:layout_marginTop="124dp"
+        android:layout_marginStart="27dp"
+        android:layout_marginTop="93dp"
         android:text="Event Image" />
 
     <Button
@@ -108,60 +108,69 @@
 
     <EditText
         android:id="@+id/etEventName"
-        android:layout_width="171dp"
-        android:layout_height="19dp"
+        android:layout_width="175dp"
+        android:layout_height="35dp"
         android:layout_alignTop="@+id/tvEventName"
-        android:layout_marginStart="97dp"
-        android:layout_marginTop="0dp"
+        android:layout_marginStart="98dp"
+        android:layout_marginTop="-2dp"
         android:layout_toEndOf="@+id/tvEventName"
-        android:ems="10" />
+        android:ems="10"
+        android:text="hello"
+        android:textColor="#000000"
+        android:textSize="14sp" />
 
     <EditText
         android:id="@+id/etEventLocation"
         android:layout_width="171dp"
-        android:layout_height="19dp"
-        android:layout_alignTop="@+id/tvEventName"
-        android:layout_marginStart="96dp"
-        android:layout_marginTop="52dp"
-        android:layout_toEndOf="@+id/tvEventName"
-        android:ems="10" />
+        android:layout_height="35dp"
+        android:layout_below="@+id/etEventName"
+        android:layout_alignStart="@+id/etEventName"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:textSize="14sp" />
 
     <EditText
         android:id="@+id/etEventTime"
         android:layout_width="171dp"
-        android:layout_height="19dp"
-        android:layout_alignTop="@+id/tvEventName"
-        android:layout_marginStart="102dp"
-        android:layout_marginTop="106dp"
-        android:layout_toEndOf="@+id/tvEventName"
+        android:layout_height="35dp"
+        android:layout_below="@+id/etEventLocation"
+        android:layout_alignStart="@+id/etEventLocation"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="18dp"
         android:ems="10"
-        android:inputType="time" />
+        android:inputType="time"
+        android:text="12:07"
+        android:textSize="14sp" />
 
     <EditText
         android:id="@+id/etEventDate"
         android:layout_width="171dp"
-        android:layout_height="19dp"
-        android:layout_alignTop="@+id/tvEventName"
-        android:layout_marginStart="99dp"
-        android:layout_marginTop="174dp"
-        android:layout_toEndOf="@+id/tvEventName"
+        android:layout_height="35dp"
+        android:layout_below="@+id/etEventTime"
+        android:layout_alignStart="@+id/etEventTime"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="18dp"
         android:ems="10"
-        android:inputType="date" />
+        android:inputType="date"
+        android:text="01/01/02"
+        android:textSize="14sp" />
 
     <EditText
         android:id="@+id/etEventDescription"
         android:layout_width="171dp"
-        android:layout_height="19dp"
-        android:layout_alignTop="@+id/tvEventName"
-        android:layout_marginStart="98dp"
-        android:layout_marginTop="242dp"
+        android:layout_height="35dp"
+        android:layout_below="@+id/etEventDate"
+        android:layout_alignStart="@+id/etEventDate"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="18dp"
+        android:ems="10"
+        android:gravity="top|left"
         android:inputType="textMultiLine"
         android:lines="10"
-        android:minLines="6"
-        android:gravity="top|left"
         android:maxLines="10"
-        android:layout_toEndOf="@+id/tvEventName"
-        android:ems="10" />
+        android:minLines="6"
+        android:textSize="14sp" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -170,6 +179,6 @@
         android:layout_below="@+id/etEventDescription"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="51dp"
-        android:layout_marginEnd="40dp"
+        android:layout_marginEnd="42dp"
         tools:srcCompat="@tools:sample/avatars" />
 </RelativeLayout>
