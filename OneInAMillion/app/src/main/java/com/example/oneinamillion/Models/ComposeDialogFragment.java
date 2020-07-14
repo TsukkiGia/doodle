@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
@@ -19,7 +20,8 @@ public class ComposeDialogFragment extends DialogFragment {
 
     public static final int MAX_LENGTH = 140;
     public static final String TAG ="CreateActivity";
-    private EditText mEditText;
+    private EditText etEventName;
+    private TextView tvNameHeading;
 
     public ComposeDialogFragment() {
         // Empty constructor is required for DialogFragment
@@ -44,14 +46,11 @@ public class ComposeDialogFragment extends DialogFragment {
     @Override
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        // Get field from view
-
-
-        // Fetch arguments from bundle and set title
         String title = getArguments().getString("title", "Enter Name");
         getDialog().setTitle(title);
-        // Show soft keyboard automatically and request focus to field
-        mEditText.requestFocus();
+        etEventName = view.findViewById(R.id.etEventName);
+        tvNameHeading = view.findViewById(R.id.tvNameHeading);
+        etEventName.requestFocus();
         getDialog().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
     }
@@ -59,6 +58,6 @@ public class ComposeDialogFragment extends DialogFragment {
     @Override
     public void onResume() {
         super.onResume();
-        getDialog().getWindow().setLayout(1000,1000);
+        getDialog().getWindow().setLayout(1100,1500);
     }
 }

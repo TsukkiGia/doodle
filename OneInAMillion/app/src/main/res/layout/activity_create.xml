@@ -2,4 +2,81 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/tvNameHeading"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="59dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="60dp"
+        android:layout_toStartOf="@+id/etEventName"
+        android:text="Event Name" />
+
+    <TextView
+        android:id="@+id/tvNameHeading2"
+        android:layout_width="92dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="58dp"
+        android:layout_marginTop="78dp"
+        android:layout_marginEnd="106dp"
+        android:layout_toStartOf="@+id/etEventName"
+        android:text="Event Location" />
+
+    <TextView
+        android:id="@+id/tvNameHeading3"
+        android:layout_width="77dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="170dp"
+        android:layout_marginEnd="131dp"
+        android:layout_toStartOf="@+id/etEventName"
+        android:text="Event Date" />
+
+    <EditText
+        android:id="@+id/etEventName"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="5dp"
+        android:ems="10"
+        android:inputType="date|time" />
+
+    <EditText
+        android:id="@+id/etEventName2"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etEventName"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="5dp"
+        android:ems="10"
+        android:inputType="date|time" />
+
+    <EditText
+        android:id="@+id/etEventName4"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etEventName5"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="4dp"
+        android:ems="10"
+        android:inputType="date|time" />
+
+    <EditText
+        android:id="@+id/etEventName5"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etEventName2"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="4dp"
+        android:ems="10"
+        android:inputType="date|time" />
 </RelativeLayout>
