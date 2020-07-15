@@ -11,6 +11,6 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
-    <string name="api_key">AIzaSyAHhqNOmXH6jPO42U89s12nJNAQucTvw40</string>
-    <string name="mapbox_access_token">pk.eyJ1IjoidHN1a2tpZyIsImEiOiJja2NuZjR6bG0wMjRjMnlxZ3EwYW93NXk0In0.Jt__4isio_hx3hlYrCNS9g</string>
+    <string name="api_key">hello</string>
+
 </resources>

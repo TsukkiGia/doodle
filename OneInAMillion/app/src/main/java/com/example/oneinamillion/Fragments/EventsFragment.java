@@ -112,12 +112,13 @@ public class EventsFragment extends Fragment {
                 }
             }
         });
-        queryOrganizedEvents();
-        queryAttendingEvents();
+        queryEvents();
     }
 
     //modify queries
-    private void queryAttendingEvents() {
+    private void queryEvents() {
+        List<Event> attendingEvents = new ArrayList<>();
+        List<Event> organizedEvents = new ArrayList<>();
         ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
         query.include(Event.KEY_ORGANIZER);
         query.setLimit(20);
@@ -133,23 +134,7 @@ public class EventsFragment extends Fragment {
                 eventAdapterForAttending.clear();
                 eventAdapterForAttending.addAll(events);
                 eventAdapterForAttending.notifyDataSetChanged();
-            }
-        });
-    }
 
-    private void queryOrganizedEvents() {
-        ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
-        query.include(Event.KEY_ORGANIZER);
-        query.setLimit(20);
-        query.findInBackground(new FindCallback<Event>() {
-            @Override
-            public void done(List<Event> events, ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "problem!", e);
-                }
-                for (Event event : events) {
-                    Log.i(TAG, "Description: " + event.getDescription());
-                }
                 eventAdapterForOrganized.clear();
                 eventAdapterForOrganized.addAll(events);
                 eventAdapterForOrganized.notifyDataSetChanged();
