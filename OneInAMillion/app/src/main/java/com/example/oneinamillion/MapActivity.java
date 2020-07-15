@@ -33,28 +33,19 @@ public class MapActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
         String apiKey = getString(R.string.api_key);
-
-        /**
-         * Initialize Places. For simplicity, the API key is hard-coded. In a production
-         * environment we recommend using a secure mechanism to manage API keys.
-         */
         if (!Places.isInitialized()) {
             Places.initialize(getApplicationContext(), apiKey);
         }
-
-// Create a new Places client instance.
+        // Creating a new Places client instance.
         PlacesClient placesClient = Places.createClient(this);
         AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
                 getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
 
         autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME,Place.Field.LAT_LNG));
-
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
-                // TODO: Get info about the selected place.
                 Log.i(TAG, "Place: " + place.toString()+ ", " + place.getLatLng());
-                //Toast.makeText(MapActivity.this,"Place: " + place.getName() + ", " + place.getLatLng(),Toast.LENGTH_SHORT).show();
                 setResult(Activity.RESULT_OK,
                         new Intent().putExtra("name",place.getName()).putExtra("latitude", place.getLatLng().latitude).putExtra("longitude", place.getLatLng().longitude));
                 finish();
@@ -62,7 +53,6 @@ public class MapActivity extends AppCompatActivity {
 
             @Override
             public void onError(Status status) {
-                // TODO: Handle the error.
                 Log.i(TAG, "An error occurred: " + status);
             }
         });

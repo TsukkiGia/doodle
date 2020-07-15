@@ -49,7 +49,7 @@
         android:layout_below="@+id/tvEventLocation"
         android:layout_alignParentStart="true"
         android:layout_marginStart="27dp"
-        android:layout_marginTop="38dp"
+        android:layout_marginTop="49dp"
         android:text="Event Time" />
 
     <TextView
@@ -58,28 +58,28 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvEventTime"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="27dp"
-        android:layout_marginTop="35dp"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="51dp"
         android:text="Event Date" />
 
     <TextView
         android:id="@+id/tvEventDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvEventDate"
+        android:layout_below="@+id/tvEventName"
         android:layout_alignParentStart="true"
         android:layout_marginStart="27dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="242dp"
         android:text="Event Description" />
 
     <TextView
         android:id="@+id/tvEventImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvEventDate"
+        android:layout_below="@+id/tvEventName"
         android:layout_alignParentStart="true"
         android:layout_marginStart="27dp"
-        android:layout_marginTop="93dp"
+        android:layout_marginTop="332dp"
         android:text="Event Image" />
 
     <Button
@@ -100,81 +100,69 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvEventImage"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="26dp"
-        android:layout_marginEnd="264dp"
+        android:layout_marginTop="71dp"
+        android:layout_marginEnd="262dp"
         android:background="@color/colorAccent"
         android:text="Upload Image"
         android:textColor="#FFFFFF" />
 
     <Button
         android:id="@+id/btnPickAPlace"
-        android:layout_width="123dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvEventImage"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="-253dp"
-        android:layout_marginEnd="94dp"
+        android:layout_marginTop="-322dp"
+        android:layout_marginEnd="12dp"
         android:background="@color/colorAccent"
         android:text="Pick a Place"
         android:textColor="#FFFFFF" />
 
     <Button
-        android:id="@+id/btnRepickAPlace"
-        android:layout_width="53dp"
+        android:id="@+id/btnPickATime"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvEventImage"
+        android:layout_below="@+id/etEventName"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="-253dp"
-        android:layout_marginEnd="35dp"
+        android:layout_marginTop="75dp"
+        android:layout_marginEnd="14dp"
         android:background="@color/colorAccent"
-        android:text="Pick Again"
-        android:visibility="gone"
+        android:text="Pick a Time"
         android:textColor="#FFFFFF" />
+
+    <Button
+        android:id="@+id/btnPickADate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etEventName"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="139dp"
+        android:layout_marginEnd="13dp"
+        android:background="@color/colorAccent"
+        android:text="Pick a Date"
+        android:textColor="#FFFFFF" />
+
 
     <EditText
         android:id="@+id/etEventName"
         android:layout_width="175dp"
         android:layout_height="35dp"
         android:layout_alignTop="@+id/tvEventName"
-        android:layout_marginStart="77dp"
+        android:layout_alignParentEnd="true"
         android:layout_marginTop="-1dp"
-        android:layout_toEndOf="@+id/tvEventName"
+        android:layout_marginEnd="12dp"
         android:ems="10"
         android:textColor="#000000"
-        android:textSize="14sp" />
-
-    <EditText
-        android:id="@+id/etEventTime"
-        android:layout_width="171dp"
-        android:layout_height="35dp"
-        android:layout_below="@+id/etEventName"
-        android:layout_alignStart="@+id/etEventName"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="79dp"
-        android:ems="10"
-        android:inputType="time"
-        android:textSize="14sp" />
-
-    <EditText
-        android:id="@+id/etEventDate"
-        android:layout_width="171dp"
-        android:layout_height="35dp"
-        android:layout_below="@+id/etEventTime"
-        android:layout_alignStart="@+id/etEventTime"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="18dp"
-        android:ems="10"
-        android:inputType="date"
         android:textSize="14sp" />
 
     <EditText
         android:id="@+id/etEventDescription"
         android:layout_width="171dp"
         android:layout_height="35dp"
-        android:layout_below="@+id/etEventDate"
-        android:layout_alignStart="@+id/etEventDate"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="18dp"
+        android:layout_below="@+id/etEventName"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="229dp"
+        android:layout_marginEnd="12dp"
         android:ems="10"
         android:gravity="top|left"
         android:inputType="textMultiLine"
@@ -189,8 +177,8 @@
         android:layout_height="142dp"
         android:layout_below="@+id/etEventDescription"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="51dp"
-        android:layout_marginEnd="42dp"
+        android:layout_marginTop="53dp"
+        android:layout_marginEnd="11dp"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
@@ -205,4 +193,26 @@
         android:textStyle="bold"
         android:visibility="gone"
         tools:text="I am here" />
+
+    <TextView
+        android:id="@+id/tvTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/btnPickATime"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="31dp"
+        android:layout_toStartOf="@+id/btnPickATime"
+        android:text="something"
+        tools:text="something" />
+
+    <TextView
+        android:id="@+id/tvDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/btnPickATime"
+        android:layout_marginTop="73dp"
+        android:layout_marginEnd="29dp"
+        android:layout_toStartOf="@+id/btnPickATime"
+        android:text="something"
+        tools:text="something" />
 </RelativeLayout>

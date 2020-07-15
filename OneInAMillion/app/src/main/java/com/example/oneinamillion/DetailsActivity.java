@@ -74,6 +74,7 @@ public class DetailsActivity extends AppCompatActivity {
                     event.setAttendees(attendees);
                     event.saveInBackground();
                     btnRSVP.setText("Attend");
+                    amIattending=false;
                 }
                 else {
                     JSONArray attendees = event.getAttendees();
@@ -81,6 +82,7 @@ public class DetailsActivity extends AppCompatActivity {
                     event.setAttendees(attendees);
                     event.saveInBackground();
                     btnRSVP.setText("Attending");
+                    amIattending=true;
                 }
             }
         });

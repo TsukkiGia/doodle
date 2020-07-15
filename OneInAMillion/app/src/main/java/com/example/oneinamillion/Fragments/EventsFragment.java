@@ -120,9 +120,8 @@ public class EventsFragment extends Fragment {
         queryEvents();
     }
 
-    //modify queries
     private void queryEvents() {
-        List<Event> attendingEvents = new ArrayList<>();
+        final List<Event> attendingEvents = new ArrayList<>();
         final List<Event> organizedEvents = new ArrayList<>();
         ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
         query.include(Event.KEY_ORGANIZER);
@@ -138,11 +137,22 @@ public class EventsFragment extends Fragment {
                         organizedEvents.add(event);
                     }
                     JSONArray attendees = event.getAttendees();
+                    for (int i = 0; i<attendees.length();i++ ){
+                        String userID = null;
+                        try {
+                            userID = attendees.getString(i);
+                            if (userID.equals(ParseUser.getCurrentUser().getObjectId())) {
+                                attendingEvents.add(event);
+                                break;
+                            }
+                        } catch (JSONException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
                 }
                 eventAdapterForAttending.clear();
-                eventAdapterForAttending.addAll(events);
+                eventAdapterForAttending.addAll(attendingEvents);
                 eventAdapterForAttending.notifyDataSetChanged();
-
                 eventAdapterForOrganized.clear();
                 eventAdapterForOrganized.addAll(organizedEvents);
                 eventAdapterForOrganized.notifyDataSetChanged();

@@ -6,8 +6,10 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,11 +35,11 @@ public class HomeFragment extends Fragment {
     List<Event> events;
     FloatingActionButton fabCreate;
     public static final String TAG = "HomeFragment";
+    private SwipeRefreshLayout swipeContainer;
 
     public HomeFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,22 +53,34 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         rvEvents = view.findViewById(R.id.rvEvents);
         fabCreate = view.findViewById(R.id.fabCreate);
+        swipeContainer = view.findViewById(R.id.swipeContainer);
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshPage();
+            }
+        });
+        swipeContainer.setColorSchemeResources(R.color.colorAccent);
         events = new ArrayList<>();
         eventAdapter = new EventAdapter(getContext(),events);
-        rvEvents.setLayoutManager(new LinearLayoutManager(getContext()));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        rvEvents.setLayoutManager(layoutManager);
         rvEvents.setAdapter(eventAdapter);
+        //DividerItemDecoration decor =  new DividerItemDecoration(rvEvents.getContext(),layoutManager.getOrientation());
+        //rvEvents.addItemDecoration(decor);
         fabCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showEditDialog();
+                Intent i = new Intent(getContext(), AddEventActivity.class);
+                startActivity(i);
             }
         });
         queryEvents();
     }
 
-    private void showEditDialog() {
-        Intent i = new Intent(getContext(), AddEventActivity.class);
-        startActivity(i);
+    private void refreshPage() {
+        queryEvents();
+        swipeContainer.setRefreshing(false);
     }
 
     private void queryEvents() {

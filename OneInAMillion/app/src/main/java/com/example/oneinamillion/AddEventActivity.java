@@ -3,6 +3,7 @@ package com.example.oneinamillion;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
+import androidx.fragment.app.DialogFragment;
 
 import android.app.Activity;
 import android.content.Context;
@@ -22,7 +23,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.oneinamillion.Models.DatePickerFragment;
 import com.example.oneinamillion.Models.Event;
+import com.example.oneinamillion.Models.TimePickerFragment;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
@@ -40,7 +43,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class AddEventActivity extends AppCompatActivity {
+public class AddEventActivity extends AppCompatActivity implements DatePickerFragment.DatePickerFragmentListener, TimePickerFragment.TimePickerFragmentListener {
     EditText etEventName;
     EditText etEventDescription;
     Button btnPickAPlace;
@@ -51,7 +54,12 @@ public class AddEventActivity extends AppCompatActivity {
     ImageView ivUploadedImage;
     ParseFile file;
     TextView tvLocation;
-    Button btnRepickAPlace;
+    Button btnPickATime;
+    Button btnPickADate;
+    TextView tvDate;
+    TextView tvTime;
+    double longitude;
+    double latitude;
 
     public static final String TAG = "AddEvent";
     public final static int PICK_PHOTO_CODE = 1046;
@@ -63,20 +71,28 @@ public class AddEventActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_event);
         etEventName = findViewById(R.id.etEventName);
         tvLocation = findViewById(R.id.tvLocation);
+        tvDate = findViewById(R.id.tvDate);
+        tvTime = findViewById(R.id.tvTime);
         etEventDescription = findViewById(R.id.etEventDescription);
-        etEventTime = findViewById(R.id.etEventTime);
-        etEventDate = findViewById(R.id.etEventDate);
         ivUploadedImage = findViewById(R.id.ivUploadedImage);
-        btnPickAPlace = findViewById(R.id.btnPickAPlace);
-        btnPickAPlace.setOnClickListener(new View.OnClickListener() {
+        btnPickADate = findViewById(R.id.btnPickADate);
+        btnPickADate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(AddEventActivity.this,MapActivity.class);
-                startActivityForResult(intent, PICK_LOCATION_CODE);
+                DatePickerFragment fragment = DatePickerFragment.newInstance(AddEventActivity.this);
+                fragment.show(getSupportFragmentManager(), "datePicker");
             }
         });
-        btnRepickAPlace = findViewById(R.id.btnRepickAPlace);
-        btnRepickAPlace.setOnClickListener(new View.OnClickListener() {
+        btnPickATime = findViewById(R.id.btnPickATime);
+        btnPickATime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TimePickerFragment fragment = TimePickerFragment.newInstance(AddEventActivity.this);
+                fragment.show(getSupportFragmentManager(), "timePicker");
+            }
+        });
+        btnPickAPlace = findViewById(R.id.btnPickAPlace);
+        btnPickAPlace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(AddEventActivity.this,MapActivity.class);
@@ -100,10 +116,7 @@ public class AddEventActivity extends AppCompatActivity {
     }
     public void onPickPhoto(View view) {
         // Create intent for picking a photo from the gallery
-        Intent intent = new Intent(Intent.ACTION_PICK,
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        // If you call startActivityForResult() using an intent that no app can handle, your app will crash.
-        // So as long as the result is not null, it's safe to use the intent.
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         if (intent.resolveActivity(getPackageManager()) != null) {
             // Bring up gallery to select a photo
             startActivityForResult(intent, PICK_PHOTO_CODE);
@@ -122,7 +135,7 @@ public class AddEventActivity extends AppCompatActivity {
                     event.setDescription(etEventDescription.getText().toString());
                     event.setDate(etEventDate.getText().toString());
                     event.setTime(etEventTime.getText().toString());
-                    event.setLocation(new ParseGeoPoint(10,2));
+                    event.setLocation(new ParseGeoPoint(latitude,longitude));
                     event.setOrganizer(ParseUser.getCurrentUser());
                     event.setImage(file);
                     event.saveInBackground(new SaveCallback() {
@@ -160,14 +173,12 @@ public class AddEventActivity extends AppCompatActivity {
         }
 
         if (requestCode == PICK_LOCATION_CODE && resultCode == Activity.RESULT_OK) {
-            double latitude = data.getDoubleExtra("latitude", 0);
-            double longitude = data.getDoubleExtra("longitude", 0);
-            btnPickAPlace.setVisibility(View.GONE);
-            btnRepickAPlace.setVisibility(View.VISIBLE);
+            latitude = data.getDoubleExtra("latitude", 0);
+            longitude = data.getDoubleExtra("longitude", 0);
+            btnPickAPlace.setText("Repick");
             tvLocation.setVisibility(View.VISIBLE);
             String name = data.getStringExtra("name");
             tvLocation.setText(name);
-            //Toast.makeText(AddEventActivity.this,name,Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -187,5 +198,15 @@ public class AddEventActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         return image;
+    }
+
+    @Override
+    public void DateSet(String date) {
+        tvDate.setText(date);
+    }
+
+    @Override
+    public void TimeSet(String time) {
+        tvTime.setText(time);
     }
 }
