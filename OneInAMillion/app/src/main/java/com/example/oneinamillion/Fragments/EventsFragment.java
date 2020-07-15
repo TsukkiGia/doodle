@@ -21,6 +21,11 @@ import com.example.oneinamillion.adapters.EventAdapter;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -118,10 +123,9 @@ public class EventsFragment extends Fragment {
     //modify queries
     private void queryEvents() {
         List<Event> attendingEvents = new ArrayList<>();
-        List<Event> organizedEvents = new ArrayList<>();
+        final List<Event> organizedEvents = new ArrayList<>();
         ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
         query.include(Event.KEY_ORGANIZER);
-        query.setLimit(20);
         query.findInBackground(new FindCallback<Event>() {
             @Override
             public void done(List<Event> events, ParseException e) {
@@ -129,14 +133,18 @@ public class EventsFragment extends Fragment {
                     Log.e(TAG, "problem!", e);
                 }
                 for (Event event : events) {
-                    Log.i(TAG, "Description: " + event.getDescription());
+                    ParseUser parseUser = event.getOrganizer();
+                    if (parseUser.getUsername().equals(ParseUser.getCurrentUser().getUsername())) {
+                        organizedEvents.add(event);
+                    }
+                    JSONArray attendees = event.getAttendees();
                 }
                 eventAdapterForAttending.clear();
                 eventAdapterForAttending.addAll(events);
                 eventAdapterForAttending.notifyDataSetChanged();
 
                 eventAdapterForOrganized.clear();
-                eventAdapterForOrganized.addAll(events);
+                eventAdapterForOrganized.addAll(organizedEvents);
                 eventAdapterForOrganized.notifyDataSetChanged();
             }
         });

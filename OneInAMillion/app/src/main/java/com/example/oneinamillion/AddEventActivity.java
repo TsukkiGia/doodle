@@ -110,7 +110,6 @@ public class AddEventActivity extends AppCompatActivity {
         }
     }
     private void saveEvent() {
-        //final ParseFile parseFile = new ParseFile(photoFile);
         file.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -143,8 +142,6 @@ public class AddEventActivity extends AppCompatActivity {
         });
     }
 
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -170,7 +167,6 @@ public class AddEventActivity extends AppCompatActivity {
             tvLocation.setVisibility(View.VISIBLE);
             String name = data.getStringExtra("name");
             tvLocation.setText(name);
-
             //Toast.makeText(AddEventActivity.this,name,Toast.LENGTH_SHORT).show();
         }
     }
