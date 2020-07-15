@@ -11,6 +11,7 @@
         android:id="@+id/ivEventImage"
         android:layout_width="match_parent"
         android:layout_height="142dp"
+        android:scaleType="centerCrop"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="-1dp"
         tools:srcCompat="@tools:sample/backgrounds/scenic" />

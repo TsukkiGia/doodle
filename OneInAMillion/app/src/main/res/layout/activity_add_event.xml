@@ -106,41 +106,53 @@
         android:text="Upload Image"
         android:textColor="#FFFFFF" />
 
+    <Button
+        android:id="@+id/btnPickAPlace"
+        android:layout_width="123dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvEventImage"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="-253dp"
+        android:layout_marginEnd="94dp"
+        android:background="@color/colorAccent"
+        android:text="Pick a Place"
+        android:textColor="#FFFFFF" />
+
+    <Button
+        android:id="@+id/btnRepickAPlace"
+        android:layout_width="53dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvEventImage"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="-253dp"
+        android:layout_marginEnd="35dp"
+        android:background="@color/colorAccent"
+        android:text="Pick Again"
+        android:visibility="gone"
+        android:textColor="#FFFFFF" />
+
     <EditText
         android:id="@+id/etEventName"
         android:layout_width="175dp"
         android:layout_height="35dp"
         android:layout_alignTop="@+id/tvEventName"
-        android:layout_marginStart="98dp"
-        android:layout_marginTop="-2dp"
+        android:layout_marginStart="77dp"
+        android:layout_marginTop="-1dp"
         android:layout_toEndOf="@+id/tvEventName"
         android:ems="10"
-        android:text="hello"
         android:textColor="#000000"
-        android:textSize="14sp" />
-
-    <EditText
-        android:id="@+id/etEventLocation"
-        android:layout_width="171dp"
-        android:layout_height="35dp"
-        android:layout_below="@+id/etEventName"
-        android:layout_alignStart="@+id/etEventName"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="20dp"
-        android:ems="10"
         android:textSize="14sp" />
 
     <EditText
         android:id="@+id/etEventTime"
         android:layout_width="171dp"
         android:layout_height="35dp"
-        android:layout_below="@+id/etEventLocation"
-        android:layout_alignStart="@+id/etEventLocation"
+        android:layout_below="@+id/etEventName"
+        android:layout_alignStart="@+id/etEventName"
         android:layout_marginStart="0dp"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="79dp"
         android:ems="10"
         android:inputType="time"
-        android:text="12:07"
         android:textSize="14sp" />
 
     <EditText
@@ -153,7 +165,6 @@
         android:layout_marginTop="18dp"
         android:ems="10"
         android:inputType="date"
-        android:text="01/01/02"
         android:textSize="14sp" />
 
     <EditText
@@ -173,7 +184,7 @@
         android:textSize="14sp" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/ivUploadedImage"
         android:layout_width="166dp"
         android:layout_height="142dp"
         android:layout_below="@+id/etEventDescription"
@@ -181,4 +192,17 @@
         android:layout_marginTop="51dp"
         android:layout_marginEnd="42dp"
         tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/tvLocation"
+        android:layout_width="152dp"
+        android:layout_height="29dp"
+        android:layout_below="@+id/etEventName"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="18dp"
+        android:layout_toEndOf="@+id/tvEventLocation"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        android:visibility="gone"
+        tools:text="I am here" />
 </RelativeLayout>
