@@ -19,7 +19,6 @@ import com.facebook.login.widget.LoginButton;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
-import com.parse.SignUpCallback;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
@@ -47,16 +46,14 @@ public class LoginActivity extends AppCompatActivity {
         }
         etUsername = findViewById(R.id.etUsername);
         facebook_login = findViewById(R.id.facebook_login);
-
         etPassword = findViewById(R.id.etPassword);
         btnSignUp = findViewById(R.id.btnSignUp);
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i(TAG,"Logging in");
-                String username = etUsername.getText().toString();
-                String password = etPassword.getText().toString();
-                signupUser(username,password);
+                Intent i = new Intent(LoginActivity.this, SignUpActivity.class);
+                startActivity(i);
+                finish();
             }
         });
         btnLogin = findViewById(R.id.btnLogin);
@@ -87,32 +84,17 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void signupUser(final String username, String password) {
-        Log.i(TAG,"Attempt to sign up");
-        ParseUser user = new ParseUser();
-        user.setUsername(username);
-        user.setPassword(password);
-        user.signUpInBackground(new SignUpCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e != null) {
-                    Log.e(TAG,"Error signing up",e);
-                    ParseUser.logOut();
-                    return;
-                }
-                goMainActivity();
-                Toast.makeText(LoginActivity.this,"Successful Signup "+username, Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         callbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
-        //goMainActivity();
-        //login
-
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
+        Intent i = new Intent(this, SignUpActivity.class);
+        startActivity(i);
+        finish();
     }
+
     private void loginUser(final String username, String password) {
         Log.i(TAG,"Attempt to login");
         ParseUser.logInInBackground(username, password, new LogInCallback() {

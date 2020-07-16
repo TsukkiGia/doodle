@@ -76,10 +76,6 @@ public class HomeFragment extends Fragment {
         rvEvents.setAdapter(eventAdapter);
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
-        if (isLoggedIn) {
-            String imageURL = "https://graph.facebook.com/"+accessToken.getUserId()+"picture?type=large";
-            Glide.with(getContext()).load(imageURL).into(ivProfile);
-        }
         fabCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

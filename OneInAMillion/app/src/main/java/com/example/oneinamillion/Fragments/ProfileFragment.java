@@ -44,11 +44,10 @@ public class ProfileFragment extends Fragment {
         ivProfile = view.findViewById(R.id.ivProfile);
         tvName.setText(String.valueOf(ParseUser.getCurrentUser().getString("FirstName") + " " + String.valueOf(ParseUser.getCurrentUser().getString("LastName"))));
         tvUsername.setText("@"+ParseUser.getCurrentUser().getUsername());
+        ivProfile.setImageDrawable(getResources().getDrawable(R.drawable.instagram_user_filled_24));
+
         if (ParseUser.getCurrentUser().getParseFile("ProfilePicture") != null) {
             Glide.with(getContext()).load(ParseUser.getCurrentUser().getParseFile("ProfilePicture").getUrl());
-        }
-        else {
-            ivProfile.setImageDrawable(getContext().getResources().getDrawable(R.drawable.instagram_user_filled_24));
         }
     }
 }
