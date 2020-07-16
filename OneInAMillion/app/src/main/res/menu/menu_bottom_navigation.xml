@@ -17,11 +17,6 @@
         android:title="Events"
         app:showAsAction="always" />
     <item
-        android:id="@+id/action_map"
-        android:icon="@drawable/baseline_explore_black_18dp"
-        android:title="Map"
-        app:showAsAction="always" />
-    <item
         android:id="@+id/action_profile"
         android:icon="@drawable/instagram_user_filled_24"
         android:title="Map"

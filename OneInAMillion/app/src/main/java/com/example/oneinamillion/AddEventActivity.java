@@ -2,18 +2,14 @@ package com.example.oneinamillion;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.FileProvider;
-import androidx.fragment.app.DialogFragment;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.ImageDecoder;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -32,16 +28,8 @@ import com.parse.ParseGeoPoint;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class AddEventActivity extends AppCompatActivity implements DatePickerFragment.DatePickerFragmentListener, TimePickerFragment.TimePickerFragmentListener {
     EditText etEventName;
@@ -93,7 +81,7 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
         btnPickAPlace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(AddEventActivity.this,MapActivity.class);
+                Intent intent = new Intent(AddEventActivity.this, PickALocationActivity.class);
                 startActivityForResult(intent, PICK_LOCATION_CODE);
             }
         });
@@ -169,7 +157,6 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
             // Create the ParseFile
             file = new ParseFile("picture.png", image);
         }
-
         if (requestCode == PICK_LOCATION_CODE && resultCode == Activity.RESULT_OK) {
             latitude = data.getDoubleExtra("latitude", 0);
             longitude = data.getDoubleExtra("longitude", 0);

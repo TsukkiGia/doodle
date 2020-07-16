@@ -25,7 +25,7 @@ import java.util.Arrays;
 
 import okhttp3.Headers;
 
-public class MapActivity extends AppCompatActivity {
+public class PickALocationActivity extends AppCompatActivity {
     public static final String TAG = "MapsActivity";
 
     @Override

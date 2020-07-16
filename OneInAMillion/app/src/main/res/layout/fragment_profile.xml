@@ -6,16 +6,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragments.ProfileFragment">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorAccent"
+        app:layout_scrollFlags="scroll|enterAlways">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="My Events"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </androidx.appcompat.widget.Toolbar>
 
     <ImageView
         android:id="@+id/ivProfile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_below="@+id/toolbar"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="65dp"
-        android:layout_marginEnd="141dp"
-        tools:src="@tools:sample/avatars" />
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="165dp"
+        tools:src="@drawable/instagram_user_filled_24" />
 
     <TextView
         android:id="@+id/tvName"
@@ -41,4 +57,16 @@
         android:layout_marginTop="21dp"
         android:gravity="center_horizontal"
         tools:text="gtorpey" />
+
+    <Button
+        android:id="@+id/btnChangeProfilePicture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvUsername"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="34dp"
+        android:layout_marginEnd="142dp"
+        android:backgroundTint="@color/colorAccent"
+        android:text="Change Image"
+        android:textColor="#FFFFFF" />
 </RelativeLayout>

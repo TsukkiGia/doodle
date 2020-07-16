@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -14,6 +15,7 @@ import com.example.oneinamillion.Fragments.HomeFragment;
 import com.example.oneinamillion.Fragments.MapsFragment;
 import com.example.oneinamillion.Fragments.ProfileFragment;
 import com.example.oneinamillion.Fragments.SearchFragment;
+import com.facebook.AccessToken;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -25,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -39,9 +42,6 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.action_events:
                         fragment = new EventsFragment();
-                        break;
-                    case R.id.action_map:
-                        fragment = new MapsFragment();
                         break;
                     case R.id.action_profile:
                         fragment = new ProfileFragment();

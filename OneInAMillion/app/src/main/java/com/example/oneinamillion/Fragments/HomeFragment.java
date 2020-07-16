@@ -6,7 +6,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -17,10 +16,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.example.oneinamillion.AddEventActivity;
 import com.example.oneinamillion.Models.Event;
 import com.example.oneinamillion.R;
 import com.example.oneinamillion.adapters.EventAdapter;
+import com.facebook.AccessToken;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -53,6 +54,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ivProfile = view.findViewById(R.id.ivProfile);
         rvEvents = view.findViewById(R.id.rvEvents);
         fabCreate = view.findViewById(R.id.fabCreate);
         swipeContainer = view.findViewById(R.id.swipeContainer);
@@ -68,8 +70,13 @@ public class HomeFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         rvEvents.setLayoutManager(layoutManager);
         rvEvents.setAdapter(eventAdapter);
-        //DividerItemDecoration decor =  new DividerItemDecoration(rvEvents.getContext(),layoutManager.getOrientation());
-        //rvEvents.addItemDecoration(decor);
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
+        //Log.i(TAG,accessToken.getUserId());
+        if (isLoggedIn) {
+            String imageURL = "https://www.graph.facebook.com/v7.0/"+ accessToken.getUserId()+"/picture/return_ssl_resources=1";
+            Glide.with(getContext()).load(imageURL).into(ivProfile);
+        }
         fabCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

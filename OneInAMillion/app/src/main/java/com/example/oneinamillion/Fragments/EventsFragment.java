@@ -1,5 +1,6 @@
 package com.example.oneinamillion.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.oneinamillion.EventMapActivity;
 import com.example.oneinamillion.Models.Event;
 import com.example.oneinamillion.R;
 import com.example.oneinamillion.adapters.EventAdapter;
@@ -25,7 +27,6 @@ import com.parse.ParseUser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +45,7 @@ public class EventsFragment extends Fragment {
     List<Event> organizedEvents;
     ImageView ivDropdownOrganized;
     ImageView ivDropdownAttending;
+    ImageView ivMap;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,6 +59,14 @@ public class EventsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         rvCreated = view.findViewById(R.id.rvCreated);
         rvUpcoming = view.findViewById(R.id.rvUpcoming);
+        ivMap = view.findViewById(R.id.ivMap);
+        ivMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getContext(), EventMapActivity.class);
+                startActivity(i);
+            }
+        });
         ivDropdownAttending = view.findViewById(R.id.ivDropdownAttending);
         ivDropdownOrganized = view.findViewById(R.id.ivDropdownOrganizing);
         attendingEvents = new ArrayList<>();

@@ -87,6 +87,30 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
+        //Login
+        //Signup
+    }
+
+    private void loginUser(final String username, String password) {
+        Log.i(TAG,"Attempt to login");
+        ParseUser.logInInBackground(username, password, new LogInCallback() {
+            @Override
+            public void done(ParseUser user, ParseException e) {
+                if(e != null) {
+                    Log.e(TAG,"Error logging in",e);
+                    return;
+                }
+                goMainActivity();
+                Toast.makeText(LoginActivity.this,"Successful Login "+username, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private void signupUser(final String username, String password) {
         Log.i(TAG,"Attempt to sign up");
         ParseUser user = new ParseUser();
@@ -105,27 +129,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        callbackManager.onActivityResult(requestCode, resultCode, data);
-        super.onActivityResult(requestCode, resultCode, data);
-        goMainActivity();
-    }
-    private void loginUser(final String username, String password) {
-        Log.i(TAG,"Attempt to login");
-        ParseUser.logInInBackground(username, password, new LogInCallback() {
-            @Override
-            public void done(ParseUser user, ParseException e) {
-                if(e != null) {
-                    Log.e(TAG,"Error logging in",e);
-                    return;
-                }
-                goMainActivity();
-                Toast.makeText(LoginActivity.this,"Successful Login "+username, Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
     private void goMainActivity() {
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);

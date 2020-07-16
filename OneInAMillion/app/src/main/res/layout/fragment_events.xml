@@ -96,6 +96,17 @@
             android:layout_marginTop="5dp"
             android:layout_marginEnd="10dp"
             android:src="@drawable/dropdown" />
+
+        <ImageView
+            android:id="@+id/ivMap"
+            android:layout_width="17dp"
+            android:layout_height="19dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="13dp"
+            android:layout_marginEnd="15dp"
+            android:tint="#FFFFFF"
+            android:src="@drawable/baseline_explore_black_18dp" />
     </RelativeLayout>
 </ScrollView>
 </RelativeLayout>

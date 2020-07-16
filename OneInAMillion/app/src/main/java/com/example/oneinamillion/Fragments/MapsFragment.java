@@ -36,6 +36,7 @@ public class MapsFragment extends Fragment {
     private Double longi;
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
+
         /**
          * Manipulates the map once available.
          * This callback is triggered when the map is ready to be used.
@@ -58,7 +59,7 @@ public class MapsFragment extends Fragment {
                     for (Event event : events) {
                         Double lat = event.getLocation().getLatitude();
                         Double longitude = event.getLocation().getLongitude();
-                        googleMap.addMarker(new MarkerOptions().position(new LatLng(lat, longitude)).title(event.getEventName()));
+                        googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
                     }
                 }
             });
@@ -83,4 +84,5 @@ public class MapsFragment extends Fragment {
             mapFragment.getMapAsync(callback);
         }
     }
+
 }
