@@ -25,12 +25,14 @@ public class DetailsActivity extends AppCompatActivity {
     Button btnRSVP;
     Event event;
     Boolean amIattending = false;
+    String address;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
         event = Parcels.unwrap(getIntent().getParcelableExtra(Event.class.getSimpleName()));
+        address = getIntent().getStringExtra("address");
         ivEventImage = findViewById(R.id.ivEventImage);
         tvEventName = findViewById(R.id.tvEventName);
         tvLocation = findViewById(R.id.tvLocation);
@@ -89,7 +91,7 @@ public class DetailsActivity extends AppCompatActivity {
         Glide.with(DetailsActivity.this).load(event.getImage().getUrl()).into(ivEventImage);
         tvEventName.setText(event.getEventName());
         tvDateTime.setText(event.getDate()+" at "+event.getTime());
-        tvLocation.setText("Boston Museum");
+        tvLocation.setText(address);
         tvDescription.setText(event.getDescription());
     }
 }

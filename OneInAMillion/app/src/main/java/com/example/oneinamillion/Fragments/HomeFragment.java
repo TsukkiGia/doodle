@@ -1,6 +1,8 @@
 package com.example.oneinamillion.Fragments;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -27,6 +29,8 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 //https://icons8.com
@@ -72,9 +76,8 @@ public class HomeFragment extends Fragment {
         rvEvents.setAdapter(eventAdapter);
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
-        //Log.i(TAG,accessToken.getUserId());
         if (isLoggedIn) {
-            String imageURL = "https://www.graph.facebook.com/v7.0/"+ accessToken.getUserId()+"/picture/return_ssl_resources=1";
+            String imageURL = "https://graph.facebook.com/"+accessToken.getUserId()+"picture?type=large";
             Glide.with(getContext()).load(imageURL).into(ivProfile);
         }
         fabCreate.setOnClickListener(new View.OnClickListener() {
