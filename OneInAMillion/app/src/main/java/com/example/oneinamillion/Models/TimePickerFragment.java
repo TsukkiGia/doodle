@@ -52,7 +52,22 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
     }
 
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        String time = String.valueOf(hourOfDay)+":"+String.valueOf(minute);
-        notifyTimePickerListener(time);
+        if (minute<10 && hourOfDay<10){
+            String time = "0"+String.valueOf(hourOfDay)+":0"+String.valueOf(minute);
+            notifyTimePickerListener(time);
+        }
+        else if (minute<10 && hourOfDay>10){
+            String time = String.valueOf(hourOfDay)+":0"+String.valueOf(minute);
+            notifyTimePickerListener(time);
+        }
+        else if (minute>10 && hourOfDay<10){
+            String time = "0"+String.valueOf(hourOfDay)+":"+String.valueOf(minute);
+            notifyTimePickerListener(time);
+        }
+        else {
+            String time = String.valueOf(hourOfDay)+":"+String.valueOf(minute);
+            notifyTimePickerListener(time);
+        }
+
     }
 }

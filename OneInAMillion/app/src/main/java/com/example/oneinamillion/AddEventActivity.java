@@ -47,8 +47,6 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
     EditText etEventName;
     EditText etEventDescription;
     Button btnPickAPlace;
-    EditText etEventTime;
-    EditText etEventDate;
     Button btnPost;
     Button btnUploadImage;
     ImageView ivUploadedImage;
@@ -133,8 +131,8 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
                     Event event = new Event();
                     event.setEventName(etEventName.getText().toString());
                     event.setDescription(etEventDescription.getText().toString());
-                    event.setDate(etEventDate.getText().toString());
-                    event.setTime(etEventTime.getText().toString());
+                    event.setDate(tvDate.getText().toString());
+                    event.setTime(tvTime.getText().toString());
                     event.setLocation(new ParseGeoPoint(latitude,longitude));
                     event.setOrganizer(ParseUser.getCurrentUser());
                     event.setImage(file);

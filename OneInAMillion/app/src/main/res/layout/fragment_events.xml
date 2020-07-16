@@ -7,7 +7,8 @@
     tools:context=".Fragments.EventsFragment">
 <ScrollView
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fadeScrollbars="true">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -61,14 +62,20 @@
         android:layout_height="432dp"
         android:layout_below="@+id/tvMyUpcomingEvents"
         android:layout_marginTop="16dp"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        android:scrollbars="vertical"
+        android:scrollbarThumbVertical="@color/colorAccent"
+        android:scrollbarSize="5dp"/>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvCreated"
         android:layout_width="match_parent"
         android:layout_height="432dp"
         android:layout_below="@+id/tvMyOrganizedEvents"
         android:layout_marginTop="16dp"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        android:scrollbars="vertical"
+        android:scrollbarThumbVertical="@color/colorAccent"
+        android:scrollbarSize="5dp"/>
 
         <ImageView
             android:id="@+id/ivDropdownAttending"

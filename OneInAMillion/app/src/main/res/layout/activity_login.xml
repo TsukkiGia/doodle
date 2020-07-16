@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".LoginActivity"
-    android:background="@drawable/background">
+    android:background="@drawable/background"
+    android:padding="10dp">
 
     <EditText
         android:id="@+id/etUsername"
@@ -58,10 +59,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/btnLogin"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="22dp"
         android:backgroundTint="@color/colorAccent"
         android:text="Sign Up"
         android:textColor="#FFFFFF" />
+
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/facebook_login"
+        android:layout_width="393dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnLogin"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="97dp"
+        android:layout_marginBottom="30dp" />
 
     <TextView
         android:id="@+id/tvAppName"

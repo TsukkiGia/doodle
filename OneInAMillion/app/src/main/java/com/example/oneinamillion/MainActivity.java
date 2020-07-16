@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.oneinamillion.Fragments.EventsFragment;
 import com.example.oneinamillion.Fragments.HomeFragment;
+import com.example.oneinamillion.Fragments.MapsFragment;
 import com.example.oneinamillion.Fragments.SearchFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -37,6 +38,9 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.action_events:
                         fragment = new EventsFragment();
+                        break;
+                    case R.id.action_map:
+                        fragment = new MapsFragment();
                         break;
                     default:
                         fragment = new HomeFragment();
