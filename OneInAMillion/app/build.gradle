@@ -50,5 +50,4 @@ dependencies {
     implementation 'com.google.android.libraries.places:places:1.1.0'
     implementation "org.permissionsdispatcher:permissionsdispatcher:$permissionDispatcherVersion"
     annotationProcessor "org.permissionsdispatcher:permissionsdispatcher-processor:$permissionDispatcherVersion"
-    implementation 'com.mapbox.mapboxsdk:mapbox-android-sdk:9.2.0'
 }

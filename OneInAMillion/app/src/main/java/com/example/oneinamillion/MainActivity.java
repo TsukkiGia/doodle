@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.example.oneinamillion.Fragments.EventsFragment;
 import com.example.oneinamillion.Fragments.HomeFragment;
 import com.example.oneinamillion.Fragments.MapsFragment;
+import com.example.oneinamillion.Fragments.ProfileFragment;
 import com.example.oneinamillion.Fragments.SearchFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -41,6 +42,9 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.action_map:
                         fragment = new MapsFragment();
+                        break;
+                    case R.id.action_profile:
+                        fragment = new ProfileFragment();
                         break;
                     default:
                         fragment = new HomeFragment();

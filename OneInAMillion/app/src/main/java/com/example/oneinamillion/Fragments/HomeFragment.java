@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.example.oneinamillion.AddEventActivity;
 import com.example.oneinamillion.Models.Event;
@@ -36,6 +37,7 @@ public class HomeFragment extends Fragment {
     FloatingActionButton fabCreate;
     public static final String TAG = "HomeFragment";
     private SwipeRefreshLayout swipeContainer;
+    ImageView ivProfile;
 
     public HomeFragment() {
         // Required empty public constructor
