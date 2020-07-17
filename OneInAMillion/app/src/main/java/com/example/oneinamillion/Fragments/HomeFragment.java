@@ -24,10 +24,16 @@ import com.example.oneinamillion.Models.Event;
 import com.example.oneinamillion.R;
 import com.example.oneinamillion.adapters.EventAdapter;
 import com.facebook.AccessToken;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -74,7 +80,7 @@ public class HomeFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         rvEvents.setLayoutManager(layoutManager);
         rvEvents.setAdapter(eventAdapter);
-        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        final AccessToken accessToken = AccessToken.getCurrentAccessToken();
         boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
         fabCreate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,6 +90,45 @@ public class HomeFragment extends Fragment {
             }
         });
         queryEvents();
+        GraphRequest graphRequest = GraphRequest.newMeRequest(accessToken, new GraphRequest.GraphJSONObjectCallback() {
+            @Override
+            public void onCompleted(JSONObject object, GraphResponse response) {
+                try {
+                    String first_name = object.getString("first_name");
+                    String last_name = object.getString("last_name");
+                    String URL = object.getJSONObject("picture").getJSONObject("data").getString("url");
+                    Log.i(TAG,first_name+" "+last_name);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        Bundle parameters = new Bundle();
+        parameters.putString("fields","first_name,last_name,id,picture");
+        graphRequest.setParameters(parameters);
+        graphRequest.executeAsync();
+
+        //Loading with Picasso
+        //Picasso.get().load("https://graph.facebook.com/"+accessToken.getUserId()+"/picture?return_ssl_resources=1").into(ivProfile);
+
+        //Facebook API documentation solution
+        GraphRequest request = GraphRequest.newGraphPathRequest(
+                accessToken,
+                "/"+accessToken.getUserId()+"/picture?redirect=false&return_ssl_resources=0",
+                new GraphRequest.Callback() {
+                    @Override
+                    public void onCompleted(GraphResponse response) {
+                        try {
+                            Log.i(TAG,response.getJSONObject().getJSONObject("data").getString("url"));
+                          String URL = response.getJSONObject().getJSONObject("data").getString("url");
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+        request.executeAsync();
     }
 
     private void refreshPage() {

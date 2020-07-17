@@ -10,18 +10,23 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.oneinamillion.Models.Event;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.parse.FindCallback;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+
+import java.util.List;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -89,10 +94,29 @@ public class LoginActivity extends AppCompatActivity {
         callbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
-        boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
-        Intent i = new Intent(this, SignUpActivity.class);
-        startActivity(i);
-        finish();
+        String userID = accessToken.getUserId();
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.whereMatches("Facebook_ID",userID);
+        query.findInBackground(new FindCallback<ParseUser>() {
+            @Override
+            public void done(List<ParseUser> users, ParseException e) {
+                Log.i(TAG,users.toString());
+                if (e != null) {
+                    Log.e(TAG, "problem!", e);
+                }
+                else {
+                    if (users.isEmpty()) {
+                        Intent i = new Intent(LoginActivity.this, SignUpActivity.class);
+                        startActivity(i);
+                        finish();
+                    } else {
+                        ParseUser user = users.get(0);
+                        String username = user.getUsername();
+                        loginUser(username,"gianna");
+                    }
+                }
+            }
+        });
     }
 
     private void loginUser(final String username, String password) {

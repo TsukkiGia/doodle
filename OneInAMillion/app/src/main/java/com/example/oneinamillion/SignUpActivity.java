@@ -11,9 +11,14 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class SignUpActivity extends AppCompatActivity {
     EditText etFirstName;
@@ -42,7 +47,26 @@ public class SignUpActivity extends AppCompatActivity {
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
         if (isLoggedIn) {
-            //set stuff
+            GraphRequest graphRequest = GraphRequest.newMeRequest(accessToken, new GraphRequest.GraphJSONObjectCallback() {
+                @Override
+                public void onCompleted(JSONObject object, GraphResponse response) {
+                    try {
+                        String first_name = object.getString("first_name");
+                        String last_name = object.getString("last_name");
+                        etFirstName.setText(first_name);
+                        etLastName.setText(last_name);
+                        etUsername.setText(first_name.charAt(0)+last_name);
+                        //String URL = object.getJSONObject("picture").getJSONObject("data").getString("url");
+                        Log.i(TAG,first_name+" "+last_name);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            Bundle parameters = new Bundle();
+            parameters.putString("fields","first_name,last_name,id,picture");
+            graphRequest.setParameters(parameters);
+            graphRequest.executeAsync();
         }
     }
     private void signupUser(final String username, String password, String FirstName, String LastName) {
