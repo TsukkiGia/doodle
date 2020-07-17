@@ -49,6 +49,10 @@ import com.google.android.libraries.places.api.net.PlacesClient;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.util.Arrays;
 import java.util.List;
@@ -94,23 +98,18 @@ public class EventMapActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         // Retrieve location and camera position from saved instance state.
         if (savedInstanceState != null) {
             lastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);
             cameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION);
         }
-
         // Retrieve the content view that renders the map.
-        setContentView(R.layout.activity_test);
-
+        setContentView(R.layout.activity_event_map);
         // Construct a PlacesClient
         Places.initialize(getApplicationContext(), getString(R.string.api_key));
         placesClient = Places.createClient(this);
-
         // Construct a FusedLocationProviderClient.
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-
         // Build the map.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -135,7 +134,6 @@ public class EventMapActivity extends AppCompatActivity
      * @param menu The options menu.
      * @return Boolean.
      */
-
     /**
      * Manipulates the map when it's available.
      * This callback is triggered when the map is ready to be used.
@@ -149,22 +147,37 @@ public class EventMapActivity extends AppCompatActivity
             @Override
             public void done(List<Event> events, ParseException e) {
                 for (Event event : events) {
-                    Double lat = event.getLocation().getLatitude();
-                    Double longitude = event.getLocation().getLongitude();
-                    map.addMarker(new MarkerOptions().position( new LatLng(lat, longitude)).title(event.getEventName()));
+                    ParseUser parseUser = event.getOrganizer();
+                    if (parseUser.getUsername().equals(ParseUser.getCurrentUser().getUsername())) {
+                        Double lat = event.getLocation().getLatitude();
+                        Double longitude = event.getLocation().getLongitude();
+                        map.addMarker(new MarkerOptions().position( new LatLng(lat, longitude)).title(event.getEventName()));
+                    }
+                    else {
+                        JSONArray attendees = event.getAttendees();
+                        for (int i = 0; i<attendees.length();i++ ){
+                            String userID = null;
+                            try {
+                                userID = attendees.getString(i);
+                                if (userID.equals(ParseUser.getCurrentUser().getObjectId())) {
+                                    Double lat = event.getLocation().getLatitude();
+                                    Double longitude = event.getLocation().getLongitude();
+                                    map.addMarker(new MarkerOptions().position( new LatLng(lat, longitude)).title(event.getEventName()));
+                                    break;
+                                }
+                            } catch (JSONException ex) {
+                                ex.printStackTrace();
+                            }
+                        }
+                    }
                 }
             }
         });
 
-        // Use a custom info window adapter to handle multiple lines of text in the
-        // info window contents.
-
         // Prompt the user for permission.
         getLocationPermission();
-
         // Turn on the My Location layer and the related control on the map.
         updateLocationUI();
-
         // Get the current location of the device and set the position of the map.
         getDeviceLocation();
     }
@@ -302,7 +315,6 @@ public class EventMapActivity extends AppCompatActivity
                                 break;
                             }
                         }
-
                         // Show a dialog offering the user the list of likely places, and add a
                         // marker at the selected place.
                         EventMapActivity.this.openPlacesDialog();

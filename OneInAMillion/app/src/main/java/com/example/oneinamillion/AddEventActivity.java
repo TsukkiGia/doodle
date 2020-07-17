@@ -46,7 +46,6 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
     TextView tvTime;
     double longitude;
     double latitude;
-
     public static final String TAG = "AddEvent";
     public final static int PICK_PHOTO_CODE = 1046;
     public final static int PICK_LOCATION_CODE = 20020;

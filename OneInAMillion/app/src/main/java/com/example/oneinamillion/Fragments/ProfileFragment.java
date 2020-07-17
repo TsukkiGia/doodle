@@ -23,6 +23,9 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.oneinamillion.LoginActivity;
 import com.example.oneinamillion.R;
+import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
+import com.facebook.login.widget.LoginButton;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 
@@ -42,6 +45,7 @@ public class ProfileFragment extends Fragment {
     public String photoFileName = "photo.jpg";
     File photoFile;
     public static final String TAG = "ProfileFragment";
+    LoginButton facebook_login;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -59,6 +63,7 @@ public class ProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         tvName = view.findViewById(R.id.tvName);
         btnChange = view.findViewById(R.id.btnChange);
+        facebook_login = view.findViewById(R.id.facebook_login);
         btnChange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -71,12 +76,17 @@ public class ProfileFragment extends Fragment {
         btnLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ParseUser.getCurrentUser().logOut();
-                Intent i = new Intent(getContext(), LoginActivity.class);
-                getContext().startActivity(i);
-                getActivity().finish();
+                logout();
             }
         });
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        Boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
+        if (isLoggedIn){
+            btnLogOut.setVisibility(View.GONE);
+        }
+        else {
+            facebook_login.setVisibility(View.GONE);
+        }
         tvName.setText(ParseUser.getCurrentUser().getString("FirstName") + " " + ParseUser.getCurrentUser().getString("LastName"));
         tvUsername.setText("@" + ParseUser.getCurrentUser().getUsername());
         if (ParseUser.getCurrentUser().getParseFile("ProfileImage") != null) {
@@ -85,6 +95,23 @@ public class ProfileFragment extends Fragment {
         } else {
             ivProfile.setImageDrawable(getResources().getDrawable(R.drawable.instagram_user_filled_24));
         }
+        AccessTokenTracker tokenTracker = new AccessTokenTracker() {
+            @Override
+            protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
+                if (currentAccessToken == null) {
+                    Log.d("FB", "User Logged Out.");
+                    logout();
+                }
+            }
+        };
+        tokenTracker.startTracking();
+    }
+
+    private void logout() {
+        ParseUser.getCurrentUser().logOut();
+        Intent i = new Intent(getContext(), LoginActivity.class);
+        getContext().startActivity(i);
+        getActivity().finish();
     }
 
     @Override

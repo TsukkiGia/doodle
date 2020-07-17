@@ -6,16 +6,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import com.example.oneinamillion.Fragments.EventsFragment;
 import com.example.oneinamillion.Fragments.HomeFragment;
-import com.example.oneinamillion.Fragments.MapsFragment;
 import com.example.oneinamillion.Fragments.ProfileFragment;
 import com.example.oneinamillion.Fragments.SearchFragment;
-import com.facebook.AccessToken;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {

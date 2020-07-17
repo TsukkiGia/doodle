@@ -24,8 +24,10 @@ import com.example.oneinamillion.Models.Event;
 import com.example.oneinamillion.R;
 import com.example.oneinamillion.adapters.EventAdapter;
 import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.facebook.Profile;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -89,6 +91,9 @@ public class HomeFragment extends Fragment {
                 startActivity(i);
             }
         });
+        //Profile profile = Profile.getCurrentProfile();
+        //Picasso.get().load(profile.getProfilePictureUri(50, 50)).into(ivProfile);
+        //Glide.with(getContext()).load(profile.getProfilePictureUri(50, 50)).into(ivProfile);
         queryEvents();
         GraphRequest graphRequest = GraphRequest.newMeRequest(accessToken, new GraphRequest.GraphJSONObjectCallback() {
             @Override

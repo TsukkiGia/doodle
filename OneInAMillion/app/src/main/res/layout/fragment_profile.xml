@@ -76,7 +76,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvUsername"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="153dp"
+        android:layout_marginTop="97dp"
         android:layout_marginEnd="160dp"
         android:backgroundTint="@color/colorAccent"
         android:text="Log Out"
