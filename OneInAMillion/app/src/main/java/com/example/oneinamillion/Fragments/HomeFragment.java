@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.bumptech.glide.Glide;
 import com.example.oneinamillion.AddEventActivity;
@@ -32,6 +33,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -51,6 +53,7 @@ public class HomeFragment extends Fragment {
     public static final String TAG = "HomeFragment";
     private SwipeRefreshLayout swipeContainer;
     ImageView ivProfile;
+    ProgressBar pbLoading;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -69,6 +72,7 @@ public class HomeFragment extends Fragment {
         ivProfile = view.findViewById(R.id.ivProfile);
         rvEvents = view.findViewById(R.id.rvEvents);
         fabCreate = view.findViewById(R.id.fabCreate);
+        pbLoading = view.findViewById(R.id.pbLoading);
         swipeContainer = view.findViewById(R.id.swipeContainer);
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -91,7 +95,13 @@ public class HomeFragment extends Fragment {
                 startActivity(i);
             }
         });
-        //Profile profile = Profile.getCurrentProfile();
+        if (ParseUser.getCurrentUser().getParseFile("ProfileImage") != null) {
+            //Glide.with(getContext()).load(ParseUser.getCurrentUser().getParseFile("ProfileImage").getUrl())
+                    //.circleCrop().into(ivProfile);
+        } else {
+            ivProfile.setImageDrawable(getResources().getDrawable(R.drawable.instagram_user_filled_24));
+        }
+        Profile profile = Profile.getCurrentProfile();
         //Picasso.get().load(profile.getProfilePictureUri(50, 50)).into(ivProfile);
         //Glide.with(getContext()).load(profile.getProfilePictureUri(50, 50)).into(ivProfile);
         queryEvents();
@@ -102,38 +112,19 @@ public class HomeFragment extends Fragment {
                     String first_name = object.getString("first_name");
                     String last_name = object.getString("last_name");
                     String URL = object.getJSONObject("picture").getJSONObject("data").getString("url");
-                    Log.i(TAG,first_name+" "+last_name);
+                    Log.i(TAG,object.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         });
         Bundle parameters = new Bundle();
-        parameters.putString("fields","first_name,last_name,id,picture");
+        parameters.putString("fields","first_name,last_name,id,picture,email");
         graphRequest.setParameters(parameters);
         graphRequest.executeAsync();
 
         //Loading with Picasso
         //Picasso.get().load("https://graph.facebook.com/"+accessToken.getUserId()+"/picture?return_ssl_resources=1").into(ivProfile);
-
-        //Facebook API documentation solution
-        GraphRequest request = GraphRequest.newGraphPathRequest(
-                accessToken,
-                "/"+accessToken.getUserId()+"/picture?redirect=false&return_ssl_resources=0",
-                new GraphRequest.Callback() {
-                    @Override
-                    public void onCompleted(GraphResponse response) {
-                        try {
-                            Log.i(TAG,response.getJSONObject().getJSONObject("data").getString("url"));
-                          String URL = response.getJSONObject().getJSONObject("data").getString("url");
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
-
-        request.executeAsync();
     }
 
     private void refreshPage() {
@@ -157,6 +148,7 @@ public class HomeFragment extends Fragment {
                 eventAdapter.clear();
                 eventAdapter.addAll(events);
                 eventAdapter.notifyDataSetChanged();
+                pbLoading.setVisibility(View.INVISIBLE);
             }
         });
     }

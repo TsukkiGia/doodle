@@ -18,6 +18,9 @@ import java.util.Arrays;
 
 public class PickALocationActivity extends AppCompatActivity {
     public static final String TAG = "PickALocationActivity";
+    String name;
+    Double latitude;
+    Double longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +40,10 @@ public class PickALocationActivity extends AppCompatActivity {
             @Override
             public void onPlaceSelected(Place place) {
                 Log.i(TAG, "Place: " + place.toString()+ ", " + place.getLatLng());
-                setResult(Activity.RESULT_OK,
-                        new Intent().putExtra("name",place.getName()).putExtra("latitude", place.getLatLng().latitude).putExtra("longitude", place.getLatLng().longitude));
-                finish();
+                name = place.getName();
+                latitude = place.getLatLng().latitude;
+                longitude = place.getLatLng().longitude;
+                goBack();
             }
 
             @Override
@@ -48,4 +52,11 @@ public class PickALocationActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void goBack() {
+        setResult(Activity.RESULT_OK,
+                new Intent().putExtra("name",name).putExtra("latitude", latitude).putExtra("longitude", longitude));
+        finish();
+    }
+
 }

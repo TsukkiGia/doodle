@@ -55,8 +55,7 @@ public class SignUpActivity extends AppCompatActivity {
                         String last_name = object.getString("last_name");
                         etFirstName.setText(first_name);
                         etLastName.setText(last_name);
-                        etUsername.setText(first_name.charAt(0)+last_name);
-                        //String URL = object.getJSONObject("picture").getJSONObject("data").getString("url");
+                        etUsername.setText(String.format("%s%s", first_name.charAt(0), last_name));
                         Log.i(TAG,first_name+" "+last_name);
                     } catch (JSONException e) {
                         e.printStackTrace();

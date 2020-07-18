@@ -93,7 +93,6 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         }
 
         public void bind(Event event) throws ParseException {
-
             AsyncHttpClient client = new AsyncHttpClient();
             client.get("https://maps.googleapis.com/maps/api/geocode/json?latlng="+
                     String.valueOf(event.getLocation().getLatitude())+","+String.valueOf(event.getLocation().getLongitude())+
@@ -117,16 +116,11 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
                     Log.i(TAG, "Failed");
                 }
             });
-
-
             tvEventName.setText(event.getEventName());
             long now = System.currentTimeMillis();
             Date firstDate = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH).parse(event.getDate());
             long diffInMillies = firstDate.getTime();
-
             tvDateTime.setText(DateUtils.getRelativeTimeSpanString(diffInMillies, now, 0L, DateUtils.FORMAT_ABBREV_ALL));
-
-
             if (event.getImage() != null) {
                 Glide.with(context).load(event.getImage().getUrl()).into(ivEventImage);
             }

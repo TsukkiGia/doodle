@@ -22,74 +22,14 @@
             android:text="Submit an Event" />
     </androidx.appcompat.widget.Toolbar>
 
-    <TextView
-        android:id="@+id/tvEventName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="27dp"
-        android:layout_marginTop="75dp"
-        android:text="Event Name" />
-
-    <TextView
-        android:id="@+id/tvEventLocation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvEventName"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="27dp"
-        android:layout_marginTop="30dp"
-        android:text="Event Location" />
-
-    <TextView
-        android:id="@+id/tvEventTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvEventLocation"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="27dp"
-        android:layout_marginTop="49dp"
-        android:text="Event Time" />
-
-    <TextView
-        android:id="@+id/tvEventDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvEventTime"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="26dp"
-        android:layout_marginTop="51dp"
-        android:text="Event Date" />
-
-    <TextView
-        android:id="@+id/tvEventDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvEventName"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="27dp"
-        android:layout_marginTop="242dp"
-        android:text="Event Description" />
-
-    <TextView
-        android:id="@+id/tvEventImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvEventName"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="27dp"
-        android:layout_marginTop="332dp"
-        android:text="Event Image" />
-
     <Button
         android:id="@+id/btnPost"
         android:layout_width="123dp"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/btnUploadImage"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="11dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="82dp"
+        android:layout_marginEnd="28dp"
         android:background="@color/colorAccent"
         android:text="Submit Event"
         android:textColor="#FFFFFF" />
@@ -98,10 +38,10 @@
         android:id="@+id/btnUploadImage"
         android:layout_width="123dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvEventImage"
+        android:layout_below="@+id/btnPickATime"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="71dp"
-        android:layout_marginEnd="262dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="30dp"
         android:background="@color/colorAccent"
         android:text="Upload Image"
         android:textColor="#FFFFFF" />
@@ -110,10 +50,10 @@
         android:id="@+id/btnPickAPlace"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvEventImage"
+        android:layout_below="@+id/tfEventDescription"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="-322dp"
-        android:layout_marginEnd="12dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="30dp"
         android:background="@color/colorAccent"
         android:text="Pick a Place"
         android:textColor="#FFFFFF" />
@@ -122,10 +62,10 @@
         android:id="@+id/btnPickATime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/etEventName"
+        android:layout_below="@+id/btnPickADate"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="75dp"
-        android:layout_marginEnd="14dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="30dp"
         android:background="@color/colorAccent"
         android:text="Pick a Time"
         android:textColor="#FFFFFF" />
@@ -134,85 +74,108 @@
         android:id="@+id/btnPickADate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/etEventName"
+        android:layout_below="@+id/btnPickAPlace"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="139dp"
-        android:layout_marginEnd="13dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="30dp"
         android:background="@color/colorAccent"
         android:text="Pick a Date"
         android:textColor="#FFFFFF" />
 
 
-    <EditText
-        android:id="@+id/etEventName"
-        android:layout_width="175dp"
-        android:layout_height="35dp"
-        android:layout_alignTop="@+id/tvEventName"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tfEventName"
+        android:layout_width="346dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="-1dp"
-        android:layout_marginEnd="12dp"
-        android:ems="10"
-        android:textColor="#000000"
-        android:textSize="14sp" />
+        android:layout_marginTop="62dp"
+        android:layout_marginEnd="30dp"
+        android:hint="Event Name">
 
-    <EditText
-        android:id="@+id/etEventDescription"
-        android:layout_width="171dp"
-        android:layout_height="35dp"
-        android:layout_below="@+id/etEventName"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="229dp"
-        android:layout_marginEnd="12dp"
-        android:ems="10"
-        android:gravity="top|left"
-        android:inputType="textMultiLine"
-        android:lines="10"
-        android:maxLines="10"
-        android:minLines="6"
-        android:textSize="14sp" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etEventName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tfEventDescription"
+                android:layout_width="345dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tfEventName"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="30dp"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etEventDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start|top"
+                    android:hint="Event Description"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
 
     <ImageView
         android:id="@+id/ivUploadedImage"
         android:layout_width="166dp"
         android:layout_height="142dp"
-        android:layout_below="@+id/etEventDescription"
+        android:layout_below="@+id/btnPickATime"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="53dp"
-        android:layout_marginEnd="11dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="217dp"
+        android:scaleType="centerCrop"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/tvLocation"
-        android:layout_width="152dp"
-        android:layout_height="29dp"
-        android:layout_below="@+id/etEventName"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="18dp"
-        android:layout_toEndOf="@+id/tvEventLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/tfEventDescription"
+        android:layout_alignTop="@+id/btnPickAPlace"
+        android:layout_marginStart="-3dp"
+        android:layout_marginTop="20dp"
         android:textColor="#000000"
         android:textStyle="bold"
-        android:visibility="gone"
         tools:text="I am here" />
 
     <TextView
         android:id="@+id/tvTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/tfEventDescription"
         android:layout_alignTop="@+id/btnPickATime"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="31dp"
-        android:layout_toStartOf="@+id/btnPickATime"
-        android:text="something"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="13dp"
+        android:textColor="#000000"
+        android:textStyle="bold"
         tools:text="something" />
 
     <TextView
         android:id="@+id/tvDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/btnPickATime"
-        android:layout_marginTop="73dp"
-        android:layout_marginEnd="29dp"
-        android:layout_toStartOf="@+id/btnPickATime"
-        android:text="something"
+        android:layout_alignStart="@+id/tfEventDescription"
+        android:layout_alignBottom="@+id/btnPickADate"
+        android:layout_marginStart="0dp"
+        android:layout_marginBottom="14dp"
+        android:textColor="#000000"
+        android:textStyle="bold"
         tools:text="something" />
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="107dp"
+        android:layout_height="89dp"
+        android:layout_below="@+id/tvLocation"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="39dp"
+        android:layout_marginTop="-56dp"
+        app:cameraZoom="14" />
+
+
 </RelativeLayout>

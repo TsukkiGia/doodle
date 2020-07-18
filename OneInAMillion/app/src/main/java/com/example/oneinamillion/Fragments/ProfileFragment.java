@@ -99,7 +99,7 @@ public class ProfileFragment extends Fragment {
             @Override
             protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
                 if (currentAccessToken == null) {
-                    Log.d("FB", "User Logged Out.");
+                    Log.d(TAG, "User Logged Out.");
                     logout();
                 }
             }

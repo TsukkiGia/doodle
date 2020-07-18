@@ -22,6 +22,15 @@ import android.widget.Toast;
 import com.example.oneinamillion.Models.DatePickerFragment;
 import com.example.oneinamillion.Models.Event;
 import com.example.oneinamillion.Models.TimePickerFragment;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMapOptions;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
@@ -31,7 +40,7 @@ import com.parse.SaveCallback;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-public class AddEventActivity extends AppCompatActivity implements DatePickerFragment.DatePickerFragmentListener, TimePickerFragment.TimePickerFragmentListener {
+public class AddEventActivity extends AppCompatActivity implements OnMapReadyCallback, DatePickerFragment.DatePickerFragmentListener, TimePickerFragment.TimePickerFragmentListener {
     EditText etEventName;
     EditText etEventDescription;
     Button btnPickAPlace;
@@ -44,16 +53,22 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
     Button btnPickADate;
     TextView tvDate;
     TextView tvTime;
-    double longitude;
-    double latitude;
+    double longitude = 0;
+    double latitude = 0;
     public static final String TAG = "AddEvent";
     public final static int PICK_PHOTO_CODE = 1046;
     public final static int PICK_LOCATION_CODE = 20020;
+    GoogleMap map;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_event);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+        //GoogleMapOptions options = new GoogleMapOptions().liteMode(true);
+        //mapFragment.newInstance(options);
         etEventName = findViewById(R.id.etEventName);
         tvLocation = findViewById(R.id.tvLocation);
         tvDate = findViewById(R.id.tvDate);
@@ -89,6 +104,7 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
         btnPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.i(TAG,etEventName.getText().toString());
                 saveEvent();
             }
         });
@@ -99,6 +115,7 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
             }
         });
     }
+
     public void onPickPhoto(View view) {
         // Create intent for picking a photo from the gallery
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -107,6 +124,7 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
             startActivityForResult(intent, PICK_PHOTO_CODE);
         }
     }
+
     private void saveEvent() {
         file.saveInBackground(new SaveCallback() {
             @Override
@@ -163,6 +181,9 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
             tvLocation.setVisibility(View.VISIBLE);
             String name = data.getStringExtra("name");
             tvLocation.setText(name);
+            LatLng sydney = new LatLng(latitude, longitude);
+            map.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+            map.moveCamera(CameraUpdateFactory.newLatLng(sydney));
         }
     }
 
@@ -192,5 +213,18 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
     @Override
     public void TimeSet(String time) {
         tvTime.setText(time);
+    }
+    protected void loadMap(GoogleMap googleMap) {
+        map = googleMap;
+        if (map != null) {
+            // Map is ready
+            Toast.makeText(this, "Map Fragment was loaded properly!", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Error - Map was null!!", Toast.LENGTH_SHORT).show();
+        }
+    }
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+       loadMap(googleMap);
     }
 }
