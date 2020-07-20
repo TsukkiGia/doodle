@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.oneinamillion.Models.Event;
+import com.google.android.material.button.MaterialButton;
 import com.parse.ParseUser;
 
 import org.json.JSONArray;
@@ -22,7 +23,7 @@ public class DetailsActivity extends AppCompatActivity {
     TextView tvLocation;
     TextView tvDescription;
     TextView tvDateTime;
-    Button btnRSVP;
+    MaterialButton btnRSVP;
     Event event;
     Boolean amIattending = false;
     String address;
@@ -53,9 +54,11 @@ public class DetailsActivity extends AppCompatActivity {
         btnRSVP = findViewById(R.id.btnRSVP);
         if (amIattending) {
             btnRSVP.setText("Attending");
+            btnRSVP.setIcon(getResources().getDrawable(R.drawable.checkmark));
         }
         else {
             btnRSVP.setText("Attend");
+            btnRSVP.setIcon(getResources().getDrawable(R.drawable.icons_plus));
         }
         btnRSVP.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,6 +79,7 @@ public class DetailsActivity extends AppCompatActivity {
                     event.setAttendees(attendees);
                     event.saveInBackground();
                     btnRSVP.setText("Attend");
+                    btnRSVP.setIcon(getResources().getDrawable(R.drawable.icons_plus));
                     amIattending=false;
                 }
                 else {
@@ -84,6 +88,7 @@ public class DetailsActivity extends AppCompatActivity {
                     event.setAttendees(attendees);
                     event.saveInBackground();
                     btnRSVP.setText("Attending");
+                    btnRSVP.setIcon(getResources().getDrawable(R.drawable.checkmark));
                     amIattending=true;
                 }
             }

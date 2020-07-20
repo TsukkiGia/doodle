@@ -57,17 +57,22 @@
         android:textSize="18sp"
         android:textStyle="bold" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnRSVP"
         android:layout_width="381dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_below="@+id/tvEventName"
         android:layout_alignParentStart="true"
         android:layout_marginStart="13dp"
         android:layout_marginTop="25dp"
         android:backgroundTint="@color/colorAccent"
+        android:gravity="center"
+        app:icon="@drawable/icons_plus"
+        app:iconGravity="textStart"
+        app:iconSize="20dp"
         android:text="RSVP"
-        android:textColor="#FFFFFF" />
+        android:textColor="#FFFFFF"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tvEventDescription"

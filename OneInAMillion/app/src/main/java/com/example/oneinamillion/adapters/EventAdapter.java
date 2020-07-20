@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -199,10 +200,12 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
                         e.printStackTrace();
                     }
                 }
+                Toast.makeText(context,"You have successfully unRSVPed!",Toast.LENGTH_SHORT).show();
                 event.setAttendees(attendees);
                 event.saveInBackground();
             }
             else {
+                Toast.makeText(context,"You have successfully RSVPed!",Toast.LENGTH_SHORT).show();
                 attendees.put(ParseUser.getCurrentUser().getObjectId());
                 event.setAttendees(attendees);
                 event.saveInBackground();
