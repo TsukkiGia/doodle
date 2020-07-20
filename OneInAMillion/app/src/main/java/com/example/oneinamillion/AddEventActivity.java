@@ -67,8 +67,6 @@ public class AddEventActivity extends AppCompatActivity implements OnMapReadyCal
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        //GoogleMapOptions options = new GoogleMapOptions().liteMode(true);
-        //mapFragment.newInstance(options);
         etEventName = findViewById(R.id.etEventName);
         tvLocation = findViewById(R.id.tvLocation);
         tvDate = findViewById(R.id.tvDate);
@@ -216,12 +214,6 @@ public class AddEventActivity extends AppCompatActivity implements OnMapReadyCal
     }
     protected void loadMap(GoogleMap googleMap) {
         map = googleMap;
-        if (map != null) {
-            // Map is ready
-            Toast.makeText(this, "Map Fragment was loaded properly!", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "Error - Map was null!!", Toast.LENGTH_SHORT).show();
-        }
     }
     @Override
     public void onMapReady(GoogleMap googleMap) {
