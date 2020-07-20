@@ -96,35 +96,12 @@ public class HomeFragment extends Fragment {
             }
         });
         if (ParseUser.getCurrentUser().getParseFile("ProfileImage") != null) {
-            //Glide.with(getContext()).load(ParseUser.getCurrentUser().getParseFile("ProfileImage").getUrl())
-                    //.circleCrop().into(ivProfile);
+            Glide.with(getContext()).load(ParseUser.getCurrentUser().getParseFile("ProfileImage").getUrl())
+                    .circleCrop().into(ivProfile);
         } else {
             ivProfile.setImageDrawable(getResources().getDrawable(R.drawable.instagram_user_filled_24));
         }
-        Profile profile = Profile.getCurrentProfile();
-        //Picasso.get().load(profile.getProfilePictureUri(50, 50)).into(ivProfile);
-        //Glide.with(getContext()).load(profile.getProfilePictureUri(50, 50)).into(ivProfile);
         queryEvents();
-        GraphRequest graphRequest = GraphRequest.newMeRequest(accessToken, new GraphRequest.GraphJSONObjectCallback() {
-            @Override
-            public void onCompleted(JSONObject object, GraphResponse response) {
-                try {
-                    String first_name = object.getString("first_name");
-                    String last_name = object.getString("last_name");
-                    String URL = object.getJSONObject("picture").getJSONObject("data").getString("url");
-                    Log.i(TAG,object.toString());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        Bundle parameters = new Bundle();
-        parameters.putString("fields","first_name,last_name,id,picture,email");
-        graphRequest.setParameters(parameters);
-        graphRequest.executeAsync();
-
-        //Loading with Picasso
-        //Picasso.get().load("https://graph.facebook.com/"+accessToken.getUserId()+"/picture?return_ssl_resources=1").into(ivProfile);
     }
 
     private void refreshPage() {

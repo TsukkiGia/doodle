@@ -55,26 +55,11 @@ import java.util.List;
 
 
 public class SearchFragment extends Fragment implements OnMapReadyCallback {
-    private SupportMapFragment mapFragment;
     private GoogleMap map;
     public static final String TAG = "SearchFragment";
-    private LocationRequest mLocationRequest;
-    Location mCurrentLocation;
-    private long UPDATE_INTERVAL = 60000;  /* 60 secs */
-    private long FASTEST_INTERVAL = 5000; /* 5 secs */
-
-    private final static String KEY_LOCATION = "location";
-    private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
-    private CameraPosition cameraPosition;
-
-    // The entry point to the Places API.
-    private PlacesClient placesClient;
 
     // The entry point to the Fused Location Provider.
     private FusedLocationProviderClient fusedLocationProviderClient;
-
-    // A default location (Sydney, Australia) and default zoom to use when location permission is
-    // not granted.
     private final LatLng defaultLocation = new LatLng(-33.8523341, 151.2106085);
     private static final int DEFAULT_ZOOM = 15;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
@@ -83,10 +68,6 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
     // The geographical location where the device is currently located. That is, the last-known
     // location retrieved by the Fused Location Provider.
     private Location lastKnownLocation;
-
-    // Keys for storing activity state.
-    private static final String KEY_CAMERA_POSITION = "camera_position";
-
 
     public SearchFragment() {
         // Required empty public constructor
@@ -102,13 +83,6 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (savedInstanceState != null) {
-            lastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);
-            cameraPosition = savedInstanceState.getParcelable(KEY_CAMERA_POSITION);
-        }
-        // Construct a PlacesClient
-        Places.initialize(getContext(), getString(R.string.api_key));
-        placesClient = Places.createClient(getContext());
         // Construct a FusedLocationProviderClient.
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getContext());
         // Build the map.
@@ -161,13 +135,12 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
         // Get the current location of the device and set the position of the map.
         getDeviceLocation();
     }
-    /**
-     * Gets the current location of the device, and positions the map's camera.
-     */
+
+    //Gets the current location of the device, and positions the map's camera.
     private void getDeviceLocation() {
         /*
-         * Get the best and most recent location of the device, which may be null in rare
-         * cases when a location is not available.
+          Get the best and most recent location of the device, which may be null in rare
+          cases when a location is not available.
          */
         try {
             if (locationPermissionGranted) {
@@ -198,9 +171,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
-    /**
-     * Prompts the user for permission to use the device location.
-     */
+    //Prompts the user for permission to use the device location.
     private void getLocationPermission() {
         /*
          * Request location permission, so that we can get the location of the
@@ -218,9 +189,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
-    /**
-     * Handles the result of the request for location permissions.
-     */
+    //Handles the result of the request for location permissions.
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions,
@@ -238,9 +207,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
         updateLocationUI();
     }
 
-    /**
-     * Updates the map's UI settings based on whether the user has granted location permission.
-     */
+    //Updates the map's UI settings based on whether the user has granted location permission.
     private void updateLocationUI() {
         if (map == null) {
             return;

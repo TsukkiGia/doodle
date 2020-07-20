@@ -67,9 +67,6 @@ public class EventMapActivity extends AppCompatActivity
     private GoogleMap map;
     private CameraPosition cameraPosition;
 
-    // The entry point to the Places API.
-    private PlacesClient placesClient;
-
     // The entry point to the Fused Location Provider.
     private FusedLocationProviderClient fusedLocationProviderClient;
 
@@ -88,13 +85,6 @@ public class EventMapActivity extends AppCompatActivity
     private static final String KEY_CAMERA_POSITION = "camera_position";
     private static final String KEY_LOCATION = "location";
 
-    // Used for selecting the current place.
-    private static final int M_MAX_ENTRIES = 5;
-    private String[] likelyPlaceNames;
-    private String[] likelyPlaceAddresses;
-    private List[] likelyPlaceAttributions;
-    private LatLng[] likelyPlaceLatLngs;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,21 +95,15 @@ public class EventMapActivity extends AppCompatActivity
         }
         // Retrieve the content view that renders the map.
         setContentView(R.layout.activity_event_map);
-        // Construct a PlacesClient
-        Places.initialize(getApplicationContext(), getString(R.string.api_key));
-        placesClient = Places.createClient(this);
         // Construct a FusedLocationProviderClient.
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         // Build the map.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
     }
 
-    /**
-     * Saves the state of the map when the activity is paused.
-     */
+    //Saves the state of the map when the activity is paused.
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         if (map != null) {
@@ -129,14 +113,9 @@ public class EventMapActivity extends AppCompatActivity
         super.onSaveInstanceState(outState);
     }
 
-    /**
-     * Sets up the options menu.
-     * @param menu The options menu.
-     * @return Boolean.
-     */
-    /**
-     * Manipulates the map when it's available.
-     * This callback is triggered when the map is ready to be used.
+    /*
+     Manipulates the map when it's available.
+     This callback is triggered when the map is ready to be used.
      */
     @Override
     public void onMapReady(final GoogleMap map) {
@@ -173,7 +152,6 @@ public class EventMapActivity extends AppCompatActivity
                 }
             }
         });
-
         // Prompt the user for permission.
         getLocationPermission();
         // Turn on the My Location layer and the related control on the map.
@@ -182,13 +160,13 @@ public class EventMapActivity extends AppCompatActivity
         getDeviceLocation();
     }
 
-    /**
-     * Gets the current location of the device, and positions the map's camera.
+    /*
+     Gets the current location of the device, and positions the map's camera.
      */
     private void getDeviceLocation() {
         /*
-         * Get the best and most recent location of the device, which may be null in rare
-         * cases when a location is not available.
+         Get the best and most recent location of the device, which may be null in rare
+         cases when a location is not available.
          */
         try {
             if (locationPermissionGranted) {
@@ -219,14 +197,12 @@ public class EventMapActivity extends AppCompatActivity
         }
     }
 
-    /**
-     * Prompts the user for permission to use the device location.
-     */
+    //Prompts the user for permission to use the device location.
     private void getLocationPermission() {
         /*
-         * Request location permission, so that we can get the location of the
-         * device. The result of the permission request is handled by a callback,
-         * onRequestPermissionsResult.
+         Request location permission, so that we can get the location of the
+         device. The result of the permission request is handled by a callback,
+         onRequestPermissionsResult.
          */
         if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
                 android.Manifest.permission.ACCESS_FINE_LOCATION)
@@ -239,9 +215,7 @@ public class EventMapActivity extends AppCompatActivity
         }
     }
 
-    /**
-     * Handles the result of the request for location permissions.
-     */
+    //Handles the result of the request for location permissions.
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions,
@@ -259,9 +233,7 @@ public class EventMapActivity extends AppCompatActivity
         updateLocationUI();
     }
 
-    /**
-     * Updates the map's UI settings based on whether the user has granted location permission.
-     */
+    //Updates the map's UI settings based on whether the user has granted location permission.
     private void updateLocationUI() {
         if (map == null) {
             return;

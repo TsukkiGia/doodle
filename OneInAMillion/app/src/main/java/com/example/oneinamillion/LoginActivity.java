@@ -28,7 +28,6 @@ import com.facebook.appevents.AppEventsLogger;
 
 import java.util.List;
 
-
 public class LoginActivity extends AppCompatActivity {
     public static final String TAG = "LoginActivity";
     private EditText etUsername;
@@ -76,7 +75,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 Log.i(TAG,loginResult.getAccessToken().getUserId());
-
             }
 
             @Override

@@ -148,7 +148,7 @@ public class EventsFragment extends Fragment {
                     }
                     JSONArray attendees = event.getAttendees();
                     for (int i = 0; i<attendees.length();i++ ){
-                        String userID = null;
+                        String userID;
                         try {
                             userID = attendees.getString(i);
                             if (userID.equals(ParseUser.getCurrentUser().getObjectId())) {
