@@ -1,7 +1,7 @@
 Original App Design Project - README Template
 ===
 
-# Change the World
+# One in a Million
 
 ## Table of Contents
 1. [Overview](#Overview)
@@ -11,7 +11,7 @@ Original App Design Project - README Template
 
 ## Overview
 ### Description
-Change the World is a take on Facebook Events and is an app that allows users to create philanthropic projects/events and participate in other events near their area
+One in a Million is a take on Facebook Events and is an app that allows users to create philanthropic projects/events and participate in other events near their area
 
 ### App Evaluation
 - **Category:** Lifestyle
