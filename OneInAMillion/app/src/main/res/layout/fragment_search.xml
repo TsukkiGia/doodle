@@ -23,6 +23,7 @@
             android:textSize="18sp"
             android:textStyle="bold"
             android:text="Search Events" />
+
     </androidx.appcompat.widget.Toolbar>
 
     <fragment

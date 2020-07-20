@@ -1,8 +1,10 @@
 package com.example.oneinamillion;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -42,7 +44,8 @@ public class PickALocationActivity extends AppCompatActivity implements OnMapRea
         mapFragment.getMapAsync(this);
         AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
                 getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
-        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME,Place.Field.LAT_LNG));
+
+        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.ADDRESS, Place.Field.NAME,Place.Field.LAT_LNG));
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
@@ -53,7 +56,23 @@ public class PickALocationActivity extends AppCompatActivity implements OnMapRea
                 longitude = place.getLatLng().longitude;
                 map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude,longitude), 15));
                 map.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)).title(place.getName()));
-                //goBack();
+                AlertDialog.Builder builder = new AlertDialog.Builder(PickALocationActivity.this);
+                builder.setTitle("Confirm Location");
+                builder.setMessage("Do you want to pick "+place.getAddress()+" as your event's location?");
+                builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        goBack();
+                    }
+                });
+                builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                AlertDialog alert = builder.create();
+                alert.show();
             }
 
             @Override

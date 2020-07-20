@@ -166,16 +166,4 @@
         android:textStyle="bold"
         tools:text="something" />
 
-    <fragment
-        android:id="@+id/map"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="107dp"
-        android:layout_height="89dp"
-        android:layout_below="@+id/tvLocation"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="39dp"
-        android:layout_marginTop="-56dp"
-        app:cameraZoom="14" />
-
-
 </RelativeLayout>

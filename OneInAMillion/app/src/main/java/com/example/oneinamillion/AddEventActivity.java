@@ -40,7 +40,7 @@ import com.parse.SaveCallback;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-public class AddEventActivity extends AppCompatActivity implements OnMapReadyCallback, DatePickerFragment.DatePickerFragmentListener, TimePickerFragment.TimePickerFragmentListener {
+public class AddEventActivity extends AppCompatActivity implements DatePickerFragment.DatePickerFragmentListener, TimePickerFragment.TimePickerFragmentListener {
     EditText etEventName;
     EditText etEventDescription;
     Button btnPickAPlace;
@@ -64,9 +64,6 @@ public class AddEventActivity extends AppCompatActivity implements OnMapReadyCal
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_event);
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
         etEventName = findViewById(R.id.etEventName);
         tvLocation = findViewById(R.id.tvLocation);
         tvDate = findViewById(R.id.tvDate);
@@ -179,9 +176,6 @@ public class AddEventActivity extends AppCompatActivity implements OnMapReadyCal
             tvLocation.setVisibility(View.VISIBLE);
             String name = data.getStringExtra("name");
             tvLocation.setText(name);
-            LatLng sydney = new LatLng(latitude, longitude);
-            map.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-            map.moveCamera(CameraUpdateFactory.newLatLng(sydney));
         }
     }
 
@@ -211,12 +205,5 @@ public class AddEventActivity extends AppCompatActivity implements OnMapReadyCal
     @Override
     public void TimeSet(String time) {
         tvTime.setText(time);
-    }
-    protected void loadMap(GoogleMap googleMap) {
-        map = googleMap;
-    }
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-       loadMap(googleMap);
     }
 }

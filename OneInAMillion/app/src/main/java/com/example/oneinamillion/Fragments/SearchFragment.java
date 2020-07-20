@@ -1,54 +1,43 @@
 package com.example.oneinamillion.Fragments;
 
-import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.example.oneinamillion.EventMapActivity;
-import com.example.oneinamillion.MainActivity;
 import com.example.oneinamillion.Models.Event;
 import com.example.oneinamillion.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.libraries.places.api.Places;
-import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.api.model.PlaceLikelihood;
-import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest;
-import com.google.android.libraries.places.api.net.FindCurrentPlaceResponse;
-import com.google.android.libraries.places.api.net.PlacesClient;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
-
-import org.json.JSONArray;
-import org.json.JSONException;
 
 import java.util.Arrays;
 import java.util.List;
@@ -57,6 +46,9 @@ import java.util.List;
 public class SearchFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap map;
     public static final String TAG = "SearchFragment";
+    private SearchView searchView = null;
+    Toolbar toolbar;
+    private SearchView.OnQueryTextListener queryTextListener;
 
     // The entry point to the Fused Location Provider.
     private FusedLocationProviderClient fusedLocationProviderClient;
@@ -81,8 +73,47 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.search_frag, menu);
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Log.i(TAG,query);
+                filterEvents(query);
+                searchView.clearFocus();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_search) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        toolbar = view.findViewById(R.id.toolbar);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
         // Construct a FusedLocationProviderClient.
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getContext());
         // Build the map.
@@ -98,33 +129,13 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
         this.map = map;
         ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
         query.include(Event.KEY_ORGANIZER);
-        //to filter events nearby
         query.findInBackground(new FindCallback<Event>() {
             @Override
             public void done(List<Event> events, ParseException e) {
                 for (Event event : events) {
-                    ParseUser parseUser = event.getOrganizer();
-                    if (parseUser.getUsername().equals(ParseUser.getCurrentUser().getUsername())) {
-                        Double lat = event.getLocation().getLatitude();
-                        Double longitude = event.getLocation().getLongitude();
-                        map.addMarker(new MarkerOptions().position(new LatLng(lat, longitude)).title(event.getEventName()));
-                    } else {
-                        JSONArray attendees = event.getAttendees();
-                        for (int i = 0; i < attendees.length(); i++) {
-                            String userID = null;
-                            try {
-                                userID = attendees.getString(i);
-                                if (userID.equals(ParseUser.getCurrentUser().getObjectId())) {
-                                    Double lat = event.getLocation().getLatitude();
-                                    Double longitude = event.getLocation().getLongitude();
-                                    map.addMarker(new MarkerOptions().position(new LatLng(lat, longitude)).title(event.getEventName()));
-                                    break;
-                                }
-                            } catch (JSONException ex) {
-                                ex.printStackTrace();
-                            }
-                        }
-                    }
+                    Double lat = event.getLocation().getLatitude();
+                    Double longitude = event.getLocation().getLongitude();
+                    map.addMarker(new MarkerOptions().position(new LatLng(lat, longitude)).title(event.getEventName()));
                 }
             }
         });
@@ -174,9 +185,9 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
     //Prompts the user for permission to use the device location.
     private void getLocationPermission() {
         /*
-         * Request location permission, so that we can get the location of the
-         * device. The result of the permission request is handled by a callback,
-         * onRequestPermissionsResult.
+         Request location permission, so that we can get the location of the
+         device. The result of the permission request is handled by a callback,
+         onRequestPermissionsResult.
          */
         if (ContextCompat.checkSelfPermission(getContext(),
                 android.Manifest.permission.ACCESS_FINE_LOCATION)
@@ -225,5 +236,11 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
         } catch (SecurityException e)  {
             Log.e("Exception: %s", e.getMessage());
         }
+    }
+    private void filterEvents(String query) {
+        String[] querywords = query.split(" ");
+        List<String> keywords = Arrays.asList(querywords);
+        ParseQuery<Event> parseQuery = ParseQuery.getQuery(Event.class);
+        parseQuery.include(Event.KEY_ORGANIZER);
     }
 }
