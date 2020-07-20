@@ -13,12 +13,14 @@
         android:layout_below="@+id/tvDateTime"
         android:layout_marginTop="10dp"
         android:text="Event Name"
+        android:transitionName="name"
         android:textColor="#000000"
         android:textSize="24sp"
         android:textStyle="bold" />
 
     <ImageView
-        android:id="@+id/ivEvent"
+        android:id="@+id/ivEventImage"
+        android:transitionName="image"
         android:layout_width="match_parent"
         android:layout_height="186dp"
         android:scaleType="centerCrop"
@@ -28,7 +30,8 @@
         android:id="@+id/tvDateTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ivEvent"
+        android:layout_below="@+id/ivEventImage"
+        android:transitionName="date"
         android:layout_marginTop="33dp"
         android:text="Date and Time"
         android:textColor="#FF0000"

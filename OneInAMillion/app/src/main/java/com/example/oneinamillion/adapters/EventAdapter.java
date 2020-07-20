@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.icu.text.RelativeDateTimeFormatter;
 import android.text.format.DateUtils;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -18,9 +20,12 @@ import com.bumptech.glide.Glide;
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.oneinamillion.DetailsActivity;
+import com.example.oneinamillion.MainActivity;
 import com.example.oneinamillion.Models.Event;
 import com.example.oneinamillion.R;
+import com.parse.ParseUser;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.parceler.Parcels;
@@ -37,7 +42,6 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
     List<Event> events;
     Context context;
     public static final String TAG = "EventAdapter";
-    String address;
 
     public EventAdapter(Context context, List<Event> events) {
         this.events=events;
@@ -77,19 +81,22 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         return events.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnTouchListener, GestureDetector.OnGestureListener, GestureDetector.OnDoubleTapListener {
         TextView tvDateTime;
         TextView tvLocation;
         TextView tvEventName;
         ImageView ivEventImage;
+        private GestureDetector mGestureDetector;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvDateTime = itemView.findViewById(R.id.tvDateTime);
             tvLocation = itemView.findViewById(R.id.tvLocation);
             tvEventName = itemView.findViewById(R.id.tvEventName);
-            ivEventImage = itemView.findViewById(R.id.ivEvent);
-            ivEventImage.setOnClickListener(this);
+            ivEventImage = itemView.findViewById(R.id.ivEventImage);
+            ivEventImage.setOnTouchListener(this);
+            mGestureDetector = new GestureDetector(context,this);
+            //ivEventImage.setOnClickListener(this);
         }
 
         public void bind(Event event) throws ParseException {
@@ -102,7 +109,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
                     Log.i(TAG, "onSuccess");
                     JSONObject jsonObject = json.jsonObject;
                     try {
-                        address = jsonObject.getJSONArray("results").getJSONObject(0).getString("formatted_address");
+                        String address = jsonObject.getJSONArray("results").getJSONObject(0).getString("formatted_address");
                         Log.i(TAG, "Results: "+address);
                         tvLocation.setText(address);
                     }
@@ -128,12 +135,123 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
 
         @Override
         public void onClick(View view) {
+
+        }
+
+        @Override
+        public boolean onSingleTapConfirmed(MotionEvent motionEvent) {
             int position = getAdapterPosition();
-            Event event = events.get(position);
-            Intent i = new Intent(context, DetailsActivity.class);
-            i.putExtra(Event.class.getSimpleName(),Parcels.wrap(event));
-            i.putExtra("address",address);
-            context.startActivity(i);
+            final Event event = events.get(position);
+            AsyncHttpClient client = new AsyncHttpClient();
+            client.get("https://maps.googleapis.com/maps/api/geocode/json?latlng="+
+                    String.valueOf(event.getLocation().getLatitude())+","+String.valueOf(event.getLocation().getLongitude())+
+                    "&key=AIzaSyAHhqNOmXH6jPO42U89s12nJNAQucTvw40", new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Headers headers, JSON json) {
+                    Log.i(TAG, "onSuccess");
+                    JSONObject jsonObject = json.jsonObject;
+                    try {
+                        String address = jsonObject.getJSONArray("results").getJSONObject(0).getString("formatted_address");
+                        Intent i = new Intent(context, DetailsActivity.class);
+                        i.putExtra(Event.class.getSimpleName(),Parcels.wrap(event));
+                        i.putExtra("address",address);
+                        context.startActivity(i);
+                    }
+                    catch (JSONException e) {
+                        Log.e(TAG, "Hit JSON exception",e);
+                        e.printStackTrace();
+                    }
+                }
+                @Override
+                public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                    Log.i(TAG, "Failed");
+                }
+            });
+            return false;
+        }
+
+        @Override
+        public boolean onDoubleTap(MotionEvent motionEvent) {
+            Boolean amIattending = false;
+            int position = getAdapterPosition();
+            final Event event = events.get(position);
+            JSONArray attendees = event.getAttendees();
+            for(int i = 0; i<attendees.length();i++ ){
+                try {
+                    String userID = attendees.getString(i);
+                    if (userID.equals(ParseUser.getCurrentUser().getObjectId())) {
+                        amIattending = true;
+                        break;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (amIattending) {
+                for(int i = 0; i<attendees.length();i++ ){
+                    try {
+                        String userID = attendees.getString(i);
+                        if (userID.equals(ParseUser.getCurrentUser().getObjectId())) {
+                            attendees.remove(i);
+                            break;
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                event.setAttendees(attendees);
+                event.saveInBackground();
+            }
+            else {
+                attendees.put(ParseUser.getCurrentUser().getObjectId());
+                event.setAttendees(attendees);
+                event.saveInBackground();
+            }
+            return false;
+        }
+
+        @Override
+        public boolean onDoubleTapEvent(MotionEvent motionEvent) {
+            return false;
+        }
+
+        @Override
+        public boolean onDown(MotionEvent motionEvent) {
+            return false;
+        }
+
+        @Override
+        public void onShowPress(MotionEvent motionEvent) {
+
+        }
+
+        @Override
+        public boolean onSingleTapUp(MotionEvent motionEvent) {
+            return false;
+        }
+
+        @Override
+        public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+            return false;
+        }
+
+        @Override
+        public void onLongPress(MotionEvent motionEvent) {
+
+        }
+
+        @Override
+        public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+            return false;
+        }
+
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            if(view.getId()==R.id.ivEventImage) {
+                mGestureDetector.onTouchEvent(motionEvent);
+                return true;
+            }
+            return false;
         }
     }
 }
