@@ -66,6 +66,8 @@ public class EventMapActivity extends AppCompatActivity
     private static final String TAG = EventMapActivity.class.getSimpleName();
     private GoogleMap map;
     private CameraPosition cameraPosition;
+    private PlacesClient mPlacesClient;
+
 
     // The entry point to the Fused Location Provider.
     private FusedLocationProviderClient fusedLocationProviderClient;
@@ -95,12 +97,16 @@ public class EventMapActivity extends AppCompatActivity
         }
         // Retrieve the content view that renders the map.
         setContentView(R.layout.activity_event_map);
+        String apiKey = getString(R.string.google_maps_key);
+        Places.initialize(getApplicationContext(), apiKey);
+        mPlacesClient = Places.createClient(this);
         // Construct a FusedLocationProviderClient.
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         // Build the map.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
     }
 
     //Saves the state of the map when the activity is paused.
