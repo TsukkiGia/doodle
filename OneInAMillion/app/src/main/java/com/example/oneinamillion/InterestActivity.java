@@ -29,8 +29,8 @@ public class InterestActivity extends AppCompatActivity {
     ExtendedFloatingActionButton fabGalas;
     ExtendedFloatingActionButton fabCrafts;
     ExtendedFloatingActionButton fabAthons;
-    Button btnConfirm;
     JSONArray interests = new JSONArray();
+    Button btnConfirm;
     public static final String TAG = "InterestActivityy";
 
     @Override

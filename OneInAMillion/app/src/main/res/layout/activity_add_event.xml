@@ -6,164 +6,296 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AddEventActivity">
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/colorAccent"
-        app:layout_scrollFlags="scroll|enterAlways">
-        <TextView
-            android:id="@+id/tvTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:text="Submit an Event" />
-    </androidx.appcompat.widget.Toolbar>
+        android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/btnPost"
-        android:layout_width="123dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btnUploadImage"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="82dp"
-        android:layout_marginEnd="28dp"
-        android:background="@color/colorAccent"
-        android:text="Submit Event"
-        android:textColor="#FFFFFF" />
-
-    <Button
-        android:id="@+id/btnUploadImage"
-        android:layout_width="123dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btnPickATime"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="30dp"
-        android:background="@color/colorAccent"
-        android:text="Upload Image"
-        android:textColor="#FFFFFF" />
-
-    <Button
-        android:id="@+id/btnPickAPlace"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tfEventDescription"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="30dp"
-        android:background="@color/colorAccent"
-        android:text="Pick a Place"
-        android:textColor="#FFFFFF" />
-
-    <Button
-        android:id="@+id/btnPickATime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btnPickADate"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="30dp"
-        android:background="@color/colorAccent"
-        android:text="Pick a Time"
-        android:textColor="#FFFFFF" />
-
-    <Button
-        android:id="@+id/btnPickADate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btnPickAPlace"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="30dp"
-        android:background="@color/colorAccent"
-        android:text="Pick a Date"
-        android:textColor="#FFFFFF" />
-
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tfEventName"
-        android:layout_width="346dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="62dp"
-        android:layout_marginEnd="30dp"
-        android:hint="Event Name">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/etEventName"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="500dp">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/colorAccent"
+                app:layout_scrollFlags="scroll|enterAlways">
 
-    <com.google.android.material.textfield.TextInputLayout
+                <TextView
+                    android:id="@+id/tvTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Submit an Event"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+            </androidx.appcompat.widget.Toolbar>
+
+            <Button
+                android:id="@+id/btnPost"
+                style="@style/SubmitButton"
+                android:layout_width="wrap_content"
+                android:layout_height="59dp"
+                android:layout_below="@+id/btnUploadImage"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="437dp"
+                android:layout_marginEnd="20dp"
+                android:background="@color/colorAccent"
+                android:text="Submit Event"
+                android:textColor="#FFFFFF" />
+
+            <Button
+                android:id="@+id/btnUploadImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btnPickATime"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="30dp"
+                android:background="@color/colorAccent"
+                android:text="Upload Image"
+                android:textColor="#FFFFFF" />
+
+            <Button
+                android:id="@+id/btnPickAPlace"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tfEventDescription"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="33dp"
+                android:background="@color/quantum_greywhite1000"
+                android:text="Pick a Place"
+                android:textColor="#FFFFFF" />
+
+            <Button
+                android:id="@+id/btnPickATime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btnPickADate"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="28dp"
+                android:layout_marginEnd="30dp"
+                android:background="@color/colorAccent"
+                android:text="Pick a Time"
+                android:textColor="#FFFFFF" />
+
+            <Button
+                android:id="@+id/btnPickADate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btnPickAPlace"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="30dp"
+                android:background="@color/colorAccent"
+                android:text="Pick a Date"
+                android:textColor="#FFFFFF"/>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tfEventName"
+                android:layout_width="347dp"
+                android:layout_height="50dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="72dp"
+                android:layout_marginEnd="29dp"
+                android:hint="Event Name">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etEventName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tfEventDescription"
                 android:layout_width="345dp"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 android:layout_below="@+id/tfEventName"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="30dp"
-                >
+                android:gravity="start|top"
+                android:hint="Event Description">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etEventDescription"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="start|top"
-                    android:hint="Event Description"/>
+                    android:layout_height="match_parent"
+                    android:inputType="textMultiLine"
+                    android:minLines="15" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
-    <ImageView
-        android:id="@+id/ivUploadedImage"
-        android:layout_width="166dp"
-        android:layout_height="142dp"
-        android:layout_below="@+id/btnPickATime"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="217dp"
-        android:scaleType="centerCrop"
-        tools:srcCompat="@tools:sample/avatars" />
+            <ImageView
+                android:id="@+id/ivUploadedImage"
+                android:layout_width="126dp"
+                android:layout_height="104dp"
+                android:layout_below="@+id/btnPickATime"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="251dp"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/background" />
 
-    <TextView
-        android:id="@+id/tvLocation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/tfEventDescription"
-        android:layout_alignTop="@+id/btnPickAPlace"
-        android:layout_marginStart="-3dp"
-        android:layout_marginTop="20dp"
-        android:textColor="#000000"
-        android:textStyle="bold"
-        tools:text="I am here" />
+            <TextView
+                android:id="@+id/tvLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/tfEventDescription"
+                android:layout_alignTop="@+id/btnPickAPlace"
+                android:layout_marginStart="-3dp"
+                android:layout_marginTop="15dp"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                tools:text="I am here" />
 
-    <TextView
-        android:id="@+id/tvTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/tfEventDescription"
-        android:layout_alignTop="@+id/btnPickATime"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="13dp"
-        android:textColor="#000000"
-        android:textStyle="bold"
-        tools:text="something" />
+            <TextView
+                android:id="@+id/tvTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/tfEventDescription"
+                android:layout_alignTop="@+id/btnPickATime"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="13dp"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                tools:text="something" />
 
-    <TextView
-        android:id="@+id/tvDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/tfEventDescription"
-        android:layout_alignBottom="@+id/btnPickADate"
-        android:layout_marginStart="0dp"
-        android:layout_marginBottom="14dp"
-        android:textColor="#000000"
-        android:textStyle="bold"
-        tools:text="something" />
+            <TextView
+                android:id="@+id/tvDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/tfEventDescription"
+                android:layout_alignBottom="@+id/btnPickADate"
+                android:layout_marginStart="0dp"
+                android:layout_marginBottom="14dp"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                tools:text="something" />
+
+            <TextView
+                android:id="@+id/tvTags"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ivUploadedImage"
+                android:layout_alignStart="@+id/tfEventDescription"
+                android:layout_marginStart="-4dp"
+                android:layout_marginTop="31dp"
+                android:text="Tags"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/extFabSports"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvTags"
+                android:layout_marginStart="-209dp"
+                android:layout_marginTop="86dp"
+                android:layout_toEndOf="@+id/extFabConcerts"
+                android:gravity="center"
+                android:text="Sports"
+                android:textColor="#000000"
+                app:backgroundTint="#FFFFFF" />
+
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/extFabConcerts"
+                android:layout_width="148dp"
+                android:layout_height="51dp"
+                android:layout_below="@+id/tvTags"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="86dp"
+                android:layout_marginEnd="219dp"
+                android:gravity="center"
+                android:text="Concerts"
+                android:textColor="#000000"
+                app:backgroundTint="#FFFFFF" />
+
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/extFabAuction"
+                android:layout_width="148dp"
+                android:layout_height="51dp"
+                android:layout_below="@+id/tvTags"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="215dp"
+                android:layout_marginEnd="58dp"
+                android:gravity="center"
+                android:text="Auctions"
+                android:textColor="#000000"
+                app:backgroundTint="#FFFFFF" />
+
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/extFabRaffles"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/tvTags"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="782dp"
+                android:layout_marginEnd="107dp"
+                android:gravity="center"
+                android:text="Raffles"
+                android:textColor="#000000"
+                app:backgroundTint="#FFFFFF" />
+
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/extFabArtExhibits"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvTags"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="151dp"
+                android:layout_marginEnd="264dp"
+                android:gravity="center"
+                android:text="Cooking"
+                android:textColor="#000000"
+                app:backgroundTint="#FFFFFF"
+                app:layout_constraintBottom_toTopOf="@id/extFabAthons" />
+
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/extFabGalas"
+                android:layout_width="101dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvTags"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="218dp"
+                android:layout_marginEnd="225dp"
+                android:gravity="center"
+                android:text="Galas"
+                android:textColor="#000000"
+                app:backgroundTint="#FFFFFF" />
+
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/extFabCrafts"
+                android:layout_width="148dp"
+                android:layout_height="51dp"
+                android:layout_alignTop="@+id/extFabAthons"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="-3dp"
+                android:layout_marginEnd="100dp"
+                android:gravity="center"
+                android:text="Crafts"
+                android:textColor="#000000"
+                app:backgroundTint="#FFFFFF" />
+
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/extFabAthons"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvTags"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="266dp"
+                android:gravity="center"
+                android:text="A-thons"
+                android:textColor="#000000"
+                app:backgroundTint="#FFFFFF" />
+        </RelativeLayout>
+    </ScrollView>
 
 </RelativeLayout>

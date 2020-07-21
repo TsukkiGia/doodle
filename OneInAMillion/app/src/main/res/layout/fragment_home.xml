@@ -48,17 +48,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabCreate"
         android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="14dp"
         android:layout_marginBottom="24dp"
-        android:src="@drawable/icons_plus"
+        android:backgroundTint="@color/colorAccent"
         android:tint="@android:color/white"
-        android:id="@+id/fabCreate">
-    </com.google.android.material.floatingactionbutton.FloatingActionButton>
+        android:src="@drawable/icons_plus"/>
     <ImageView
         android:id="@+id/ivProfile"
         android:layout_width="19dp"
@@ -67,6 +68,17 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="17dp"
-        tools:src="@drawable/instagram_user_filled_24" />
+        android:src="@drawable/instagram_user_filled_24" />
+
+    <ImageView
+        android:id="@+id/ivMap"
+        android:layout_width="19dp"
+        android:layout_height="19dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="53dp"
+        android:src="@drawable/baseline_explore_black_18dp"
+        android:tint="@color/quantum_white_100"/>
 </RelativeLayout>
 </FrameLayout>

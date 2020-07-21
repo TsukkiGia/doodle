@@ -97,7 +97,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
             ivEventImage = itemView.findViewById(R.id.ivEventImage);
             ivEventImage.setOnTouchListener(this);
             mGestureDetector = new GestureDetector(context,this);
-            //ivEventImage.setOnClickListener(this);
+            itemView.setOnClickListener(this);
         }
 
         public void bind(Event event) throws ParseException {
@@ -136,11 +136,6 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
 
         @Override
         public void onClick(View view) {
-
-        }
-
-        @Override
-        public boolean onSingleTapConfirmed(MotionEvent motionEvent) {
             int position = getAdapterPosition();
             final Event event = events.get(position);
             AsyncHttpClient client = new AsyncHttpClient();
@@ -168,6 +163,10 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
                     Log.i(TAG, "Failed");
                 }
             });
+        }
+
+        @Override
+        public boolean onSingleTapConfirmed(MotionEvent motionEvent) {
             return false;
         }
 

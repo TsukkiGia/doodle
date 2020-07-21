@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.bumptech.glide.Glide;
+import com.example.oneinamillion.AddEventActivity;
 import com.example.oneinamillion.InterestActivity;
 import com.example.oneinamillion.InterestActivityMotion;
 import com.example.oneinamillion.Models.Event;
@@ -80,7 +81,7 @@ public class HomeFragment extends Fragment {
         fabCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getContext(), InterestActivity.class);
+                Intent i = new Intent(getContext(), AddEventActivity.class);
                 startActivity(i);
             }
         });
@@ -90,15 +91,35 @@ public class HomeFragment extends Fragment {
         } else {
             ivProfile.setImageDrawable(getResources().getDrawable(R.drawable.instagram_user_filled_24));
         }
-        queryEvents();
+        queryEventsInterests();
     }
 
     private void refreshPage() {
-        queryEvents();
+        queryEventsInterests();
         swipeContainer.setRefreshing(false);
     }
 
-    private void queryEvents() {
+    private void queryEventsInterests() {
+        ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
+        query.include(Event.KEY_ORGANIZER);
+        query.setLimit(20);
+        query.findInBackground(new FindCallback<Event>() {
+            @Override
+            public void done(List<Event> events, ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "problem!", e);
+                }
+                for (Event event : events) {
+                    Log.i(TAG,"Description: "+event.getDescription());
+                }
+                eventAdapter.clear();
+                eventAdapter.addAll(events);
+                eventAdapter.notifyDataSetChanged();
+                pbLoading.setVisibility(View.INVISIBLE);
+            }
+        });
+    }
+    private void queryEventsNearby() {
         ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
         query.include(Event.KEY_ORGANIZER);
         query.setLimit(20);

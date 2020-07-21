@@ -22,10 +22,19 @@ public class Event extends ParseObject {
     public static final String KEY_ATTENDEES = "Attendees";
     public static final String KEY_ORGANIZER = "Organizer";
     public static final String KEY_EVENTNAME = "EventName";
+    public static final String KEY_TAG= "Tag";
     public String Address;
     //Set address with reverse geocoding - make another request using async client
 
     public Event() {
+    }
+
+    public JSONArray getEventTag() {
+        return getJSONArray(KEY_TAG);
+    }
+
+    public void setEventTags(JSONArray tags) {
+        put(KEY_TAG,tags);
     }
 
     public String getEventName(){

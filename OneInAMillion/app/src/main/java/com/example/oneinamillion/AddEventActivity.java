@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.ImageDecoder;
 import android.net.Uri;
 import android.os.Build;
@@ -29,6 +30,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.parse.ParseException;
@@ -36,6 +38,9 @@ import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -53,6 +58,15 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
     Button btnPickADate;
     TextView tvDate;
     TextView tvTime;
+    ExtendedFloatingActionButton fabSports;
+    ExtendedFloatingActionButton fabConcerts;
+    ExtendedFloatingActionButton fabAuction;
+    ExtendedFloatingActionButton fabRaffle;
+    ExtendedFloatingActionButton fabExhibits;
+    ExtendedFloatingActionButton fabGalas;
+    ExtendedFloatingActionButton fabCrafts;
+    ExtendedFloatingActionButton fabAthons;
+    JSONArray interests = new JSONArray();
     double longitude = 0;
     double latitude = 0;
     public static final String TAG = "AddEvent";
@@ -109,6 +123,214 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
                 onPickPhoto(view);
             }
         });
+        fabSports = findViewById(R.id.extFabSports);
+        fabConcerts = findViewById(R.id.extFabConcerts);
+        fabAuction = findViewById(R.id.extFabAuction);
+        fabRaffle = findViewById(R.id.extFabRaffles);
+        fabExhibits = findViewById(R.id.extFabArtExhibits);
+        fabGalas = findViewById(R.id.extFabGalas);
+        fabCrafts = findViewById(R.id.extFabCrafts);
+        fabAthons = findViewById(R.id.extFabAthons);
+        fabSports.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Boolean inside=false;
+                for (int i = 0; i <interests.length(); i++) {
+                    try {
+                        if (interests.get(i).equals("sport")){
+                            inside=true;
+                            interests.remove(i);
+                            fabSports.setTextColor(Color.BLACK);
+                            fabSports.setBackgroundColor(Color.WHITE);
+                            break;
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (!inside) {
+                    interests.put("sport");
+                    fabSports.setTextColor(Color.WHITE);
+                    fabSports.setBackgroundColor(Color.parseColor("#F44336"));
+                }
+                Log.i(TAG,interests.toString());
+            }
+        });
+        fabConcerts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Boolean inside=false;
+                for (int i = 0; i <interests.length(); i++) {
+                    try {
+                        if (interests.get(i).equals("music")){
+                            inside=true;
+                            interests.remove(i);
+                            fabConcerts.setTextColor(Color.BLACK);
+                            fabConcerts.setBackgroundColor(Color.WHITE);
+                            break;
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (!inside) {
+                    interests.put("music");
+                    fabConcerts.setTextColor(Color.WHITE);
+                    fabConcerts.setBackgroundColor(Color.parseColor("#009688"));
+                }
+                Log.i(TAG,interests.toString());
+            }
+        });
+        fabAuction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Boolean inside=false;
+                for (int i = 0; i <interests.length(); i++) {
+                    try {
+                        if (interests.get(i).equals("auction")){
+                            inside=true;
+                            interests.remove(i);
+                            fabAuction.setTextColor(Color.BLACK);
+                            fabAuction.setBackgroundColor(Color.WHITE);
+                            break;
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (!inside) {
+                    interests.put("auction");
+                    fabAuction.setTextColor(Color.WHITE);
+                    fabAuction.setBackgroundColor(Color.parseColor("#FF9800"));
+                }
+                Log.i(TAG,interests.toString());
+            }
+        });
+        fabRaffle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Boolean inside=false;
+                for (int i = 0; i <interests.length(); i++) {
+                    try {
+                        if (interests.get(i).equals("raffle")){
+                            inside=true;
+                            interests.remove(i);
+                            fabRaffle.setTextColor(Color.BLACK);
+                            fabRaffle.setBackgroundColor(Color.WHITE);
+                            break;
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (!inside) {
+                    interests.put("raffle");
+                    fabRaffle.setTextColor(Color.WHITE);
+                    fabRaffle.setBackgroundColor(Color.parseColor("#9C27B0"));
+                }
+                Log.i(TAG,interests.toString());
+            }
+        });
+        fabExhibits.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Boolean inside=false;
+                for (int i = 0; i <interests.length(); i++) {
+                    try {
+                        if (interests.get(i).equals("cook")){
+                            inside=true;
+                            interests.remove(i);
+                            fabExhibits.setTextColor(Color.BLACK);
+                            fabExhibits.setBackgroundColor(Color.WHITE);
+                            break;
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (!inside) {
+                    interests.put("cook");
+                    fabExhibits.setTextColor(Color.WHITE);
+                    fabExhibits.setBackgroundColor(Color.parseColor("#3F51B5"));
+                }
+                Log.i(TAG,interests.toString());
+            }
+        });
+        fabGalas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Boolean inside=false;
+                for (int i = 0; i <interests.length(); i++) {
+                    try {
+                        if (interests.get(i).equals("gala")){
+                            inside=true;
+                            interests.remove(i);
+                            fabGalas.setTextColor(Color.BLACK);
+                            fabGalas.setBackgroundColor(Color.WHITE);
+                            break;
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (!inside) {
+                    interests.put("gala");
+                    fabGalas.setTextColor(Color.WHITE);
+                    fabGalas.setBackgroundColor(Color.parseColor("#00BCD4"));
+                }
+                Log.i(TAG,interests.toString());
+            }
+        });
+        fabCrafts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Boolean inside=false;
+                for (int i = 0; i <interests.length(); i++) {
+                    try {
+                        if (interests.get(i).equals("craft")){
+                            inside=true;
+                            interests.remove(i);
+                            fabCrafts.setTextColor(Color.BLACK);
+                            fabCrafts.setBackgroundColor(Color.WHITE);
+                            break;
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (!inside) {
+                    interests.put("craft");
+                    fabCrafts.setTextColor(Color.WHITE);
+                    fabCrafts.setBackgroundColor(Color.parseColor("#E91E63"));
+                }
+                Log.i(TAG,interests.toString());
+            }
+        });
+        fabAthons.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Boolean inside=false;
+                for (int i = 0; i <interests.length(); i++) {
+                    try {
+                        if (interests.get(i).equals("thon")){
+                            inside=true;
+                            interests.remove(i);
+                            fabAthons.setTextColor(Color.BLACK);
+                            fabAthons.setBackgroundColor(Color.WHITE);
+                            break;
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (!inside) {
+                    interests.put("thon");
+                    fabAthons.setTextColor(Color.WHITE);
+                    fabAthons.setBackgroundColor(Color.parseColor("#39b894"));
+                }
+                Log.i(TAG,interests.toString());
+            }
+        });
     }
 
     public void onPickPhoto(View view) {
@@ -129,6 +351,7 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
                 }
                 else {
                     Event event = new Event();
+                    event.setEventTags(interests);
                     event.setEventName(etEventName.getText().toString());
                     event.setDescription(etEventDescription.getText().toString());
                     event.setDate(tvDate.getText().toString());
