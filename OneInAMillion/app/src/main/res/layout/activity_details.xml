@@ -19,15 +19,15 @@
 
     <TextView
         android:id="@+id/tvDateTime"
-        android:transitionName="date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ivEventImage"
         android:layout_alignParentStart="true"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="24dp"
-        android:textColor="#FF1100"
+        android:layout_marginTop="15dp"
+        android:textColor="#1D8165"
         android:textStyle="bold"
+        android:transitionName="date"
         tools:text="10/30/20" />
 
     <TextView
@@ -35,13 +35,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvDateTime"
-        android:transitionName="name"
         android:layout_alignParentStart="true"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="5dp"
         android:textColor="#000000"
         android:textSize="18sp"
         android:textStyle="bold"
+        android:transitionName="name"
         tools:text="Light of the World | See the Sites" />
 
     <TextView
@@ -64,15 +64,15 @@
         android:layout_below="@+id/tvEventName"
         android:layout_alignParentStart="true"
         android:layout_marginStart="13dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="20dp"
         android:backgroundTint="@color/colorAccent"
         android:gravity="center"
-        app:icon="@drawable/icons_plus"
-        app:iconGravity="textStart"
-        app:iconSize="20dp"
         android:text="RSVP"
         android:textColor="#FFFFFF"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        app:icon="@drawable/icons_plus"
+        app:iconGravity="textStart"
+        app:iconSize="20dp" />
 
     <TextView
         android:id="@+id/tvEventDescription"
@@ -82,9 +82,9 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="11dp"
-        android:justificationMode="inter_word"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="11dp"
+        android:justificationMode="inter_word"
         tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." />
 
     <ImageView

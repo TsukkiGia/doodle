@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.motion.widget.MotionLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/motionLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layoutDescription="@xml/scene_01"
+    tools:context=".InterestActivityMotion">
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/extFabSports"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="232dp"
+        android:layout_marginEnd="332dp"
+        android:background="@color/colorAccent"
+        android:gravity="center"
+        android:text="Sports"
+        android:textColor="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/extFabMusic"
+        android:layout_width="148dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="316dp"
+        android:layout_marginEnd="332dp"
+        android:gravity="center"
+        android:text="Concerts"
+        android:textColor="#FFFFFF"
+        app:backgroundTint="#E91E63"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/extFabAuction"
+        android:layout_width="148dp"
+        android:layout_height="51dp"
+        android:layout_marginEnd="324dp"
+        android:layout_marginBottom="192dp"
+        android:gravity="center"
+        android:text="Auctions"
+        android:textColor="#FFFFFF"
+        app:backgroundTint="#00BCD4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/extFabRaffles"
+        android:layout_width="148dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="396dp"
+        android:layout_marginEnd="332dp"
+        android:gravity="center"
+        android:text="Raffles"
+        android:textColor="#FFFFFF"
+        app:backgroundTint="#3F51B5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/extFabArtExhibits"
+        android:layout_width="148dp"
+        android:layout_height="51dp"
+        android:layout_marginEnd="332dp"
+        android:layout_marginBottom="284dp"
+        android:gravity="center"
+        android:text="Art Exhibits"
+        android:textColor="#FFFFFF"
+        app:backgroundTint="#9C27B0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/extFabGalas"
+        android:layout_width="148dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="316dp"
+        android:layout_marginEnd="332dp"
+        android:gravity="center"
+        android:text="Galas"
+        android:textColor="#FFFFFF"
+        app:backgroundTint="#FF9800"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/extFabCrafts"
+        android:layout_width="148dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="488dp"
+        android:layout_marginEnd="324dp"
+        android:gravity="center"
+        android:text="Crafts"
+        android:textColor="#FFFFFF"
+        app:backgroundTint="#009688"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/extFabAthons"
+        android:layout_width="148dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="232dp"
+        android:layout_marginEnd="280dp"
+        android:gravity="center"
+        android:text="A-thons"
+        android:textColor="#FFFFFF"
+        app:backgroundTint="#F44336"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.motion.widget.MotionLayout>

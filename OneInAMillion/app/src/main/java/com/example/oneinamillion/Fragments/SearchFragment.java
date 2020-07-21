@@ -242,5 +242,6 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
         List<String> keywords = Arrays.asList(querywords);
         ParseQuery<Event> parseQuery = ParseQuery.getQuery(Event.class);
         parseQuery.include(Event.KEY_ORGANIZER);
+
     }
 }

@@ -14,5 +14,11 @@
     <string name="api_key">AIzaSyAHhqNOmXH6jPO42U89s12nJNAQucTvw40</string>
     <string name="facebook_app_id">410446139870635</string>
     <string name="fb_login_protocol_scheme">fb410446139870635</string>
+    <string name="title_activity_interest">InterestActivity</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">Hello Square World!</string>
 
 </resources>

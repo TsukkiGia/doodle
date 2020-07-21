@@ -93,8 +93,7 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
     private void goMainActivity() {
-        Intent i = new Intent(this, MainActivity.class);
+        Intent i = new Intent(this, InterestActivity.class);
         startActivity(i);
-        finish();
     }
 }

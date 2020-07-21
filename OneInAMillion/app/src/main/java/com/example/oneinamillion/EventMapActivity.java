@@ -27,6 +27,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.example.oneinamillion.Models.CustomWindowAdapter;
 import com.example.oneinamillion.Models.Event;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -126,6 +127,7 @@ public class EventMapActivity extends AppCompatActivity
     @Override
     public void onMapReady(final GoogleMap map) {
         this.map = map;
+        map.setInfoWindowAdapter(new CustomWindowAdapter(getLayoutInflater()));
         ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
         query.include(Event.KEY_ORGANIZER);
         query.findInBackground(new FindCallback<Event>() {

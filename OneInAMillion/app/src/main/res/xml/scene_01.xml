@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+
+    <Transition
+        motion:constraintSetStart="@+id/start"
+        motion:constraintSetEnd="@+id/end"
+        motion:duration="1500"
+        >
+        <OnClick
+            motion:touchAnchorSide="right"
+            motion:dragDirection="dragRight">
+
+        </OnClick>
+
+    </Transition>
+
+    <ConstraintSet android:id="@+id/start">
+        <Constraint
+            android:id="@+id/extFabSports"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="296dp"
+            android:layout_marginRight="296dp"
+            android:layout_marginTop="168dp" />
+        <Constraint
+            android:id="@+id/extFabMusic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintTop_toTopOf="parent"
+            android:layout_marginEnd="328dp"
+            android:layout_marginRight="328dp"
+            android:layout_marginTop="256dp" />
+        <Constraint
+            android:id="@+id/extFabAuction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintTop_toTopOf="parent"
+            android:layout_marginEnd="316dp"
+            android:layout_marginRight="316dp"
+            android:layout_marginTop="444dp" />
+        <Constraint
+            android:id="@+id/extFabRaffles"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintTop_toTopOf="parent"
+            android:layout_marginEnd="332dp"
+            android:layout_marginRight="332dp"
+            android:layout_marginTop="348dp" />
+        <Constraint
+            android:id="@+id/extFabArtExhibits"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintTop_toTopOf="parent"
+            android:layout_marginEnd="328dp"
+            android:layout_marginRight="328dp"
+            android:layout_marginTop="348dp" />
+        <Constraint
+            android:id="@+id/extFabGalas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintTop_toTopOf="parent"
+            android:layout_marginEnd="316dp"
+            android:layout_marginRight="316dp"
+            android:layout_marginTop="256dp" />
+        <Constraint
+            android:id="@+id/extFabCrafts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintTop_toTopOf="parent"
+            android:layout_marginEnd="320dp"
+            android:layout_marginRight="320dp"
+            android:layout_marginTop="444dp" />
+        <Constraint
+            android:id="@+id/extFabAthons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="296dp"
+            android:layout_marginRight="296dp"
+            android:layout_marginTop="168dp" />
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/end">
+        <Constraint
+            android:id="@+id/extFabAthons"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="76dp"
+            android:layout_marginRight="76dp"
+            motion:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="172dp" />
+        <Constraint
+            android:id="@+id/extFabSports"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="240dp"
+            android:layout_marginRight="240dp"
+            android:layout_marginTop="172dp" />
+        <Constraint
+            android:id="@+id/extFabMusic"
+            android:layout_width="130dp"
+            android:layout_height="47dp"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="192dp"
+            android:layout_marginRight="192dp"
+            android:layout_marginTop="264dp" />
+        <Constraint
+            android:id="@+id/extFabAuction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintTop_toTopOf="parent"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="444dp" />
+        <Constraint
+            android:id="@+id/extFabRaffles"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintTop_toTopOf="parent"
+            android:layout_marginEnd="48dp"
+            android:layout_marginRight="48dp"
+            android:layout_marginTop="348dp" />
+        <Constraint
+            android:id="@+id/extFabGalas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="32dp"
+            android:layout_marginRight="32dp"
+            motion:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="264dp" />
+        <Constraint
+            android:id="@+id/extFabArtExhibits"
+            android:layout_width="158dp"
+            android:layout_height="51dp"
+            motion:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="348dp"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="200dp"
+            android:layout_marginRight="200dp" />
+        <Constraint
+            android:id="@+id/extFabCrafts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="200dp"
+            android:layout_marginRight="200dp"
+            motion:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="444dp" />
+    </ConstraintSet>
+    <Transition
+        android:id="@+id/move"
+        motion:constraintSetStart="@+id/start"
+        motion:constraintSetEnd="@+id/end"
+        motion:autoTransition="animateToEnd" />
+
+</MotionScene>
