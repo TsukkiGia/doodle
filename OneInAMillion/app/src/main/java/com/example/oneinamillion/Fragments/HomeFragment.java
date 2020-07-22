@@ -63,6 +63,8 @@ public class HomeFragment extends Fragment {
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private boolean locationPermissionGranted;
     private Location lastKnownLocation;
+    double max_distance;
+    double max_price;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -213,6 +215,27 @@ public class HomeFragment extends Fragment {
                 pbLoading.setVisibility(View.INVISIBLE);
             }
         });
+    }
+
+    private List<Event> filterCloseEvents (List<Event> events) {
+        List<Event> closeEvents = new ArrayList<>();
+        ParseGeoPoint currentLocation = new ParseGeoPoint(lastKnownLocation.getLatitude(),lastKnownLocation.getLongitude());
+        for (Event event: events) {
+            if (event.getLocation().distanceInKilometersTo(currentLocation)<max_distance) {
+                closeEvents.add(event);
+            }
+        }
+        return closeEvents;
+    }
+
+    private List<Event> filterPriceEvents (List<Event> events) {
+        List<Event> priceEvents = new ArrayList<>();
+        for (Event event: events) {
+            if (Double.valueOf(event.getPrice())<max_price) {
+                priceEvents.add(event);
+            }
+        }
+        return priceEvents;
     }
 
     private double calculateDistance(ParseGeoPoint location) {
