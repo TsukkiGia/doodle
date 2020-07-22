@@ -43,8 +43,8 @@
         android:layout_height="54dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="227dp"
-        android:layout_marginTop="203dp"
+        android:layout_marginStart="177dp"
+        android:layout_marginTop="136dp"
         android:max="200"
         android:progress="100" />
 
@@ -54,8 +54,8 @@
         android:layout_height="54dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="229dp"
-        android:layout_marginTop="120dp"
+        android:layout_marginStart="178dp"
+        android:layout_marginTop="66dp"
         android:max="200"
         android:progress="100" />
 
@@ -65,9 +65,29 @@
         android:layout_height="32dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="134dp"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="82dp"
         android:text="Max Price" />
+
+    <TextView
+        android:id="@+id/tvValuePrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="330dp"
+        android:layout_marginTop="81dp"
+        tools:text="50" />
+
+    <TextView
+        android:id="@+id/tvValueDistance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="328dp"
+        android:layout_marginTop="156dp"
+        tools:text="50" />
 
     <TextView
         android:id="@+id/tvDistance"
@@ -75,8 +95,8 @@
         android:layout_height="32dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="213dp"
+        android:layout_marginStart="26dp"
+        android:layout_marginTop="147dp"
         android:text="Max Distance" />
 
     <TextView
@@ -86,7 +106,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="25dp"
-        android:layout_marginTop="304dp"
+        android:layout_marginTop="224dp"
         android:text="Tags" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
@@ -95,8 +115,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="584dp"
-        android:layout_marginEnd="51dp"
+        android:layout_marginTop="424dp"
+        android:layout_marginEnd="250dp"
         android:gravity="center"
         android:text="Sports"
         android:textColor="#000000"
@@ -108,8 +128,8 @@
         android:layout_height="51dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="514dp"
-        android:layout_marginEnd="49dp"
+        android:layout_marginTop="423dp"
+        android:layout_marginEnd="81dp"
         android:gravity="center"
         android:text="Concerts"
         android:textColor="#000000"
@@ -121,8 +141,8 @@
         android:layout_height="51dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="518dp"
-        android:layout_marginEnd="225dp"
+        android:layout_marginTop="502dp"
+        android:layout_marginEnd="226dp"
         android:gravity="center"
         android:text="Auctions"
         android:textColor="#000000"
@@ -134,8 +154,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="451dp"
-        android:layout_marginEnd="218dp"
+        android:layout_marginTop="359dp"
+        android:layout_marginEnd="230dp"
         android:gravity="center"
         android:text="Raffles"
         android:textColor="#000000"
@@ -147,8 +167,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="444dp"
-        android:layout_marginEnd="64dp"
+        android:layout_marginTop="358dp"
+        android:layout_marginEnd="69dp"
         android:gravity="center"
         android:text="Cooking"
         android:textColor="#000000"
@@ -161,8 +181,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="379dp"
-        android:layout_marginEnd="134dp"
+        android:layout_marginTop="294dp"
+        android:layout_marginEnd="135dp"
         android:gravity="center"
         android:text="Galas"
         android:textColor="#000000"
@@ -174,8 +194,8 @@
         android:layout_height="51dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="586dp"
-        android:layout_marginEnd="202dp"
+        android:layout_marginTop="502dp"
+        android:layout_marginEnd="48dp"
         android:gravity="center"
         android:text="Crafts"
         android:textColor="#000000"
@@ -187,8 +207,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="381dp"
-        android:layout_marginEnd="264dp"
+        android:layout_marginTop="295dp"
+        android:layout_marginEnd="267dp"
         android:gravity="center"
         android:text="A-thons"
         android:textColor="#000000"

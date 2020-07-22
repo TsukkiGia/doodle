@@ -67,7 +67,6 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
     Toolbar toolbar;
     List<Event> results;
     private SearchView.OnQueryTextListener queryTextListener;
-
     // The entry point to the Fused Location Provider.
     private FusedLocationProviderClient fusedLocationProviderClient;
     private final LatLng defaultLocation = new LatLng(-33.8523341, 151.2106085);
@@ -154,7 +153,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
                         AsyncHttpClient client = new AsyncHttpClient();
                         client.get("https://maps.googleapis.com/maps/api/geocode/json?latlng="+
                                 String.valueOf(event.getLocation().getLatitude())+","+String.valueOf(event.getLocation().getLongitude())+
-                                "&key=AIzaSyAHhqNOmXH6jPO42U89s12nJNAQucTvw40", new JsonHttpResponseHandler() {
+                                "&key="+getString(R.string.api_key), new JsonHttpResponseHandler() {
                             @Override
                             public void onSuccess(int statusCode, Headers headers, JSON json) {
                                 Log.i(TAG, "onSuccess");
@@ -176,7 +175,6 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
                                 Log.i(TAG, "Failed");
                             }
                         });
-
                     }
                 }
             }

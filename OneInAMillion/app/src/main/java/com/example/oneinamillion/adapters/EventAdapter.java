@@ -82,7 +82,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         return events.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnTouchListener, GestureDetector.OnGestureListener, GestureDetector.OnDoubleTapListener {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnTouchListener, GestureDetector.OnGestureListener, GestureDetector.OnDoubleTapListener {
         TextView tvDateTime;
         TextView tvLocation;
         TextView tvEventName;
@@ -97,7 +97,6 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
             ivEventImage = itemView.findViewById(R.id.ivEventImage);
             ivEventImage.setOnTouchListener(this);
             mGestureDetector = new GestureDetector(context,this);
-            //ivEventImage.setOnClickListener(this);
         }
 
         public void bind(Event event) throws ParseException {
@@ -135,18 +134,13 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         }
 
         @Override
-        public void onClick(View view) {
-
-        }
-
-        @Override
         public boolean onSingleTapConfirmed(MotionEvent motionEvent) {
             int position = getAdapterPosition();
             final Event event = events.get(position);
             AsyncHttpClient client = new AsyncHttpClient();
             client.get("https://maps.googleapis.com/maps/api/geocode/json?latlng="+
                     String.valueOf(event.getLocation().getLatitude())+","+String.valueOf(event.getLocation().getLongitude())+
-                    "&key=AIzaSyAHhqNOmXH6jPO42U89s12nJNAQucTvw40", new JsonHttpResponseHandler() {
+                    "&key="+context.getString(R.string.api_key), new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Headers headers, JSON json) {
                     Log.i(TAG, "onSuccess");

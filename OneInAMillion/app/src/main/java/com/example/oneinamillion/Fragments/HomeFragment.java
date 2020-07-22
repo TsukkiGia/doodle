@@ -78,10 +78,11 @@ public class HomeFragment extends Fragment {
     double max_distance;
     double max_price;
     Boolean filtertags;
+    Boolean filterdistance;
+    Boolean filterprice;
     List<String> tags;
     ImageView ivFilter;
     FragmentManager fragmentManager;
-
 
     public HomeFragment() {
         // Required empty public constructor
@@ -92,6 +93,14 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false);
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            Log.i("testtt",getArguments().getString("params"));
+        }
     }
 
     @Override
@@ -110,7 +119,11 @@ public class HomeFragment extends Fragment {
         ivFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fragmentManager.beginTransaction().replace(R.id.flContainer, new FilterFragment()).commit();
+                FilterFragment filterFragment = new FilterFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("sort",currentlySelected);
+                filterFragment.setArguments(bundle);
+                fragmentManager.beginTransaction().replace(R.id.flContainer, filterFragment).commit();
             }
         });
         fusedLocationProviderClient = new FusedLocationProviderClient(getContext());
