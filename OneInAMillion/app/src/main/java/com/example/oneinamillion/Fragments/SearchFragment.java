@@ -1,5 +1,6 @@
 package com.example.oneinamillion.Fragments;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -16,13 +17,19 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.PopupWindow;
 
+import com.codepath.asynchttpclient.AsyncHttpClient;
+import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
+import com.example.oneinamillion.DetailsActivity;
 import com.example.oneinamillion.Models.CustomWindowAdapter;
 import com.example.oneinamillion.Models.Event;
 import com.example.oneinamillion.R;
@@ -42,9 +49,15 @@ import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseQuery;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import okhttp3.Headers;
 
 
 public class SearchFragment extends Fragment implements OnMapReadyCallback {
@@ -53,6 +66,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
     private SearchView searchView = null;
     Toolbar toolbar;
     List<Event> results;
+    Event detailevent;
     private SearchView.OnQueryTextListener queryTextListener;
 
     // The entry point to the Fused Location Provider.
@@ -139,6 +153,37 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
             public void onInfoWindowClick(Marker marker) {
                 Log.i(TAG,"clicked");
                 Log.i(TAG,marker.getTag().toString());
+                Log.i(TAG,results.toString());
+                for (final Event event : results) {
+                    if (event.getObjectId().equals(marker.getTag().toString())) {
+                        AsyncHttpClient client = new AsyncHttpClient();
+                        client.get("https://maps.googleapis.com/maps/api/geocode/json?latlng="+
+                                String.valueOf(event.getLocation().getLatitude())+","+String.valueOf(event.getLocation().getLongitude())+
+                                "&key=AIzaSyAHhqNOmXH6jPO42U89s12nJNAQucTvw40", new JsonHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                                Log.i(TAG, "onSuccess");
+                                JSONObject jsonObject = json.jsonObject;
+                                try {
+                                    String address = jsonObject.getJSONArray("results").getJSONObject(0).getString("formatted_address");
+                                    Intent i = new Intent(getContext(), DetailsActivity.class);
+                                    i.putExtra(Event.class.getSimpleName(), Parcels.wrap(event));
+                                    i.putExtra("address",address);
+                                    getContext().startActivity(i);
+                                }
+                                catch (JSONException e) {
+                                    Log.e(TAG, "Hit JSON exception",e);
+                                    e.printStackTrace();
+                                }
+                            }
+                            @Override
+                            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                                Log.i(TAG, "Failed");
+                            }
+                        });
+
+                    }
+                }
             }
         });
         ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
@@ -151,6 +196,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
                     Double longitude = event.getLocation().getLongitude();
                     Marker marker = map.addMarker(new MarkerOptions().position(new LatLng(lat, longitude)).snippet(event.getDescription()).title(event.getEventName()));
                     marker.setTag(event.getObjectId());
+                    results.add(event);
                 }
             }
         });
@@ -160,6 +206,16 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
         updateLocationUI();
         // Get the current location of the device and set the position of the map.
         getDeviceLocation();
+    }
+
+    private Event getEvent(String objectID) {
+        Event dummy = new Event();
+        for (Event event : results) {
+            if (event.getObjectId().equals(objectID)) {
+                return event;
+            }
+        }
+        return dummy;
     }
 
     //Gets the current location of the device, and positions the map's camera.
@@ -275,7 +331,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
                     for (Event event: results) {
                         Double lat = event.getLocation().getLatitude();
                         Double longitude = event.getLocation().getLongitude();
-                        Marker marker = map.addMarker(new MarkerOptions().position(new LatLng(lat, longitude)).snippet(event.getDescription()).title(event.getEventName()));
+                        Marker marker = map.addMarker(new MarkerOptions().position(new LatLng(lat, longitude)).snippet(event.getDescription()+". Click to see details!").title(event.getEventName()));
                         marker.setTag(event.getObjectId());
                     }
                 }
