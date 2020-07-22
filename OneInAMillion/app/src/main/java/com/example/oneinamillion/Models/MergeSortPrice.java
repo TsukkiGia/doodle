@@ -3,13 +3,13 @@ package com.example.oneinamillion.Models;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MergeSort {
+public class MergeSortPrice {
     public void Merge(List<Event> left, List<Event> right, List<Event> unsorted) {
         int left_index = 0;
         int right_index = 0;
         int index = 0;
         while (left_index < left.size() && right_index < right.size()) {
-            if (left.get(left_index).getDistance()<right.get(right_index).getDistance()) {
+            if (left.get(left_index).getPrice()<right.get(right_index).getPrice()) {
                 unsorted.remove(index);
                 unsorted.add(index, left.get(left_index));
                 left_index++;

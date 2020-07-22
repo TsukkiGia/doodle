@@ -15,10 +15,10 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="0dp"
+        android:layout_marginTop="-2dp"
         android:background="@color/colorAccent"
-        app:layout_scrollFlags="scroll|enterAlways"
-        app:menu="@menu/home_frag">
+        app:layout_scrollFlags="scroll|enterAlways">
+
         <TextView
             android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
@@ -28,6 +28,52 @@
             android:textSize="18sp"
             android:textStyle="bold" />
     </androidx.appcompat.widget.Toolbar>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/extFabDistance"
+        android:layout_width="106dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="61dp"
+        android:layout_marginEnd="191dp"
+        android:gravity="center"
+        android:text="Distance"
+        android:textColor="#FFFFFF"
+        android:textSize="12sp"
+        app:backgroundTint="@color/colorAccent"
+        app:iconSize="0dp" />
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/extFabPrice"
+        android:layout_width="81dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="100dp"
+        android:gravity="center"
+        android:text="Price"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        app:backgroundTint="#FFFFFF"
+        app:iconSize="0dp" />
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/extFabDate"
+        android:layout_width="81dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="7dp"
+        android:gravity="center"
+        android:text="Date"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        app:backgroundTint="#FFFFFF"
+        app:iconSize="0dp" />
+
     <ProgressBar
         android:id="@+id/pbLoading"
         android:layout_width="100dp"
@@ -37,17 +83,18 @@
         android:layout_marginTop="258dp"
         android:layout_marginEnd="157dp"
         android:visibility="visible" />
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/swipeContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="614dp"
         android:layout_below="@+id/toolbar"
-        android:layout_marginTop="0dp">
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvEvents"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_marginTop="69dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvEvents"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -58,9 +105,10 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="14dp"
         android:layout_marginBottom="24dp"
+        android:background="#FFFFFF"
         android:backgroundTint="@color/colorAccent"
-        android:tint="@android:color/white"
-        android:src="@drawable/icons_plus"/>
+        android:src="@drawable/icons_plus"
+        android:tint="@android:color/white" />
 
     <ImageView
         android:id="@+id/ivProfile"
@@ -68,8 +116,8 @@
         android:layout_height="19dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="66dp"
+        android:layout_marginTop="17dp"
+        android:layout_marginEnd="14dp"
         android:src="@drawable/instagram_user_filled_24" />
 
     <ImageView
@@ -77,11 +125,34 @@
         android:layout_width="19dp"
         android:layout_height="19dp"
         android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="105dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="26dp"
+        android:layout_toStartOf="@+id/ivFilter"
         android:src="@drawable/baseline_explore_black_18dp"
         android:tint="@color/quantum_white_100" />
+
+    <ImageView
+        android:id="@+id/ivFilter"
+        android:layout_width="21dp"
+        android:layout_height="17dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="26dp"
+        android:layout_toStartOf="@+id/ivProfile"
+        android:src="@drawable/filter"
+        android:tint="@color/quantum_white_100" />
+
+    <TextView
+        android:id="@+id/tvSortDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/extFabDistance"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="9dp"
+        android:layout_marginTop="15dp"
+        android:text="Sort based on:"
+        android:textColor="#000000"
+        android:textStyle="bold" />
 
 </RelativeLayout>
 </FrameLayout>

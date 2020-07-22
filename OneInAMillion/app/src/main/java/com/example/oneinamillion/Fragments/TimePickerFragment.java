@@ -1,15 +1,12 @@
-package com.example.oneinamillion.Models;
+package com.example.oneinamillion.Fragments;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.text.format.DateFormat;
-import android.widget.TextView;
 import android.widget.TimePicker;
 
 import androidx.fragment.app.DialogFragment;
-
-import com.example.oneinamillion.R;
 
 import java.util.Calendar;
 

@@ -41,11 +41,11 @@ public class Event extends ParseObject {
     public Event() {
     }
 
-    public String getPrice(){
-        return getString(KEY_PRICE);
+    public double getPrice(){
+        return getDouble(KEY_PRICE);
     }
 
-    public void setPrice(String price) {
+    public void setPrice(double price) {
         put(KEY_PRICE,price);
     }
 

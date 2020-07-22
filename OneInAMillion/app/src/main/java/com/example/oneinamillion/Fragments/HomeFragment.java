@@ -2,6 +2,7 @@ package com.example.oneinamillion.Fragments;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 
@@ -27,7 +28,9 @@ import com.example.oneinamillion.EventMapActivity;
 import com.example.oneinamillion.InterestActivity;
 import com.example.oneinamillion.InterestActivityMotion;
 import com.example.oneinamillion.Models.Event;
-import com.example.oneinamillion.Models.MergeSort;
+import com.example.oneinamillion.Models.MergeSortDate;
+import com.example.oneinamillion.Models.MergeSortDistance;
+import com.example.oneinamillion.Models.MergeSortPrice;
 import com.example.oneinamillion.R;
 import com.example.oneinamillion.adapters.EventAdapter;
 import com.facebook.AccessToken;
@@ -36,6 +39,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -43,8 +47,11 @@ import com.parse.ParseGeoPoint;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 //https://icons8.com
 //<a target="_blank" href="https://icons8.com/icons/set/filter">Filter icon</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
 
@@ -53,6 +60,10 @@ public class HomeFragment extends Fragment {
     EventAdapter eventAdapter;
     List<Event> events;
     ImageView ivMap;
+    String currentlySelected;
+    ExtendedFloatingActionButton fabDistance;
+    ExtendedFloatingActionButton fabDate;
+    ExtendedFloatingActionButton fabPrice;
     FloatingActionButton fabCreate;
     public static final String TAG = "HomeFragment";
     private SwipeRefreshLayout swipeContainer;
@@ -65,6 +76,8 @@ public class HomeFragment extends Fragment {
     private Location lastKnownLocation;
     double max_distance;
     double max_price;
+    Boolean filtertags;
+
 
     public HomeFragment() {
         // Required empty public constructor
@@ -91,10 +104,62 @@ public class HomeFragment extends Fragment {
         fusedLocationProviderClient = new FusedLocationProviderClient(getContext());
         getLocationPermission();
         getDeviceLocation();
+        currentlySelected = "distance";
+        pbLoading = view.findViewById(R.id.pbLoading);
+        fabDate = view.findViewById(R.id.extFabDate);
+        fabDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!currentlySelected.equals("date")) {
+                    currentlySelected="date";
+                    fabDate.setBackgroundColor(Color.parseColor("#39b894"));
+                    fabDate.setTextColor(Color.parseColor("#FFFFFF"));
+                    fabDistance.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                    fabDistance.setTextColor(Color.parseColor("#000000"));
+                    fabPrice.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                    fabPrice.setTextColor(Color.parseColor("#000000"));
+                    pbLoading.setVisibility(View.VISIBLE);
+                    queryEventsDate();
+                }
+            }
+        });
+        fabDistance = view.findViewById(R.id.extFabDistance);
+        fabDistance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!currentlySelected.equals("distance")) {
+                    currentlySelected="distance";
+                    fabDistance.setBackgroundColor(Color.parseColor("#39b894"));
+                    fabDistance.setTextColor(Color.parseColor("#FFFFFF"));
+                    fabDate.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                    fabDate.setTextColor(Color.parseColor("#000000"));
+                    fabPrice.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                    fabPrice.setTextColor(Color.parseColor("#000000"));
+                    pbLoading.setVisibility(View.VISIBLE);
+                    queryEventsNearby();
+                }
+            }
+        });
+        fabPrice = view.findViewById(R.id.extFabPrice);
+        fabPrice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!currentlySelected.equals("price")) {
+                    currentlySelected="price";
+                    fabPrice.setBackgroundColor(Color.parseColor("#39b894"));
+                    fabPrice.setTextColor(Color.parseColor("#FFFFFF"));
+                    fabDate.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                    fabDate.setTextColor(Color.parseColor("#000000"));
+                    fabDistance.setBackgroundColor(Color.parseColor("#FFFFFF"));
+                    fabDistance.setTextColor(Color.parseColor("#000000"));
+                    pbLoading.setVisibility(View.VISIBLE);
+                    queryCheaperEvents();
+                }
+            }
+        });
         ivProfile = view.findViewById(R.id.ivProfile);
         rvEvents = view.findViewById(R.id.rvEvents);
         fabCreate = view.findViewById(R.id.fabCreate);
-        pbLoading = view.findViewById(R.id.pbLoading);
         swipeContainer = view.findViewById(R.id.swipeContainer);
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -113,7 +178,7 @@ public class HomeFragment extends Fragment {
         fabCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getContext(), InterestActivityMotion.class);
+                Intent i = new Intent(getContext(), AddEventActivity.class);
                 startActivity(i);
             }
         });
@@ -131,7 +196,7 @@ public class HomeFragment extends Fragment {
         swipeContainer.setRefreshing(false);
     }
 
-    private void queryEventsInterests() {
+    private void filterEventsInterests() {
         ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
         query.include(Event.KEY_ORGANIZER);
         query.setLimit(20);
@@ -190,7 +255,42 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    private void queryEventsDate() {
+        eventAdapter.clear();
+        final List<Event> eventsDate = new ArrayList<>();
+        ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
+        query.include(Event.KEY_ORGANIZER);
+        query.setLimit(20);
+        query.findInBackground(new FindCallback<Event>() {
+            @Override
+            public void done(List<Event> events, ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "problem!", e);
+                }
+                for (Event event: events) {
+                    long now = System.currentTimeMillis();
+                    Date firstDate = null;
+                    try {
+                        firstDate = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH).parse(event.getDate());
+                    } catch (java.text.ParseException ex) {
+                        ex.printStackTrace();
+                    }
+                    long dateInMillies = firstDate.getTime();
+                    if (dateInMillies>now) {
+                        eventsDate.add(event);
+                    }
+                }
+                MergeSortDate m = new MergeSortDate();
+                m.mergeSort(eventsDate);
+                eventAdapter.addAll(eventsDate);
+                eventAdapter.notifyDataSetChanged();
+                pbLoading.setVisibility(View.INVISIBLE);
+            }
+        });
+    }
+
     private void queryEventsNearby() {
+        eventAdapter.clear();
         ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
         final List<Event> eventsWithDistances = new ArrayList<>();
         query.include(Event.KEY_ORGANIZER);
@@ -202,15 +302,57 @@ public class HomeFragment extends Fragment {
                     Log.e(TAG, "problem!", e);
                 }
                 for (Event event : events) {
-                    double dist = calculateDistance(event.getLocation());
-                    event.setDistance(event.getLocation().distanceInKilometersTo(new ParseGeoPoint(lastKnownLocation.getLatitude(),lastKnownLocation.getLongitude())));
-                    eventsWithDistances.add(event);
+                    long now = System.currentTimeMillis();
+                    Date firstDate = null;
+                    try {
+                        firstDate = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH).parse(event.getDate());
+                    } catch (java.text.ParseException ex) {
+                        ex.printStackTrace();
+                    }
+                    long dateInMillies = firstDate.getTime();
+                    if (dateInMillies > now) {
+                        event.setDistance(event.getLocation().distanceInKilometersTo(new ParseGeoPoint(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude())));
+                        eventsWithDistances.add(event);
+                    }
                 }
 
-                MergeSort m = new MergeSort();
+                MergeSortDistance m = new MergeSortDistance();
                 m.mergeSort(eventsWithDistances);
-                eventAdapter.clear();
                 eventAdapter.addAll(eventsWithDistances);
+                eventAdapter.notifyDataSetChanged();
+                pbLoading.setVisibility(View.INVISIBLE);
+            }
+        });
+    }
+
+    private void queryCheaperEvents() {
+        eventAdapter.clear();
+        final List<Event> cheaperEvents = new ArrayList<>();
+        ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
+        query.include(Event.KEY_ORGANIZER);
+        query.setLimit(20);
+        query.findInBackground(new FindCallback<Event>() {
+            @Override
+            public void done(List<Event> events, ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "problem!", e);
+                }
+                for (Event event: events) {
+                    long now = System.currentTimeMillis();
+                    Date firstDate = null;
+                    try {
+                        firstDate = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH).parse(event.getDate());
+                    } catch (java.text.ParseException ex) {
+                        ex.printStackTrace();
+                    }
+                    long dateInMillies = firstDate.getTime();
+                    if (dateInMillies>now) {
+                        cheaperEvents.add(event);
+                    }
+                }
+                MergeSortPrice m = new MergeSortPrice();
+                m.mergeSort(cheaperEvents);
+                eventAdapter.addAll(cheaperEvents);
                 eventAdapter.notifyDataSetChanged();
                 pbLoading.setVisibility(View.INVISIBLE);
             }
@@ -236,18 +378,5 @@ public class HomeFragment extends Fragment {
             }
         }
         return priceEvents;
-    }
-
-    private double calculateDistance(ParseGeoPoint location) {
-        double lon1 = lastKnownLocation.getLongitude();
-        double lat1 = lastKnownLocation.getLatitude();
-        double lon2 = location.getLongitude();
-        double lat2 = location.getLatitude();
-        double dlon = lon2 - lon1;
-        double dlat = lat2 - lat1;
-        double a = Math.pow(Math.sin(dlat/2),2) + Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(dlon / 2),2);
-        double c = 2 * Math.asin(Math.sqrt(a));
-        double r = 6371;
-        return(c * r);
     }
 }
