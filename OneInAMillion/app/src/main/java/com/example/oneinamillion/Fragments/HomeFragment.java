@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -77,6 +78,9 @@ public class HomeFragment extends Fragment {
     double max_distance;
     double max_price;
     Boolean filtertags;
+    List<String> tags;
+    ImageView ivFilter;
+    FragmentManager fragmentManager;
 
 
     public HomeFragment() {
@@ -93,12 +97,20 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        fragmentManager = getParentFragmentManager();
         ivMap = view.findViewById(R.id.ivMap);
         ivMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getContext(), EventMapActivity.class);
                 startActivity(i);
+            }
+        });
+        ivFilter = view.findViewById(R.id.ivFilter);
+        ivFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fragmentManager.beginTransaction().replace(R.id.flContainer, new FilterFragment()).commit();
             }
         });
         fusedLocationProviderClient = new FusedLocationProviderClient(getContext());
@@ -160,6 +172,13 @@ public class HomeFragment extends Fragment {
         ivProfile = view.findViewById(R.id.ivProfile);
         rvEvents = view.findViewById(R.id.rvEvents);
         fabCreate = view.findViewById(R.id.fabCreate);
+        fabCreate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getContext(), AddEventActivity.class);
+                startActivity(i);
+            }
+        });
         swipeContainer = view.findViewById(R.id.swipeContainer);
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -175,13 +194,6 @@ public class HomeFragment extends Fragment {
         rvEvents.setAdapter(eventAdapter);
         final AccessToken accessToken = AccessToken.getCurrentAccessToken();
         boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
-        fabCreate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getContext(), AddEventActivity.class);
-                startActivity(i);
-            }
-        });
         if (ParseUser.getCurrentUser().getParseFile("ProfileImage") != null) {
             Glide.with(getContext()).load(ParseUser.getCurrentUser().getParseFile("ProfileImage").getUrl())
                     .circleCrop().into(ivProfile);
@@ -357,6 +369,10 @@ public class HomeFragment extends Fragment {
                 pbLoading.setVisibility(View.INVISIBLE);
             }
         });
+    }
+
+    private List<Event> filter (List<Event> events) {
+        return events;
     }
 
     private List<Event> filterCloseEvents (List<Event> events) {
