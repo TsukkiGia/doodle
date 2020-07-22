@@ -19,6 +19,7 @@ import android.widget.ProgressBar;
 
 import com.bumptech.glide.Glide;
 import com.example.oneinamillion.AddEventActivity;
+import com.example.oneinamillion.EventMapActivity;
 import com.example.oneinamillion.InterestActivity;
 import com.example.oneinamillion.InterestActivityMotion;
 import com.example.oneinamillion.Models.Event;
@@ -39,6 +40,7 @@ public class HomeFragment extends Fragment {
     RecyclerView rvEvents;
     EventAdapter eventAdapter;
     List<Event> events;
+    ImageView ivMap;
     FloatingActionButton fabCreate;
     public static final String TAG = "HomeFragment";
     private SwipeRefreshLayout swipeContainer;
@@ -59,6 +61,14 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ivMap = view.findViewById(R.id.ivMap);
+        ivMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getContext(), EventMapActivity.class);
+                startActivity(i);
+            }
+        });
         ivProfile = view.findViewById(R.id.ivProfile);
         rvEvents = view.findViewById(R.id.rvEvents);
         fabCreate = view.findViewById(R.id.fabCreate);

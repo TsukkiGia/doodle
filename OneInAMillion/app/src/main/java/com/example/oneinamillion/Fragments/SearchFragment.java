@@ -23,6 +23,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.oneinamillion.Models.CustomWindowAdapter;
 import com.example.oneinamillion.Models.Event;
 import com.example.oneinamillion.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -32,13 +33,16 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseQuery;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -48,6 +52,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
     public static final String TAG = "SearchFragment";
     private SearchView searchView = null;
     Toolbar toolbar;
+    List<Event> results;
     private SearchView.OnQueryTextListener queryTextListener;
 
     // The entry point to the Fused Location Provider.
@@ -112,6 +117,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         toolbar = view.findViewById(R.id.toolbar);
+        results =  new ArrayList<>();
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
         // Construct a FusedLocationProviderClient.
@@ -127,6 +133,14 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(final GoogleMap map) {
         this.map = map;
+        map.setInfoWindowAdapter(new CustomWindowAdapter(getLayoutInflater()));
+        map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                Log.i(TAG,"clicked");
+                Log.i(TAG,marker.getTag().toString());
+            }
+        });
         ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
         query.include(Event.KEY_ORGANIZER);
         query.findInBackground(new FindCallback<Event>() {
@@ -135,7 +149,8 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
                 for (Event event : events) {
                     Double lat = event.getLocation().getLatitude();
                     Double longitude = event.getLocation().getLongitude();
-                    map.addMarker(new MarkerOptions().position(new LatLng(lat, longitude)).title(event.getEventName()));
+                    Marker marker = map.addMarker(new MarkerOptions().position(new LatLng(lat, longitude)).snippet(event.getDescription()).title(event.getEventName()));
+                    marker.setTag(event.getObjectId());
                 }
             }
         });
@@ -238,10 +253,43 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
         }
     }
     private void filterEvents(String query) {
+        results.clear();
         String[] querywords = query.split(" ");
         List<String> keywords = Arrays.asList(querywords);
-        ParseQuery<Event> parseQuery = ParseQuery.getQuery(Event.class);
-        parseQuery.include(Event.KEY_ORGANIZER);
+        for (int i = 0; i<keywords.size(); i++) {
+            String keyword = keywords.get(i);
+            ParseQuery<Event> parseQuery = ParseQuery.getQuery(Event.class);
+            parseQuery.include(Event.KEY_ORGANIZER);
+            parseQuery.whereMatches(Event.KEY_DESCRIPTION, "("+keyword+")", "i");
+            parseQuery.findInBackground(new FindCallback<Event>() {
+                @Override
+                public void done(List<Event> events, ParseException e) {
+                    Log.i(TAG,events.toString());
+                    for(Event event: events) {
+                        if (!isInside(event,results)) {
+                            results.add(event);
+                            Log.i(TAG,"results "+results.toString());
+                        }
+                    }
+                    map.clear();
+                    for (Event event: results) {
+                        Double lat = event.getLocation().getLatitude();
+                        Double longitude = event.getLocation().getLongitude();
+                        Marker marker = map.addMarker(new MarkerOptions().position(new LatLng(lat, longitude)).snippet(event.getDescription()).title(event.getEventName()));
+                        marker.setTag(event.getObjectId());
+                    }
+                }
+            });
+        }
+    }
 
+    private boolean isInside(Event event, List<Event> results) {
+        Boolean amIhere=false;
+        for (Event ev: results) {
+            if (event.getObjectId().equals(ev.getObjectId())) {
+                amIhere=true;
+            }
+        }
+        return amIhere;
     }
 }

@@ -29,6 +29,14 @@ public class Event extends ParseObject {
     public Event() {
     }
 
+    public String getAddress() {
+        return Address;
+    }
+
+    public void setAddress(String address) {
+        Address = address;
+    }
+
     public JSONArray getEventTag() {
         return getJSONArray(KEY_TAG);
     }

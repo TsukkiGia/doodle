@@ -96,7 +96,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tfEventName"
                 android:layout_width="347dp"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="72dp"
@@ -113,7 +113,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tfEventDescription"
                 android:layout_width="345dp"
-                android:layout_height="100dp"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/tfEventName"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="24dp"
@@ -126,7 +126,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:inputType="textMultiLine"
-                    android:minLines="15" />
+                    android:minLines="8" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -233,11 +233,10 @@
                 android:id="@+id/extFabRaffles"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/tvTags"
-                android:layout_alignParentTop="true"
+                android:layout_below="@+id/tvTags"
                 android:layout_alignParentEnd="true"
-                android:layout_marginTop="782dp"
-                android:layout_marginEnd="107dp"
+                android:layout_marginTop="147dp"
+                android:layout_marginEnd="115dp"
                 android:gravity="center"
                 android:text="Raffles"
                 android:textColor="#000000"
