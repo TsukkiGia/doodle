@@ -66,7 +66,6 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
     private SearchView searchView = null;
     Toolbar toolbar;
     List<Event> results;
-    Event detailevent;
     private SearchView.OnQueryTextListener queryTextListener;
 
     // The entry point to the Fused Location Provider.
@@ -75,7 +74,6 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
     private static final int DEFAULT_ZOOM = 15;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private boolean locationPermissionGranted;
-
     // The geographical location where the device is currently located. That is, the last-known
     // location retrieved by the Fused Location Provider.
     private Location lastKnownLocation;
@@ -151,9 +149,6 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
         map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
-                Log.i(TAG,"clicked");
-                Log.i(TAG,marker.getTag().toString());
-                Log.i(TAG,results.toString());
                 for (final Event event : results) {
                     if (event.getObjectId().equals(marker.getTag().toString())) {
                         AsyncHttpClient client = new AsyncHttpClient();
@@ -194,7 +189,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
                 for (Event event : events) {
                     Double lat = event.getLocation().getLatitude();
                     Double longitude = event.getLocation().getLongitude();
-                    Marker marker = map.addMarker(new MarkerOptions().position(new LatLng(lat, longitude)).snippet(event.getDescription()).title(event.getEventName()));
+                    Marker marker = map.addMarker(new MarkerOptions().position(new LatLng(lat, longitude)).snippet(event.getDescription()+". Click to see the details!").title(event.getEventName()));
                     marker.setTag(event.getObjectId());
                     results.add(event);
                 }
@@ -331,7 +326,9 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
                     for (Event event: results) {
                         Double lat = event.getLocation().getLatitude();
                         Double longitude = event.getLocation().getLongitude();
-                        Marker marker = map.addMarker(new MarkerOptions().position(new LatLng(lat, longitude)).snippet(event.getDescription()+". Click to see details!").title(event.getEventName()));
+                        Marker marker = map.addMarker(new MarkerOptions().
+                                position(new LatLng(lat, longitude)).snippet(event.getDescription()+". Click to see details!")
+                                .title(event.getEventName()));
                         marker.setTag(event.getObjectId());
                     }
                 }

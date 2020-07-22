@@ -6,8 +6,8 @@
     android:id="@+id/motionLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layoutDescription="@xml/scene_01"
-    tools:context=".InterestActivityMotion">
+    tools:context=".InterestActivityMotion"
+    app:layoutDescription="@xml/scene_01">
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/extFabSports"
