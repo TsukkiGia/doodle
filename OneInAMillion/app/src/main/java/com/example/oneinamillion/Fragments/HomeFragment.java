@@ -125,7 +125,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void refreshPage() {
-        queryEventsInterests();
+        queryEventsNearby();
         swipeContainer.setRefreshing(false);
     }
 
@@ -191,7 +191,6 @@ public class HomeFragment extends Fragment {
     private void queryEventsNearby() {
         ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
         final List<Event> eventsWithDistances = new ArrayList<>();
-        final List<Event> addresses = new ArrayList<>();
         query.include(Event.KEY_ORGANIZER);
         query.setLimit(20);
         query.findInBackground(new FindCallback<Event>() {
@@ -202,15 +201,14 @@ public class HomeFragment extends Fragment {
                 }
                 for (Event event : events) {
                     double dist = calculateDistance(event.getLocation());
-                    event.setDistance(dist);
+                    event.setDistance(event.getLocation().distanceInKilometersTo(new ParseGeoPoint(lastKnownLocation.getLatitude(),lastKnownLocation.getLongitude())));
                     eventsWithDistances.add(event);
                 }
 
                 MergeSort m = new MergeSort();
                 m.mergeSort(eventsWithDistances);
-                Log.i(TAG,eventsWithDistances.toString());
                 eventAdapter.clear();
-                eventAdapter.addAll(events);
+                eventAdapter.addAll(eventsWithDistances);
                 eventAdapter.notifyDataSetChanged();
                 pbLoading.setVisibility(View.INVISIBLE);
             }

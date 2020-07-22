@@ -2,17 +2,17 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:icon="@drawable/filter"
+        android:icon="@drawable/menu"
         app:showAsAction="ifRoom"
         android:iconTint="@color/quantum_white_100"
-        android:title="TODO">
+        android:title="SortingPreferences">
         <menu>
             <item
-                android:id="@+id/menuSortNewest"
-                android:title="Sort by newest" />
+                android:id="@+id/menuSortDistance"
+                android:title="Sort by Distance" />
             <item
-                android:id="@+id/menuSortRating"
-                android:title="Sort by rating" />
+                android:id="@+id/menuSortPrice"
+                android:title="Sort by Price" />
         </menu>
     </item>
 </menu>
