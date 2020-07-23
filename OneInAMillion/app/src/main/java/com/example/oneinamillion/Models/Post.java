@@ -15,6 +15,9 @@ public class Post extends ParseObject {
     public static final String KEY_DESCRIPTION="Description";
     public static final String KEY_EVENT="EventID";
 
+    public Post() {
+    }
+
     public String getEventID() {
         return getString(KEY_EVENT);
     }

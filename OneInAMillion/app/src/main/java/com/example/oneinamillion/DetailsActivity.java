@@ -1,6 +1,7 @@
 package com.example.oneinamillion;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
 import android.view.View;
@@ -9,8 +10,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.oneinamillion.Fragments.DetailsFragment;
+import com.example.oneinamillion.Fragments.UserPostFragment;
 import com.example.oneinamillion.Models.Event;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.parse.ParseUser;
 
 import org.json.JSONArray;
@@ -25,8 +29,13 @@ public class DetailsActivity extends AppCompatActivity {
     TextView tvDateTime;
     MaterialButton btnRSVP;
     Event event;
+    Boolean selected_details = true;
+    Boolean selected_posts = false;
     Boolean amIattending = false;
     String address;
+    ExtendedFloatingActionButton extFabDetails;
+    ExtendedFloatingActionButton extFabPosts;
+    final FragmentManager fragmentManager = getSupportFragmentManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +43,20 @@ public class DetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_details);
         event = Parcels.unwrap(getIntent().getParcelableExtra(Event.class.getSimpleName()));
         address = getIntent().getStringExtra("address");
+        extFabDetails = findViewById(R.id.extFabDetails);
+        extFabPosts = findViewById(R.id.extFabPosts);
+        extFabDetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fragmentManager.beginTransaction().replace(R.id.flContainer,new DetailsFragment()).commit();
+            }
+        });
+        extFabPosts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fragmentManager.beginTransaction().replace(R.id.flContainer,new UserPostFragment()).commit();
+            }
+        });
         ivEventImage = findViewById(R.id.ivEventImage);
         tvEventName = findViewById(R.id.tvEventName);
         tvLocation = findViewById(R.id.tvLocation);

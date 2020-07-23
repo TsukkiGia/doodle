@@ -54,7 +54,6 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         notifyDataSetChanged();
     }
 
-    // Add a list of items -- change to type used
     public void addAll(List<Event> list) {
         events.addAll(list);
         notifyDataSetChanged();
