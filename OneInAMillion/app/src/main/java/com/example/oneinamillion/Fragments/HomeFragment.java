@@ -120,8 +120,6 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.i(TAG,String.valueOf(max_distance));
-        Log.i(TAG,String.valueOf(max_price));
         if (!filtertags) {
             JSONArray tagg = ParseUser.getCurrentUser().getJSONArray("Interests");
             for (int i=0;i<tagg.length();i++) {
@@ -132,7 +130,6 @@ public class HomeFragment extends Fragment {
                 }
             };
         }
-        Log.i(TAG,tags.toString());
         filtertags=true;
         results = new ArrayList<>();
         fragmentManager = getParentFragmentManager();
@@ -225,7 +222,7 @@ public class HomeFragment extends Fragment {
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                refreshPage();
+                InitialQuery();
             }
         });
         swipeContainer.setColorSchemeResources(R.color.colorAccent);
@@ -245,39 +242,6 @@ public class HomeFragment extends Fragment {
         InitialQuery();
     }
 
-    private void refreshPage() {
-        if (currentlySelected.equals("distance")) {
-            queryEventsNearby();
-        }
-        else if (currentlySelected.equals("date")) {
-            queryEventsDate();
-        }
-        else {
-            queryCheaperEvents();
-        }
-        swipeContainer.setRefreshing(false);
-    }
-
-    private void filterEventsInterests() {
-        ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
-        query.include(Event.KEY_ORGANIZER);
-        query.setLimit(20);
-        query.findInBackground(new FindCallback<Event>() {
-            @Override
-            public void done(List<Event> events, ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "problem!", e);
-                }
-                for (Event event : events) {
-                    Log.i(TAG,"Description: "+event.getDescription());
-                }
-                eventAdapter.clear();
-                eventAdapter.addAll(events);
-                eventAdapter.notifyDataSetChanged();
-                pbLoading.setVisibility(View.INVISIBLE);
-            }
-        });
-    }
     //Gets the current location of the device, and positions the map's camera.
     private void getDeviceLocation() {
         /*
@@ -353,6 +317,7 @@ public class HomeFragment extends Fragment {
                 }
             }
         });
+        swipeContainer.setRefreshing(false);
     }
 
     private void queryEventsNearby() {
@@ -386,7 +351,9 @@ public class HomeFragment extends Fragment {
     private void filter () {
         Log.i(TAG,"nice");
         if (filtertags) {
-            Log.i(TAG,"filtering tags");
+            Log.i(TAG,ParseUser.getCurrentUser().getJSONArray("Interests").toString());
+            List<Event> filtered = filterEventsInterests(results);
+            results = filtered;
         }
         if (filterprice) {
             Log.i(TAG,"filtering price");
@@ -420,5 +387,18 @@ public class HomeFragment extends Fragment {
             }
         }
         return priceEvents;
+    }
+    private List<Event> filterEventsInterests(List<Event> events) {
+        List<Event> interestingEvents = new ArrayList<>();
+        for (Event event: events) {
+            String eventtag = event.getEventTag().toString();
+            for (int i = 0; i < tags.size(); i++) {
+                if (eventtag.contains(tags.get(i))) {
+                    interestingEvents.add(event);
+                    break;
+                }
+            }
+        }
+        return interestingEvents;
     }
 }
