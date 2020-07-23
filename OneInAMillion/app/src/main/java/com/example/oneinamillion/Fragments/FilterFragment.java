@@ -42,10 +42,13 @@ public class FilterFragment extends Fragment {
     ExtendedFloatingActionButton fabCrafts;
     ExtendedFloatingActionButton fabAthons;
     TextView tvValuePrice;
+    double max_distance=100;
+    double max_price=100;
     TextView tvValueDistance;
     SeekBar sbDistance;
     SeekBar sbPrice;
     String sort_metric;
+
     List<String> interests = new ArrayList<>();
     public static final String TAG = "FilterFragment";
 
@@ -58,7 +61,12 @@ public class FilterFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments()!=null){
+            Log.i(TAG, getArguments().toString());
             sort_metric=getArguments().getString("sort_metric");
+            Log.i(TAG,sort_metric);
+            max_distance=Double.valueOf(getArguments().getString("max_distance"));
+            max_price=Double.valueOf(getArguments().getString("max_price"));
+            interests=getArguments().getStringArrayList("tags");
         }
     }
 
@@ -80,14 +88,6 @@ public class FilterFragment extends Fragment {
         fabGalas = view.findViewById(R.id.extFabGalas);
         fabCrafts = view.findViewById(R.id.extFabCrafts);
         fabAthons = view.findViewById(R.id.extFabAthons);
-        JSONArray interests_fromUser = ParseUser.getCurrentUser().getJSONArray("Interests");
-        for (int i = 0; i < interests_fromUser.length(); i++) {
-            try {
-                interests.add(interests_fromUser.getString(i));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        };
         Log.i(TAG,interests.toString());
         for (int i = 0; i <interests.size(); i++) {
             if (interests.get(i).equals("sport")){
@@ -141,9 +141,11 @@ public class FilterFragment extends Fragment {
         tvValueDistance = view.findViewById(R.id.tvValueDistance);
         tvValuePrice = view.findViewById(R.id.tvValuePrice);
         sbDistance = view.findViewById(R.id.sbDistance);
-        tvValueDistance.setText(String.valueOf(100));
-        tvValuePrice.setText(String.valueOf(100));
+        tvValueDistance.setText(String.valueOf(max_distance));
+        tvValuePrice.setText(String.valueOf(max_price));
         sbPrice = view.findViewById(R.id.sbPrice);
+        sbPrice.setX((float) max_price);
+        sbDistance.setX((float) max_distance);
         sbPrice.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {

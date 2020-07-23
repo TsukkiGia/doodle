@@ -65,7 +65,7 @@ public class HomeFragment extends Fragment {
     List<Event> events;
     List<Event> results;
     ImageView ivMap;
-    String currentlySelected;
+    String currentlySelected = "distance";
     ExtendedFloatingActionButton fabDistance;
     ExtendedFloatingActionButton fabDate;
     ExtendedFloatingActionButton fabPrice;
@@ -79,15 +79,15 @@ public class HomeFragment extends Fragment {
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private boolean locationPermissionGranted;
     private Location lastKnownLocation;
-    double max_distance=0;
-    double max_price=0;
+    double max_distance=100;
+    double max_price=100;
+    static String default_value = "100.0";
     Boolean filterdistance=false;
     Boolean filterprice=false;
     Boolean filtertags = false;
     List<String> tags=new ArrayList<>();
     ImageView ivFilter;
     FragmentManager fragmentManager;
-    String sort_metric = "distance";
 
     public HomeFragment() {
         // Required empty public constructor
@@ -104,16 +104,19 @@ public class HomeFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            if (!getArguments().getString("max_distance").equals("100")){
+            //add comments explain
+            if (!getArguments().getString("max_distance").equals(default_value)){
                 max_distance = Double.valueOf(getArguments().getString("max_distance"));
                 filterdistance=true;
             }
-            if (!getArguments().getString("max_price").equals("100")){
+            if (!getArguments().getString("max_price").equals(default_value)){
                 max_price = Double.valueOf(getArguments().getString("max_price"));
                 filterprice=true;
             }
             tags=getArguments().getStringArrayList("tags");
             filtertags=true;
+            currentlySelected=getArguments().getString("sort_metric");
+            Log.i(TAG,currentlySelected);
         }
     }
 
@@ -122,7 +125,7 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         if (!filtertags) {
             JSONArray tagg = ParseUser.getCurrentUser().getJSONArray("Interests");
-            for (int i=0;i<tagg.length();i++) {
+            for (int i = 0;i<tagg.length();i++) {
                 try {
                     tags.add(tagg.getString(i));
                 } catch (JSONException e) {
@@ -148,6 +151,9 @@ public class HomeFragment extends Fragment {
                 FilterFragment filterFragment = new FilterFragment();
                 Bundle bundle = new Bundle();
                 bundle.putString("sort_metric",currentlySelected);
+                bundle.putString("max_distance", String.valueOf(max_distance));
+                bundle.putString("max_price", String.valueOf(max_distance));
+                bundle.putStringArrayList("tags", (ArrayList<String>) tags);
                 filterFragment.setArguments(bundle);
                 fragmentManager.beginTransaction().replace(R.id.flContainer, filterFragment).commit();
             }
@@ -155,7 +161,6 @@ public class HomeFragment extends Fragment {
         fusedLocationProviderClient = new FusedLocationProviderClient(getContext());
         getLocationPermission();
         getDeviceLocation();
-        currentlySelected = "distance";
         pbLoading = view.findViewById(R.id.pbLoading);
         fabDate = view.findViewById(R.id.extFabDate);
         fabDate.setOnClickListener(new View.OnClickListener() {
@@ -208,6 +213,18 @@ public class HomeFragment extends Fragment {
                 }
             }
         });
+        if (currentlySelected.equals("date")) {
+            fabDate.setBackgroundColor(Color.parseColor("#39b894"));
+            fabDate.setTextColor(Color.parseColor("#FFFFFF"));
+        }
+        if (currentlySelected.equals("distance")) {
+            fabDistance.setBackgroundColor(Color.parseColor("#39b894"));
+            fabDistance.setTextColor(Color.parseColor("#FFFFFF"));
+        }
+        if (currentlySelected.equals("price")) {
+            fabPrice.setBackgroundColor(Color.parseColor("#39b894"));
+            fabPrice.setTextColor(Color.parseColor("#FFFFFF"));
+        }
         ivProfile = view.findViewById(R.id.ivProfile);
         rvEvents = view.findViewById(R.id.rvEvents);
         fabCreate = view.findViewById(R.id.fabCreate);
@@ -329,7 +346,8 @@ public class HomeFragment extends Fragment {
         filter();
         eventAdapter.addAll(results);
         eventAdapter.notifyDataSetChanged();
-        pbLoading.setVisibility(View.INVISIBLE); }
+        pbLoading.setVisibility(View.INVISIBLE);
+    }
 
     private void queryCheaperEvents() {
         eventAdapter.clear();
@@ -338,7 +356,8 @@ public class HomeFragment extends Fragment {
         filter();
         eventAdapter.addAll(results);
         eventAdapter.notifyDataSetChanged();
-        pbLoading.setVisibility(View.INVISIBLE); }
+        pbLoading.setVisibility(View.INVISIBLE);
+    }
 
     private void queryEventsDate() {
         eventAdapter.clear();
@@ -347,7 +366,8 @@ public class HomeFragment extends Fragment {
         filter();
         eventAdapter.addAll(results);
         eventAdapter.notifyDataSetChanged();
-        pbLoading.setVisibility(View.INVISIBLE); }
+        pbLoading.setVisibility(View.INVISIBLE);
+    }
 
     private void filter () {
         if (filtertags) {

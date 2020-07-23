@@ -25,6 +25,7 @@ public class Event extends ParseObject {
     public static final String KEY_TAG= "Tag";
     public static final String KEY_PRICE="Price";
     public String Address;
+    //Set address with reverse geocoding - make another request using async client
     public double distance;
 
     public double getDistance() {
@@ -34,9 +35,6 @@ public class Event extends ParseObject {
     public void setDistance(double distance) {
         this.distance = distance;
     }
-
-
-    //Set address with reverse geocoding - make another request using async client
 
     public Event() {
     }

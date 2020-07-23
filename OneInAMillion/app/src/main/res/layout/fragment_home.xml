@@ -39,9 +39,9 @@
         android:layout_marginEnd="191dp"
         android:gravity="center"
         android:text="Distance"
-        android:textColor="#FFFFFF"
+        android:textColor="#000000"
         android:textSize="12sp"
-        app:backgroundTint="@color/colorAccent"
+        app:backgroundTint="#FFFFFF"
         app:iconSize="0dp" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
