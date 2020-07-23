@@ -84,7 +84,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnTouchListener, GestureDetector.OnGestureListener, GestureDetector.OnDoubleTapListener {
         TextView tvDateTime;
-        TextView tvLocation;
+        TextView tvPrice;
         TextView tvEventName;
         ImageView ivEventImage;
         private GestureDetector mGestureDetector;
@@ -92,7 +92,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvDateTime = itemView.findViewById(R.id.tvDateTime);
-            tvLocation = itemView.findViewById(R.id.tvLocation);
+            tvPrice = itemView.findViewById(R.id.tvPrice);
             tvEventName = itemView.findViewById(R.id.tvEventName);
             ivEventImage = itemView.findViewById(R.id.ivEventImage);
             ivEventImage.setOnTouchListener(this);
@@ -100,29 +100,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         }
 
         public void bind(Event event) throws ParseException {
-            AsyncHttpClient client = new AsyncHttpClient();
-            client.get("https://maps.googleapis.com/maps/api/geocode/json?latlng="+
-                    String.valueOf(event.getLocation().getLatitude())+","+String.valueOf(event.getLocation().getLongitude())+
-                    "&key=AIzaSyAHhqNOmXH6jPO42U89s12nJNAQucTvw40", new JsonHttpResponseHandler() {
-                @Override
-                public void onSuccess(int statusCode, Headers headers, JSON json) {
-                    Log.i(TAG, "onSuccess");
-                    JSONObject jsonObject = json.jsonObject;
-                    try {
-                        String address = jsonObject.getJSONArray("results").getJSONObject(0).getString("formatted_address");
-                        Log.i(TAG, "Results: "+address);
-                        tvLocation.setText(address);
-                    }
-                    catch (JSONException e) {
-                        Log.e(TAG, "Hit JSON exception",e);
-                        e.printStackTrace();
-                    }
-                }
-                @Override
-                public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                    Log.i(TAG, "Failed");
-                }
-            });
+            tvPrice.setText("$"+String.valueOf(event.getPrice()));
             tvEventName.setText(event.getEventName());
             long now = System.currentTimeMillis();
             Date firstDate = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH).parse(event.getDate());

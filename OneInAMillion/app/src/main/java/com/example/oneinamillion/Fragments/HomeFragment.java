@@ -268,6 +268,7 @@ public class HomeFragment extends Fragment {
             Log.e("Exception: %s", e.getMessage(), e);
         }
     }
+
     //Prompts the user for permission to use the device location.
     private void getLocationPermission() {
         if (ContextCompat.checkSelfPermission(getContext(),
@@ -283,6 +284,7 @@ public class HomeFragment extends Fragment {
 
     private void InitialQuery() {
         eventAdapter.clear();
+        results.clear();
         ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
         query.include(Event.KEY_ORGANIZER);
         query.setLimit(20);
@@ -338,7 +340,6 @@ public class HomeFragment extends Fragment {
         eventAdapter.notifyDataSetChanged();
         pbLoading.setVisibility(View.INVISIBLE); }
 
-
     private void queryEventsDate() {
         eventAdapter.clear();
         MergeSortDate m = new MergeSortDate();
@@ -349,9 +350,8 @@ public class HomeFragment extends Fragment {
         pbLoading.setVisibility(View.INVISIBLE); }
 
     private void filter () {
-        Log.i(TAG,"nice");
         if (filtertags) {
-            Log.i(TAG,ParseUser.getCurrentUser().getJSONArray("Interests").toString());
+            Log.i(TAG,"filtering interests");
             List<Event> filtered = filterEventsInterests(results);
             results = filtered;
         }
@@ -381,13 +381,13 @@ public class HomeFragment extends Fragment {
     private List<Event> filterPriceEvents (List<Event> events) {
         List<Event> priceEvents = new ArrayList<>();
         for (Event event: events) {
-            Log.i(TAG,String.valueOf(event.getPrice()));
             if (Double.valueOf(event.getPrice())<max_price) {
                 priceEvents.add(event);
             }
         }
         return priceEvents;
     }
+
     private List<Event> filterEventsInterests(List<Event> events) {
         List<Event> interestingEvents = new ArrayList<>();
         for (Event event: events) {

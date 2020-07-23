@@ -262,7 +262,5 @@ public class InterestActivity extends AppCompatActivity {
                 });
             }
         });
-
-
     }
 }

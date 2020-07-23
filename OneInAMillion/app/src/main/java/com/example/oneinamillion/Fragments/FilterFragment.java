@@ -81,7 +81,7 @@ public class FilterFragment extends Fragment {
         fabCrafts = view.findViewById(R.id.extFabCrafts);
         fabAthons = view.findViewById(R.id.extFabAthons);
         JSONArray interests_fromUser = ParseUser.getCurrentUser().getJSONArray("Interests");
-        for (int i=0;i<interests_fromUser.length();i++) {
+        for (int i = 0; i < interests_fromUser.length(); i++) {
             try {
                 interests.add(interests_fromUser.getString(i));
             } catch (JSONException e) {
@@ -152,12 +152,10 @@ public class FilterFragment extends Fragment {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
             }
         });
         sbDistance.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {

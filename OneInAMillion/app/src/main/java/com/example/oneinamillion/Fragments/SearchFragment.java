@@ -201,16 +201,6 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
         getDeviceLocation();
     }
 
-    private Event getEvent(String objectID) {
-        Event dummy = new Event();
-        for (Event event : results) {
-            if (event.getObjectId().equals(objectID)) {
-                return event;
-            }
-        }
-        return dummy;
-    }
-
     //Gets the current location of the device, and positions the map's camera.
     private void getDeviceLocation() {
         /*
@@ -301,6 +291,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
             Log.e("Exception: %s", e.getMessage());
         }
     }
+
     private void filterEvents(String query) {
         results.clear();
         String[] querywords = query.split(" ");
@@ -322,8 +313,8 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
                     }
                     map.clear();
                     for (Event event: results) {
-                        Double lat = event.getLocation().getLatitude();
-                        Double longitude = event.getLocation().getLongitude();
+                        double lat = event.getLocation().getLatitude();
+                        double longitude = event.getLocation().getLongitude();
                         Marker marker = map.addMarker(new MarkerOptions().
                                 position(new LatLng(lat, longitude)).snippet(event.getDescription()+". Click to see details!")
                                 .title(event.getEventName()));
