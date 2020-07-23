@@ -3,4 +3,13 @@
     <color name="colorPrimary">#39b894</color>
     <color name="colorPrimaryDark">#39b894</color>
     <color name="colorAccent">#39b894</color>
+    <color name="colorSportButton">#F44336</color>
+    <color name="colorAuctionsButton">#FF9800</color>
+    <color name="colorMusicButton">#009688</color>
+    <color name="colorRaffleButton">#9C27B0</color>
+    <color name="colorCookButton">#3F51B5</color>
+    <color name="colorGalaButton">#00BCD4</color>
+    <color name="colorThonButton">#39b894</color>
+    <color name="colorCraftButton">#E91E63</color>
+
 </resources>

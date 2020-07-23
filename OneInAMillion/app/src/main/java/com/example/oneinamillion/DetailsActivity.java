@@ -40,7 +40,7 @@ public class DetailsActivity extends AppCompatActivity {
         tvDescription = findViewById(R.id.tvEventDescription);
         tvDateTime = findViewById(R.id.tvDateTime);
         JSONArray attendees = event.getAttendees();
-        for(int i = 0; i<attendees.length();i++ ){
+        for(int i = 0; i < attendees.length(); i++){
             try {
                 String userID = attendees.getString(i);
                 if (userID.equals(ParseUser.getCurrentUser().getObjectId())) {

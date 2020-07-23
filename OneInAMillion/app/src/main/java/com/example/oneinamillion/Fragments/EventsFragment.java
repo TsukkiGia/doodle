@@ -33,7 +33,6 @@ import java.util.List;
 
 //<a href="https://iconscout.com/icons/dropdown" target="_blank">Dropdown Icon</a> by <a href="https://iconscout.com/contributors/google-inc" target="_blank">Google Inc.</a>
 public class EventsFragment extends Fragment {
-
     RecyclerView rvCreated;
     RecyclerView rvUpcoming;
     TextView tvMyUpcomingEvents;
@@ -147,7 +146,7 @@ public class EventsFragment extends Fragment {
                         organizedEvents.add(event);
                     }
                     JSONArray attendees = event.getAttendees();
-                    for (int i = 0; i<attendees.length();i++ ){
+                    for (int i = 0; i < attendees.length(); i++){
                         String userID;
                         try {
                             userID = attendees.getString(i);

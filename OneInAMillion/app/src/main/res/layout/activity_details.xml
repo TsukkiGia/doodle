@@ -7,104 +7,155 @@
     android:layout_height="match_parent"
     tools:context=".DetailsActivity">
 
-    <ImageView
-        android:id="@+id/ivEventImage"
-        android:transitionName="image"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="142dp"
-        android:scaleType="centerCrop"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="-1dp"
-        tools:srcCompat="@tools:sample/backgrounds/scenic" />
+        android:layout_height="1068dp">
 
-    <TextView
-        android:id="@+id/tvDateTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ivEventImage"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"
-        android:textColor="#1D8165"
-        android:textStyle="bold"
-        android:transitionName="date"
-        tools:text="10/30/20" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tvEventName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvDateTime"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="5dp"
-        android:textColor="#000000"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:transitionName="name"
-        tools:text="Light of the World | See the Sites" />
+            <ImageView
+                android:id="@+id/ivEventImage"
+                android:layout_width="match_parent"
+                android:layout_height="142dp"
+                android:scaleType="centerCrop"
+                android:transitionName="image"
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="-1dp"
+                tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
-    <TextView
-        android:id="@+id/tvDetailsHeader"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvLocation"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="20dp"
-        android:text="Details"
-        android:textColor="#000000"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+            <TextView
+                android:id="@+id/tvDateTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ivEventImage"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:textColor="#1D8165"
+                android:textStyle="bold"
+                android:transitionName="date"
+                tools:text="10/30/20" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnRSVP"
-        android:layout_width="381dp"
-        android:layout_height="50dp"
-        android:layout_below="@+id/tvEventName"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="13dp"
-        android:layout_marginTop="20dp"
-        android:backgroundTint="@color/colorAccent"
-        android:gravity="center"
-        android:text="RSVP"
-        android:textColor="#FFFFFF"
-        android:textStyle="bold"
-        app:icon="@drawable/icons_plus"
-        app:iconGravity="textStart"
-        app:iconSize="20dp" />
+            <TextView
+                android:id="@+id/tvEventName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvDateTime"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="5dp"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:transitionName="name"
+                tools:text="Light of the World | See the Sites" />
 
-    <TextView
-        android:id="@+id/tvEventDescription"
-        android:layout_width="381dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvDetailsHeader"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="11dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="11dp"
-        android:justificationMode="inter_word"
-        tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." />
+            <TextView
+                android:id="@+id/tvDetailsHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvLocation"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="20dp"
+                android:text="Details"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
-    <ImageView
-        android:id="@+id/ivLocation"
-        android:layout_width="18dp"
-        android:layout_height="18dp"
-        android:layout_below="@+id/btnRSVP"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="19dp"
-        android:backgroundTint="@color/colorAccent"
-        app:srcCompat="@drawable/ic_vector_location" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnRSVP"
+                android:layout_width="381dp"
+                android:layout_height="50dp"
+                android:layout_below="@+id/tvEventName"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="13dp"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="@color/colorAccent"
+                android:gravity="center"
+                android:text="RSVP"
+                android:textColor="#FFFFFF"
+                android:textStyle="bold"
+                app:icon="@drawable/icons_plus"
+                app:iconGravity="textStart"
+                app:iconSize="20dp" />
 
-    <TextView
-        android:id="@+id/tvLocation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/ivLocation"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="-1dp"
-        android:layout_toEndOf="@+id/ivLocation"
-        android:text="Boston Museum" />
+            <TextView
+                android:id="@+id/tvEventDescription"
+                android:layout_width="381dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvDetailsHeader"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="11dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="11dp"
+                android:justificationMode="inter_word"
+                tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." />
+
+            <ImageView
+                android:id="@+id/ivLocation"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_below="@+id/btnRSVP"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="19dp"
+                android:backgroundTint="@color/colorAccent"
+                app:srcCompat="@drawable/ic_vector_location" />
+
+            <TextView
+                android:id="@+id/tvLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/ivLocation"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="-1dp"
+                android:layout_toEndOf="@+id/ivLocation"
+                android:text="Boston Museum" />
+
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/extFabDetails"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvEventDescription"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:text="Post Details"
+                android:textColor="#000000"
+                android:textSize="12sp"
+                app:backgroundTint="#FFFFFF"
+                app:iconSize="0dp" />
+
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/extFabPosts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvEventDescription"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="40dp"
+                android:gravity="center"
+                android:text="User Posts"
+                android:textColor="#000000"
+                android:textSize="12sp"
+                app:backgroundTint="#FFFFFF"
+                app:iconSize="0dp" />
+
+            <FrameLayout
+                android:id="@+id/flContainer"
+                android:layout_width="match_parent"
+                android:layout_height="490dp"
+                android:layout_below="@+id/extFabDetails"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="0dp"
+                android:background="#ffffff">
+
+            </FrameLayout>
+        </RelativeLayout>
+    </ScrollView>
 </RelativeLayout>

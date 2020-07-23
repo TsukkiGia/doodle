@@ -58,6 +58,14 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
     ExtendedFloatingActionButton fabGalas;
     ExtendedFloatingActionButton fabCrafts;
     ExtendedFloatingActionButton fabAthons;
+    String raffle_tag = "raffle";
+    String thon_tag= "thon";
+    String sport_tag = "sport";
+    String auctions_tag = "auction";
+    String cook_tag = "cook";
+    String concert_tag = "music";
+    String gala_tag = "gala";
+    String craft_tag = "craft";
     JSONArray interests = new JSONArray();
     double longitude = 0;
     double latitude = 0;
@@ -127,9 +135,9 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
             @Override
             public void onClick(View view) {
                 Boolean inside=false;
-                for (int i = 0; i <interests.length(); i++) {
+                for (int i = 0; i < interests.length(); i++) {
                     try {
-                        if (interests.get(i).equals("sport")){
+                        if (interests.get(i).equals(sport_tag)){
                             inside=true;
                             interests.remove(i);
                             fabSports.setTextColor(Color.BLACK);
@@ -141,9 +149,9 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
                     }
                 }
                 if (!inside) {
-                    interests.put("sport");
+                    interests.put(sport_tag);
                     fabSports.setTextColor(Color.WHITE);
-                    fabSports.setBackgroundColor(Color.parseColor("#F44336"));
+                    fabSports.setBackgroundColor(getColor(R.color.colorSportButton));
                 }
                 Log.i(TAG,interests.toString());
             }
@@ -154,7 +162,7 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
                 Boolean inside=false;
                 for (int i = 0; i <interests.length(); i++) {
                     try {
-                        if (interests.get(i).equals("music")){
+                        if (interests.get(i).equals(concert_tag)){
                             inside=true;
                             interests.remove(i);
                             fabConcerts.setTextColor(Color.BLACK);
@@ -166,9 +174,9 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
                     }
                 }
                 if (!inside) {
-                    interests.put("music");
+                    interests.put(concert_tag);
                     fabConcerts.setTextColor(Color.WHITE);
-                    fabConcerts.setBackgroundColor(Color.parseColor("#009688"));
+                    fabConcerts.setBackgroundColor(getColor(R.color.colorMusicButton));
                 }
                 Log.i(TAG,interests.toString());
             }
@@ -179,7 +187,7 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
                 Boolean inside=false;
                 for (int i = 0; i <interests.length(); i++) {
                     try {
-                        if (interests.get(i).equals("auction")){
+                        if (interests.get(i).equals(auctions_tag)){
                             inside=true;
                             interests.remove(i);
                             fabAuction.setTextColor(Color.BLACK);
@@ -191,9 +199,9 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
                     }
                 }
                 if (!inside) {
-                    interests.put("auction");
+                    interests.put(auctions_tag);
                     fabAuction.setTextColor(Color.WHITE);
-                    fabAuction.setBackgroundColor(Color.parseColor("#FF9800"));
+                    fabAuction.setBackgroundColor(getColor(R.color.colorAuctionsButton));
                 }
                 Log.i(TAG,interests.toString());
             }
@@ -204,7 +212,7 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
                 Boolean inside=false;
                 for (int i = 0; i <interests.length(); i++) {
                     try {
-                        if (interests.get(i).equals("raffle")){
+                        if (interests.get(i).equals(raffle_tag)){
                             inside=true;
                             interests.remove(i);
                             fabRaffle.setTextColor(Color.BLACK);
@@ -216,9 +224,9 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
                     }
                 }
                 if (!inside) {
-                    interests.put("raffle");
+                    interests.put(raffle_tag);
                     fabRaffle.setTextColor(Color.WHITE);
-                    fabRaffle.setBackgroundColor(Color.parseColor("#9C27B0"));
+                    fabRaffle.setBackgroundColor(getColor(R.color.colorRaffleButton));
                 }
                 Log.i(TAG,interests.toString());
             }
@@ -229,7 +237,7 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
                 Boolean inside=false;
                 for (int i = 0; i <interests.length(); i++) {
                     try {
-                        if (interests.get(i).equals("cook")){
+                        if (interests.get(i).equals(cook_tag)){
                             inside=true;
                             interests.remove(i);
                             fabExhibits.setTextColor(Color.BLACK);
@@ -241,9 +249,9 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
                     }
                 }
                 if (!inside) {
-                    interests.put("cook");
+                    interests.put(cook_tag);
                     fabExhibits.setTextColor(Color.WHITE);
-                    fabExhibits.setBackgroundColor(Color.parseColor("#3F51B5"));
+                    fabExhibits.setBackgroundColor(getColor(R.color.colorCookButton));
                 }
                 Log.i(TAG,interests.toString());
             }
@@ -254,7 +262,7 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
                 Boolean inside=false;
                 for (int i = 0; i <interests.length(); i++) {
                     try {
-                        if (interests.get(i).equals("gala")){
+                        if (interests.get(i).equals(gala_tag)){
                             inside=true;
                             interests.remove(i);
                             fabGalas.setTextColor(Color.BLACK);
@@ -266,9 +274,9 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
                     }
                 }
                 if (!inside) {
-                    interests.put("gala");
+                    interests.put(gala_tag);
                     fabGalas.setTextColor(Color.WHITE);
-                    fabGalas.setBackgroundColor(Color.parseColor("#00BCD4"));
+                    fabGalas.setBackgroundColor(getColor(R.color.colorGalaButton));
                 }
                 Log.i(TAG,interests.toString());
             }
@@ -279,7 +287,7 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
                 Boolean inside=false;
                 for (int i = 0; i <interests.length(); i++) {
                     try {
-                        if (interests.get(i).equals("craft")){
+                        if (interests.get(i).equals(craft_tag)){
                             inside=true;
                             interests.remove(i);
                             fabCrafts.setTextColor(Color.BLACK);
@@ -291,9 +299,9 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
                     }
                 }
                 if (!inside) {
-                    interests.put("craft");
+                    interests.put(craft_tag);
                     fabCrafts.setTextColor(Color.WHITE);
-                    fabCrafts.setBackgroundColor(Color.parseColor("#E91E63"));
+                    fabCrafts.setBackgroundColor(getColor(R.color.colorCraftButton));
                 }
                 Log.i(TAG,interests.toString());
             }
@@ -304,7 +312,7 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
                 Boolean inside=false;
                 for (int i = 0; i <interests.length(); i++) {
                     try {
-                        if (interests.get(i).equals("thon")){
+                        if (interests.get(i).equals(thon_tag)){
                             inside=true;
                             interests.remove(i);
                             fabAthons.setTextColor(Color.BLACK);
@@ -316,9 +324,9 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
                     }
                 }
                 if (!inside) {
-                    interests.put("thon");
+                    interests.put(thon_tag);
                     fabAthons.setTextColor(Color.WHITE);
-                    fabAthons.setBackgroundColor(Color.parseColor("#39b894"));
+                    fabAthons.setBackgroundColor(getColor(R.color.colorThonButton));
                 }
                 Log.i(TAG,interests.toString());
             }

@@ -42,20 +42,26 @@ public class FilterFragment extends Fragment {
     ExtendedFloatingActionButton fabCrafts;
     ExtendedFloatingActionButton fabAthons;
     TextView tvValuePrice;
+    String raffle_tag = "raffle";
+    String thon_tag= "thon";
+    String sport_tag = "sport";
+    String auctions_tag = "auction";
+    String cook_tag = "cook";
+    String concert_tag = "music";
+    String gala_tag = "gala";
+    String craft_tag = "craft";
     double max_distance=100;
     double max_price=100;
     TextView tvValueDistance;
     SeekBar sbDistance;
     SeekBar sbPrice;
     String sort_metric;
-
     List<String> interests = new ArrayList<>();
     public static final String TAG = "FilterFragment";
 
     public FilterFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -90,37 +96,37 @@ public class FilterFragment extends Fragment {
         fabAthons = view.findViewById(R.id.extFabAthons);
         Log.i(TAG,interests.toString());
         for (int i = 0; i <interests.size(); i++) {
-            if (interests.get(i).equals("sport")){
+            if (interests.get(i).equals(sport_tag)){
                 fabSports.setTextColor(Color.WHITE);
-                fabSports.setBackgroundColor(Color.parseColor("#F44336"));
+                fabSports.setBackgroundColor(getContext().getColor(R.color.colorSportButton));
             }
-            if (interests.get(i).equals("auction")){
+            if (interests.get(i).equals(auctions_tag)){
                 fabAuction.setTextColor(Color.WHITE);
-                fabAuction.setBackgroundColor(Color.parseColor("#FF9800"));
+                fabAuction.setBackgroundColor(getContext().getColor(R.color.colorAuctionsButton));
             }
-            if (interests.get(i).equals("music")){
+            if (interests.get(i).equals(concert_tag)){
                 fabConcerts.setTextColor(Color.WHITE);
-                fabConcerts.setBackgroundColor(Color.parseColor("#009688"));
+                fabConcerts.setBackgroundColor(getContext().getColor(R.color.colorMusicButton));
             }
-            if (interests.get(i).equals("gala")){
+            if (interests.get(i).equals(gala_tag)){
                 fabGalas.setTextColor(Color.WHITE);
-                fabGalas.setBackgroundColor(Color.parseColor("#00BCD4"));
+                fabGalas.setBackgroundColor(getContext().getColor(R.color.colorGalaButton));
             }
-            if (interests.get(i).equals("raffle")){
+            if (interests.get(i).equals(raffle_tag)){
                 fabRaffle.setTextColor(Color.WHITE);
-                fabRaffle.setBackgroundColor(Color.parseColor("#9C27B0"));
+                fabRaffle.setBackgroundColor(getContext().getColor(R.color.colorRaffleButton));
             }
-            if (interests.get(i).equals("cook")){
+            if (interests.get(i).equals(cook_tag)){
                 fabExhibits.setTextColor(Color.WHITE);
-                fabExhibits.setBackgroundColor(Color.parseColor("#3F51B5"));
+                fabExhibits.setBackgroundColor(getContext().getColor(R.color.colorCookButton));
             }
-            if (interests.get(i).equals("craft")){
+            if (interests.get(i).equals(craft_tag)){
                 fabCrafts.setTextColor(Color.WHITE);
-                fabCrafts.setBackgroundColor(Color.parseColor("#E91E63"));
+                fabCrafts.setBackgroundColor(getContext().getColor(R.color.colorCraftButton));
             }
-            if (interests.get(i).equals("thon")){
+            if (interests.get(i).equals(thon_tag)){
                 fabAthons.setTextColor(Color.WHITE);
-                fabAthons.setBackgroundColor(Color.parseColor("#39b894"));
+                fabAthons.setBackgroundColor(getContext().getColor(R.color.colorThonButton));
             }
         }
         ivBack = view.findViewById(R.id.ivBack);
@@ -181,7 +187,7 @@ public class FilterFragment extends Fragment {
             public void onClick(View view) {
                 Boolean inside=false;
                 for (int i = 0; i <interests.size(); i++) {
-                    if (interests.get(i).equals("sport")){
+                    if (interests.get(i).equals(sport_tag)){
                         inside=true;
                         interests.remove(i);
                         fabSports.setTextColor(Color.BLACK);
@@ -190,9 +196,9 @@ public class FilterFragment extends Fragment {
                     }
                 }
                 if (!inside) {
-                    interests.add("sport");
+                    interests.add(sport_tag);
                     fabSports.setTextColor(Color.WHITE);
-                    fabSports.setBackgroundColor(Color.parseColor("#F44336"));
+                    fabSports.setBackgroundColor(getContext().getColor(R.color.colorSportButton));
                 }
                 Log.i(TAG,interests.toString());
             }
@@ -202,18 +208,18 @@ public class FilterFragment extends Fragment {
             public void onClick(View view) {
                 Boolean inside=false;
                 for (int i = 0; i <interests.size(); i++) {
-                        if (interests.get(i).equals("music")){
-                            inside=true;
-                            interests.remove(i);
-                            fabConcerts.setTextColor(Color.BLACK);
-                            fabConcerts.setBackgroundColor(Color.WHITE);
-                            break;
-                        }
+                    if (interests.get(i).equals(concert_tag)){
+                        inside=true;
+                        interests.remove(i);
+                        fabConcerts.setTextColor(Color.BLACK);
+                        fabConcerts.setBackgroundColor(Color.WHITE);
+                        break;
+                    }
                 }
                 if (!inside) {
-                    interests.add("music");
+                    interests.add(concert_tag);
                     fabConcerts.setTextColor(Color.WHITE);
-                    fabConcerts.setBackgroundColor(Color.parseColor("#009688"));
+                    fabConcerts.setBackgroundColor(getContext().getColor(R.color.colorMusicButton));
                 }
                 Log.i(TAG,interests.toString());
             }
@@ -223,7 +229,7 @@ public class FilterFragment extends Fragment {
             public void onClick(View view) {
                 Boolean inside=false;
                 for (int i = 0; i <interests.size(); i++) {
-                    if (interests.get(i).equals("auction")){
+                    if (interests.get(i).equals(auctions_tag)){
                         inside=true;
                         interests.remove(i);
                         fabAuction.setTextColor(Color.BLACK);
@@ -232,9 +238,9 @@ public class FilterFragment extends Fragment {
                     }
                 }
                 if (!inside) {
-                    interests.add("auction");
+                    interests.add(auctions_tag);
                     fabAuction.setTextColor(Color.WHITE);
-                    fabAuction.setBackgroundColor(Color.parseColor("#FF9800"));
+                    fabAuction.setBackgroundColor(getContext().getColor(R.color.colorAuctionsButton));
                 }
                 Log.i(TAG,interests.toString());
             }
@@ -243,8 +249,8 @@ public class FilterFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Boolean inside=false;
-                for (int i = 0; i <interests.size(); i++) {
-                    if (interests.get(i).equals("raffle")){
+                for (int i = 0; i < interests.size(); i++) {
+                    if (interests.get(i).equals(raffle_tag)){
                         inside=true;
                         interests.remove(i);
                         fabRaffle.setTextColor(Color.BLACK);
@@ -253,9 +259,9 @@ public class FilterFragment extends Fragment {
                     }
                 }
                 if (!inside) {
-                    interests.add("raffle");
+                    interests.add(raffle_tag);
                     fabRaffle.setTextColor(Color.WHITE);
-                    fabRaffle.setBackgroundColor(Color.parseColor("#9C27B0"));
+                    fabRaffle.setBackgroundColor(getContext().getColor(R.color.colorRaffleButton));
                 }
                 Log.i(TAG,interests.toString());
             }
@@ -264,8 +270,8 @@ public class FilterFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Boolean inside=false;
-                for (int i = 0; i <interests.size(); i++) {
-                    if (interests.get(i).equals("cook")){
+                for (int i = 0; i < interests.size(); i++) {
+                    if (interests.get(i).equals(cook_tag)){
                         inside=true;
                         interests.remove(i);
                         fabExhibits.setTextColor(Color.BLACK);
@@ -274,9 +280,9 @@ public class FilterFragment extends Fragment {
                     }
                 }
                 if (!inside) {
-                    interests.add("cook");
+                    interests.add(cook_tag);
                     fabExhibits.setTextColor(Color.WHITE);
-                    fabExhibits.setBackgroundColor(Color.parseColor("#3F51B5"));
+                    fabExhibits.setBackgroundColor(getContext().getColor(R.color.colorCookButton));
                 }
                 Log.i(TAG,interests.toString());
             }
@@ -286,7 +292,7 @@ public class FilterFragment extends Fragment {
             public void onClick(View view) {
                 Boolean inside=false;
                 for (int i = 0; i <interests.size(); i++) {
-                    if (interests.get(i).equals("gala")){
+                    if (interests.get(i).equals(gala_tag)){
                         inside=true;
                         interests.remove(i);
                         fabGalas.setTextColor(Color.BLACK);
@@ -295,9 +301,9 @@ public class FilterFragment extends Fragment {
                     }
                 }
                 if (!inside) {
-                    interests.add("gala");
+                    interests.add(gala_tag);
                     fabGalas.setTextColor(Color.WHITE);
-                    fabGalas.setBackgroundColor(Color.parseColor("#00BCD4"));
+                    fabGalas.setBackgroundColor(getContext().getColor(R.color.colorGalaButton));
                 }
                 Log.i(TAG,interests.toString());
             }
@@ -307,7 +313,7 @@ public class FilterFragment extends Fragment {
             public void onClick(View view) {
                 Boolean inside=false;
                 for (int i = 0; i <interests.size(); i++) {
-                    if (interests.get(i).equals("craft")){
+                    if (interests.get(i).equals(craft_tag)){
                         inside=true;
                         interests.remove(i);
                         fabCrafts.setTextColor(Color.BLACK);
@@ -316,9 +322,9 @@ public class FilterFragment extends Fragment {
                     }
                 }
                 if (!inside) {
-                    interests.add("craft");
+                    interests.add(craft_tag);
                     fabCrafts.setTextColor(Color.WHITE);
-                    fabCrafts.setBackgroundColor(Color.parseColor("#E91E63"));
+                    fabCrafts.setBackgroundColor(getContext().getColor(R.color.colorCraftButton));
                 }
                 Log.i(TAG,interests.toString());
             }
@@ -328,7 +334,7 @@ public class FilterFragment extends Fragment {
             public void onClick(View view) {
                 Boolean inside=false;
                 for (int i = 0; i <interests.size(); i++) {
-                    if (interests.get(i).equals("thon")){
+                    if (interests.get(i).equals(thon_tag)){
                         inside=true;
                         interests.remove(i);
                         fabAthons.setTextColor(Color.BLACK);
@@ -337,9 +343,9 @@ public class FilterFragment extends Fragment {
                     }
                 }
                 if (!inside) {
-                    interests.add("thon");
+                    interests.add(thon_tag);
                     fabAthons.setTextColor(Color.WHITE);
-                    fabAthons.setBackgroundColor(Color.parseColor("#39b894"));
+                    fabAthons.setBackgroundColor(getContext().getColor(R.color.colorThonButton));
                 }
                 Log.i(TAG,interests.toString());
             }

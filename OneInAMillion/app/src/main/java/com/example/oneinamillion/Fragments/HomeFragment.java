@@ -74,7 +74,9 @@ public class HomeFragment extends Fragment {
     private SwipeRefreshLayout swipeContainer;
     ImageView ivProfile;
     ProgressBar pbLoading;
-    // The entry point to the Fused Location Provider.
+    String date_string = "date";
+    String distance_string = "distance";
+    String price_string = "price";
     private FusedLocationProviderClient fusedLocationProviderClient;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private boolean locationPermissionGranted;
@@ -104,7 +106,6 @@ public class HomeFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            //add comments explain
             if (!getArguments().getString("max_distance").equals(default_value)){
                 max_distance = Double.valueOf(getArguments().getString("max_distance"));
                 filterdistance=true;
@@ -166,14 +167,14 @@ public class HomeFragment extends Fragment {
         fabDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!currentlySelected.equals("date")) {
-                    currentlySelected="date";
-                    fabDate.setBackgroundColor(Color.parseColor("#39b894"));
-                    fabDate.setTextColor(Color.parseColor("#FFFFFF"));
-                    fabDistance.setBackgroundColor(Color.parseColor("#FFFFFF"));
-                    fabDistance.setTextColor(Color.parseColor("#000000"));
-                    fabPrice.setBackgroundColor(Color.parseColor("#FFFFFF"));
-                    fabPrice.setTextColor(Color.parseColor("#000000"));
+                if (!currentlySelected.equals(date_string)) {
+                    currentlySelected=date_string;
+                    fabDate.setBackgroundColor(getContext().getColor(R.color.colorAccent));
+                    fabDate.setTextColor(Color.WHITE);
+                    fabDistance.setBackgroundColor(Color.WHITE);
+                    fabDistance.setTextColor(Color.BLACK);
+                    fabPrice.setBackgroundColor(Color.WHITE);
+                    fabPrice.setTextColor(Color.BLACK);
                     pbLoading.setVisibility(View.VISIBLE);
                     queryEventsDate();
                 }
@@ -183,14 +184,14 @@ public class HomeFragment extends Fragment {
         fabDistance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!currentlySelected.equals("distance")) {
-                    currentlySelected="distance";
-                    fabDistance.setBackgroundColor(Color.parseColor("#39b894"));
-                    fabDistance.setTextColor(Color.parseColor("#FFFFFF"));
-                    fabDate.setBackgroundColor(Color.parseColor("#FFFFFF"));
-                    fabDate.setTextColor(Color.parseColor("#000000"));
-                    fabPrice.setBackgroundColor(Color.parseColor("#FFFFFF"));
-                    fabPrice.setTextColor(Color.parseColor("#000000"));
+                if (!currentlySelected.equals(distance_string)) {
+                    currentlySelected=distance_string;
+                    fabDistance.setBackgroundColor(getContext().getColor(R.color.colorAccent));
+                    fabDistance.setTextColor(Color.WHITE);
+                    fabDate.setBackgroundColor(Color.WHITE);
+                    fabDate.setTextColor(Color.BLACK);
+                    fabPrice.setBackgroundColor(Color.WHITE);
+                    fabPrice.setTextColor(Color.BLACK);
                     pbLoading.setVisibility(View.VISIBLE);
                     queryEventsNearby();
                 }
@@ -200,30 +201,30 @@ public class HomeFragment extends Fragment {
         fabPrice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!currentlySelected.equals("price")) {
-                    currentlySelected="price";
-                    fabPrice.setBackgroundColor(Color.parseColor("#39b894"));
-                    fabPrice.setTextColor(Color.parseColor("#FFFFFF"));
-                    fabDate.setBackgroundColor(Color.parseColor("#FFFFFF"));
-                    fabDate.setTextColor(Color.parseColor("#000000"));
-                    fabDistance.setBackgroundColor(Color.parseColor("#FFFFFF"));
-                    fabDistance.setTextColor(Color.parseColor("#000000"));
+                if (!currentlySelected.equals(price_string)) {
+                    currentlySelected=price_string;
+                    fabPrice.setBackgroundColor(getContext().getColor(R.color.colorAccent));
+                    fabPrice.setTextColor(Color.WHITE);
+                    fabDate.setBackgroundColor(Color.WHITE);
+                    fabDate.setTextColor(Color.BLACK);
+                    fabDistance.setBackgroundColor(Color.WHITE);
+                    fabDistance.setTextColor(Color.BLACK);
                     pbLoading.setVisibility(View.VISIBLE);
                     queryCheaperEvents();
                 }
             }
         });
-        if (currentlySelected.equals("date")) {
-            fabDate.setBackgroundColor(Color.parseColor("#39b894"));
-            fabDate.setTextColor(Color.parseColor("#FFFFFF"));
+        if (currentlySelected.equals(date_string)) {
+            fabDate.setBackgroundColor(getContext().getColor(R.color.colorAccent));
+            fabDate.setTextColor(Color.WHITE);
         }
-        if (currentlySelected.equals("distance")) {
-            fabDistance.setBackgroundColor(Color.parseColor("#39b894"));
-            fabDistance.setTextColor(Color.parseColor("#FFFFFF"));
+        if (currentlySelected.equals(distance_string)) {
+            fabDistance.setBackgroundColor(getContext().getColor(R.color.colorAccent));
+            fabDistance.setTextColor(Color.WHITE);
         }
-        if (currentlySelected.equals("price")) {
-            fabPrice.setBackgroundColor(Color.parseColor("#39b894"));
-            fabPrice.setTextColor(Color.parseColor("#FFFFFF"));
+        if (currentlySelected.equals(price_string)) {
+            fabPrice.setBackgroundColor(getContext().getColor(R.color.colorAccent));
+            fabPrice.setTextColor(Color.WHITE);
         }
         ivProfile = view.findViewById(R.id.ivProfile);
         rvEvents = view.findViewById(R.id.rvEvents);
@@ -254,7 +255,7 @@ public class HomeFragment extends Fragment {
             Glide.with(getContext()).load(ParseUser.getCurrentUser().getParseFile("ProfileImage").getUrl())
                     .circleCrop().into(ivProfile);
         } else {
-            ivProfile.setImageDrawable(getResources().getDrawable(R.drawable.instagram_user_filled_24));
+            ivProfile.setImageDrawable(getContext().getDrawable(R.drawable.instagram_user_filled_24));
         }
         InitialQuery();
     }
@@ -321,14 +322,16 @@ public class HomeFragment extends Fragment {
                     }
                     long dateInMillies = firstDate.getTime();
                     if (dateInMillies > now) {
-                        event.setDistance(event.getLocation().distanceInKilometersTo(new ParseGeoPoint(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude())));
+                        event.setDistance(event.getLocation()
+                                .distanceInKilometersTo(new ParseGeoPoint(lastKnownLocation.getLatitude(),
+                                        lastKnownLocation.getLongitude())));
                         results.add(event);
                     }
                 }
-                if (currentlySelected.equals("distance")) {
+                if (currentlySelected.equals(distance_string)) {
                     queryEventsNearby();
                 }
-                else if (currentlySelected.equals("date")) {
+                else if (currentlySelected.equals(date_string)) {
                     queryEventsDate();
                 }
                 else {

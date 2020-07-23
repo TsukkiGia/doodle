@@ -35,7 +35,6 @@ import static android.app.Activity.RESULT_OK;
 
 
 public class ProfileFragment extends Fragment {
-
     TextView tvName;
     TextView tvUsername;
     ImageView ivProfile;
