@@ -48,6 +48,9 @@ import com.parse.ParseGeoPoint;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -60,6 +63,7 @@ public class HomeFragment extends Fragment {
     RecyclerView rvEvents;
     EventAdapter eventAdapter;
     List<Event> events;
+    List<Event> results;
     ImageView ivMap;
     String currentlySelected;
     ExtendedFloatingActionButton fabDistance;
@@ -75,14 +79,15 @@ public class HomeFragment extends Fragment {
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private boolean locationPermissionGranted;
     private Location lastKnownLocation;
-    double max_distance;
-    double max_price;
-    Boolean filtertags;
-    Boolean filterdistance;
-    Boolean filterprice;
-    List<String> tags;
+    double max_distance=0;
+    double max_price=0;
+    Boolean filterdistance=false;
+    Boolean filterprice=false;
+    Boolean filtertags = false;
+    List<String> tags=new ArrayList<>();
     ImageView ivFilter;
     FragmentManager fragmentManager;
+    String sort_metric = "distance";
 
     public HomeFragment() {
         // Required empty public constructor
@@ -99,13 +104,37 @@ public class HomeFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            Log.i("testtt",getArguments().getString("params"));
+            if (!getArguments().getString("max_distance").equals("100")){
+                max_distance = Double.valueOf(getArguments().getString("max_distance"));
+                filterdistance=true;
+            }
+            if (!getArguments().getString("max_price").equals("100")){
+                max_price = Double.valueOf(getArguments().getString("max_price"));
+                filterprice=true;
+            }
+            tags=getArguments().getStringArrayList("tags");
+            filtertags=true;
         }
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Log.i(TAG,String.valueOf(max_distance));
+        Log.i(TAG,String.valueOf(max_price));
+        if (!filtertags) {
+            JSONArray tagg = ParseUser.getCurrentUser().getJSONArray("Interests");
+            for (int i=0;i<tagg.length();i++) {
+                try {
+                    tags.add(tagg.getString(i));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            };
+        }
+        Log.i(TAG,tags.toString());
+        filtertags=true;
+        results = new ArrayList<>();
         fragmentManager = getParentFragmentManager();
         ivMap = view.findViewById(R.id.ivMap);
         ivMap.setOnClickListener(new View.OnClickListener() {
@@ -121,7 +150,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 FilterFragment filterFragment = new FilterFragment();
                 Bundle bundle = new Bundle();
-                bundle.putString("sort",currentlySelected);
+                bundle.putString("sort_metric",currentlySelected);
                 filterFragment.setArguments(bundle);
                 fragmentManager.beginTransaction().replace(R.id.flContainer, filterFragment).commit();
             }
@@ -213,11 +242,19 @@ public class HomeFragment extends Fragment {
         } else {
             ivProfile.setImageDrawable(getResources().getDrawable(R.drawable.instagram_user_filled_24));
         }
-        queryEventsNearby();
+        InitialQuery();
     }
 
     private void refreshPage() {
-        queryEventsNearby();
+        if (currentlySelected.equals("distance")) {
+            queryEventsNearby();
+        }
+        else if (currentlySelected.equals("date")) {
+            queryEventsDate();
+        }
+        else {
+            queryCheaperEvents();
+        }
         swipeContainer.setRefreshing(false);
     }
 
@@ -280,44 +317,9 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    private void queryEventsDate() {
-        eventAdapter.clear();
-        final List<Event> eventsDate = new ArrayList<>();
-        ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
-        query.include(Event.KEY_ORGANIZER);
-        query.setLimit(20);
-        query.findInBackground(new FindCallback<Event>() {
-            @Override
-            public void done(List<Event> events, ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "problem!", e);
-                }
-                for (Event event: events) {
-                    long now = System.currentTimeMillis();
-                    Date firstDate = null;
-                    try {
-                        firstDate = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH).parse(event.getDate());
-                    } catch (java.text.ParseException ex) {
-                        ex.printStackTrace();
-                    }
-                    long dateInMillies = firstDate.getTime();
-                    if (dateInMillies>now) {
-                        eventsDate.add(event);
-                    }
-                }
-                MergeSortDate m = new MergeSortDate();
-                m.mergeSort(eventsDate);
-                eventAdapter.addAll(eventsDate);
-                eventAdapter.notifyDataSetChanged();
-                pbLoading.setVisibility(View.INVISIBLE);
-            }
-        });
-    }
-
-    private void queryEventsNearby() {
+    private void InitialQuery() {
         eventAdapter.clear();
         ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
-        final List<Event> eventsWithDistances = new ArrayList<>();
         query.include(Event.KEY_ORGANIZER);
         query.setLimit(20);
         query.findInBackground(new FindCallback<Event>() {
@@ -337,55 +339,65 @@ public class HomeFragment extends Fragment {
                     long dateInMillies = firstDate.getTime();
                     if (dateInMillies > now) {
                         event.setDistance(event.getLocation().distanceInKilometersTo(new ParseGeoPoint(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude())));
-                        eventsWithDistances.add(event);
+                        results.add(event);
                     }
                 }
-
-                MergeSortDistance m = new MergeSortDistance();
-                m.mergeSort(eventsWithDistances);
-                eventAdapter.addAll(eventsWithDistances);
-                eventAdapter.notifyDataSetChanged();
-                pbLoading.setVisibility(View.INVISIBLE);
+                if (currentlySelected.equals("distance")) {
+                    queryEventsNearby();
+                }
+                else if (currentlySelected.equals("date")) {
+                    queryEventsDate();
+                }
+                else {
+                    queryCheaperEvents();
+                }
             }
         });
     }
+
+    private void queryEventsNearby() {
+        eventAdapter.clear();
+        MergeSortDistance m = new MergeSortDistance();
+        m.mergeSort(results);
+        filter();
+        eventAdapter.addAll(results);
+        eventAdapter.notifyDataSetChanged();
+        pbLoading.setVisibility(View.INVISIBLE); }
 
     private void queryCheaperEvents() {
         eventAdapter.clear();
-        final List<Event> cheaperEvents = new ArrayList<>();
-        ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
-        query.include(Event.KEY_ORGANIZER);
-        query.setLimit(20);
-        query.findInBackground(new FindCallback<Event>() {
-            @Override
-            public void done(List<Event> events, ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "problem!", e);
-                }
-                for (Event event: events) {
-                    long now = System.currentTimeMillis();
-                    Date firstDate = null;
-                    try {
-                        firstDate = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH).parse(event.getDate());
-                    } catch (java.text.ParseException ex) {
-                        ex.printStackTrace();
-                    }
-                    long dateInMillies = firstDate.getTime();
-                    if (dateInMillies>now) {
-                        cheaperEvents.add(event);
-                    }
-                }
-                MergeSortPrice m = new MergeSortPrice();
-                m.mergeSort(cheaperEvents);
-                eventAdapter.addAll(cheaperEvents);
-                eventAdapter.notifyDataSetChanged();
-                pbLoading.setVisibility(View.INVISIBLE);
-            }
-        });
-    }
+        MergeSortPrice m = new MergeSortPrice();
+        m.mergeSort(results);
+        filter();
+        eventAdapter.addAll(results);
+        eventAdapter.notifyDataSetChanged();
+        pbLoading.setVisibility(View.INVISIBLE); }
 
-    private List<Event> filter (List<Event> events) {
-        return events;
+
+    private void queryEventsDate() {
+        eventAdapter.clear();
+        MergeSortDate m = new MergeSortDate();
+        m.mergeSort(results);
+        filter();
+        eventAdapter.addAll(results);
+        eventAdapter.notifyDataSetChanged();
+        pbLoading.setVisibility(View.INVISIBLE); }
+
+    private void filter () {
+        Log.i(TAG,"nice");
+        if (filtertags) {
+            Log.i(TAG,"filtering tags");
+        }
+        if (filterprice) {
+            Log.i(TAG,"filtering price");
+            List<Event> filtered = filterPriceEvents(results);
+            results = filtered;
+        }
+        if(filterdistance) {
+            Log.i(TAG,"filtering distance");
+            List<Event> filtered = filterCloseEvents(results);
+            results = filtered;
+        }
     }
 
     private List<Event> filterCloseEvents (List<Event> events) {
@@ -402,6 +414,7 @@ public class HomeFragment extends Fragment {
     private List<Event> filterPriceEvents (List<Event> events) {
         List<Event> priceEvents = new ArrayList<>();
         for (Event event: events) {
+            Log.i(TAG,String.valueOf(event.getPrice()));
             if (Double.valueOf(event.getPrice())<max_price) {
                 priceEvents.add(event);
             }
