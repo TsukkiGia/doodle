@@ -25,10 +25,7 @@ import android.widget.ProgressBar;
 
 import com.bumptech.glide.Glide;
 import com.example.oneinamillion.AddEventActivity;
-import com.example.oneinamillion.EventMapActivity;
 import com.example.oneinamillion.HomeMapActivity;
-import com.example.oneinamillion.InterestActivity;
-import com.example.oneinamillion.InterestActivityMotion;
 import com.example.oneinamillion.Models.Event;
 import com.example.oneinamillion.Models.MergeSortDate;
 import com.example.oneinamillion.Models.MergeSortDistance;
@@ -37,8 +34,6 @@ import com.example.oneinamillion.R;
 import com.example.oneinamillion.adapters.EventAdapter;
 import com.facebook.AccessToken;
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
@@ -58,8 +53,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-//https://icons8.com
-//<a target="_blank" href="https://icons8.com/icons/set/filter">Filter icon</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
 
 public class HomeFragment extends Fragment {
     RecyclerView rvEvents;
@@ -110,15 +103,15 @@ public class HomeFragment extends Fragment {
         if (getArguments() != null) {
             if (!getArguments().getString("max_distance").equals(default_value)){
                 max_distance = Double.valueOf(getArguments().getString("max_distance"));
-                filterdistance=true;
+                filterdistance = true;
             }
             if (!getArguments().getString("max_price").equals(default_value)){
                 max_price = Double.valueOf(getArguments().getString("max_price"));
-                filterprice=true;
+                filterprice = true;
             }
-            tags=getArguments().getStringArrayList("tags");
-            filtertags=true;
-            currentlySelected=getArguments().getString("sort_metric");
+            tags = getArguments().getStringArrayList("tags");
+            filtertags = true;
+            currentlySelected = getArguments().getString("sort_metric");
             Log.i(TAG,currentlySelected);
         }
     }
@@ -128,7 +121,7 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         if (!filtertags) {
             JSONArray tagg = ParseUser.getCurrentUser().getJSONArray("Interests");
-            for (int i = 0;i<tagg.length();i++) {
+            for (int i = 0; i < tagg.length(); i++) {
                 try {
                     tags.add(tagg.getString(i));
                 } catch (JSONException e) {
@@ -136,7 +129,7 @@ public class HomeFragment extends Fragment {
                 }
             };
         }
-        filtertags=true;
+        filtertags = true;
         results = new ArrayList<>();
         fragmentManager = getParentFragmentManager();
         ivMap = view.findViewById(R.id.ivMap);
@@ -319,7 +312,8 @@ public class HomeFragment extends Fragment {
                     long now = System.currentTimeMillis();
                     Date datetime = null;
                     try {
-                        datetime = new SimpleDateFormat("MM/dd/yyyy HH:mm", Locale.ENGLISH).parse(event.getDate()+" "+event.getTime());
+                        datetime = new SimpleDateFormat("MM/dd/yyyy HH:mm", Locale.ENGLISH)
+                                .parse(event.getDate()+" "+event.getTime());
                     } catch (java.text.ParseException ex) {
                         ex.printStackTrace();
                     }
@@ -407,7 +401,7 @@ public class HomeFragment extends Fragment {
     private List<Event> filterPriceEvents (List<Event> events) {
         List<Event> priceEvents = new ArrayList<>();
         for (Event event: events) {
-            if (Double.valueOf(event.getPrice())<max_price) {
+            if (event.getPrice() < max_price) {
                 priceEvents.add(event);
             }
         }

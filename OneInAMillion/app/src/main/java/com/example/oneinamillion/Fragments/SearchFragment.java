@@ -152,7 +152,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
                     if (event.getObjectId().equals(marker.getTag().toString())) {
                         AsyncHttpClient client = new AsyncHttpClient();
                         client.get("https://maps.googleapis.com/maps/api/geocode/json?latlng="+
-                                String.valueOf(event.getLocation().getLatitude())+","+String.valueOf(event.getLocation().getLongitude())+
+                                event.getLocation().getLatitude()+","+event.getLocation().getLongitude()+
                                 "&key="+getString(R.string.api_key), new JsonHttpResponseHandler() {
                             @Override
                             public void onSuccess(int statusCode, Headers headers, JSON json) {
@@ -297,7 +297,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
         results.clear();
         String[] querywords = query.split(" ");
         List<String> keywords = Arrays.asList(querywords);
-        for (int i = 0; i<keywords.size(); i++) {
+        for (int i = 0; i < keywords.size(); i++) {
             String keyword = keywords.get(i);
             ParseQuery<Event> parseQuery = ParseQuery.getQuery(Event.class);
             parseQuery.include(Event.KEY_ORGANIZER);

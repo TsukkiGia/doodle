@@ -22,6 +22,7 @@ import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.oneinamillion.DetailsActivity;
 import com.example.oneinamillion.Models.Event;
 import com.example.oneinamillion.R;
+import com.google.android.material.snackbar.Snackbar;
 import com.parse.ParseUser;
 
 import org.json.JSONArray;
@@ -97,13 +98,12 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         }
 
         public void bind(Event event) throws ParseException {
-            tvPrice.setText("$"+String.valueOf(event.getPrice()));
+            tvPrice.setText("$"+ event.getPrice());
             tvEventName.setText(event.getEventName());
             long now = System.currentTimeMillis();
-            Date firstDate = new SimpleDateFormat("MM/dd/yyyy HH:mm", Locale.ENGLISH).parse(event.getDate()+" "+event.getTime());
-            Log.i(TAG,event.getEventName()+" "+String.valueOf(firstDate.getTime())+" "+firstDate.toString());
-            long diffInMillies = firstDate.getTime();
-            tvDateTime.setText(DateUtils.getRelativeTimeSpanString(diffInMillies, now, 0L, DateUtils.FORMAT_ABBREV_ALL));
+            Date DateTime = new SimpleDateFormat("MM/dd/yyyy HH:mm", Locale.ENGLISH).parse(event.getDate()+" "+event.getTime());
+            long DateTimeInMillies = DateTime.getTime();
+            tvDateTime.setText(DateUtils.getRelativeTimeSpanString(DateTimeInMillies, now, 0L, DateUtils.FORMAT_ABBREV_ALL));
             if (event.getImage() != null) {
                 Glide.with(context).load(event.getImage().getUrl()).into(ivEventImage);
             }
@@ -148,7 +148,8 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
             int position = getAdapterPosition();
             final Event event = events.get(position);
             JSONArray attendees = event.getAttendees();
-            for(int i = 0; i<attendees.length();i++ ){
+
+            for(int i = 0; i < attendees.length(); i++){
                 try {
                     String userID = attendees.getString(i);
                     if (userID.equals(ParseUser.getCurrentUser().getObjectId())) {
@@ -160,7 +161,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
                 }
             }
             if (amIattending) {
-                for(int i = 0; i<attendees.length();i++ ){
+                for (int i = 0; i<attendees.length();i++ ){
                     try {
                         String userID = attendees.getString(i);
                         if (userID.equals(ParseUser.getCurrentUser().getObjectId())) {
@@ -171,12 +172,26 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
                         e.printStackTrace();
                     }
                 }
-                Toast.makeText(context,"You have successfully unRSVPed!",Toast.LENGTH_SHORT).show();
+                View.OnClickListener onClickListener = new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                    }
+                };
+                Snackbar.make(itemView,"You have successfully unRSVPed!", Snackbar.LENGTH_SHORT)
+                        .setAction(context.getString(R.string.snackbar_dismiss),onClickListener).show();
                 event.setAttendees(attendees);
                 event.saveInBackground();
             }
             else {
-                Toast.makeText(context,"You have successfully RSVPed!",Toast.LENGTH_SHORT).show();
+                View.OnClickListener onClickListener = new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                    }
+                };
+                Snackbar.make(itemView,"You have successfully RSVPed!", Snackbar.LENGTH_SHORT)
+                        .setAction(context.getString(R.string.snackbar_dismiss),onClickListener).show();
                 attendees.put(ParseUser.getCurrentUser().getObjectId());
                 event.setAttendees(attendees);
                 event.saveInBackground();

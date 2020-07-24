@@ -31,7 +31,6 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.List;
 
-//<a href="https://iconscout.com/icons/dropdown" target="_blank">Dropdown Icon</a> by <a href="https://iconscout.com/contributors/google-inc" target="_blank">Google Inc.</a>
 public class EventsFragment extends Fragment {
     RecyclerView rvCreated;
     RecyclerView rvUpcoming;

@@ -57,11 +57,11 @@ public class InterestActivity extends AppCompatActivity {
         fabSports.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Boolean inside=false;
-                for (int i = 0; i <interests.length(); i++) {
+                Boolean inside = false;
+                for (int i = 0; i < interests.length(); i++) {
                     try {
                         if (interests.get(i).equals(sport_tag)){
-                            inside=true;
+                            inside = true;
                             interests.remove(i);
                             fabSports.setTextColor(Color.BLACK);
                             fabSports.setBackgroundColor(Color.WHITE);
@@ -82,11 +82,11 @@ public class InterestActivity extends AppCompatActivity {
         fabConcerts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Boolean inside=false;
-                for (int i = 0; i <interests.length(); i++) {
+                Boolean inside = false;
+                for (int i = 0; i < interests.length(); i++) {
                     try {
                         if (interests.get(i).equals(concert_tag)){
-                            inside=true;
+                            inside = true;
                             interests.remove(i);
                             fabConcerts.setTextColor(Color.BLACK);
                             fabConcerts.setBackgroundColor(Color.WHITE);
@@ -107,11 +107,11 @@ public class InterestActivity extends AppCompatActivity {
         fabAuction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Boolean inside=false;
-                for (int i = 0; i <interests.length(); i++) {
+                Boolean inside = false;
+                for (int i = 0; i < interests.length(); i++) {
                     try {
                         if (interests.get(i).equals(auctions_tag)){
-                            inside=true;
+                            inside = true;
                             interests.remove(i);
                             fabAuction.setTextColor(Color.BLACK);
                             fabAuction.setBackgroundColor(Color.WHITE);
@@ -132,11 +132,11 @@ public class InterestActivity extends AppCompatActivity {
         fabRaffle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Boolean inside=false;
-                for (int i = 0; i <interests.length(); i++) {
+                Boolean inside = false;
+                for (int i = 0; i < interests.length(); i++) {
                     try {
                         if (interests.get(i).equals(raffle_tag)){
-                            inside=true;
+                            inside = true;
                             interests.remove(i);
                             fabRaffle.setTextColor(Color.BLACK);
                             fabRaffle.setBackgroundColor(Color.WHITE);
@@ -157,11 +157,11 @@ public class InterestActivity extends AppCompatActivity {
         fabExhibits.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Boolean inside=false;
-                for (int i = 0; i <interests.length(); i++) {
+                Boolean inside = false;
+                for (int i = 0; i < interests.length(); i++) {
                     try {
                         if (interests.get(i).equals(cook_tag)){
-                            inside=true;
+                            inside = true;
                             interests.remove(i);
                             fabExhibits.setTextColor(Color.BLACK);
                             fabExhibits.setBackgroundColor(Color.WHITE);
@@ -182,11 +182,11 @@ public class InterestActivity extends AppCompatActivity {
         fabGalas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Boolean inside=false;
-                for (int i = 0; i <interests.length(); i++) {
+                Boolean inside = false;
+                for (int i = 0; i < interests.length(); i++) {
                     try {
                         if (interests.get(i).equals(gala_tag)){
-                            inside=true;
+                            inside = true;
                             interests.remove(i);
                             fabGalas.setTextColor(Color.BLACK);
                             fabGalas.setBackgroundColor(Color.WHITE);
@@ -207,11 +207,11 @@ public class InterestActivity extends AppCompatActivity {
         fabCrafts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Boolean inside=false;
-                for (int i = 0; i <interests.length(); i++) {
+                Boolean inside = false;
+                for (int i = 0; i < interests.length(); i++) {
                     try {
                         if (interests.get(i).equals(craft_tag)){
-                            inside=true;
+                            inside = true;
                             interests.remove(i);
                             fabCrafts.setTextColor(Color.BLACK);
                             fabCrafts.setBackgroundColor(Color.WHITE);
@@ -232,11 +232,11 @@ public class InterestActivity extends AppCompatActivity {
         fabAthons.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Boolean inside=false;
+                Boolean inside = false;
                 for (int i = 0; i <interests.length(); i++) {
                     try {
                         if (interests.get(i).equals(thon_tag)){
-                            inside=true;
+                            inside = true;
                             interests.remove(i);
                             fabAthons.setTextColor(Color.BLACK);
                             fabAthons.setBackgroundColor(Color.WHITE);

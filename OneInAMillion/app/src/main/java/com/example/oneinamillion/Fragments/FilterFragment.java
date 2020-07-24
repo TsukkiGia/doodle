@@ -50,8 +50,8 @@ public class FilterFragment extends Fragment {
     String concert_tag = "music";
     String gala_tag = "gala";
     String craft_tag = "craft";
-    double max_distance=100;
-    double max_price=100;
+    double max_distance = 100;
+    double max_price = 100;
     TextView tvValueDistance;
     SeekBar sbDistance;
     SeekBar sbPrice;
@@ -66,13 +66,13 @@ public class FilterFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments()!=null){
+        if (getArguments() != null){
             Log.i(TAG, getArguments().toString());
-            sort_metric=getArguments().getString("sort_metric");
+            sort_metric = getArguments().getString("sort_metric");
             Log.i(TAG,sort_metric);
-            max_distance=Double.valueOf(getArguments().getString("max_distance"));
-            max_price=Double.valueOf(getArguments().getString("max_price"));
-            interests=getArguments().getStringArrayList("tags");
+            max_distance = Double.valueOf(getArguments().getString("max_distance"));
+            max_price = Double.valueOf(getArguments().getString("max_price"));
+            interests = getArguments().getStringArrayList("tags");
         }
     }
 
@@ -95,7 +95,7 @@ public class FilterFragment extends Fragment {
         fabCrafts = view.findViewById(R.id.extFabCrafts);
         fabAthons = view.findViewById(R.id.extFabAthons);
         Log.i(TAG,interests.toString());
-        for (int i = 0; i <interests.size(); i++) {
+        for (int i = 0; i < interests.size(); i++) {
             if (interests.get(i).equals(sport_tag)){
                 fabSports.setTextColor(Color.WHITE);
                 fabSports.setBackgroundColor(getContext().getColor(R.color.colorSportButton));
@@ -185,8 +185,8 @@ public class FilterFragment extends Fragment {
         fabSports.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Boolean inside=false;
-                for (int i = 0; i <interests.size(); i++) {
+                Boolean inside = false;
+                for (int i = 0; i < interests.size(); i++) {
                     if (interests.get(i).equals(sport_tag)){
                         inside=true;
                         interests.remove(i);
@@ -206,10 +206,10 @@ public class FilterFragment extends Fragment {
         fabConcerts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Boolean inside=false;
-                for (int i = 0; i <interests.size(); i++) {
+                Boolean inside = false;
+                for (int i = 0; i < interests.size(); i++) {
                     if (interests.get(i).equals(concert_tag)){
-                        inside=true;
+                        inside = true;
                         interests.remove(i);
                         fabConcerts.setTextColor(Color.BLACK);
                         fabConcerts.setBackgroundColor(Color.WHITE);
@@ -227,10 +227,10 @@ public class FilterFragment extends Fragment {
         fabAuction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Boolean inside=false;
-                for (int i = 0; i <interests.size(); i++) {
+                Boolean inside = false;
+                for (int i = 0; i < interests.size(); i++) {
                     if (interests.get(i).equals(auctions_tag)){
-                        inside=true;
+                        inside = true;
                         interests.remove(i);
                         fabAuction.setTextColor(Color.BLACK);
                         fabAuction.setBackgroundColor(Color.WHITE);
@@ -248,7 +248,7 @@ public class FilterFragment extends Fragment {
         fabRaffle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Boolean inside=false;
+                Boolean inside = false;
                 for (int i = 0; i < interests.size(); i++) {
                     if (interests.get(i).equals(raffle_tag)){
                         inside=true;
@@ -269,10 +269,10 @@ public class FilterFragment extends Fragment {
         fabExhibits.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Boolean inside=false;
+                Boolean inside = false;
                 for (int i = 0; i < interests.size(); i++) {
                     if (interests.get(i).equals(cook_tag)){
-                        inside=true;
+                        inside = true;
                         interests.remove(i);
                         fabExhibits.setTextColor(Color.BLACK);
                         fabExhibits.setBackgroundColor(Color.WHITE);
@@ -290,10 +290,10 @@ public class FilterFragment extends Fragment {
         fabGalas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Boolean inside=false;
+                Boolean inside = false;
                 for (int i = 0; i <interests.size(); i++) {
                     if (interests.get(i).equals(gala_tag)){
-                        inside=true;
+                        inside = true;
                         interests.remove(i);
                         fabGalas.setTextColor(Color.BLACK);
                         fabGalas.setBackgroundColor(Color.WHITE);
@@ -311,10 +311,10 @@ public class FilterFragment extends Fragment {
         fabCrafts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Boolean inside=false;
+                Boolean inside = false;
                 for (int i = 0; i <interests.size(); i++) {
                     if (interests.get(i).equals(craft_tag)){
-                        inside=true;
+                        inside = true;
                         interests.remove(i);
                         fabCrafts.setTextColor(Color.BLACK);
                         fabCrafts.setBackgroundColor(Color.WHITE);
@@ -332,10 +332,10 @@ public class FilterFragment extends Fragment {
         fabAthons.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Boolean inside=false;
+                Boolean inside = false;
                 for (int i = 0; i <interests.size(); i++) {
                     if (interests.get(i).equals(thon_tag)){
-                        inside=true;
+                        inside = true;
                         interests.remove(i);
                         fabAthons.setTextColor(Color.BLACK);
                         fabAthons.setBackgroundColor(Color.WHITE);

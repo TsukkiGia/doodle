@@ -45,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
-        if (ParseUser.getCurrentUser()!=null) {
+        if (ParseUser.getCurrentUser() != null) {
             goMainActivity();
         }
         etUsername = findViewById(R.id.etUsername);

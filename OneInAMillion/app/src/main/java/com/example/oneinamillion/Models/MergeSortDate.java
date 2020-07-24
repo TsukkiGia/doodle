@@ -18,7 +18,9 @@ public class MergeSortDate {
                         .parse(left.get(left_index).getDate()+" "+left.get(left_index).getTime());
                 Date rightdate = new SimpleDateFormat("MM/dd/yyyy HH:mm", Locale.ENGLISH)
                         .parse(right.get(right_index).getDate()+ " "+right.get(right_index).getTime());
+                assert leftdate != null;
                 long leftmillies=leftdate.getTime();
+                assert rightdate != null;
                 long rightmillies=rightdate.getTime();
                 if (leftmillies<rightmillies) {
                     unsorted.remove(index);

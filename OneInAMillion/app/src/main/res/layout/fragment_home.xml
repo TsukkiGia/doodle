@@ -108,7 +108,7 @@
         android:background="#FFFFFF"
         android:backgroundTint="@color/colorAccent"
         android:src="@drawable/icons_plus"
-        android:tint="@android:color/white" />
+        app:tint="@android:color/white" />
 
     <ImageView
         android:id="@+id/ivProfile"

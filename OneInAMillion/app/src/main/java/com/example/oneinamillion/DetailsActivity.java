@@ -66,7 +66,7 @@ public class DetailsActivity extends AppCompatActivity {
         tvDescription = findViewById(R.id.tvEventDescription);
         tvDateTime = findViewById(R.id.tvDateTime);
         JSONArray attendees = event.getAttendees();
-        for(int i = 0; i < attendees.length(); i++){
+        for (int i = 0; i < attendees.length(); i++){
             try {
                 String userID = attendees.getString(i);
                 if (userID.equals(ParseUser.getCurrentUser().getObjectId())) {
@@ -91,7 +91,7 @@ public class DetailsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (amIattending) {
                     JSONArray attendees = event.getAttendees();
-                    for(int i = 0; i<attendees.length();i++ ){
+                    for (int i = 0;  i< attendees.length();i++){
                         try {
                             String userID = attendees.getString(i);
                             if (userID.equals(ParseUser.getCurrentUser().getObjectId())) {
@@ -106,7 +106,7 @@ public class DetailsActivity extends AppCompatActivity {
                     event.saveInBackground();
                     btnRSVP.setText("Attend");
                     btnRSVP.setIcon(getResources().getDrawable(R.drawable.icons_plus));
-                    amIattending=false;
+                    amIattending = false;
                 }
                 else {
                     JSONArray attendees = event.getAttendees();
@@ -115,7 +115,7 @@ public class DetailsActivity extends AppCompatActivity {
                     event.saveInBackground();
                     btnRSVP.setText("Attending");
                     btnRSVP.setIcon(getResources().getDrawable(R.drawable.checkmark));
-                    amIattending=true;
+                    amIattending = true;
                 }
             }
         });
