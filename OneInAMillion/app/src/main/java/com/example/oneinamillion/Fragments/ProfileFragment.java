@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.oneinamillion.InterestActivity;
 import com.example.oneinamillion.LoginActivity;
 import com.example.oneinamillion.R;
 import com.facebook.AccessToken;
@@ -40,6 +41,7 @@ public class ProfileFragment extends Fragment {
     ImageView ivProfile;
     Button btnLogOut;
     Button btnChange;
+    Button btnChangePreferences;
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 24;
     public String photoFileName = "photo.jpg";
     File photoFile;
@@ -60,6 +62,15 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        btnChangePreferences = view.findViewById(R.id.btnChangePref);
+        btnChangePreferences.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getContext(), InterestActivity.class);
+                i.putExtra("activity","profile");
+                startActivity(i);
+            }
+        });
         tvName = view.findViewById(R.id.tvName);
         btnChange = view.findViewById(R.id.btnChange);
         facebook_login = view.findViewById(R.id.facebook_login);

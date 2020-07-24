@@ -37,9 +37,12 @@ public class InterestActivity extends AppCompatActivity {
     String concert_tag = "music";
     String gala_tag = "gala";
     String craft_tag = "craft";
+    String previousactivity;
     JSONArray interests = new JSONArray();
     Button btnConfirm;
     public static final String TAG = "InterestActivityy";
+    String string_signup = "signup";
+    String string_profile = "profile";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +57,83 @@ public class InterestActivity extends AppCompatActivity {
         fabGalas = findViewById(R.id.extFabGalas);
         fabCrafts = findViewById(R.id.extFabCrafts);
         fabAthons = findViewById(R.id.extFabAthons);
+        previousactivity = getIntent().getStringExtra("activity");
+        if (previousactivity.equals(string_profile)) {
+            JSONArray tagg = ParseUser.getCurrentUser().getJSONArray("Interests");
+            for (int i = 0; i < tagg.length(); i++) {
+                try {
+                    interests.put(tagg.getString(i));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            };
+            for (int i = 0; i < interests.length(); i++) {
+                try {
+                    if (interests.get(i).equals(sport_tag)){
+                        fabSports.setTextColor(Color.WHITE);
+                        fabSports.setBackgroundColor(getColor(R.color.colorSportButton));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    if (interests.get(i).equals(auctions_tag)){
+                        fabAuction.setTextColor(Color.WHITE);
+                        fabAuction.setBackgroundColor(getColor(R.color.colorAuctionsButton));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    if (interests.get(i).equals(concert_tag)){
+                        fabConcerts.setTextColor(Color.WHITE);
+                        fabConcerts.setBackgroundColor(getColor(R.color.colorMusicButton));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    if (interests.get(i).equals(gala_tag)){
+                        fabGalas.setTextColor(Color.WHITE);
+                        fabGalas.setBackgroundColor(getColor(R.color.colorGalaButton));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    if (interests.get(i).equals(raffle_tag)){
+                        fabRaffle.setTextColor(Color.WHITE);
+                        fabRaffle.setBackgroundColor(getColor(R.color.colorRaffleButton));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    if (interests.get(i).equals(cook_tag)){
+                        fabExhibits.setTextColor(Color.WHITE);
+                        fabExhibits.setBackgroundColor(getColor(R.color.colorCookButton));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    if (interests.get(i).equals(craft_tag)){
+                        fabCrafts.setTextColor(Color.WHITE);
+                        fabCrafts.setBackgroundColor(getColor(R.color.colorCraftButton));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    if (interests.get(i).equals(thon_tag)){
+                        fabAthons.setTextColor(Color.WHITE);
+                        fabAthons.setBackgroundColor(getColor(R.color.colorThonButton));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
         fabSports.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -263,9 +343,14 @@ public class InterestActivity extends AppCompatActivity {
                     @Override
                     public void done(ParseException e) {
                         Log.i(TAG, "Done!");
-                        Intent i = new Intent(InterestActivity.this, MainActivity.class);
-                        startActivity(i);
-                        finish();
+                        if (previousactivity.equals(string_signup)) {
+                            Intent i = new Intent(InterestActivity.this, MainActivity.class);
+                            startActivity(i);
+                            finish();
+                        }
+                        else {
+                            finish();
+                        }
                     }
                 });
             }

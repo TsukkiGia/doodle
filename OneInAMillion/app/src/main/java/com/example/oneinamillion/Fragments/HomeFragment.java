@@ -76,13 +76,13 @@ public class HomeFragment extends Fragment {
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private boolean locationPermissionGranted;
     private Location lastKnownLocation;
-    double max_distance=100;
-    double max_price=100;
+    double max_distance = 100;
+    double max_price = 100;
     static String default_value = "100.0";
     Boolean filterdistance=false;
     Boolean filterprice=false;
     Boolean filtertags = false;
-    List<String> tags=new ArrayList<>();
+    List<String> tags = new ArrayList<>();
     ImageView ivFilter;
     FragmentManager fragmentManager;
 
@@ -164,7 +164,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (!currentlySelected.equals(date_string)) {
-                    currentlySelected=date_string;
+                    currentlySelected = date_string;
                     fabDate.setBackgroundColor(getContext().getColor(R.color.colorAccent));
                     fabDate.setTextColor(Color.WHITE);
                     fabDistance.setBackgroundColor(Color.WHITE);
@@ -181,7 +181,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (!currentlySelected.equals(distance_string)) {
-                    currentlySelected=distance_string;
+                    currentlySelected = distance_string;
                     fabDistance.setBackgroundColor(getContext().getColor(R.color.colorAccent));
                     fabDistance.setTextColor(Color.WHITE);
                     fabDate.setBackgroundColor(Color.WHITE);
@@ -198,7 +198,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (!currentlySelected.equals(price_string)) {
-                    currentlySelected=price_string;
+                    currentlySelected = price_string;
                     fabPrice.setBackgroundColor(getContext().getColor(R.color.colorAccent));
                     fabPrice.setTextColor(Color.WHITE);
                     fabDate.setBackgroundColor(Color.WHITE);
