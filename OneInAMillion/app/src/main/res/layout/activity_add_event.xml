@@ -52,9 +52,9 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="30dp"
-                android:background="@color/colorAccent"
+                app:backgroundTint="#FFFFFF"
                 android:text="Upload Image"
-                android:textColor="#FFFFFF" />
+                android:textColor="@color/colorAccent" />
 
             <Button
                 android:id="@+id/btnPickATime"
@@ -64,9 +64,10 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="28dp"
                 android:layout_marginEnd="30dp"
-                android:background="@color/colorAccent"
+                android:backgroundTint="#FFFFFF"
                 android:text="Pick a Time"
-                android:textColor="#FFFFFF" />
+                android:textColor="@color/colorAccent"
+                />
 
             <Button
                 android:id="@+id/btnPickADate"
@@ -76,9 +77,9 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="82dp"
                 android:layout_marginEnd="30dp"
-                android:background="@color/colorAccent"
+                android:backgroundTint="#FFFFFF"
                 android:text="Pick a Date"
-                android:textColor="#FFFFFF" />
+                android:textColor="@color/colorAccent"/>
 
 
             <com.google.android.material.textfield.TextInputLayout
