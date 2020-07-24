@@ -26,6 +26,7 @@ import android.widget.ProgressBar;
 import com.bumptech.glide.Glide;
 import com.example.oneinamillion.AddEventActivity;
 import com.example.oneinamillion.EventMapActivity;
+import com.example.oneinamillion.HomeMapActivity;
 import com.example.oneinamillion.InterestActivity;
 import com.example.oneinamillion.InterestActivityMotion;
 import com.example.oneinamillion.Models.Event;
@@ -50,6 +51,7 @@ import com.parse.ParseUser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.parceler.Parcels;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -141,7 +143,8 @@ public class HomeFragment extends Fragment {
         ivMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getContext(), EventMapActivity.class);
+                Intent i = new Intent(getContext(), HomeMapActivity.class);
+                i.putExtra("results", Parcels.wrap(results));
                 startActivity(i);
             }
         });

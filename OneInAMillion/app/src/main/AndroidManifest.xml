@@ -32,10 +32,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".InterestActivity"></activity>
+        <activity android:name=".HomeMapActivity"></activity>
+        <activity android:name=".InterestActivity" />
         <activity
             android:name=".InterestActivityMotion"
-            android:label="@string/title_activity_interest"></activity>
+            android:label="@string/title_activity_interest" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
