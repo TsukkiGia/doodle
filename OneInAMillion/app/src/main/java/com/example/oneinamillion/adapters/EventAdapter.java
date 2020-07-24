@@ -2,7 +2,6 @@ package com.example.oneinamillion.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.icu.text.RelativeDateTimeFormatter;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -21,7 +20,6 @@ import com.bumptech.glide.Glide;
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.oneinamillion.DetailsActivity;
-import com.example.oneinamillion.MainActivity;
 import com.example.oneinamillion.Models.Event;
 import com.example.oneinamillion.R;
 import com.parse.ParseUser;
@@ -102,7 +100,8 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
             tvPrice.setText("$"+String.valueOf(event.getPrice()));
             tvEventName.setText(event.getEventName());
             long now = System.currentTimeMillis();
-            Date firstDate = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH).parse(event.getDate());
+            Date firstDate = new SimpleDateFormat("MM/dd/yyyy HH:mm", Locale.ENGLISH).parse(event.getDate()+" "+event.getTime());
+            Log.i(TAG,event.getEventName()+" "+String.valueOf(firstDate.getTime())+" "+firstDate.toString());
             long diffInMillies = firstDate.getTime();
             tvDateTime.setText(DateUtils.getRelativeTimeSpanString(diffInMillies, now, 0L, DateUtils.FORMAT_ABBREV_ALL));
             if (event.getImage() != null) {

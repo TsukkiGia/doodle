@@ -14,8 +14,10 @@ public class MergeSortDate {
         int index = 0;
         while (left_index < left.size() && right_index < right.size()) {
             try {
-                Date leftdate = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH).parse(left.get(left_index).getDate());
-                Date rightdate = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH).parse(right.get(right_index).getDate());
+                Date leftdate = new SimpleDateFormat("MM/dd/yyyy HH:mm", Locale.ENGLISH)
+                        .parse(left.get(left_index).getDate()+" "+left.get(left_index).getTime());
+                Date rightdate = new SimpleDateFormat("MM/dd/yyyy HH:mm", Locale.ENGLISH)
+                        .parse(right.get(right_index).getDate()+ " "+right.get(right_index).getTime());
                 long leftmillies=leftdate.getTime();
                 long rightmillies=rightdate.getTime();
                 if (leftmillies<rightmillies) {

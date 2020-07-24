@@ -317,13 +317,13 @@ public class HomeFragment extends Fragment {
                 }
                 for (Event event : events) {
                     long now = System.currentTimeMillis();
-                    Date firstDate = null;
+                    Date datetime = null;
                     try {
-                        firstDate = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH).parse(event.getDate());
+                        datetime = new SimpleDateFormat("MM/dd/yyyy HH:mm", Locale.ENGLISH).parse(event.getDate()+" "+event.getTime());
                     } catch (java.text.ParseException ex) {
                         ex.printStackTrace();
                     }
-                    long dateInMillies = firstDate.getTime();
+                    long dateInMillies = datetime.getTime();
                     if (dateInMillies > now) {
                         event.setDistance(event.getLocation()
                                 .distanceInKilometersTo(new ParseGeoPoint(lastKnownLocation.getLatitude(),
