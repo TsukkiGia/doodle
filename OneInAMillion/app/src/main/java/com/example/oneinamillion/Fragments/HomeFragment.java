@@ -27,6 +27,7 @@ import com.bumptech.glide.Glide;
 import com.example.oneinamillion.AddEventActivity;
 import com.example.oneinamillion.HomeMapActivity;
 import com.example.oneinamillion.Models.Event;
+import com.example.oneinamillion.Models.MergeSort;
 import com.example.oneinamillion.Models.MergeSortDate;
 import com.example.oneinamillion.Models.MergeSortDistance;
 import com.example.oneinamillion.Models.MergeSortPrice;
@@ -75,7 +76,7 @@ public class HomeFragment extends Fragment {
     private FusedLocationProviderClient fusedLocationProviderClient;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private boolean locationPermissionGranted;
-    private Location lastKnownLocation;
+    private Location lastKnownLocation = new Location("");
     double max_distance = 100;
     double max_price = 100;
     static String default_value = "100.0";
@@ -100,6 +101,8 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        lastKnownLocation.setLatitude(0.0);
+        lastKnownLocation.setLongitude(0.0);
         if (getArguments() != null) {
             if (!getArguments().getString("max_distance").equals(default_value)){
                 max_distance = Double.valueOf(getArguments().getString("max_distance"));
@@ -172,7 +175,7 @@ public class HomeFragment extends Fragment {
                     fabPrice.setBackgroundColor(Color.WHITE);
                     fabPrice.setTextColor(Color.BLACK);
                     pbLoading.setVisibility(View.VISIBLE);
-                    queryEventsDate();
+                    sort();
                 }
             }
         });
@@ -189,7 +192,7 @@ public class HomeFragment extends Fragment {
                     fabPrice.setBackgroundColor(Color.WHITE);
                     fabPrice.setTextColor(Color.BLACK);
                     pbLoading.setVisibility(View.VISIBLE);
-                    queryEventsNearby();
+                    sort();
                 }
             }
         });
@@ -206,7 +209,7 @@ public class HomeFragment extends Fragment {
                     fabDistance.setBackgroundColor(Color.WHITE);
                     fabDistance.setTextColor(Color.BLACK);
                     pbLoading.setVisibility(View.VISIBLE);
-                    queryCheaperEvents();
+                    sort();
                 }
             }
         });
@@ -325,45 +328,15 @@ public class HomeFragment extends Fragment {
                         results.add(event);
                     }
                 }
-                if (currentlySelected.equals(distance_string)) {
-                    queryEventsNearby();
-                }
-                else if (currentlySelected.equals(date_string)) {
-                    queryEventsDate();
-                }
-                else {
-                    queryCheaperEvents();
-                }
+                sort();
             }
         });
         swipeContainer.setRefreshing(false);
     }
 
-    private void queryEventsNearby() {
+    private void sort() {
         eventAdapter.clear();
-        MergeSortDistance m = new MergeSortDistance();
-        m.mergeSort(results);
-        filter();
-        eventAdapter.addAll(results);
-        eventAdapter.notifyDataSetChanged();
-        rvEvents.smoothScrollToPosition(0);
-        pbLoading.setVisibility(View.INVISIBLE);
-    }
-
-    private void queryCheaperEvents() {
-        eventAdapter.clear();
-        MergeSortPrice m = new MergeSortPrice();
-        m.mergeSort(results);
-        filter();
-        eventAdapter.addAll(results);
-        eventAdapter.notifyDataSetChanged();
-        rvEvents.smoothScrollToPosition(0);
-        pbLoading.setVisibility(View.INVISIBLE);
-    }
-
-    private void queryEventsDate() {
-        eventAdapter.clear();
-        MergeSortDate m = new MergeSortDate();
+        MergeSort m = new MergeSort(currentlySelected);
         m.mergeSort(results);
         filter();
         eventAdapter.addAll(results);

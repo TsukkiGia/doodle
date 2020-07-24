@@ -135,7 +135,7 @@ public class HomeMapActivity extends AppCompatActivity
             @Override
             public void onInfoWindowClick(Marker marker) {
                 for (final Event event : homevents) {
-                    if (event.getObjectId().equals(marker.getTag().toString())){
+                    if (event.getObjectId().equals(marker.getTag())){
                         AsyncHttpClient client = new AsyncHttpClient();
                         client.get("https://maps.googleapis.com/maps/api/geocode/json?latlng="+
                                 String.valueOf(event.getLocation().getLatitude())+","+String.valueOf(event.getLocation().getLongitude())+
@@ -149,6 +149,7 @@ public class HomeMapActivity extends AppCompatActivity
                                     Intent i = new Intent(HomeMapActivity.this, DetailsActivity.class);
                                     i.putExtra(Event.class.getSimpleName(), Parcels.wrap(event));
                                     i.putExtra("address",address);
+                                    //i.putExtra("activity","HomeFragment");
                                     startActivity(i);
                                 }
                                 catch (JSONException e) {
