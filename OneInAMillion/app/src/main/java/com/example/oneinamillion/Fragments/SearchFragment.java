@@ -163,6 +163,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
                                     Intent i = new Intent(getContext(), DetailsActivity.class);
                                     i.putExtra(Event.class.getSimpleName(), Parcels.wrap(event));
                                     i.putExtra("address",address);
+                                    i.putExtra("activity","SearchFragment");
                                     getContext().startActivity(i);
                                 }
                                 catch (JSONException e) {

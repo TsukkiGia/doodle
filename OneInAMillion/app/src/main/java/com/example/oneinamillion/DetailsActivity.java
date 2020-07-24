@@ -40,6 +40,9 @@ public class DetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getIntent().getStringExtra("activity").equals("SearchFragment")) {
+            overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+        }
         setContentView(R.layout.activity_details);
         event = Parcels.unwrap(getIntent().getParcelableExtra(Event.class.getSimpleName()));
         address = getIntent().getStringExtra("address");

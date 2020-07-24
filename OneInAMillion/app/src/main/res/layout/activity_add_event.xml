@@ -124,8 +124,8 @@
                 android:layout_height="104dp"
                 android:layout_below="@+id/btnPickATime"
                 android:layout_alignParentEnd="true"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="251dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="253dp"
                 android:scaleType="centerCrop"
                 app:srcCompat="@drawable/background" />
 
@@ -160,7 +160,7 @@
                 android:layout_below="@+id/ivUploadedImage"
                 android:layout_alignStart="@+id/tfEventDescription"
                 android:layout_marginStart="-4dp"
-                android:layout_marginTop="31dp"
+                android:layout_marginTop="50dp"
                 android:text="Tags"
                 android:textColor="#000000"
                 android:textSize="18sp"
@@ -269,7 +269,7 @@
                 android:layout_marginTop="19dp"
                 android:layout_marginEnd="30dp"
                 android:layout_marginBottom="5dp"
-                app:cardBackgroundColor="@color/browser_actions_bg_grey"
+                app:cardBackgroundColor="#e0e0e0"
                 app:cardCornerRadius="4dp">
 
                 <fragment

@@ -127,6 +127,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
                         Intent i = new Intent(context, DetailsActivity.class);
                         i.putExtra(Event.class.getSimpleName(),Parcels.wrap(event));
                         i.putExtra("address",address);
+                        i.putExtra("activity","AdapterItem");
                         context.startActivity(i);
                     }
                     catch (JSONException e) {
