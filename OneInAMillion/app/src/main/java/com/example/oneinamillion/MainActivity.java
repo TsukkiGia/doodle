@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     final FragmentManager fragmentManager = getSupportFragmentManager();
     String CHANNEL_ID = "120";
     int id = 0;
+    //for wrapping to details activity
     Event event;
 
     @Override
@@ -79,10 +80,12 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView.setSelectedItemId(R.id.action_home);
         queryEvents();
     }
+
     @Override
     public void onBackPressed() {
         moveTaskToBack(true);
     }
+
     private void createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
@@ -98,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
             notificationManager.createNotificationChannel(channel);
         }
     }
+
     private void queryEvents() {
         final List<Event> attendingEvents = new ArrayList<>();
         ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
