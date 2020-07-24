@@ -28,8 +28,11 @@ import com.parse.ParseUser;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class EventsFragment extends Fragment {
     RecyclerView rvCreated;
@@ -140,21 +143,32 @@ public class EventsFragment extends Fragment {
                     Log.e(TAG, "problem!", e);
                 }
                 for (Event event : events) {
-                    ParseUser parseUser = event.getOrganizer();
-                    if (parseUser.getUsername().equals(ParseUser.getCurrentUser().getUsername())) {
-                        organizedEvents.add(event);
+                    long now = System.currentTimeMillis();
+                    Date datetime = null;
+                    try {
+                        datetime = new SimpleDateFormat("MM/dd/yyyy HH:mm", Locale.ENGLISH)
+                                .parse(event.getDate()+" "+event.getTime());
+                    } catch (java.text.ParseException ex) {
+                        ex.printStackTrace();
                     }
-                    JSONArray attendees = event.getAttendees();
-                    for (int i = 0; i < attendees.length(); i++){
-                        String userID;
-                        try {
-                            userID = attendees.getString(i);
-                            if (userID.equals(ParseUser.getCurrentUser().getObjectId())) {
-                                attendingEvents.add(event);
-                                break;
+                    long dateInMillies = datetime.getTime();
+                    if (dateInMillies > now) {
+                        ParseUser parseUser = event.getOrganizer();
+                        if (parseUser.getUsername().equals(ParseUser.getCurrentUser().getUsername())) {
+                            organizedEvents.add(event);
+                        }
+                        JSONArray attendees = event.getAttendees();
+                        for (int i = 0; i < attendees.length(); i++) {
+                            String userID;
+                            try {
+                                userID = attendees.getString(i);
+                                if (userID.equals(ParseUser.getCurrentUser().getObjectId())) {
+                                    attendingEvents.add(event);
+                                    break;
+                                }
+                            } catch (JSONException ex) {
+                                ex.printStackTrace();
                             }
-                        } catch (JSONException ex) {
-                            ex.printStackTrace();
                         }
                     }
                 }

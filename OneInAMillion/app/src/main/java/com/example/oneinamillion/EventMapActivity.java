@@ -55,8 +55,11 @@ import com.parse.ParseUser;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * An activity that displays a map showing the place at the device's current location.
@@ -128,26 +131,36 @@ public class EventMapActivity extends AppCompatActivity
             @Override
             public void done(List<Event> events, ParseException e) {
                 for (Event event : events) {
-                    ParseUser parseUser = event.getOrganizer();
-                    if (parseUser.getUsername().equals(ParseUser.getCurrentUser().getUsername())) {
-                        Double lat = event.getLocation().getLatitude();
-                        Double longitude = event.getLocation().getLongitude();
-                        map.addMarker(new MarkerOptions().position(new LatLng(lat, longitude)).title(event.getEventName()));
+                    long now = System.currentTimeMillis();
+                    Date datetime = null;
+                    try {
+                        datetime = new SimpleDateFormat("MM/dd/yyyy HH:mm", Locale.ENGLISH)
+                                .parse(event.getDate()+" "+event.getTime());
+                    } catch (java.text.ParseException ex) {
+                        ex.printStackTrace();
                     }
-                    else {
-                        JSONArray attendees = event.getAttendees();
-                        for (int i = 0; i < attendees.length(); i++){
-                            String userID = null;
-                            try {
-                                userID = attendees.getString(i);
-                                if (userID.equals(ParseUser.getCurrentUser().getObjectId())) {
-                                    Double lat = event.getLocation().getLatitude();
-                                    Double longitude = event.getLocation().getLongitude();
-                                    map.addMarker(new MarkerOptions().position(new LatLng(lat, longitude)).title(event.getEventName()));
-                                    break;
+                    long dateInMillies = datetime.getTime();
+                    if (dateInMillies > now) {
+                        ParseUser parseUser = event.getOrganizer();
+                        if (parseUser.getUsername().equals(ParseUser.getCurrentUser().getUsername())) {
+                            Double lat = event.getLocation().getLatitude();
+                            Double longitude = event.getLocation().getLongitude();
+                            map.addMarker(new MarkerOptions().position(new LatLng(lat, longitude)).title(event.getEventName()));
+                        } else {
+                            JSONArray attendees = event.getAttendees();
+                            for (int i = 0; i < attendees.length(); i++) {
+                                String userID = null;
+                                try {
+                                    userID = attendees.getString(i);
+                                    if (userID.equals(ParseUser.getCurrentUser().getObjectId())) {
+                                        Double lat = event.getLocation().getLatitude();
+                                        Double longitude = event.getLocation().getLongitude();
+                                        map.addMarker(new MarkerOptions().position(new LatLng(lat, longitude)).title(event.getEventName()));
+                                        break;
+                                    }
+                                } catch (JSONException ex) {
+                                    ex.printStackTrace();
                                 }
-                            } catch (JSONException ex) {
-                                ex.printStackTrace();
                             }
                         }
                     }

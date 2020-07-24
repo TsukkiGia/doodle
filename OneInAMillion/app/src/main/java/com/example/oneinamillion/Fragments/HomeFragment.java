@@ -346,6 +346,7 @@ public class HomeFragment extends Fragment {
         filter();
         eventAdapter.addAll(results);
         eventAdapter.notifyDataSetChanged();
+        rvEvents.smoothScrollToPosition(0);
         pbLoading.setVisibility(View.INVISIBLE);
     }
 
@@ -356,6 +357,7 @@ public class HomeFragment extends Fragment {
         filter();
         eventAdapter.addAll(results);
         eventAdapter.notifyDataSetChanged();
+        rvEvents.smoothScrollToPosition(0);
         pbLoading.setVisibility(View.INVISIBLE);
     }
 
@@ -366,6 +368,7 @@ public class HomeFragment extends Fragment {
         filter();
         eventAdapter.addAll(results);
         eventAdapter.notifyDataSetChanged();
+        rvEvents.smoothScrollToPosition(0);
         pbLoading.setVisibility(View.INVISIBLE);
     }
 
