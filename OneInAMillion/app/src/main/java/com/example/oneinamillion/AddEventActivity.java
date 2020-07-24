@@ -1,5 +1,6 @@
 package com.example.oneinamillion;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -23,7 +24,13 @@ import android.widget.Toast;
 import com.example.oneinamillion.Fragments.DatePickerFragment;
 import com.example.oneinamillion.Models.Event;
 import com.example.oneinamillion.Fragments.TimePickerFragment;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -36,16 +43,15 @@ import org.json.JSONException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class AddEventActivity extends AppCompatActivity implements DatePickerFragment.DatePickerFragmentListener, TimePickerFragment.TimePickerFragmentListener {
     EditText etEventName;
     EditText etEventDescription;
-    Button btnPickAPlace;
     Button btnPost;
     Button btnUploadImage;
     ImageView ivUploadedImage;
     ParseFile file;
-    TextView tvLocation;
     Button btnPickATime;
     Button btnPickADate;
     TextView tvDate;
@@ -71,15 +77,16 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
     double latitude = 0;
     public static final String TAG = "AddEvent";
     public final static int PICK_PHOTO_CODE = 1046;
-    public final static int PICK_LOCATION_CODE = 20020;
-    GoogleMap map;
+    private PlacesClient placesClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_event);
+        String apiKey = getString(R.string.google_maps_key);
+        Places.initialize(getApplicationContext(), apiKey);
+        placesClient = Places.createClient(this);
         etEventName = findViewById(R.id.etEventName);
-        tvLocation = findViewById(R.id.tvLocation);
         tvDate = findViewById(R.id.tvDate);
         tvTime = findViewById(R.id.tvTime);
         etEventDescription = findViewById(R.id.etEventDescription);
@@ -98,14 +105,6 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
             public void onClick(View view) {
                 TimePickerFragment fragment = TimePickerFragment.newInstance(AddEventActivity.this);
                 fragment.show(getSupportFragmentManager(), "timePicker");
-            }
-        });
-        btnPickAPlace = findViewById(R.id.btnPickAPlace);
-        btnPickAPlace.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(AddEventActivity.this, PickALocationActivity.class);
-                startActivityForResult(intent, PICK_LOCATION_CODE);
             }
         });
         btnPost = findViewById(R.id.btnPost);
@@ -331,6 +330,22 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
                 Log.i(TAG,interests.toString());
             }
         });
+        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
+                getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
+        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.ADDRESS, Place.Field.NAME,Place.Field.LAT_LNG));
+        autocompleteFragment.setHint("Pick a location");
+        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(@NonNull Place place) {
+                latitude = place.getLatLng().latitude;
+                longitude = place.getLatLng().longitude;
+            }
+
+            @Override
+            public void onError(@NonNull Status status) {
+
+            }
+        });
     }
 
     public void onPickPhoto(View view) {
@@ -391,14 +406,6 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
             byte[] image = stream.toByteArray();
             // Create the ParseFile
             file = new ParseFile("picture.png", image);
-        }
-        if (requestCode == PICK_LOCATION_CODE && resultCode == Activity.RESULT_OK) {
-            latitude = data.getDoubleExtra("latitude", 0);
-            longitude = data.getDoubleExtra("longitude", 0);
-            btnPickAPlace.setText("Repick");
-            tvLocation.setVisibility(View.VISIBLE);
-            String name = data.getStringExtra("name");
-            tvLocation.setText(name);
         }
     }
 
