@@ -62,7 +62,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/extFabArtExhibits"
+        android:id="@+id/extFabCooking"
         android:layout_width="148dp"
         android:layout_height="51dp"
         android:layout_marginEnd="332dp"

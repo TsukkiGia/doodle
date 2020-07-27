@@ -91,7 +91,7 @@ public class DetailsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (amIattending) {
                     JSONArray attendees = event.getAttendees();
-                    for (int i = 0;  i< attendees.length();i++){
+                    for (int i = 0;  i < attendees.length();i++){
                         try {
                             String userID = attendees.getString(i);
                             if (userID.equals(ParseUser.getCurrentUser().getObjectId())) {

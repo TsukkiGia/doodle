@@ -53,7 +53,7 @@
             android:layout_marginRight="332dp"
             android:layout_marginTop="348dp" />
         <Constraint
-            android:id="@+id/extFabArtExhibits"
+            android:id="@+id/extFabCooking"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             motion:layout_constraintEnd_toEndOf="parent"
@@ -146,7 +146,7 @@
             motion:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="264dp" />
         <Constraint
-            android:id="@+id/extFabArtExhibits"
+            android:id="@+id/extFabCooking"
             android:layout_width="158dp"
             android:layout_height="51dp"
             motion:layout_constraintTop_toTopOf="parent"

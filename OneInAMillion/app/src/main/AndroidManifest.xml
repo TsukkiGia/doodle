@@ -32,7 +32,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".HomeMapActivity"></activity>
+        <activity android:name=".PostDetailsActivity"></activity>
+        <activity android:name=".HomeMapActivity" />
         <activity android:name=".InterestActivity" />
         <activity
             android:name=".InterestActivityMotion"

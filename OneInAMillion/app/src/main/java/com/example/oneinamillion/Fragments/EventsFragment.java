@@ -83,52 +83,38 @@ public class EventsFragment extends Fragment {
         ivDropdownOrganized.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (rvCreated.getVisibility() == View.GONE) {
-                    rvCreated.setVisibility(View.VISIBLE);
-                    ivDropdownOrganized.setImageDrawable(getContext().getResources().getDrawable(R.drawable.close_dropdown));
-                } else {
-                    rvCreated.setVisibility(View.GONE);
-                    ivDropdownOrganized.setImageDrawable(getContext().getResources().getDrawable(R.drawable.dropdown));
-                }
+                toggleDropdown(rvCreated,ivDropdownOrganized);
             }
         });
         ivDropdownAttending.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (rvUpcoming.getVisibility() == View.GONE) {
-                    rvUpcoming.setVisibility(View.VISIBLE);
-                    ivDropdownAttending.setImageDrawable(getContext().getResources().getDrawable(R.drawable.close_dropdown));
-                } else {
-                    rvUpcoming.setVisibility(View.GONE);
-                    ivDropdownAttending.setImageDrawable(getContext().getResources().getDrawable(R.drawable.dropdown));
-                }
+                toggleDropdown(rvUpcoming,ivDropdownAttending);
             }
         });
         tvMyOrganizedEvents.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (rvCreated.getVisibility() == View.GONE) {
-                    rvCreated.setVisibility(View.VISIBLE);
-                    ivDropdownOrganized.setImageDrawable(getContext().getResources().getDrawable(R.drawable.close_dropdown));
-                } else {
-                    rvCreated.setVisibility(View.GONE);
-                    ivDropdownOrganized.setImageDrawable(getContext().getResources().getDrawable(R.drawable.dropdown));
-                }
+                toggleDropdown(rvCreated,ivDropdownOrganized);
             }
         });
         tvMyUpcomingEvents.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (rvUpcoming.getVisibility() == View.GONE) {
-                    rvUpcoming.setVisibility(View.VISIBLE);
-                    ivDropdownAttending.setImageDrawable(getContext().getResources().getDrawable(R.drawable.close_dropdown));
-                } else {
-                    rvUpcoming.setVisibility(View.GONE);
-                    ivDropdownAttending.setImageDrawable(getContext().getResources().getDrawable(R.drawable.dropdown));
-                }
+                toggleDropdown(rvUpcoming,ivDropdownAttending);
             }
         });
         queryEvents();
+    }
+
+    private void toggleDropdown(RecyclerView recyclerView, ImageView ivArrow) {
+        if (recyclerView.getVisibility() == View.GONE) {
+            recyclerView.setVisibility(View.VISIBLE);
+            ivArrow.setImageDrawable(getContext().getResources().getDrawable(R.drawable.close_dropdown));
+        } else {
+            recyclerView.setVisibility(View.GONE);
+            ivArrow.setImageDrawable(getContext().getResources().getDrawable(R.drawable.dropdown));
+        }
     }
 
     private void queryEvents() {

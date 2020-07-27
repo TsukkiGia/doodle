@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    android:layout_height="match_parent"
+    tools:context=".PostDetailsActivity">
     <ImageView
         android:id="@+id/ivProfilePicture"
         android:layout_width="38dp"
@@ -69,4 +69,5 @@
         android:layout_marginTop="13dp"
         android:layout_toEndOf="@+id/ivLike"
         app:srcCompat="@drawable/ufi_comment" />
+
 </RelativeLayout>

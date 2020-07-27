@@ -54,10 +54,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         return posts.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         ImageView ivProfilePicture;
         TextView tvUsername;
         TextView tvDescription;
+        ImageView ivLike;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -75,6 +76,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             else {
                 ivProfilePicture.setImageDrawable(context.getDrawable(R.drawable.instagram_user_filled_24));
             }
+        }
+
+        @Override
+        public void onClick(View view) {
+
         }
     }
 }

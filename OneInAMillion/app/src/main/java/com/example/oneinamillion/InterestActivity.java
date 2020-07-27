@@ -25,7 +25,7 @@ public class InterestActivity extends AppCompatActivity {
     ExtendedFloatingActionButton fabConcerts;
     ExtendedFloatingActionButton fabAuction;
     ExtendedFloatingActionButton fabRaffle;
-    ExtendedFloatingActionButton fabExhibits;
+    ExtendedFloatingActionButton fabCooking;
     ExtendedFloatingActionButton fabGalas;
     ExtendedFloatingActionButton fabCrafts;
     ExtendedFloatingActionButton fabAthons;
@@ -53,7 +53,7 @@ public class InterestActivity extends AppCompatActivity {
         fabConcerts = findViewById(R.id.extFabConcerts);
         fabAuction = findViewById(R.id.extFabAuction);
         fabRaffle = findViewById(R.id.extFabRaffles);
-        fabExhibits = findViewById(R.id.extFabArtExhibits);
+        fabCooking = findViewById(R.id.extFabCooking);
         fabGalas = findViewById(R.id.extFabGalas);
         fabCrafts = findViewById(R.id.extFabCrafts);
         fabAthons = findViewById(R.id.extFabAthons);
@@ -110,8 +110,8 @@ public class InterestActivity extends AppCompatActivity {
                 }
                 try {
                     if (interests.get(i).equals(cook_tag)){
-                        fabExhibits.setTextColor(Color.WHITE);
-                        fabExhibits.setBackgroundColor(getColor(R.color.colorCookButton));
+                        fabCooking.setTextColor(Color.WHITE);
+                        fabCooking.setBackgroundColor(getColor(R.color.colorCookButton));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -137,201 +137,49 @@ public class InterestActivity extends AppCompatActivity {
         fabSports.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Boolean inside = false;
-                for (int i = 0; i < interests.length(); i++) {
-                    try {
-                        if (interests.get(i).equals(sport_tag)){
-                            inside = true;
-                            interests.remove(i);
-                            fabSports.setTextColor(Color.BLACK);
-                            fabSports.setBackgroundColor(Color.WHITE);
-                            break;
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-                if (!inside) {
-                    interests.put(sport_tag);
-                    fabSports.setTextColor(Color.WHITE);
-                    fabSports.setBackgroundColor(getColor(R.color.colorSportButton));
-                }
-                Log.i(TAG,interests.toString());
+                fabclicked(fabSports,sport_tag,R.color.colorSportButton);
             }
         });
         fabConcerts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Boolean inside = false;
-                for (int i = 0; i < interests.length(); i++) {
-                    try {
-                        if (interests.get(i).equals(concert_tag)){
-                            inside = true;
-                            interests.remove(i);
-                            fabConcerts.setTextColor(Color.BLACK);
-                            fabConcerts.setBackgroundColor(Color.WHITE);
-                            break;
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-                if (!inside) {
-                    interests.put(concert_tag);
-                    fabConcerts.setTextColor(Color.WHITE);
-                    fabConcerts.setBackgroundColor(getColor(R.color.colorMusicButton));
-                }
-                Log.i(TAG,interests.toString());
+                fabclicked(fabConcerts,concert_tag,R.color.colorMusicButton);
             }
         });
         fabAuction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Boolean inside = false;
-                for (int i = 0; i < interests.length(); i++) {
-                    try {
-                        if (interests.get(i).equals(auctions_tag)){
-                            inside = true;
-                            interests.remove(i);
-                            fabAuction.setTextColor(Color.BLACK);
-                            fabAuction.setBackgroundColor(Color.WHITE);
-                            break;
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-                if (!inside) {
-                    interests.put(auctions_tag);
-                    fabAuction.setTextColor(Color.WHITE);
-                    fabAuction.setBackgroundColor(getColor(R.color.colorAuctionsButton));
-                }
-                Log.i(TAG,interests.toString());
+                fabclicked(fabAuction,auctions_tag,R.color.colorAuctionsButton);
             }
         });
         fabRaffle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Boolean inside = false;
-                for (int i = 0; i < interests.length(); i++) {
-                    try {
-                        if (interests.get(i).equals(raffle_tag)){
-                            inside = true;
-                            interests.remove(i);
-                            fabRaffle.setTextColor(Color.BLACK);
-                            fabRaffle.setBackgroundColor(Color.WHITE);
-                            break;
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-                if (!inside) {
-                    interests.put(raffle_tag);
-                    fabRaffle.setTextColor(Color.WHITE);
-                    fabRaffle.setBackgroundColor(getColor(R.color.colorRaffleButton));
-                }
-                Log.i(TAG,interests.toString());
+                fabclicked(fabRaffle,raffle_tag,R.color.colorRaffleButton);
             }
         });
-        fabExhibits.setOnClickListener(new View.OnClickListener() {
+        fabCooking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Boolean inside = false;
-                for (int i = 0; i < interests.length(); i++) {
-                    try {
-                        if (interests.get(i).equals(cook_tag)){
-                            inside = true;
-                            interests.remove(i);
-                            fabExhibits.setTextColor(Color.BLACK);
-                            fabExhibits.setBackgroundColor(Color.WHITE);
-                            break;
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-                if (!inside) {
-                    interests.put(cook_tag);
-                    fabExhibits.setTextColor(Color.WHITE);
-                    fabExhibits.setBackgroundColor(getColor(R.color.colorCookButton));
-                }
-                Log.i(TAG,interests.toString());
+                fabclicked(fabCooking,cook_tag,R.color.colorCookButton);
             }
         });
         fabGalas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Boolean inside = false;
-                for (int i = 0; i < interests.length(); i++) {
-                    try {
-                        if (interests.get(i).equals(gala_tag)){
-                            inside = true;
-                            interests.remove(i);
-                            fabGalas.setTextColor(Color.BLACK);
-                            fabGalas.setBackgroundColor(Color.WHITE);
-                            break;
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-                if (!inside) {
-                    interests.put(gala_tag);
-                    fabGalas.setTextColor(Color.WHITE);
-                    fabGalas.setBackgroundColor(getColor(R.color.colorGalaButton));
-                }
-                Log.i(TAG,interests.toString());
+                fabclicked(fabGalas,gala_tag,R.color.colorGalaButton);
             }
         });
         fabCrafts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Boolean inside = false;
-                for (int i = 0; i < interests.length(); i++) {
-                    try {
-                        if (interests.get(i).equals(craft_tag)){
-                            inside = true;
-                            interests.remove(i);
-                            fabCrafts.setTextColor(Color.BLACK);
-                            fabCrafts.setBackgroundColor(Color.WHITE);
-                            break;
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-                if (!inside) {
-                    interests.put(craft_tag);
-                    fabCrafts.setTextColor(Color.WHITE);
-                    fabCrafts.setBackgroundColor(getColor(R.color.colorCraftButton));
-                }
-                Log.i(TAG,interests.toString());
+                fabclicked(fabCrafts,craft_tag,R.color.colorCraftButton);
             }
         });
         fabAthons.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Boolean inside = false;
-                for (int i = 0; i <interests.length(); i++) {
-                    try {
-                        if (interests.get(i).equals(thon_tag)){
-                            inside = true;
-                            interests.remove(i);
-                            fabAthons.setTextColor(Color.BLACK);
-                            fabAthons.setBackgroundColor(Color.WHITE);
-                            break;
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-                if (!inside) {
-                    interests.put(thon_tag);
-                    fabAthons.setTextColor(Color.WHITE);
-                    fabAthons.setBackgroundColor(getColor(R.color.colorThonButton));
-                }
-                Log.i(TAG,interests.toString());
+                fabclicked(fabAthons,thon_tag,R.color.colorThonButton);
             }
         });
         btnConfirm.setOnClickListener(new View.OnClickListener() {
@@ -355,5 +203,27 @@ public class InterestActivity extends AppCompatActivity {
                 });
             }
         });
+    }
+    private void fabclicked(ExtendedFloatingActionButton button, String tag, int color) {
+        Boolean inside = false;
+        for (int i = 0; i < interests.length(); i++) {
+            try {
+                if (interests.get(i).equals(tag)) {
+                    inside = true;
+                    interests.remove(i);
+                    button.setTextColor(Color.BLACK);
+                    button.setBackgroundColor(Color.WHITE);
+                    break;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        if (!inside) {
+            interests.put(tag);
+            button.setTextColor(Color.WHITE);
+            button.setBackgroundColor(getColor(color));
+        }
+        Log.i(TAG, interests.toString());
     }
 }

@@ -28,9 +28,6 @@ import com.example.oneinamillion.AddEventActivity;
 import com.example.oneinamillion.HomeMapActivity;
 import com.example.oneinamillion.Models.Event;
 import com.example.oneinamillion.Models.MergeSort;
-import com.example.oneinamillion.Models.MergeSortDate;
-import com.example.oneinamillion.Models.MergeSortDistance;
-import com.example.oneinamillion.Models.MergeSortPrice;
 import com.example.oneinamillion.R;
 import com.example.oneinamillion.adapters.EventAdapter;
 import com.facebook.AccessToken;
@@ -76,7 +73,7 @@ public class HomeFragment extends Fragment {
     private FusedLocationProviderClient fusedLocationProviderClient;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private boolean locationPermissionGranted;
-    private Location lastKnownLocation = new Location("");
+    Location lastKnownLocation = new Location("");
     double max_distance = 100;
     double max_price = 100;
     static String default_value = "100.0";
@@ -101,8 +98,6 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        lastKnownLocation.setLatitude(0.0);
-        lastKnownLocation.setLongitude(0.0);
         if (getArguments() != null) {
             if (!getArguments().getString("max_distance").equals(default_value)){
                 max_distance = Double.valueOf(getArguments().getString("max_distance"));
@@ -117,6 +112,9 @@ public class HomeFragment extends Fragment {
             currentlySelected = getArguments().getString("sort_metric");
             Log.i(TAG,currentlySelected);
         }
+        fusedLocationProviderClient = new FusedLocationProviderClient(getContext());
+        getLocationPermission();
+        getDeviceLocation();
     }
 
     @Override
@@ -158,9 +156,6 @@ public class HomeFragment extends Fragment {
                 fragmentManager.beginTransaction().replace(R.id.flContainer, filterFragment).commit();
             }
         });
-        fusedLocationProviderClient = new FusedLocationProviderClient(getContext());
-        getLocationPermission();
-        getDeviceLocation();
         pbLoading = view.findViewById(R.id.pbLoading);
         fabDate = view.findViewById(R.id.extFabDate);
         fabDate.setOnClickListener(new View.OnClickListener() {
@@ -214,16 +209,13 @@ public class HomeFragment extends Fragment {
             }
         });
         if (currentlySelected.equals(date_string)) {
-            fabDate.setBackgroundColor(getContext().getColor(R.color.colorAccent));
-            fabDate.setTextColor(Color.WHITE);
+            setActiveButton(fabDate);
         }
         if (currentlySelected.equals(distance_string)) {
-            fabDistance.setBackgroundColor(getContext().getColor(R.color.colorAccent));
-            fabDistance.setTextColor(Color.WHITE);
+            setActiveButton(fabDistance);
         }
         if (currentlySelected.equals(price_string)) {
-            fabPrice.setBackgroundColor(getContext().getColor(R.color.colorAccent));
-            fabPrice.setTextColor(Color.WHITE);
+            setActiveButton(fabPrice);
         }
         ivProfile = view.findViewById(R.id.ivProfile);
         rvEvents = view.findViewById(R.id.rvEvents);
@@ -256,7 +248,11 @@ public class HomeFragment extends Fragment {
         } else {
             ivProfile.setImageDrawable(getContext().getDrawable(R.drawable.instagram_user_filled_24));
         }
-        InitialQuery();
+    }
+
+    private void setActiveButton(ExtendedFloatingActionButton fabButton) {
+        fabButton.setBackgroundColor(getContext().getColor(R.color.colorAccent));
+        fabButton.setTextColor(Color.WHITE);
     }
 
     //Gets the current location of the device, and positions the map's camera.
@@ -272,8 +268,9 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<Location> task) {
                         if (task.isSuccessful()) {
-                            // Set the map's camera position to the current location of the device.
+                            Log.i(TAG,"location retrieved");
                             lastKnownLocation = task.getResult();
+                            InitialQuery();
                         }
                         else {
                             Log.e(TAG, "Exception: %s", task.getException());
@@ -302,6 +299,7 @@ public class HomeFragment extends Fragment {
     private void InitialQuery() {
         eventAdapter.clear();
         results.clear();
+        Log.i(TAG, "Querying");
         ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
         query.include(Event.KEY_ORGANIZER);
         query.setLimit(20);
@@ -321,6 +319,7 @@ public class HomeFragment extends Fragment {
                         ex.printStackTrace();
                     }
                     long dateInMillies = datetime.getTime();
+                    Log.i(TAG,lastKnownLocation.toString());
                     if (dateInMillies > now) {
                         event.setDistance(event.getLocation()
                                 .distanceInKilometersTo(new ParseGeoPoint(lastKnownLocation.getLatitude(),
