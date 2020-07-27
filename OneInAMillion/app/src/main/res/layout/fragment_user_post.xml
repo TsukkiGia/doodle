@@ -4,24 +4,39 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="#F0F2F5"
     android:layout_height="match_parent"
     tools:context=".Fragments.UserPostFragment">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tfPost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_margin="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:hint="What are your thoughts?">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etPost"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="false"
+            android:clickable="true"
+            android:background="@color/quantum_white_100" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvUserPosts"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#F0F2F5"/>
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabPost"
-        android:layout_width="60dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/tfPost"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="14dp"
-        android:layout_marginBottom="24dp"
-        android:background="#FFFFFF"
-        android:backgroundTint="@color/colorAccent"
-        android:src="@drawable/icons_plus"
-        app:tint="@android:color/white" />
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp"
+        android:background="#F0F2F5" />
 </RelativeLayout>

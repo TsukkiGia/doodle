@@ -1,5 +1,6 @@
 package com.example.oneinamillion.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,14 +13,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
+import com.example.oneinamillion.AddPostActivity;
 import com.example.oneinamillion.Models.Event;
 import com.example.oneinamillion.Models.Post;
 import com.example.oneinamillion.R;
 import com.example.oneinamillion.adapters.PostAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import org.parceler.Parcels;
@@ -31,7 +37,8 @@ public class UserPostFragment extends Fragment {
     List<Post> posts;
     RecyclerView rvUserPosts;
     PostAdapter postAdapter;
-    FloatingActionButton fabPost;
+    TextInputEditText etPost;
+    TextInputLayout tfInputLayout;
     Event event;
     public static final String TAG = "UserPostFragment";
 
@@ -57,15 +64,18 @@ public class UserPostFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         rvUserPosts = view.findViewById(R.id.rvUserPosts);
-        posts = new ArrayList<>();
-        postAdapter = new PostAdapter(posts,getContext());
-        fabPost = view.findViewById(R.id.fabPost);
-        fabPost.setOnClickListener(new View.OnClickListener() {
+        etPost = view.findViewById(R.id.etPost);
+        tfInputLayout = view.findViewById(R.id.tfPost);
+        etPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent i = new Intent(getContext(), AddPostActivity.class);
+                i.putExtra(Event.class.getSimpleName(),Parcels.wrap(event));
+                getContext().startActivity(i);
             }
         });
+        posts = new ArrayList<>();
+        postAdapter = new PostAdapter(posts,getContext());
         rvUserPosts.setAdapter(postAdapter);
         rvUserPosts.setLayoutManager(new LinearLayoutManager(getContext()));
         queryPosts();

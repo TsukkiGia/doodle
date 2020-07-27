@@ -1,16 +1,14 @@
-package com.example.oneinamillion.Models;
+package com.example.oneinamillion;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-import com.example.oneinamillion.R;
-
-public class CreatePostActivity extends AppCompatActivity {
+public class AddPostActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_post);
+        setContentView(R.layout.activity_add_post);
     }
 }

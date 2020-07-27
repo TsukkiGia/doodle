@@ -22,7 +22,6 @@ public class Post extends ParseObject {
 
     public JSONArray getLikers(){
         return getJSONArray(KEY_LIKERS);
-
     }
 
     public void setLikers(JSONArray Likes) {
