@@ -14,7 +14,6 @@
 
 package com.example.oneinamillion;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -23,7 +22,6 @@ import android.os.Bundle;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -46,22 +44,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import com.google.android.libraries.places.api.Places;
-import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.api.model.PlaceLikelihood;
-import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest;
-import com.google.android.libraries.places.api.net.FindCurrentPlaceResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
-import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.parceler.Parcels;
 
-import java.util.Arrays;
 import java.util.List;
 
 import okhttp3.Headers;
@@ -146,7 +134,7 @@ public class HomeMapActivity extends AppCompatActivity
                                 JSONObject jsonObject = json.jsonObject;
                                 try {
                                     String address = jsonObject.getJSONArray("results").getJSONObject(0).getString("formatted_address");
-                                    Intent i = new Intent(HomeMapActivity.this, DetailsActivity.class);
+                                    Intent i = new Intent(HomeMapActivity.this, EventDetailsActivity.class);
                                     i.putExtra(Event.class.getSimpleName(), Parcels.wrap(event));
                                     i.putExtra("address",address);
                                     //i.putExtra("activity","HomeFragment");

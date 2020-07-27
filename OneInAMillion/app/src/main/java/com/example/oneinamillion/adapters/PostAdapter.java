@@ -1,6 +1,7 @@
 package com.example.oneinamillion.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.oneinamillion.Models.Post;
+import com.example.oneinamillion.PostDetailsActivity;
 import com.example.oneinamillion.R;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
@@ -22,6 +24,7 @@ import com.parse.SaveCallback;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -119,70 +122,75 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                 ivLike.setTag(R.drawable.ufi_heart);
                 ivLike.setColorFilter(Color.BLACK);
             }
-            /*if (likes!=1) {
+            if (likes!=1) {
                 tvLikes.setText(String.valueOf(likes) + " likes");
             }
             else {
                 tvLikes.setText("1 like");
-            }*/
+            }
         }
 
         @Override
         public void onClick(View view) {
-            if ((Integer) ivLike.getTag()==R.drawable.ufi_heart) {
-                ivLike.setImageDrawable(context.getResources().getDrawable(R.drawable.ufi_heart_active));
-                ivLike.setTag(R.drawable.ufi_heart_active);
-                ivLike.setColorFilter(Color.RED);
-                likes++;
-                if (likes != 1) {
-                    tvLikes.setText(String.valueOf(likes) + " likes");
-                }
-                else {
-                    tvLikes.setText("1 like");
-                }
-                Post post = posts.get(getAdapterPosition());
-                JSONArray likers = post.getLikers();
-                likers.put(ParseUser.getCurrentUser());
-                post.setLikers(likers);
-                post.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(com.parse.ParseException e) {
+            if (view.getId()==ivLike.getId()) {
+                if ((Integer) ivLike.getTag() == R.drawable.ufi_heart) {
+                    ivLike.setImageDrawable(context.getResources().getDrawable(R.drawable.ufi_heart_active));
+                    ivLike.setTag(R.drawable.ufi_heart_active);
+                    ivLike.setColorFilter(Color.RED);
+                    likes++;
+                    if (likes != 1) {
+                        tvLikes.setText(String.valueOf(likes) + " likes");
+                    } else {
+                        tvLikes.setText("1 like");
                     }
-                });
-            }
-            else {
-                ivLike.setImageDrawable(context.getResources().getDrawable(R.drawable.ufi_heart));
-                ivLike.setTag(R.drawable.ufi_heart);
-                ivLike.setColorFilter(Color.BLACK);
-                likes--;
-                if (likes!=1) {
-                    tvLikes.setText(String.valueOf(likes) + " likes");
-                }
-                else {
-                    tvLikes.setText("1 like");
-                }
-                Post post = posts.get(getAdapterPosition());
-                int index = 0;
-                JSONArray likers = post.getLikers();
-                for (int i = 0; i < likers.length()-1; i++) {
-                    try {
-                        ParseUser user = (ParseUser) likers.get(i);
-                        if (user.equals(ParseUser.getCurrentUser())) {
-                            index=i;
-                            break;
+                    Post post = posts.get(getAdapterPosition());
+                    JSONArray likers = post.getLikers();
+                    likers.put(ParseUser.getCurrentUser());
+                    post.setLikers(likers);
+                    post.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(com.parse.ParseException e) {
                         }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                    });
+                } else {
+                    ivLike.setImageDrawable(context.getResources().getDrawable(R.drawable.ufi_heart));
+                    ivLike.setTag(R.drawable.ufi_heart);
+                    ivLike.setColorFilter(Color.BLACK);
+                    likes--;
+                    if (likes != 1) {
+                        tvLikes.setText(String.valueOf(likes) + " likes");
+                    } else {
+                        tvLikes.setText("1 like");
                     }
+                    Post post = posts.get(getAdapterPosition());
+                    int index = 0;
+                    JSONArray likers = post.getLikers();
+                    for (int i = 0; i < likers.length() - 1; i++) {
+                        try {
+                            ParseUser user = (ParseUser) likers.get(i);
+                            if (user.equals(ParseUser.getCurrentUser())) {
+                                index = i;
+                                break;
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    likers.remove(index);
+                    post.setLikers(likers);
+                    post.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(com.parse.ParseException e) {
+                            Log.i("try", "try");
+                        }
+                    });
                 }
-                likers.remove(index);
-                post.setLikers(likers);
-                post.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(com.parse.ParseException e) {
-                        Log.i("try","try");
-                    }
-                });
+            }
+            if (view.getId()==ivComment.getId()){
+                Post post = posts.get(getAdapterPosition());
+                Intent i = new Intent(context, PostDetailsActivity.class);
+                i.putExtra(Post.class.getSimpleName(), Parcels.wrap(post));
+                context.startActivity(i);
             }
         }
     }

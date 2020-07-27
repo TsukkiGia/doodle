@@ -17,19 +17,16 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.PopupWindow;
 
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
-import com.example.oneinamillion.DetailsActivity;
+import com.example.oneinamillion.EventDetailsActivity;
 import com.example.oneinamillion.Models.CustomWindowAdapter;
 import com.example.oneinamillion.Models.Event;
 import com.example.oneinamillion.R;
@@ -46,7 +43,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseGeoPoint;
 import com.parse.ParseQuery;
 
 import org.json.JSONException;
@@ -160,7 +156,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
                                 JSONObject jsonObject = json.jsonObject;
                                 try {
                                     String address = jsonObject.getJSONArray("results").getJSONObject(0).getString("formatted_address");
-                                    Intent i = new Intent(getContext(), DetailsActivity.class);
+                                    Intent i = new Intent(getContext(), EventDetailsActivity.class);
                                     i.putExtra(Event.class.getSimpleName(), Parcels.wrap(event));
                                     i.putExtra("address",address);
                                     i.putExtra("activity","SearchFragment");

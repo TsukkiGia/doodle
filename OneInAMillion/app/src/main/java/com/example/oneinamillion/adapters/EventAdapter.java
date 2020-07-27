@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
-import com.example.oneinamillion.DetailsActivity;
+import com.example.oneinamillion.EventDetailsActivity;
 import com.example.oneinamillion.Models.Event;
 import com.example.oneinamillion.R;
 import com.google.android.material.snackbar.Snackbar;
@@ -122,7 +122,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
                     JSONObject jsonObject = json.jsonObject;
                     try {
                         String address = jsonObject.getJSONArray("results").getJSONObject(0).getString("formatted_address");
-                        Intent i = new Intent(context, DetailsActivity.class);
+                        Intent i = new Intent(context, EventDetailsActivity.class);
                         i.putExtra(Event.class.getSimpleName(),Parcels.wrap(event));
                         i.putExtra("address",address);
                         i.putExtra("activity","AdapterItem");

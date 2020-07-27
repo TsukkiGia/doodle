@@ -5,7 +5,6 @@ import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,7 +20,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.parceler.Parcels;
 
-public class DetailsActivity extends AppCompatActivity {
+public class EventDetailsActivity extends AppCompatActivity {
     ImageView ivEventImage;
     TextView tvEventName;
     TextView tvLocation;
@@ -43,7 +42,7 @@ public class DetailsActivity extends AppCompatActivity {
         if (getIntent().getStringExtra("activity").equals("SearchFragment")) {
             overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         }
-        setContentView(R.layout.activity_details);
+        setContentView(R.layout.activity_event_details);
         event = Parcels.unwrap(getIntent().getParcelableExtra(Event.class.getSimpleName()));
         address = getIntent().getStringExtra("address");
         extFabDetails = findViewById(R.id.extFabDetails);
@@ -119,7 +118,7 @@ public class DetailsActivity extends AppCompatActivity {
                 }
             }
         });
-        Glide.with(DetailsActivity.this).load(event.getImage().getUrl()).into(ivEventImage);
+        Glide.with(EventDetailsActivity.this).load(event.getImage().getUrl()).into(ivEventImage);
         tvEventName.setText(event.getEventName());
         tvDateTime.setText(event.getDate()+" at "+event.getTime());
         tvLocation.setText(address);
