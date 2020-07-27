@@ -5,6 +5,7 @@ import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
+import org.json.JSONArray;
 import org.parceler.Parcel;
 
 @ParseClassName("Post")
@@ -14,8 +15,18 @@ public class Post extends ParseObject {
     public static final String KEY_IMAGE="Image";
     public static final String KEY_DESCRIPTION="Description";
     public static final String KEY_EVENT="EventID";
+    public static final String KEY_LIKERS="Likers";
 
     public Post() {
+    }
+
+    public JSONArray getLikers(){
+        return getJSONArray(KEY_LIKERS);
+
+    }
+
+    public void setLikers(JSONArray Likes) {
+        put(KEY_LIKERS,Likes);
     }
 
     public String getEventID() {

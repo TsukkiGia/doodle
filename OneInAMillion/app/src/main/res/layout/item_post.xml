@@ -3,8 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp">
+<androidx.cardview.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="10dp">
     <ImageView
         android:id="@+id/ivProfilePicture"
         android:layout_width="38dp"
@@ -22,22 +29,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/ivProfilePicture"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="5dp"
         android:layout_marginTop="4dp"
         android:layout_toEndOf="@+id/ivProfilePicture"
         android:text="gtorpey"
+        android:textColor="#000000"
+        android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/ivProfilePicture"
         tools:layout_editor_absoluteY="5dp" />
 
-    <TextView
-        android:id="@+id/tvDescription"
-        android:layout_width="379dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvUsername"
-        android:layout_alignStart="@+id/ivProfilePicture"
-        android:layout_marginStart="-2dp"
-        android:layout_marginTop="23dp"
-        android:text="TextView" />
+        <TextView
+            android:id="@+id/tvDescription"
+            android:layout_width="379dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvUsername"
+            android:layout_alignStart="@+id/ivProfilePicture"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="23dp"
+            android:text="TextView"
+            android:textColor="#000000" />
 
     <ImageView
         android:id="@+id/ivPost"
@@ -50,15 +60,15 @@
         android:visibility="gone"
         tools:srcCompat="@tools:sample/avatars" />
 
-    <ImageView
-        android:id="@+id/ivLike"
-        android:layout_width="28dp"
-        android:layout_height="27dp"
-        android:layout_below="@+id/ivPost"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="317dp"
-        android:layout_marginTop="13dp"
-        app:srcCompat="@drawable/ufi_heart" />
+        <ImageView
+            android:id="@+id/ivLike"
+            android:layout_width="28dp"
+            android:layout_height="27dp"
+            android:layout_below="@+id/ivPost"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="305dp"
+            android:layout_marginTop="40dp"
+            app:srcCompat="@drawable/ufi_heart" />
 
     <ImageView
         android:id="@+id/ivComment"
@@ -66,7 +76,21 @@
         android:layout_height="27dp"
         android:layout_below="@+id/ivPost"
         android:layout_marginStart="21dp"
-        android:layout_marginTop="13dp"
+        android:layout_marginTop="40dp"
         android:layout_toEndOf="@+id/ivLike"
         app:srcCompat="@drawable/ufi_comment" />
-</RelativeLayout>
+
+    <TextView
+        android:id="@+id/tvLikesAndComments"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:layout_above="@+id/ivLike"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="-40dp"
+        android:gravity="right"
+        android:textColor="#000000"
+        tools:text="50 likes and 40 comments" />
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>
+    </RelativeLayout>
