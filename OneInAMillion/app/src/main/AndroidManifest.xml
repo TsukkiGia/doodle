@@ -32,7 +32,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".PostDetailsActivity"></activity>
+        <activity android:name=".Models.CreatePostActivity"></activity>
+        <activity android:name=".ProfilePageActivity" />
+        <activity android:name=".PostDetailsActivity" />
         <activity android:name=".HomeMapActivity" />
         <activity android:name=".InterestActivity" />
         <activity

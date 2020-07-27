@@ -17,6 +17,7 @@ public class PostDetailsActivity extends AppCompatActivity {
     TextView tvUsername;
     TextView tvDescription;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

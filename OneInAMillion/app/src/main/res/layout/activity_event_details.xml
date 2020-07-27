@@ -126,9 +126,9 @@
                 android:layout_marginTop="20dp"
                 android:gravity="center"
                 android:text="Post Details"
-                android:textColor="#000000"
+                android:textColor="#FFFFFF"
                 android:textSize="12sp"
-                app:backgroundTint="#FFFFFF"
+                app:backgroundTint="@color/colorAccent"
                 app:iconSize="0dp" />
 
             <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
@@ -149,7 +149,7 @@
             <FrameLayout
                 android:id="@+id/flContainer"
                 android:layout_width="match_parent"
-                android:layout_height="490dp"
+                android:layout_height="590dp"
                 android:layout_below="@+id/extFabDetails"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="0dp"

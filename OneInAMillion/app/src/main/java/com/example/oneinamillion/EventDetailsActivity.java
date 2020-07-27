@@ -1,8 +1,10 @@
 package com.example.oneinamillion;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -28,8 +30,6 @@ public class EventDetailsActivity extends AppCompatActivity {
     TextView tvDateTime;
     MaterialButton btnRSVP;
     Event event;
-    Boolean selected_details = true;
-    Boolean selected_posts = false;
     Boolean amIattending = false;
     String address;
     ExtendedFloatingActionButton extFabDetails;
@@ -47,16 +47,37 @@ public class EventDetailsActivity extends AppCompatActivity {
         address = getIntent().getStringExtra("address");
         extFabDetails = findViewById(R.id.extFabDetails);
         extFabPosts = findViewById(R.id.extFabPosts);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("event",Parcels.wrap(event));
+        Fragment fragment = new DetailsFragment();
+        fragment.setArguments(bundle);
+        fragmentManager.beginTransaction().replace(R.id.flContainer,fragment).commit();
         extFabDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fragmentManager.beginTransaction().replace(R.id.flContainer,new DetailsFragment()).commit();
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("event",Parcels.wrap(event));
+                Fragment fragment = new DetailsFragment();
+                fragment.setArguments(bundle);
+                fragmentManager.beginTransaction().replace(R.id.flContainer,fragment).commit();
+                extFabDetails.setBackgroundColor(getColor(R.color.colorAccent));
+                extFabDetails.setTextColor(Color.WHITE);
+                extFabPosts.setBackgroundColor(Color.WHITE);
+                extFabPosts.setTextColor(Color.BLACK);
             }
         });
         extFabPosts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fragmentManager.beginTransaction().replace(R.id.flContainer,new UserPostFragment()).commit();
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("event",Parcels.wrap(event));
+                Fragment fragment = new UserPostFragment();
+                fragment.setArguments(bundle);
+                fragmentManager.beginTransaction().replace(R.id.flContainer,fragment).commit();
+                extFabPosts.setBackgroundColor(getColor(R.color.colorAccent));
+                extFabPosts.setTextColor(Color.WHITE);
+                extFabDetails.setBackgroundColor(Color.WHITE);
+                extFabDetails.setTextColor(Color.BLACK);
             }
         });
         ivEventImage = findViewById(R.id.ivEventImage);
