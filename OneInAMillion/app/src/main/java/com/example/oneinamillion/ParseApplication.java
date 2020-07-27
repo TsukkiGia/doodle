@@ -2,6 +2,7 @@ package com.example.oneinamillion;
 
 import android.app.Application;
 
+import com.example.oneinamillion.Models.Comment;
 import com.example.oneinamillion.Models.Event;
 import com.example.oneinamillion.Models.Post;
 import com.parse.Parse;
@@ -13,6 +14,7 @@ public class ParseApplication extends Application {
         super.onCreate();
         ParseObject.registerSubclass(Event.class);
         ParseObject.registerSubclass(Post.class);
+        ParseObject.registerSubclass(Comment.class);
         // set applicationId, and server server based on the values in the Heroku settings.
         // clientKey is not needed unless explicitly configured
         // any network interceptors must be added with the Configuration Builder given this syntax
