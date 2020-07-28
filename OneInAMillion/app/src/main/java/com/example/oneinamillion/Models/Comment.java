@@ -16,11 +16,11 @@ public class Comment extends ParseObject {
     public Comment() {
     }
 
-    public ParseObject getPostRelation() {
-        return getParseObject(KEY_POST);
+    public String getPostRelation() {
+        return getString(KEY_POST);
     }
 
-    public void setPost(ParseObject post) {
+    public void setPost(String post) {
         put(KEY_POST,post);
     }
 

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.oneinamillion.Models.Comment;
+import com.example.oneinamillion.Models.Event;
 import com.example.oneinamillion.R;
 
 import java.util.List;
@@ -23,6 +24,16 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
     public CommentAdapter(Context context, List<Comment> comments) {
         this.context = context;
         this.comments = comments;
+    }
+
+    public void clear() {
+        comments.clear();
+        notifyDataSetChanged();
+    }
+
+    public void addAll(List<Comment> list) {
+        comments.addAll(list);
+        notifyDataSetChanged();
     }
 
     @NonNull
