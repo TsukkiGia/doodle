@@ -10,13 +10,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.oneinamillion.Models.Event;
+import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.parceler.Parcels;
+
+import java.util.List;
 
 public class ProfilePageActivity extends AppCompatActivity {
     ImageView ivProfilePicture;
@@ -26,6 +31,7 @@ public class ProfilePageActivity extends AppCompatActivity {
     Boolean friended=false;
     ParseUser user;
     public static final String TAG = "ProfilePageActivity";
+    List<Event> eventsOrganized;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +113,21 @@ public class ProfilePageActivity extends AppCompatActivity {
                     });
                     btnAddFriend.setText("Friends");
                     friended = true;
+                }
+            }
+        });
+    }
+
+    private void eventsOrganizedbyUser(){
+        ParseQuery<Event> parseQuery = ParseQuery.getQuery(Event.class);
+        parseQuery.include(Event.KEY_ORGANIZER);
+        parseQuery.findInBackground(new FindCallback<Event>() {
+            @Override
+            public void done(List<Event> events, ParseException e) {
+                for (Event event: events){
+                    if (event.getOrganizer().getObjectId().equals(user.getObjectId())){
+                        eventsOrganized.add(event);
+                    }
                 }
             }
         });

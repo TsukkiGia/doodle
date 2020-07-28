@@ -86,7 +86,7 @@ public class PostDetailsActivity extends AppCompatActivity {
         ivComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (etComment.getText().length()!=0){
+                if (etComment.getText().length() != 0){
                     Comment comment = new Comment();
                     comment.setCommenter(ParseUser.getCurrentUser());
                     comment.setPost(post.getObjectId());
@@ -95,7 +95,7 @@ public class PostDetailsActivity extends AppCompatActivity {
                         @Override
                         public void done(ParseException e) {
                             Log.i(TAG,"done");
-                            etComment.setText("");
+                            etComment.setText(" ");
                             queryComments();
                         }
                     });

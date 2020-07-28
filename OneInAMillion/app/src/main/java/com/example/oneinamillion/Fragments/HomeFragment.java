@@ -80,6 +80,7 @@ public class HomeFragment extends Fragment {
     Boolean filterdistance=false;
     Boolean filterprice=false;
     Boolean filtertags = false;
+    Boolean filterfriends = false;
     List<String> tags = new ArrayList<>();
     ImageView ivFilter;
     FragmentManager fragmentManager;
