@@ -1,5 +1,6 @@
 package com.example.oneinamillion.Fragments;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -33,6 +34,8 @@ import org.parceler.Parcels;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.app.Activity.RESULT_OK;
+
 public class UserPostFragment extends Fragment {
     List<Post> posts;
     RecyclerView rvUserPosts;
@@ -54,6 +57,16 @@ public class UserPostFragment extends Fragment {
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == 200 && resultCode == RESULT_OK) {
+            Post post = Parcels.unwrap(data.getParcelableExtra("post"));
+            posts.add(0, post);
+            postAdapter.notifyItemInserted(0);
+            rvUserPosts.smoothScrollToPosition(0);
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -71,7 +84,7 @@ public class UserPostFragment extends Fragment {
             public void onClick(View view) {
                 Intent i = new Intent(getContext(), AddPostActivity.class);
                 i.putExtra(Event.class.getSimpleName(),Parcels.wrap(event));
-                getContext().startActivity(i);
+                startActivityForResult(i,200);
             }
         });
         posts = new ArrayList<>();
@@ -84,6 +97,7 @@ public class UserPostFragment extends Fragment {
     private void queryPosts() {
         ParseQuery<Post> query = ParseQuery.getQuery(Post.class);
         query.include(Post.KEY_AUTHOR);
+        query.whereEqualTo(Post.KEY_EVENT,event.getObjectId());
         query.findInBackground(new FindCallback<Post>() {
             @Override
             public void done(List<Post> posts, ParseException e) {

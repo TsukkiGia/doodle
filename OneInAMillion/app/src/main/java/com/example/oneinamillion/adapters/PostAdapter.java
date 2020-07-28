@@ -1,5 +1,6 @@
 package com.example.oneinamillion.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.oneinamillion.Models.Post;
 import com.example.oneinamillion.PostDetailsActivity;
+import com.example.oneinamillion.ProfilePageActivity;
 import com.example.oneinamillion.R;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
@@ -87,6 +89,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             tvLikes = itemView.findViewById(R.id.tvLikesAndComments);
             ivLike.setOnClickListener(this);
             ivComment.setOnClickListener(this);
+            ivProfilePicture.setOnClickListener(this);
         }
 
         public void bind(Post post) {
@@ -97,6 +100,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             }
             else {
                 ivProfilePicture.setImageDrawable(context.getDrawable(R.drawable.instagram_user_filled_24));
+            }
+            if (post.getImage() != null) {
+                ivPost.setVisibility(View.VISIBLE);
+                Glide.with(context).load(post.getImage().getUrl()).centerCrop().into(ivPost);
             }
             JSONArray likers = post.getLikers();
             Boolean didILike = false;
@@ -190,6 +197,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                 Post post = posts.get(getAdapterPosition());
                 Intent i = new Intent(context, PostDetailsActivity.class);
                 i.putExtra(Post.class.getSimpleName(), Parcels.wrap(post));
+                context.startActivity(i);
+            }
+            if (view.getId()==ivProfilePicture.getId()){
+                ParseUser user = posts.get(getAdapterPosition()).getAuthor();
+                Intent i = new Intent(context, ProfilePageActivity.class);
+                i.putExtra("user", Parcels.wrap(user));
                 context.startActivity(i);
             }
         }
