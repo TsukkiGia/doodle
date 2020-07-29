@@ -108,6 +108,7 @@ public class AddPostActivity extends AppCompatActivity {
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 ivImage.setVisibility(View.VISIBLE);
+                ivImage.setImageResource(0);
                 fromCameraorGallery = "camera";
                 Glide.with(getApplicationContext()).load(photoFile.getAbsolutePath()).into(ivImage);
             } else { // Result was a failure
