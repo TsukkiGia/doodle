@@ -27,6 +27,7 @@ public class DetailsFragment extends Fragment {
     TextView tvFriendsAttending;
     Event event;
     String price;
+    String distance;
 
 
 
@@ -47,8 +48,11 @@ public class DetailsFragment extends Fragment {
         organizerName = event.getOrganizer().getString("FirstName")+" "+
                 event.getOrganizer().getString("LastName");
         price = String.valueOf(event.getPrice());
+        distance = String.valueOf(Math.round(event.distance));
+        //Checker if the value is 0
         tvOrganizer.setText("Organized by "+organizerName);
-        tvPrice.setText();
+        tvPrice.setText("$"+price);
+        tvDistance.setText("This event is "+distance+" kilometers away from you");
     }
 
     @Override

@@ -97,6 +97,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         }
 
         public void bind(Event event) throws ParseException {
+            Log.i(TAG,String.valueOf(event.getDistance()));
             tvPrice.setText("$"+ event.getPrice());
             tvEventName.setText(event.getEventName());
             long now = System.currentTimeMillis();
@@ -112,6 +113,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         public boolean onSingleTapConfirmed(MotionEvent motionEvent) {
             int position = getAdapterPosition();
             final Event event = events.get(position);
+            Log.i(TAG,String.valueOf(event.getDistance()));
             AsyncHttpClient client = new AsyncHttpClient();
             client.get("https://maps.googleapis.com/maps/api/geocode/json?latlng="+
                     String.valueOf(event.getLocation().getLatitude())+","+String.valueOf(event.getLocation().getLongitude())+
@@ -126,6 +128,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
                         i.putExtra(Event.class.getSimpleName(),Parcels.wrap(event));
                         i.putExtra("address",address);
                         i.putExtra("activity","AdapterItem");
+                        i.putExtra("distance",event.getDistance());
                         context.startActivity(i);
                     }
                     catch (JSONException e) {

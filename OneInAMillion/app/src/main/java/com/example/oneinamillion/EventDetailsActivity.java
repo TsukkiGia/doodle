@@ -54,6 +54,8 @@ public class EventDetailsActivity extends AppCompatActivity {
         }
         setContentView(R.layout.activity_event_details);
         event = Parcels.unwrap(getIntent().getParcelableExtra(Event.class.getSimpleName()));
+        double distance = getIntent().getDoubleExtra("distance",0);
+        event.setDistance(distance);
         address = getIntent().getStringExtra("address");
         extFabDetails = findViewById(R.id.extFabDetails);
         extFabPosts = findViewById(R.id.extFabPosts);
