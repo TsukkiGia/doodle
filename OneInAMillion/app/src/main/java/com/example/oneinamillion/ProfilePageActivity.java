@@ -140,7 +140,6 @@ public class ProfilePageActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
 
     private void queryEvents() {
@@ -159,8 +158,6 @@ public class ProfilePageActivity extends AppCompatActivity {
                     if (event.getOrganizer().getObjectId().equals(user.getObjectId())){
                         organized.add(event);
                     }
-                    Log.i(TAG,"first"+ attended.toString());
-                    Log.i(TAG,"first"+organized.toString());
                 }
                 AttendedEventAdapter.clear();
                 AttendedEventAdapter.addAll(attended);
@@ -170,27 +167,5 @@ public class ProfilePageActivity extends AppCompatActivity {
                 OrganizedEventAdapter.notifyDataSetChanged();
             }
         });
-    }
-
-    private void eventsAttendedbyUser(){
-
-    }
-
-    private void eventsOrganizedbyUser(){
-        ParseQuery<Event> parseQuery = ParseQuery.getQuery(Event.class);
-        parseQuery.include(Event.KEY_ORGANIZER);
-        parseQuery.findInBackground(new FindCallback<Event>() {
-            @Override
-            public void done(List<Event> events, ParseException e) {
-                for (Event event: events){
-                    Log.i(TAG,event.getEventName());
-                    if (event.getOrganizer().getObjectId().equals(user.getObjectId())){
-                        eventsOrganized.add(event);
-                    }
-                }
-            }
-        });
-        OrganizedEventAdapter.clear();
-        OrganizedEventAdapter.addAll(eventsOrganized);
     }
 }
