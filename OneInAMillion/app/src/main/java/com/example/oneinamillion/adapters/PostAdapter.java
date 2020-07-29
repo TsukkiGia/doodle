@@ -91,6 +91,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             ivLike.setOnClickListener(this);
             ivComment.setOnClickListener(this);
             ivProfilePicture.setOnClickListener(this);
+            tvDescription.setOnClickListener(this);
         }
 
         public void bind(Post post) {
@@ -107,6 +108,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                 Glide.with(context).load(post.getImage().getUrl()).centerCrop().into(ivPost);
             }
             JSONArray likers = post.getLikers();
+            Boolean didILike = false;
             for (int i = 0; i < likers.length(); i++) {
                 try {
                     JSONObject user = (JSONObject) likers.get(i);
@@ -121,10 +123,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             likes = likers.length();
             if (didILike){
                 ivLike.setImageDrawable(context.getResources().getDrawable(R.drawable.ufi_heart_active));
+                ivLike.setTag(R.drawable.ufi_heart_active);
                 ivLike.setColorFilter(Color.RED);
             }
             else {
                 ivLike.setImageDrawable(context.getResources().getDrawable(R.drawable.ufi_heart));
+                ivLike.setTag(R.drawable.ufi_heart);
                 ivLike.setColorFilter(Color.BLACK);
             }
             if (likes!=1) {
@@ -138,8 +142,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         @Override
         public void onClick(View view) {
             if (view.getId()==ivLike.getId()) {
-                if (!didILike) {
+                if ((Integer) ivLike.getTag() == R.drawable.ufi_heart) {
                     ivLike.setImageDrawable(context.getResources().getDrawable(R.drawable.ufi_heart_active));
+                    ivLike.setTag(R.drawable.ufi_heart_active);
                     ivLike.setColorFilter(Color.RED);
                     likes++;
                     if (likes != 1) {
@@ -150,7 +155,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                     Post post = posts.get(getAdapterPosition());
                     JSONArray likers = post.getLikers();
                     likers.put(ParseUser.getCurrentUser());
-                    didILike=true;
                     post.setLikers(likers);
                     post.saveInBackground(new SaveCallback() {
                         @Override
@@ -159,9 +163,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                     });
                 } else {
                     ivLike.setImageDrawable(context.getResources().getDrawable(R.drawable.ufi_heart));
+                    ivLike.setTag(R.drawable.ufi_heart);
                     ivLike.setColorFilter(Color.BLACK);
                     likes--;
-                    didILike=false;
                     if (likes != 1) {
                         tvLikes.setText(String.valueOf(likes) + " likes");
                     } else {
@@ -191,7 +195,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                     });
                 }
             }
-            if (view.getId()==ivComment.getId()){
+            if (view.getId()==ivComment.getId() || view.getId()==tvDescription.getId() ){
                 Post post = posts.get(getAdapterPosition());
                 Intent i = new Intent(context, PostDetailsActivity.class);
                 i.putExtra(Post.class.getSimpleName(), Parcels.wrap(post));

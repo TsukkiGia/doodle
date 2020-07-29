@@ -115,7 +115,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:inputType="textMultiLine"
-                    android:minLines="8" />
+                    android:minLines="8"
+                    android:gravity="start|top"
+                    android:layout_gravity="start|top"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 

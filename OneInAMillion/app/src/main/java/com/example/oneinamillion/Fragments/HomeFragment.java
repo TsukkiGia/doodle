@@ -110,6 +110,7 @@ public class HomeFragment extends Fragment {
             }
             tags = getArguments().getStringArrayList("tags");
             filtertags = true;
+            filterfriends = getArguments().getBoolean("friends");
             currentlySelected = getArguments().getString("sort_metric");
             Log.i(TAG,currentlySelected);
         }
@@ -152,6 +153,7 @@ public class HomeFragment extends Fragment {
                 bundle.putString("sort_metric",currentlySelected);
                 bundle.putString("max_distance", String.valueOf(max_distance));
                 bundle.putString("max_price", String.valueOf(max_distance));
+                bundle.putBoolean("friends",filterfriends);
                 bundle.putStringArrayList("tags", (ArrayList<String>) tags);
                 filterFragment.setArguments(bundle);
                 fragmentManager.beginTransaction().replace(R.id.flContainer, filterFragment).commit();
@@ -164,8 +166,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 if (!currentlySelected.equals(date_string)) {
                     currentlySelected = date_string;
-                    fabDate.setBackgroundColor(getContext().getColor(R.color.colorAccent));
-                    fabDate.setTextColor(Color.WHITE);
+                    setActiveButton(fabDate);
                     fabDistance.setBackgroundColor(Color.WHITE);
                     fabDistance.setTextColor(Color.BLACK);
                     fabPrice.setBackgroundColor(Color.WHITE);
@@ -181,8 +182,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 if (!currentlySelected.equals(distance_string)) {
                     currentlySelected = distance_string;
-                    fabDistance.setBackgroundColor(getContext().getColor(R.color.colorAccent));
-                    fabDistance.setTextColor(Color.WHITE);
+                    setActiveButton(fabDistance);
                     fabDate.setBackgroundColor(Color.WHITE);
                     fabDate.setTextColor(Color.BLACK);
                     fabPrice.setBackgroundColor(Color.WHITE);
@@ -198,8 +198,7 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 if (!currentlySelected.equals(price_string)) {
                     currentlySelected = price_string;
-                    fabPrice.setBackgroundColor(getContext().getColor(R.color.colorAccent));
-                    fabPrice.setTextColor(Color.WHITE);
+                    setActiveButton(fabPrice);
                     fabDate.setBackgroundColor(Color.WHITE);
                     fabDate.setTextColor(Color.BLACK);
                     fabDistance.setBackgroundColor(Color.WHITE);
@@ -303,7 +302,6 @@ public class HomeFragment extends Fragment {
         Log.i(TAG, "Querying");
         ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
         query.include(Event.KEY_ORGANIZER);
-        query.setLimit(20);
         query.findInBackground(new FindCallback<Event>() {
             @Override
             public void done(List<Event> events, ParseException e) {
@@ -311,6 +309,7 @@ public class HomeFragment extends Fragment {
                     Log.e(TAG, "problem!", e);
                 }
                 for (Event event : events) {
+                    Log.i(TAG,event.getEventName());
                     long now = System.currentTimeMillis();
                     Date datetime = null;
                     try {
@@ -361,6 +360,30 @@ public class HomeFragment extends Fragment {
             List<Event> filtered = filterCloseEvents(results);
             results = filtered;
         }
+        if(filterfriends){
+            Log.i(TAG,"filtering by friends");
+            List<Event> filtered = filterByFriends(results);
+            results = filtered;
+        }
+    }
+
+    private List<Event> filterByFriends(List<Event> events) {
+        List<Event> friendEvents = new ArrayList<>();
+        String friends = ParseUser.getCurrentUser().getJSONArray("Friends").toString();
+        for (Event event : events){
+            JSONArray attendees = event.getAttendees();
+            for (int i = 0; i < attendees.length(); i++){
+                try {
+                    if (friends.contains(attendees.getString(i))){
+                        friendEvents.add(event);
+                        break;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return friendEvents;
     }
 
     private List<Event> filterCloseEvents (List<Event> events) {

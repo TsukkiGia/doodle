@@ -154,5 +154,10 @@ public class EventDetailsActivity extends AppCompatActivity {
         tvDateTime.setText(event.getDate()+" at "+event.getTime());
         tvLocation.setText(address);
         tvDescription.setText(event.getDescription());
+        getKnownAttendees();
+    }
+
+    private void getKnownAttendees() {
+        JSONArray attendees = event.getAttendees();
     }
 }

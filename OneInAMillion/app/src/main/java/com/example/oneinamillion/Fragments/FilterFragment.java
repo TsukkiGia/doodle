@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -56,6 +57,8 @@ public class FilterFragment extends Fragment {
     SeekBar sbDistance;
     SeekBar sbPrice;
     String sort_metric;
+    Boolean isChecked=false;
+    CheckBox cbFriendsAttending;
     List<String> interests = new ArrayList<>();
     public static final String TAG = "FilterFragment";
 
@@ -73,6 +76,8 @@ public class FilterFragment extends Fragment {
             max_distance = Double.valueOf(getArguments().getString("max_distance"));
             max_price = Double.valueOf(getArguments().getString("max_price"));
             interests = getArguments().getStringArrayList("tags");
+            isChecked = getArguments().getBoolean("friends");
+
         }
     }
 
@@ -86,6 +91,8 @@ public class FilterFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        cbFriendsAttending = view.findViewById(R.id.cbFriendsAttending);
+        cbFriendsAttending.setChecked(isChecked);
         fabSports = view.findViewById(R.id.extFabSports);
         fabConcerts = view.findViewById(R.id.extFabConcerts);
         fabAuction = view.findViewById(R.id.extFabAuction);
@@ -96,6 +103,7 @@ public class FilterFragment extends Fragment {
         fabAthons = view.findViewById(R.id.extFabAthons);
         Log.i(TAG,interests.toString());
         for (int i = 0; i < interests.size(); i++) {
+            //case and switch
             if (interests.get(i).equals(sport_tag)){
                 fabSports.setTextColor(Color.WHITE);
                 fabSports.setBackgroundColor(getContext().getColor(R.color.colorSportButton));
@@ -137,6 +145,7 @@ public class FilterFragment extends Fragment {
                 bundle.putString("sort_metric", sort_metric);
                 bundle.putString("max_distance", tvValueDistance.getText().toString());
                 bundle.putString("max_price", tvValuePrice.getText().toString());
+                bundle.putBoolean("friends",cbFriendsAttending.isChecked());
                 bundle.putStringArrayList("tags", (ArrayList<String>) interests);
                 HomeFragment homeFragment = new HomeFragment();
                 homeFragment.setArguments(bundle);
