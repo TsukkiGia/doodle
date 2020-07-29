@@ -43,14 +43,14 @@ public class FilterFragment extends Fragment {
     ExtendedFloatingActionButton fabCrafts;
     ExtendedFloatingActionButton fabAthons;
     TextView tvValuePrice;
-    String raffle_tag = "raffle";
-    String thon_tag= "thon";
-    String sport_tag = "sport";
-    String auctions_tag = "auction";
-    String cook_tag = "cook";
-    String concert_tag = "music";
-    String gala_tag = "gala";
-    String craft_tag = "craft";
+    final String raffle_tag = "raffle";
+    final String thon_tag= "thon";
+    final String sport_tag = "sport";
+    final String auctions_tag = "auction";
+    final String cook_tag = "cook";
+    final String concert_tag = "music";
+    final String gala_tag = "gala";
+    final String craft_tag = "craft";
     double max_distance = 100;
     double max_price = 100;
     TextView tvValueDistance;
@@ -77,7 +77,6 @@ public class FilterFragment extends Fragment {
             max_price = Double.valueOf(getArguments().getString("max_price"));
             interests = getArguments().getStringArrayList("tags");
             isChecked = getArguments().getBoolean("friends");
-
         }
     }
 
@@ -103,38 +102,42 @@ public class FilterFragment extends Fragment {
         fabAthons = view.findViewById(R.id.extFabAthons);
         Log.i(TAG,interests.toString());
         for (int i = 0; i < interests.size(); i++) {
-            //case and switch
-            if (interests.get(i).equals(sport_tag)){
-                fabSports.setTextColor(Color.WHITE);
-                fabSports.setBackgroundColor(getContext().getColor(R.color.colorSportButton));
-            }
-            if (interests.get(i).equals(auctions_tag)){
-                fabAuction.setTextColor(Color.WHITE);
-                fabAuction.setBackgroundColor(getContext().getColor(R.color.colorAuctionsButton));
-            }
-            if (interests.get(i).equals(concert_tag)){
-                fabConcerts.setTextColor(Color.WHITE);
-                fabConcerts.setBackgroundColor(getContext().getColor(R.color.colorMusicButton));
-            }
-            if (interests.get(i).equals(gala_tag)){
-                fabGalas.setTextColor(Color.WHITE);
-                fabGalas.setBackgroundColor(getContext().getColor(R.color.colorGalaButton));
-            }
-            if (interests.get(i).equals(raffle_tag)){
-                fabRaffle.setTextColor(Color.WHITE);
-                fabRaffle.setBackgroundColor(getContext().getColor(R.color.colorRaffleButton));
-            }
-            if (interests.get(i).equals(cook_tag)){
-                fabCooking.setTextColor(Color.WHITE);
-                fabCooking.setBackgroundColor(getContext().getColor(R.color.colorCookButton));
-            }
-            if (interests.get(i).equals(craft_tag)){
-                fabCrafts.setTextColor(Color.WHITE);
-                fabCrafts.setBackgroundColor(getContext().getColor(R.color.colorCraftButton));
-            }
-            if (interests.get(i).equals(thon_tag)){
-                fabAthons.setTextColor(Color.WHITE);
-                fabAthons.setBackgroundColor(getContext().getColor(R.color.colorThonButton));
+            String interest = interests.get(i);
+            switch (interest) {
+                case sport_tag:
+                    fabSports.setTextColor(Color.WHITE);
+                    fabSports.setBackgroundColor(getContext().getColor(R.color.colorSportButton));
+                    break;
+                case auctions_tag:
+                    fabAuction.setTextColor(Color.WHITE);
+                    fabAuction.setBackgroundColor(getContext().getColor(R.color.colorAuctionsButton));
+                    break;
+                case concert_tag:
+                    fabConcerts.setTextColor(Color.WHITE);
+                    fabConcerts.setBackgroundColor(getContext().getColor(R.color.colorMusicButton));
+                    break;
+                case gala_tag:
+                    fabGalas.setTextColor(Color.WHITE);
+                    fabGalas.setBackgroundColor(getContext().getColor(R.color.colorGalaButton));
+                    break;
+                case raffle_tag:
+                    fabRaffle.setTextColor(Color.WHITE);
+                    fabRaffle.setBackgroundColor(getContext().getColor(R.color.colorRaffleButton));
+                    break;
+                case cook_tag:
+                    fabCooking.setTextColor(Color.WHITE);
+                    fabCooking.setBackgroundColor(getContext().getColor(R.color.colorCookButton));
+                    break;
+                case craft_tag:
+                    fabCrafts.setTextColor(Color.WHITE);
+                    fabCrafts.setBackgroundColor(getContext().getColor(R.color.colorCraftButton));
+                    break;
+                case thon_tag:
+                    fabAthons.setTextColor(Color.WHITE);
+                    fabAthons.setBackgroundColor(getContext().getColor(R.color.colorThonButton));
+                    break;
+                default:
+                    throw new IllegalStateException("Unexpected value: " + interests.get(i));
             }
         }
         ivBack = view.findViewById(R.id.ivBack);
