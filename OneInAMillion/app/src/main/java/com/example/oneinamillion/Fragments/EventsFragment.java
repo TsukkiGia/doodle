@@ -110,10 +110,10 @@ public class EventsFragment extends Fragment {
     private void toggleDropdown(RecyclerView recyclerView, ImageView ivArrow) {
         if (recyclerView.getVisibility() == View.GONE) {
             recyclerView.setVisibility(View.VISIBLE);
-            ivArrow.setImageDrawable(getContext().getResources().getDrawable(R.drawable.close_dropdown));
+            ivArrow.setImageDrawable(getContext().getDrawable(R.drawable.close_dropdown));
         } else {
             recyclerView.setVisibility(View.GONE);
-            ivArrow.setImageDrawable(getContext().getResources().getDrawable(R.drawable.dropdown));
+            ivArrow.setImageDrawable(getContext().getDrawable(R.drawable.dropdown));
         }
     }
 

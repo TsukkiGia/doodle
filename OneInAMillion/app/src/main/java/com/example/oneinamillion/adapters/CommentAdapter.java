@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.oneinamillion.Models.Comment;
-import com.example.oneinamillion.Models.Event;
 import com.example.oneinamillion.R;
 
 import java.util.List;
@@ -75,6 +74,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
             }
             else {
                 ivProfilePicture.setImageDrawable(context.getDrawable(R.drawable.instagram_user_filled_24));
-            }        }
+            }
+        }
     }
 }

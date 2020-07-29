@@ -150,8 +150,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
             int position = getAdapterPosition();
             final Event event = events.get(position);
             JSONArray attendees = event.getAttendees();
-
-            for(int i = 0; i < attendees.length(); i++){
+            for (int i = 0; i < attendees.length(); i++){
                 try {
                     String userID = attendees.getString(i);
                     if (userID.equals(ParseUser.getCurrentUser().getObjectId())) {
@@ -163,7 +162,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
                 }
             }
             if (amIattending) {
-                for (int i = 0; i<attendees.length();i++ ){
+                for (int i = 0; i < attendees.length(); i++){
                     try {
                         String userID = attendees.getString(i);
                         if (userID.equals(ParseUser.getCurrentUser().getObjectId())) {
