@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/ivEventImage"
+                android:layout_width="38dp"
+                android:layout_height="31dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="21dp"
+                tools:layout_editor_absoluteX="8dp"
+                tools:layout_editor_absoluteY="5dp"
+                tools:srcCompat="@tools:sample/avatars" />
+
+            <TextView
+                android:id="@+id/tvEventName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/ivEventImage"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="4dp"
+                android:layout_toEndOf="@+id/ivEventImage"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/ivEventImage"
+                tools:layout_editor_absoluteY="5dp"
+                tools:text="Save the whales!" />
+
+            <TextView
+                android:id="@+id/tvDescription"
+                android:layout_width="379dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvEventName"
+                android:layout_alignStart="@+id/ivEventImage"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="23dp"
+                android:textColor="#000000"
+                tools:text="Come play bingo to help save the whales!" />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+</RelativeLayout>

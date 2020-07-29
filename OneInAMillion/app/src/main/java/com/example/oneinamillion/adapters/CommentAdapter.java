@@ -70,7 +70,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
             tvUsername.setText(comment.getCommenter().getUsername());
             tvDescription.setText(comment.getText());
             if (comment.getCommenter().getParseFile("ProfileImage")!=null){
-                Glide.with(context).load(comment.getCommenter().getParseFile("ProfileImage").getUrl()).circleCrop().into(ivProfilePicture);
+                Glide.with(context).load(comment.getCommenter()
+                        .getParseFile("ProfileImage").getUrl()).circleCrop().into(ivProfilePicture);
             }
             else {
                 ivProfilePicture.setImageDrawable(context.getDrawable(R.drawable.instagram_user_filled_24));

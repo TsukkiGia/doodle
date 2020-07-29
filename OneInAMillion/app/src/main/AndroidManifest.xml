@@ -75,7 +75,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".SignUpActivity" />
-        <activity android:name=".PickALocationActivity" />
         <activity android:name=".EventDetailsActivity" />
         <activity android:name=".AddEventActivity" />
         <activity android:name=".LoginActivity">

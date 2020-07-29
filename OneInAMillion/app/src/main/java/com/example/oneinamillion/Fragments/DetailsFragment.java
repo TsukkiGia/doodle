@@ -58,7 +58,7 @@ public class DetailsFragment extends Fragment {
                 event.getOrganizer().getString("LastName");
         price = String.valueOf(event.getPrice());
         distance = String.valueOf(Math.round(event.distance));
-        //Checker if the value is 0
+        //Checker if the distance value is 0
         tvOrganizer.setText("Organized by "+organizerName);
         tvPrice.setText("$"+price);
         tvDistance.setText("This event is "+distance+" kilometers away from you");

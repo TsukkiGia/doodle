@@ -6,6 +6,7 @@ import androidx.core.content.FileProvider;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.ImageDecoder;
 import android.net.Uri;
 import android.os.Build;
@@ -41,7 +42,7 @@ public class AddPostActivity extends AppCompatActivity {
     public static final String TAG = "AddPostActivity";
     public final static int PICK_PHOTO_CODE = 1046;
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 24;
-    public String photoFileName = "photo.jpg";
+    public String photoFileName = "finalphoto.jpg";
     File photoFile;
     ImageView ivImage;
     ParseFile file;
@@ -106,16 +107,14 @@ public class AddPostActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
-            if (resultCode == RESULT_OK) {
-                ivImage.setVisibility(View.VISIBLE);
-                ivImage.setImageResource(0);
-                fromCameraorGallery = "camera";
-                Glide.with(getApplicationContext()).load(photoFile.getAbsolutePath()).into(ivImage);
-            } else { // Result was a failure
-                Toast.makeText(getApplicationContext(), "Picture wasn't taken!", Toast.LENGTH_SHORT).show();
-            }
+            Log.i(TAG,"camera");
+            ivImage.setVisibility(View.VISIBLE);
+            fromCameraorGallery = "camera";
+            Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
+            ivImage.setImageBitmap(takenImage);
         }
         if((data != null) && requestCode==PICK_PHOTO_CODE){
+            Log.i(TAG,"gallery");
             Uri photoUri = data.getData();
             // Load the image located at photoUri into selectedImage
             Bitmap selectedImage = loadFromUri(photoUri);

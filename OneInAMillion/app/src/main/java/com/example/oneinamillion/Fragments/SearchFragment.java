@@ -16,6 +16,7 @@ import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,6 +24,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
@@ -72,6 +74,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
     // The geographical location where the device is currently located. That is, the last-known
     // location retrieved by the Fused Location Provider.
     private Location lastKnownLocation;
+    ImageView ivList;
 
     public SearchFragment() {
         // Required empty public constructor
@@ -101,6 +104,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
                 Log.i(TAG,query);
                 filterEvents(query);
                 searchView.clearFocus();
+                ivList.setVisibility(View.VISIBLE);
                 return true;
             }
 
@@ -125,8 +129,20 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
         super.onViewCreated(view, savedInstanceState);
         toolbar = view.findViewById(R.id.toolbar);
         results =  new ArrayList<>();
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
+        ivList = view.findViewById(R.id.ivList);
+        ivList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("result", (ArrayList<? extends Parcelable>) results);
+                Fragment fragment = new SearchListFragment();
+                fragment.setArguments(bundle);
+                getParentFragmentManager().beginTransaction()
+                        .replace(R.id.flContainer,fragment).commit();
+            }
+        });
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
         // Construct a FusedLocationProviderClient.
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getContext());
         // Build the map.
