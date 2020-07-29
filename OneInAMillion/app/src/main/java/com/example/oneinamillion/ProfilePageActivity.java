@@ -50,6 +50,31 @@ public class ProfilePageActivity extends AppCompatActivity {
         eventsAttended = new ArrayList<>();
         rvOrganized = findViewById(R.id.rvOrganized);
         rvAttended = findViewById(R.id.rvAttended);
+        ivProfilePicture = findViewById(R.id.ivProfile);
+        tvUsername = findViewById(R.id.tvUsername);
+        tvName = findViewById(R.id.tvName);
+        btnAddFriend = findViewById(R.id.btnAddFriend);
+        setupActivity();
+        queryEvents();
+        btnAddFriend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i(TAG,friended.toString());
+                if (friended) {
+                    removeFriend();
+                    btnAddFriend.setText(getString(R.string.follow_user));
+                    friended = false;
+                }
+                else {
+                    addFriend();
+                    btnAddFriend.setText(getString(R.string.following_user));
+                    friended = true;
+                }
+            }
+        });
+    }
+
+    private void setupActivity() {
         LinearLayoutManager OrganizedlayoutManager
                 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         LinearLayoutManager AttendedlayoutManager
@@ -60,12 +85,7 @@ public class ProfilePageActivity extends AppCompatActivity {
         rvOrganized.setAdapter(OrganizedEventAdapter);
         rvAttended.setLayoutManager(AttendedlayoutManager);
         rvAttended.setAdapter(AttendedEventAdapter);
-        ivProfilePicture = findViewById(R.id.ivProfile);
-        tvUsername = findViewById(R.id.tvUsername);
-        tvName = findViewById(R.id.tvName);
-        btnAddFriend = findViewById(R.id.btnAddFriend);
         user = Parcels.unwrap(getIntent().getParcelableExtra("user"));
-        queryEvents();
         tvUsername.setText(user.getUsername());
         tvName.setText(user.getString("FirstName") + " "+user.getString("LastName"));
         if (user.getParseFile("ProfileImage") != null) {
@@ -77,9 +97,8 @@ public class ProfilePageActivity extends AppCompatActivity {
         JSONArray friends = ParseUser.getCurrentUser().getJSONArray("Friends");
         for (int i = 0; i < friends.length();i++){
             try {
-
                 if (friends.get(i).equals(user.getObjectId())){
-                    btnAddFriend.setText("Friends");
+                    btnAddFriend.setText(getString(R.string.following_user));
                     friended = true;
                     break;
                 }
@@ -87,56 +106,48 @@ public class ProfilePageActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-        btnAddFriend.setOnClickListener(new View.OnClickListener() {
+    }
+
+    private void addFriend() {
+        JSONArray friends = ParseUser.getCurrentUser().getJSONArray("Friends");
+        friends.put(user.getObjectId());
+        ParseUser.getCurrentUser().put("Friends",friends);
+        ParseUser.getCurrentUser().saveInBackground(new SaveCallback() {
             @Override
-            public void onClick(View view) {
-                Log.i(TAG,friended.toString());
-                if (friended) {
-                    int index = 0;
-                    JSONArray friends = ParseUser.getCurrentUser().getJSONArray("Friends");
-                    for (int i = 0; i < friends.length();i++){
-                        try {
-                            if (friends.get(i).equals(user.getObjectId())){
-                                index = i;
-                                break;
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    friends.remove(index);
-                    ParseUser.getCurrentUser().put("Friends",friends);
-                    ParseUser.getCurrentUser().saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if (e != null) {
-                                Log.i(TAG, "done");
-                            }
-                            else {
-                                Log.e(TAG,"help!",e);
-                            }
-                        }
-                    });
-                    btnAddFriend.setText("Add Friend");
-                    friended = false;
+            public void done(ParseException e) {
+                if (e != null) {
+                    Log.i(TAG, "done");
                 }
                 else {
-                    JSONArray friends = ParseUser.getCurrentUser().getJSONArray("Friends");
-                    friends.put(user.getObjectId());
-                    ParseUser.getCurrentUser().put("Friends",friends);
-                    ParseUser.getCurrentUser().saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if (e != null) {
-                                Log.i(TAG, "done");
-                            }
-                            else {
-                                Log.e(TAG,"help!",e);
-                            }
-                        }
-                    });
-                    btnAddFriend.setText("Friends");
-                    friended = true;
+                    Log.e(TAG,"help!",e);
+                }
+            }
+        });
+    }
+
+    private void removeFriend() {
+        int index = 0;
+        JSONArray friends = ParseUser.getCurrentUser().getJSONArray("Friends");
+        for (int i = 0; i < friends.length(); i++){
+            try {
+                if (friends.get(i).equals(user.getObjectId())){
+                    index = i;
+                    break;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        friends.remove(index);
+        ParseUser.getCurrentUser().put("Friends",friends);
+        ParseUser.getCurrentUser().saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e != null) {
+                    Log.i(TAG, "done");
+                }
+                else {
+                    Log.e(TAG,"help!",e);
                 }
             }
         });

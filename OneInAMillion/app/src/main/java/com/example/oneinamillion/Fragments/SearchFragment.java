@@ -43,6 +43,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -104,7 +105,19 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
                 Log.i(TAG,query);
                 filterEvents(query);
                 searchView.clearFocus();
-                ivList.setVisibility(View.VISIBLE);
+                View.OnClickListener onClickListener = new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelableArrayList("result", (ArrayList<? extends Parcelable>) results);
+                        Fragment fragment = new SearchListFragment();
+                        fragment.setArguments(bundle);
+                        getParentFragmentManager().beginTransaction()
+                                .replace(R.id.flContainer,fragment).commit();
+                    }
+                };
+                Snackbar.make(getView(),"See results as a list?",Snackbar.LENGTH_LONG)
+                        .setAction("show",onClickListener).show();
                 return true;
             }
 

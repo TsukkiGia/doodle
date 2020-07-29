@@ -16,6 +16,7 @@ public class MergeSort {
     final static String date_metric = "date";
     final static  String price_metric = "price";
     final static String distance_metric = "distance";
+    public static final String TAG = "MergeSort";
 
     public MergeSort(String sort_metric) {
         this.sort_metric = sort_metric;
@@ -54,7 +55,8 @@ public class MergeSort {
                     break;
 
                 default:
-                    Log.i("help","help");
+                    //change log
+                    Log.i(TAG,sort_metric+ " cannot be found!");
                 }
 
         if (leftcomparable<rightcomparable) {

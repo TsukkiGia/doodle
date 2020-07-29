@@ -15,6 +15,8 @@
     <string name="facebook_app_id">410446139870635</string>
     <string name="fb_login_protocol_scheme">fb410446139870635</string>
     <string name="title_activity_interest">InterestActivity</string>
+    <string name="follow_user">Follow</string>
+    <string name="following_user">Following</string>
     <!--
     This string is used for square devices and overridden by hello_world in
     values-round/strings.xml for round devices.

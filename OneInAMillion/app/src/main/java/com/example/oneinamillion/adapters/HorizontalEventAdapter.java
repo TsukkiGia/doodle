@@ -115,7 +115,7 @@ public class HorizontalEventAdapter extends RecyclerView.Adapter<HorizontalEvent
                 }
                 @Override
                 public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                    Log.i(TAG, "Failed");
+                    Log.e(TAG, "Failed",throwable);
                 }
             });
         }

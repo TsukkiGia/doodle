@@ -165,6 +165,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (!currentlySelected.equals(date_string)) {
+                    setActiveButton(fabDate);
                     currentlySelected = date_string;
                     setActiveButton(fabDate);
                     fabDistance.setBackgroundColor(Color.WHITE);
