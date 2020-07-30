@@ -7,6 +7,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +20,7 @@ import android.widget.TextView;
 import com.example.oneinamillion.Models.Event;
 import com.example.oneinamillion.Models.Post;
 import com.example.oneinamillion.R;
+import com.example.oneinamillion.adapters.HorizontalEventAdapter;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -42,6 +45,7 @@ public class DetailsFragment extends Fragment {
     Button btnBuyTickets;
     List<String> friendsAttendingList = new ArrayList<>();
     String friendsAttending="";
+    RecyclerView rvSimilarEvents;
     public static final String TAG = "DetailsFragment";
 
     @Override
@@ -71,6 +75,35 @@ public class DetailsFragment extends Fragment {
         });
         setInformationTextViews();
         getFriendsAttending();
+        queryForSimilarEvents();
+    }
+
+    private void queryForSimilarEvents() {
+        final List<Event> similarEvents = new ArrayList<>();
+        ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
+        query.findInBackground(new FindCallback<Event>() {
+            @Override
+            public void done(List<Event> events, ParseException e) {
+                String tags = event.getEventTag().toString();
+                for (Event ev : events){
+                    for (int i = 0; i < ev.getEventTag().length(); i++){
+                        try {
+                            String tag = ev.getEventTag().getString(i);
+                            if (tags.contains(tag)){
+                                similarEvents.add(ev);
+                                break;
+                            }
+                        } catch (JSONException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                }
+                HorizontalEventAdapter eventAdapter = new HorizontalEventAdapter(getContext(),similarEvents);
+                rvSimilarEvents.setAdapter(eventAdapter);
+                rvSimilarEvents.setLayoutManager(new LinearLayoutManager(getContext()
+                        ,LinearLayoutManager.HORIZONTAL,false));
+            }
+        });
     }
 
     private void initializeViews(View view) {
@@ -79,6 +112,7 @@ public class DetailsFragment extends Fragment {
         tvDistance = view.findViewById(R.id.tvDistance);
         tvFriendsAttending = view.findViewById(R.id.tvFriendsAttending);
         btnBuyTickets = view.findViewById(R.id.btnBuyTicket);
+        rvSimilarEvents = view.findViewById(R.id.rvSimilarEvents);
     }
 
     private void setInformationTextViews() {
