@@ -77,7 +77,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         ImageView ivPost;
         TextView tvLikes;
         int likes;
-        Boolean didILike = false;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

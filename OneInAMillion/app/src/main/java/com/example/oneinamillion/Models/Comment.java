@@ -4,6 +4,7 @@ import com.parse.ParseClassName;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
+import org.json.JSONArray;
 import org.parceler.Parcel;
 
 @ParseClassName("Comment")
@@ -12,8 +13,17 @@ public class Comment extends ParseObject {
     public static final String KEY_POST = "PostID";
     public static final String KEY_USER = "Commenter";
     public static final String KEY_TEXT = "CommentText";
+    public static final String KEY_LIKERS = "Likers";
 
     public Comment() {
+    }
+
+    public JSONArray getLikers(){
+        return getJSONArray(KEY_LIKERS);
+    }
+
+    public void setLikers(JSONArray Likes) {
+        put(KEY_LIKERS,Likes);
     }
 
     public String getPostRelation() {
