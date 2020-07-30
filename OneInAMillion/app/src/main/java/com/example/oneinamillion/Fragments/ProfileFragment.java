@@ -63,32 +63,12 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         btnChangePreferences = view.findViewById(R.id.btnChangePref);
-        btnChangePreferences.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getContext(), InterestActivity.class);
-                i.putExtra("activity","profile");
-                startActivity(i);
-            }
-        });
         tvName = view.findViewById(R.id.tvName);
         btnChange = view.findViewById(R.id.btnChange);
         facebook_login = view.findViewById(R.id.facebook_login);
-        btnChange.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                launchCamera(view);
-            }
-        });
         tvUsername = view.findViewById(R.id.tvUsername);
         ivProfile = view.findViewById(R.id.ivProfile);
         btnLogOut = view.findViewById(R.id.btnLogOut);
-        btnLogOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                logout();
-            }
-        });
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         Boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
         if (isLoggedIn){
@@ -100,6 +80,26 @@ public class ProfileFragment extends Fragment {
         tvName.setText(String.format("%s %s", ParseUser.getCurrentUser().getString("FirstName"),
                 ParseUser.getCurrentUser().getString("LastName")));
         tvUsername.setText(String.format("@%s", ParseUser.getCurrentUser().getUsername()));
+        btnLogOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                logout();
+            }
+        });
+        btnChange.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                launchCamera();
+            }
+        });
+        btnChangePreferences.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getContext(), InterestActivity.class);
+                i.putExtra("activity","profile");
+                startActivity(i);
+            }
+        });
         if (ParseUser.getCurrentUser().getParseFile("ProfileImage") != null) {
             Glide.with(getContext()).load(ParseUser.getCurrentUser().getParseFile("ProfileImage").getUrl())
                     .circleCrop().into(ivProfile);
@@ -139,7 +139,7 @@ public class ProfileFragment extends Fragment {
         }
     }
 
-    public void launchCamera(View view) {
+    public void launchCamera() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         photoFile = getPhotoFileUri(photoFileName);
         // required for API >= 24

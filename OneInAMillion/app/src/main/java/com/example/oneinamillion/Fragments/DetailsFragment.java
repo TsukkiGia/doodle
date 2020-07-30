@@ -64,9 +64,9 @@ public class DetailsFragment extends Fragment {
         price = String.valueOf(event.getPrice());
         distance = String.valueOf(Math.round(event.distance));
         //Checker if the distance value is 0
-        tvOrganizer.setText("Organized by "+organizerName);
-        tvPrice.setText("$"+price);
-        tvDistance.setText("This event is "+distance+" kilometers away from you");
+        tvOrganizer.setText(getContext().getString(R.string.event_organizer,organizerName));
+        tvPrice.setText(getContext().getString(R.string.price,price));
+        tvDistance.setText(getContext().getString(R.string.distance_from_user,distance));
     }
 
     private void getFriendsAttending() {
@@ -93,10 +93,11 @@ public class DetailsFragment extends Fragment {
                     }
                 }
                 if (friendsAttendingList.isEmpty()){
-                    tvFriendsAttending.setText("No friends are attending");
+                    tvFriendsAttending.setText(R.string.no_friends);
                 }
                 if (friendsAttendingList.size()==1){
-                    tvFriendsAttending.setText(friendsAttendingList.get(0)+" is attending");
+                    String friendname = friendsAttendingList.get(0);
+                    tvFriendsAttending.setText(getContext().getString(R.string.one_friend,friendname));
                 }
                 if (friendsAttendingList.size()>1){
                     for (String firstname : friendsAttendingList){

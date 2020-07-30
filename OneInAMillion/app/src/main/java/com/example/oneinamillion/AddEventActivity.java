@@ -48,6 +48,7 @@ import java.util.Arrays;
 public class AddEventActivity extends AppCompatActivity implements DatePickerFragment.DatePickerFragmentListener, TimePickerFragment.TimePickerFragmentListener {
     EditText etEventName;
     EditText etEventDescription;
+    EditText etPrice;
     Button btnPost;
     Button btnUploadImage;
     ImageView ivUploadedImage;
@@ -111,6 +112,7 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
         tvDate = findViewById(R.id.tvDate);
         tvTime = findViewById(R.id.tvTime);
         etEventDescription = findViewById(R.id.etEventDescription);
+        etPrice = findViewById(R.id.etPrice);
         ivUploadedImage = findViewById(R.id.ivUploadedImage);
         btnPickADate = findViewById(R.id.btnPickADate);
         fabSports = findViewById(R.id.extFabSports);
@@ -229,6 +231,7 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
                     event.setLocation(new ParseGeoPoint(latitude, longitude));
                     event.setOrganizer(ParseUser.getCurrentUser());
                     event.setImage(file);
+                    event.setPrice(Double.parseDouble(etPrice.getText().toString()));
                     event.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {

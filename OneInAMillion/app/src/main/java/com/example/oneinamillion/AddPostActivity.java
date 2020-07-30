@@ -53,13 +53,21 @@ public class AddPostActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        event = Parcels.unwrap(getIntent().getParcelableExtra(Event.class.getSimpleName()));
         setContentView(R.layout.activity_add_post);
+        initializeViews();
+        setClickListeners();
+    }
+
+    private void initializeViews() {
         btnPost = findViewById(R.id.btnPost);
         etPost = findViewById(R.id.etPost);
         ivCamera = findViewById(R.id.ivCamera);
         ivGallery = findViewById(R.id.ivGallery);
         ivImage = findViewById(R.id.ivImage);
-        event = Parcels.unwrap(getIntent().getParcelableExtra(Event.class.getSimpleName()));
+    }
+
+    private void setClickListeners() {
         btnPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

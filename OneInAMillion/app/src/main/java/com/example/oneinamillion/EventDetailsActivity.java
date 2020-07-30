@@ -50,21 +50,53 @@ public class EventDetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_event_details);
         if (getIntent().getStringExtra("activity").equals("SearchFragment")) {
             overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         }
-        setContentView(R.layout.activity_event_details);
-        event = Parcels.unwrap(getIntent().getParcelableExtra(Event.class.getSimpleName()));
-        double distance = getIntent().getDoubleExtra("distance",0);
-        event.setDistance(distance);
         address = getIntent().getStringExtra("address");
-        extFabDetails = findViewById(R.id.extFabDetails);
-        extFabPosts = findViewById(R.id.extFabPosts);
+        double distance = getIntent().getDoubleExtra("distance",0);
+        event = Parcels.unwrap(getIntent().getParcelableExtra(Event.class.getSimpleName()));
+        event.setDistance(distance);
+        initializeViews();
         Bundle bundle = new Bundle();
         bundle.putParcelable("event",Parcels.wrap(event));
         Fragment fragment = new DetailsFragment();
         fragment.setArguments(bundle);
         fragmentManager.beginTransaction().replace(R.id.flContainer,fragment).commit();
+        setClickListeners();
+        setInformationViews();
+    }
+
+    private void setInformationViews() {
+        JSONArray attendees = event.getAttendees();
+        for (int i = 0; i < attendees.length(); i++){
+            try {
+                String userID = attendees.getString(i);
+                if (userID.equals(ParseUser.getCurrentUser().getObjectId())) {
+                    amIattending = true;
+                    break;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        if (amIattending) {
+            btnRSVP.setText("Attending");
+            btnRSVP.setIcon(getResources().getDrawable(R.drawable.checkmark));
+        }
+        else {
+            btnRSVP.setText("Attend");
+            btnRSVP.setIcon(getResources().getDrawable(R.drawable.icons_plus));
+        }
+        Glide.with(EventDetailsActivity.this).load(event.getImage().getUrl()).into(ivEventImage);
+        tvEventName.setText(event.getEventName());
+        tvDateTime.setText(event.getDate()+" at "+event.getTime());
+        tvLocation.setText(address);
+        tvDescription.setText(event.getDescription());
+    }
+
+    private void setClickListeners() {
         extFabDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -93,74 +125,24 @@ public class EventDetailsActivity extends AppCompatActivity {
                 extFabDetails.setTextColor(Color.BLACK);
             }
         });
-        ivEventImage = findViewById(R.id.ivEventImage);
-        tvEventName = findViewById(R.id.tvEventName);
-        tvLocation = findViewById(R.id.tvLocation);
-        tvDescription = findViewById(R.id.tvEventDescription);
-        tvDateTime = findViewById(R.id.tvDateTime);
-        JSONArray attendees = event.getAttendees();
-        for (int i = 0; i < attendees.length(); i++){
-            try {
-                String userID = attendees.getString(i);
-                if (userID.equals(ParseUser.getCurrentUser().getObjectId())) {
-                    amIattending = true;
-                    break;
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        btnRSVP = findViewById(R.id.btnRSVP);
-        if (amIattending) {
-            btnRSVP.setText("Attending");
-            btnRSVP.setIcon(getResources().getDrawable(R.drawable.checkmark));
-        }
-        else {
-            btnRSVP.setText("Attend");
-            btnRSVP.setIcon(getResources().getDrawable(R.drawable.icons_plus));
-        }
         btnRSVP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (amIattending) {
-                    JSONArray attendees = event.getAttendees();
-                    for (int i = 0;  i < attendees.length();i++){
-                        try {
-                            String userID = attendees.getString(i);
-                            if (userID.equals(ParseUser.getCurrentUser().getObjectId())) {
-                               attendees.remove(i);
-                               break;
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    event.setAttendees(attendees);
-                    event.saveInBackground();
-                    btnRSVP.setText("Attend");
-                    btnRSVP.setIcon(getResources().getDrawable(R.drawable.icons_plus));
-                    amIattending = false;
+                    removeRSVPforEvent();
                 }
                 else {
-                    JSONArray attendees = event.getAttendees();
-                    attendees.put(ParseUser.getCurrentUser().getObjectId());
-                    event.setAttendees(attendees);
-                    event.saveInBackground();
-                    btnRSVP.setText("Attending");
-                    btnRSVP.setIcon(getResources().getDrawable(R.drawable.checkmark));
-                    amIattending = true;
+                    RSVPforEvent();
                 }
             }
         });
-        Glide.with(EventDetailsActivity.this).load(event.getImage().getUrl()).into(ivEventImage);
-        tvEventName.setText(event.getEventName());
-        tvDateTime.setText(event.getDate()+" at "+event.getTime());
-        tvLocation.setText(address);
         tvLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Uri gmmIntentUri = Uri.parse("geo:0,0?q="+event.getLocation().getLatitude()
-                        +","+event.getLocation().getLongitude()+"("+event.getEventName()+")");
+                // Uri gmmIntentUri = Uri.parse("geo:0,0?q="+event.getLocation().getLatitude()
+                //        +","+event.getLocation().getLongitude()+"("+event.getEventName()+")");
+                Uri gmmIntentUri = Uri.parse("google.navigation:q="+event.getLocation().getLatitude()
+                        +","+event.getLocation().getLongitude());
                 Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
                 mapIntent.setPackage("com.google.android.apps.maps");
                 if (mapIntent.resolveActivity(getPackageManager()) != null) {
@@ -168,6 +150,46 @@ public class EventDetailsActivity extends AppCompatActivity {
                 }
             }
         });
-        tvDescription.setText(event.getDescription());
+    }
+
+    private void initializeViews() {
+        extFabDetails = findViewById(R.id.extFabDetails);
+        extFabPosts = findViewById(R.id.extFabPosts);
+        ivEventImage = findViewById(R.id.ivEventImage);
+        tvEventName = findViewById(R.id.tvEventName);
+        tvLocation = findViewById(R.id.tvLocation);
+        tvDescription = findViewById(R.id.tvEventDescription);
+        tvDateTime = findViewById(R.id.tvDateTime);
+        btnRSVP = findViewById(R.id.btnRSVP);
+    }
+
+    private void RSVPforEvent() {
+        JSONArray attendees = event.getAttendees();
+        attendees.put(ParseUser.getCurrentUser().getObjectId());
+        event.setAttendees(attendees);
+        event.saveInBackground();
+        btnRSVP.setText("Attending");
+        btnRSVP.setIcon(getResources().getDrawable(R.drawable.checkmark));
+        amIattending = true;
+    }
+
+    private void removeRSVPforEvent() {
+        JSONArray attendees = event.getAttendees();
+        for (int i = 0;  i < attendees.length();i++){
+            try {
+                String userID = attendees.getString(i);
+                if (userID.equals(ParseUser.getCurrentUser().getObjectId())) {
+                    attendees.remove(i);
+                    break;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        event.setAttendees(attendees);
+        event.saveInBackground();
+        btnRSVP.setText("Attend");
+        btnRSVP.setIcon(getResources().getDrawable(R.drawable.icons_plus));
+        amIattending = false;
     }
 }

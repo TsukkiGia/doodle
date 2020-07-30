@@ -25,7 +25,7 @@
                     android:id="@+id/tvTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Submit an Event"
+                    android:text="@string/submit_an_event"
                     android:textColor="#FFFFFF"
                     android:textSize="18sp"
                     android:textStyle="bold" />
@@ -41,7 +41,7 @@
                 android:layout_marginTop="437dp"
                 android:layout_marginEnd="20dp"
                 android:background="@color/colorAccent"
-                android:text="Submit Event"
+                android:text="@string/submit_event"
                 android:textColor="#FFFFFF" />
 
             <Button
@@ -53,7 +53,7 @@
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="30dp"
                 app:backgroundTint="#FFFFFF"
-                android:text="Upload Image"
+                android:text="@string/upload_image"
                 android:textColor="@color/colorAccent" />
 
             <Button
@@ -62,25 +62,42 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/btnPickADate"
                 android:layout_alignParentEnd="true"
-                android:layout_marginTop="28dp"
+                android:layout_marginTop="24dp"
                 android:layout_marginEnd="30dp"
                 android:backgroundTint="#FFFFFF"
-                android:text="Pick a Time"
-                android:textColor="@color/colorAccent"
-                />
+                android:text="@string/pick_a_time"
+                android:textColor="@color/colorAccent" />
 
 
             <Button
                 android:id="@+id/btnPickADate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tfEventDescription"
+                android:layout_below="@+id/tfPrice"
                 android:layout_alignParentEnd="true"
-                android:layout_marginTop="148dp"
+                android:layout_marginTop="24dp"
                 android:layout_marginEnd="30dp"
                 android:backgroundTint="#FFFFFF"
-                android:text="Pick a Date"
+                android:text="@string/pick_a_date"
                 android:textColor="@color/colorAccent" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tfPrice"
+                android:layout_width="345dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/card_view"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="29dp"
+                android:hint="@string/event_price">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tfEventName"
@@ -90,7 +107,8 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="72dp"
                 android:layout_marginEnd="29dp"
-                android:hint="Event Name">
+                android:hint="@string/event_name"
+                app:endIconMode="clear_text">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etEventName"
@@ -108,7 +126,7 @@
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="30dp"
                 android:gravity="start|top"
-                android:hint="Event Description">
+                android:hint="@string/event_description">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etEventDescription"
@@ -145,25 +163,13 @@
                 tools:text="something" />
 
             <TextView
-                android:id="@+id/tvPrice"
+                android:id="@+id/tvDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/tfEventDescription"
                 android:layout_alignBottom="@+id/btnPickADate"
                 android:layout_marginStart="0dp"
                 android:layout_marginBottom="14dp"
-                android:textColor="#000000"
-                android:textStyle="bold"
-                tools:text="something" />
-
-            <TextView
-                android:id="@+id/tvDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/tfEventDescription"
-                android:layout_alignBottom="@+id/btnPickADate"
-                android:layout_marginStart="-3dp"
-                android:layout_marginBottom="81dp"
                 android:textColor="#000000"
                 android:textStyle="bold"
                 tools:text="something" />
@@ -176,7 +182,7 @@
                 android:layout_alignStart="@+id/tfEventDescription"
                 android:layout_marginStart="-4dp"
                 android:layout_marginTop="50dp"
-                android:text="Tags"
+                android:text="@string/tags"
                 android:textColor="#000000"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -190,7 +196,7 @@
                 android:layout_marginTop="86dp"
                 android:layout_toEndOf="@+id/extFabConcerts"
                 android:gravity="center"
-                android:text="Sports"
+                android:text="@string/sports"
                 android:textColor="#000000"
                 app:backgroundTint="#FFFFFF" />
 
@@ -203,7 +209,7 @@
                 android:layout_marginTop="86dp"
                 android:layout_marginEnd="219dp"
                 android:gravity="center"
-                android:text="Concerts"
+                android:text="@string/concerts"
                 android:textColor="#000000"
                 app:backgroundTint="#FFFFFF" />
 
@@ -281,7 +287,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_gravity="top"
                 android:layout_marginStart="5dp"
-                android:layout_marginTop="19dp"
+                android:layout_marginTop="24dp"
                 android:layout_marginEnd="30dp"
                 android:layout_marginBottom="5dp"
                 app:cardBackgroundColor="#e0e0e0"
@@ -309,5 +315,4 @@
 
         </RelativeLayout>
     </ScrollView>
-
 </RelativeLayout>

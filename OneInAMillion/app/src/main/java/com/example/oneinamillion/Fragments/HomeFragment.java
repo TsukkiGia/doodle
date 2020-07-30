@@ -127,26 +127,17 @@ public class HomeFragment extends Fragment {
             filtertags = true;
         }
         results = new ArrayList<>();
-        fragmentManager = getParentFragmentManager();
-        ivMap = view.findViewById(R.id.ivMap);
-        ivProfile = view.findViewById(R.id.ivProfile);
-        rvEvents = view.findViewById(R.id.rvEvents);
-        fabCreate = view.findViewById(R.id.fabCreate);
-        ivFilter = view.findViewById(R.id.ivFilter);
-        pbLoading = view.findViewById(R.id.pbLoading);
-        fabDate = view.findViewById(R.id.extFabDate);
-        fabPrice = view.findViewById(R.id.extFabPrice);
-        fabDistance = view.findViewById(R.id.extFabDistance);
-        swipeContainer = view.findViewById(R.id.swipeContainer);
+        initializeViews(view);
         setClickListeners();
+        events = new ArrayList<>();
         if (currentlySelected.equals(date_string)) {
-            setActiveButton(distance_string,fabDate,false);
+            setActiveButton(distance_string,date_string,fabDate,false);
         }
         if (currentlySelected.equals(distance_string)) {
-            setActiveButton(price_string,fabDistance,false);
+            setActiveButton(price_string,distance_string,fabDistance,false);
         }
         if (currentlySelected.equals(price_string)) {
-            setActiveButton(date_string,fabPrice,false);
+            setActiveButton(date_string,price_string,fabPrice,false);
         }
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -155,7 +146,6 @@ public class HomeFragment extends Fragment {
             }
         });
         swipeContainer.setColorSchemeResources(R.color.colorAccent);
-        events = new ArrayList<>();
         eventAdapter = new EventAdapter(getContext(),events);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         rvEvents.setLayoutManager(layoutManager);
@@ -168,6 +158,20 @@ public class HomeFragment extends Fragment {
         } else {
             ivProfile.setImageDrawable(getContext().getDrawable(R.drawable.instagram_user_filled_24));
         }
+    }
+
+    private void initializeViews(View view) {
+        fragmentManager = getParentFragmentManager();
+        ivMap = view.findViewById(R.id.ivMap);
+        ivProfile = view.findViewById(R.id.ivProfile);
+        rvEvents = view.findViewById(R.id.rvEvents);
+        fabCreate = view.findViewById(R.id.fabCreate);
+        ivFilter = view.findViewById(R.id.ivFilter);
+        pbLoading = view.findViewById(R.id.pbLoading);
+        fabDate = view.findViewById(R.id.extFabDate);
+        fabPrice = view.findViewById(R.id.extFabPrice);
+        fabDistance = view.findViewById(R.id.extFabDistance);
+        swipeContainer = view.findViewById(R.id.swipeContainer);
     }
 
     private void getUsersTags() {
@@ -208,8 +212,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (!currentlySelected.equals(date_string)) {
-                    setActiveButton(currentlySelected,fabDate,true);
-                    currentlySelected = date_string;
+                    setActiveButton(currentlySelected,date_string,fabDate,true);
                 }
             }
         });
@@ -217,8 +220,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (!currentlySelected.equals(distance_string)) {
-                    setActiveButton(currentlySelected,fabDistance,true);
-                    currentlySelected = distance_string;
+                    setActiveButton(currentlySelected,distance_string,fabDistance,true);
                 }
             }
         });
@@ -226,8 +228,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (!currentlySelected.equals(price_string)) {
-                    setActiveButton(currentlySelected,fabPrice,true);
-                    currentlySelected = price_string;
+                    setActiveButton(currentlySelected,price_string,fabPrice,true);
                 }
             }
         });
@@ -240,7 +241,7 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    private void setActiveButton(String previous, ExtendedFloatingActionButton fabButton, Boolean sort) {
+    private void setActiveButton(String previous, String current, ExtendedFloatingActionButton fabButton, Boolean sort) {
         switch (previous) {
             case date_string:
                 fabDate.setBackgroundColor(Color.WHITE);
@@ -258,6 +259,7 @@ public class HomeFragment extends Fragment {
             default:
                 throw new IllegalStateException("Unexpected value: " + previous);
         }
+        currentlySelected=current;
         fabButton.setBackgroundColor(getContext().getColor(R.color.colorAccent));
         fabButton.setTextColor(Color.WHITE);
         pbLoading.setVisibility(View.VISIBLE);

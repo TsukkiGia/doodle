@@ -58,20 +58,7 @@ public class EventsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        rvCreated = view.findViewById(R.id.rvCreated);
-        rvUpcoming = view.findViewById(R.id.rvUpcoming);
-        ivMap = view.findViewById(R.id.ivMap);
-        ivMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getParentFragmentManager().beginTransaction()
-                        .replace(R.id.flContainer,new CalendarFragment()).commit();
-            }
-        });
-        tvMyOrganizedEvents = view.findViewById(R.id.tvMyOrganizedEvents);
-        tvMyUpcomingEvents = view.findViewById(R.id.tvMyUpcomingEvents);
-        ivDropdownAttending = view.findViewById(R.id.ivDropdownAttending);
-        ivDropdownOrganized = view.findViewById(R.id.ivDropdownOrganizing);
+        initializeViews(view);
         attendingEvents = new ArrayList<>();
         organizedEvents = new ArrayList<>();
         eventAdapterForAttending = new EventAdapter(getContext(), attendingEvents);
@@ -80,6 +67,13 @@ public class EventsFragment extends Fragment {
         rvCreated.setAdapter(eventAdapterForOrganized);
         rvCreated.setLayoutManager(new LinearLayoutManager(getContext()));
         rvUpcoming.setLayoutManager(new LinearLayoutManager(getContext()));
+        ivMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getParentFragmentManager().beginTransaction()
+                        .replace(R.id.flContainer,new CalendarFragment()).commit();
+            }
+        });
         ivDropdownOrganized.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -105,6 +99,16 @@ public class EventsFragment extends Fragment {
             }
         });
         queryEvents();
+    }
+
+    private void initializeViews(View view) {
+        rvCreated = view.findViewById(R.id.rvCreated);
+        rvUpcoming = view.findViewById(R.id.rvUpcoming);
+        ivMap = view.findViewById(R.id.ivMap);
+        tvMyOrganizedEvents = view.findViewById(R.id.tvMyOrganizedEvents);
+        tvMyUpcomingEvents = view.findViewById(R.id.tvMyUpcomingEvents);
+        ivDropdownAttending = view.findViewById(R.id.ivDropdownAttending);
+        ivDropdownOrganized = view.findViewById(R.id.ivDropdownOrganizing);
     }
 
     private void toggleDropdown(RecyclerView recyclerView, ImageView ivArrow) {
