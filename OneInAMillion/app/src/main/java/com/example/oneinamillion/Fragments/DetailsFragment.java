@@ -59,16 +59,18 @@ public class DetailsFragment extends Fragment {
         tvDistance = view.findViewById(R.id.tvDistance);
         tvFriendsAttending = view.findViewById(R.id.tvFriendsAttending);
         btnBuyTickets = view.findViewById(R.id.btnBuyTicket);
-        if (event.getPrice()==0.0){
+        if (event.getTicketLink()==null){
             btnBuyTickets.setVisibility(View.GONE);
         }
         btnBuyTickets.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String url = "http://www.example.com";
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(url));
-                startActivity(i);
+                if (event.getTicketLink() != null) {
+                    String url = "https://"+event.getTicketLink();
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse(url));
+                    startActivity(i);
+                }
             }
         });
         setInformationTextViews();

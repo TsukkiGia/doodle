@@ -24,9 +24,18 @@ public class Event extends ParseObject {
     public static final String KEY_EVENTNAME = "EventName";
     public static final String KEY_TAG= "Tag";
     public static final String KEY_PRICE="Price";
+    public static final String KEY_LINK="TicketLink";
     public String Address;
     //Set address with reverse geocoding - make another request using async client
     public double distance;
+
+    public String getTicketLink(){
+        return getString(KEY_LINK);
+    }
+
+    public void setTicketLink(String link) {
+        put(KEY_LINK,link);
+    }
 
     public double getDistance() {
         return distance;

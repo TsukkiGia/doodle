@@ -53,6 +53,7 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
     EditText etEventName;
     EditText etEventDescription;
     EditText etPrice;
+    EditText etTicketLink;
     Button btnPost;
     Button btnUploadImage;
     ImageView ivUploadedImage;
@@ -137,6 +138,7 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
         btnPost = findViewById(R.id.btnPost);
         btnUploadImage = findViewById(R.id.btnUploadImage);
         spTicketsAvailable = findViewById(R.id.spTickets);
+        etTicketLink = findViewById(R.id.etTicketLink);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.tickets_available, android.R.layout.simple_spinner_item);
@@ -271,7 +273,13 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
                     event.setLocation(new ParseGeoPoint(latitude, longitude));
                     event.setOrganizer(ParseUser.getCurrentUser());
                     event.setImage(file);
-                    event.setPrice(Double.parseDouble(etPrice.getText().toString()));
+                    if(ticketsforsale) {
+                        event.setPrice(Double.parseDouble(etPrice.getText().toString()));
+                        event.setTicketLink(etTicketLink.getText().toString());
+                    }
+                    else {
+                        event.setPrice(0);
+                    }
                     event.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {
