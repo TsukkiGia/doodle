@@ -48,15 +48,7 @@ public class InterestActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_interest);
-        btnConfirm = findViewById(R.id.btnConfirm);
-        fabSports = findViewById(R.id.extFabSports);
-        fabConcerts = findViewById(R.id.extFabConcerts);
-        fabAuction = findViewById(R.id.extFabAuction);
-        fabRaffle = findViewById(R.id.extFabRaffles);
-        fabCooking = findViewById(R.id.extFabCooking);
-        fabGalas = findViewById(R.id.extFabGalas);
-        fabCrafts = findViewById(R.id.extFabCrafts);
-        fabAthons = findViewById(R.id.extFabAthons);
+        initializeViews();
         previousactivity = getIntent().getStringExtra("activity");
         if (previousactivity.equals(string_profile)) {
             JSONArray tagg = ParseUser.getCurrentUser().getJSONArray("Interests");
@@ -134,6 +126,10 @@ public class InterestActivity extends AppCompatActivity {
                 }
             }
         }
+        setClickListeners();
+    }
+
+    private void setClickListeners() {
         fabSports.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -204,6 +200,19 @@ public class InterestActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void initializeViews() {
+        btnConfirm = findViewById(R.id.btnConfirm);
+        fabSports = findViewById(R.id.extFabSports);
+        fabConcerts = findViewById(R.id.extFabConcerts);
+        fabAuction = findViewById(R.id.extFabAuction);
+        fabRaffle = findViewById(R.id.extFabRaffles);
+        fabCooking = findViewById(R.id.extFabCooking);
+        fabGalas = findViewById(R.id.extFabGalas);
+        fabCrafts = findViewById(R.id.extFabCrafts);
+        fabAthons = findViewById(R.id.extFabAthons);
+    }
+
     private void fabclicked(ExtendedFloatingActionButton button, String tag, int color) {
         Boolean inside = false;
         for (int i = 0; i < interests.length(); i++) {

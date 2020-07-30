@@ -82,16 +82,16 @@ public class EventDetailsActivity extends AppCompatActivity {
             }
         }
         if (amIattending) {
-            btnRSVP.setText("Attending");
+            btnRSVP.setText(R.string.attending);
             btnRSVP.setIcon(getResources().getDrawable(R.drawable.checkmark));
         }
         else {
-            btnRSVP.setText("Attend");
+            btnRSVP.setText(R.string.attend);
             btnRSVP.setIcon(getResources().getDrawable(R.drawable.icons_plus));
         }
         Glide.with(EventDetailsActivity.this).load(event.getImage().getUrl()).into(ivEventImage);
         tvEventName.setText(event.getEventName());
-        tvDateTime.setText(event.getDate()+" at "+event.getTime());
+        tvDateTime.setText(getString(R.string.event_setting,event.getDate(),event.getTime()));
         tvLocation.setText(address);
         tvDescription.setText(event.getDescription());
     }
@@ -168,7 +168,7 @@ public class EventDetailsActivity extends AppCompatActivity {
         attendees.put(ParseUser.getCurrentUser().getObjectId());
         event.setAttendees(attendees);
         event.saveInBackground();
-        btnRSVP.setText("Attending");
+        btnRSVP.setText(R.string.attending);
         btnRSVP.setIcon(getResources().getDrawable(R.drawable.checkmark));
         amIattending = true;
     }
@@ -188,7 +188,7 @@ public class EventDetailsActivity extends AppCompatActivity {
         }
         event.setAttendees(attendees);
         event.saveInBackground();
-        btnRSVP.setText("Attend");
+        btnRSVP.setText(R.string.attend);
         btnRSVP.setIcon(getResources().getDrawable(R.drawable.icons_plus));
         amIattending = false;
     }

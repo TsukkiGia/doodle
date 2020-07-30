@@ -46,14 +46,7 @@ public class ProfilePageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_page);
-        eventsOrganized = new ArrayList<>();
-        eventsAttended = new ArrayList<>();
-        rvOrganized = findViewById(R.id.rvOrganized);
-        rvAttended = findViewById(R.id.rvAttended);
-        ivProfilePicture = findViewById(R.id.ivProfile);
-        tvUsername = findViewById(R.id.tvUsername);
-        tvName = findViewById(R.id.tvName);
-        btnAddFriend = findViewById(R.id.btnAddFriend);
+        initializeViews();
         setupActivity();
         queryEvents();
         btnAddFriend.setOnClickListener(new View.OnClickListener() {
@@ -74,7 +67,18 @@ public class ProfilePageActivity extends AppCompatActivity {
         });
     }
 
+    private void initializeViews() {
+        rvOrganized = findViewById(R.id.rvOrganized);
+        rvAttended = findViewById(R.id.rvAttended);
+        ivProfilePicture = findViewById(R.id.ivProfile);
+        tvUsername = findViewById(R.id.tvUsername);
+        tvName = findViewById(R.id.tvName);
+        btnAddFriend = findViewById(R.id.btnAddFriend);
+    }
+
     private void setupActivity() {
+        eventsOrganized = new ArrayList<>();
+        eventsAttended = new ArrayList<>();
         LinearLayoutManager OrganizedlayoutManager
                 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         LinearLayoutManager AttendedlayoutManager

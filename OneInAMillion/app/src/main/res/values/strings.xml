@@ -49,5 +49,8 @@
     <string name="price">$%s</string>
     <string name="no_friends">No friends are attending</string>
     <string name="one_friend">%s is attending</string>
+    <string name="event_setting">%s at %s</string>
+    <string name="attending">Attending</string>
+    <string name="attend">Attend</string>
 
 </resources>

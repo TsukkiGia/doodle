@@ -47,13 +47,7 @@ public class PostDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_details);
-        ivProfilePicture = findViewById(R.id.ivProfilePicture);
-        tvUsername = findViewById(R.id.tvUsername);
-        tvDescription = findViewById(R.id.tvDescription);
-        ivLike = findViewById(R.id.ivLike);
-        rvComments = findViewById(R.id.rvComments);
-        ivComment = findViewById(R.id.ivComment);
-        etComment = findViewById(R.id.etComment);
+        initializeViews();
         comments = new ArrayList<>();
         post = Parcels.unwrap(getIntent().getParcelableExtra(Post.class.getSimpleName()));
         didIlike = getIntent().getBooleanExtra("didilike",false);
@@ -63,7 +57,8 @@ public class PostDetailsActivity extends AppCompatActivity {
         rvComments.setAdapter(commentAdapter);
         rvComments.setLayoutManager(new LinearLayoutManager(this));
         if (post.getAuthor().getParseFile("ProfileImage")!=null){
-            Glide.with(PostDetailsActivity.this).load(post.getAuthor().getParseFile("ProfileImage").getUrl()).circleCrop().into(ivProfilePicture);
+            Glide.with(PostDetailsActivity.this).load(post.getAuthor()
+                    .getParseFile("ProfileImage").getUrl()).circleCrop().into(ivProfilePicture);
         }
         else {
             ivProfilePicture.setImageDrawable(getDrawable(R.drawable.instagram_user_filled_24));
@@ -82,7 +77,6 @@ public class PostDetailsActivity extends AppCompatActivity {
                 likeorunlike();
             }
         });
-        queryComments();
         ivComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -102,6 +96,17 @@ public class PostDetailsActivity extends AppCompatActivity {
                 }
             }
         });
+        queryComments();
+    }
+
+    private void initializeViews() {
+        ivProfilePicture = findViewById(R.id.ivProfilePicture);
+        tvUsername = findViewById(R.id.tvUsername);
+        tvDescription = findViewById(R.id.tvDescription);
+        ivLike = findViewById(R.id.ivLike);
+        rvComments = findViewById(R.id.rvComments);
+        ivComment = findViewById(R.id.ivComment);
+        etComment = findViewById(R.id.etComment);
     }
 
     private void likeorunlike() {
@@ -110,17 +115,20 @@ public class PostDetailsActivity extends AppCompatActivity {
             ivLike.setColorFilter(Color.RED);
             JSONArray likers = post.getLikers();
             likers.put(ParseUser.getCurrentUser());
-            didIlike=true;
+            didIlike = true;
             post.setLikers(likers);
             post.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(com.parse.ParseException e) {
+                    if (e != null){
+                        Log.e(TAG,"Error",e);
+                    }
                 }
             });
         } else {
             ivLike.setImageDrawable(getResources().getDrawable(R.drawable.ufi_heart));
             ivLike.setColorFilter(Color.BLACK);
-            didIlike=false;
+            didIlike = false;
             int index = 0;
             JSONArray likers = post.getLikers();
             for (int i = 0; i < likers.length() - 1; i++) {
@@ -139,7 +147,9 @@ public class PostDetailsActivity extends AppCompatActivity {
             post.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(com.parse.ParseException e) {
-
+                    if (e != null){
+                        Log.e(TAG,"Error",e);
+                    }
                 }
             });
         }
@@ -152,8 +162,12 @@ public class PostDetailsActivity extends AppCompatActivity {
         parseQuery.findInBackground(new FindCallback<Comment>() {
             @Override
             public void done(List<Comment> comments, ParseException e) {
-                commentAdapter.clear();
-                commentAdapter.addAll(comments);
+                if (e != null) {
+                    Log.e(TAG, "Error", e);
+                } else {
+                    commentAdapter.clear();
+                    commentAdapter.addAll(comments);
+                }
             }
         });
     }
