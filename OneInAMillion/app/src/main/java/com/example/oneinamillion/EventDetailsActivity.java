@@ -19,6 +19,12 @@ import com.example.oneinamillion.Fragments.DetailsFragment;
 import com.example.oneinamillion.Fragments.UserPostFragment;
 import com.example.oneinamillion.Models.Event;
 import com.example.oneinamillion.Models.Post;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.parse.ParseUser;
@@ -27,13 +33,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.parceler.Parcels;
 
-public class EventDetailsActivity extends AppCompatActivity {
+public class EventDetailsActivity extends AppCompatActivity implements OnMapReadyCallback {
     ImageView ivEventImage;
     TextView tvEventName;
     TextView tvLocation;
     TextView tvDescription;
     TextView tvDateTime;
     MaterialButton btnRSVP;
+    ImageView ivNavigation;
     Event event;
     Boolean amIattending = false;
     String address;
@@ -69,6 +76,8 @@ public class EventDetailsActivity extends AppCompatActivity {
         fragmentManager.beginTransaction().replace(R.id.flContainer,fragment).commit();
         setClickListeners();
         setInformationViews();
+        SupportMapFragment mapFragment = (SupportMapFragment) fragmentManager.findFragmentById(R.id.mapPreview);
+        mapFragment.getMapAsync(this);
     }
 
     private void setInformationViews() {
@@ -144,8 +153,18 @@ public class EventDetailsActivity extends AppCompatActivity {
             public void onClick(View view) {
                  Uri gmmIntentUri = Uri.parse("geo:0,0?q="+event.getLocation().getLatitude()
                         +","+event.getLocation().getLongitude()+"("+event.getEventName()+")");
-                //Uri gmmIntentUri = Uri.parse("google.navigation:q="+event.getLocation().getLatitude()
-                //        +","+event.getLocation().getLongitude());
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                mapIntent.setPackage("com.google.android.apps.maps");
+                if (mapIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(mapIntent);
+                }
+            }
+        });
+        ivNavigation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Uri gmmIntentUri = Uri.parse("google.navigation:q="+event.getLocation().getLatitude()
+                      +","+event.getLocation().getLongitude());
                 Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
                 mapIntent.setPackage("com.google.android.apps.maps");
                 if (mapIntent.resolveActivity(getPackageManager()) != null) {
@@ -164,6 +183,7 @@ public class EventDetailsActivity extends AppCompatActivity {
         tvDescription = findViewById(R.id.tvEventDescription);
         tvDateTime = findViewById(R.id.tvDateTime);
         btnRSVP = findViewById(R.id.btnRSVP);
+        ivNavigation = findViewById(R.id.ivNavigation);
     }
 
     private void RSVPforEvent() {
@@ -194,5 +214,14 @@ public class EventDetailsActivity extends AppCompatActivity {
         btnRSVP.setText(R.string.attend);
         btnRSVP.setIcon(getResources().getDrawable(R.drawable.icons_plus));
         amIattending = false;
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        LatLng eventLocation = new LatLng(event.getLocation()
+                .getLatitude(),event.getLocation().getLongitude());
+        googleMap.moveCamera(CameraUpdateFactory
+                .newLatLngZoom(eventLocation, 15));
+        googleMap.addMarker(new MarkerOptions().position(eventLocation).title(event.getEventName()));
     }
 }

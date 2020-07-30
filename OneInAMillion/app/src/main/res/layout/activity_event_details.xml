@@ -15,6 +15,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <fragment
+                android:id="@+id/mapPreview"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="179dp"
+                android:layout_below="@+id/btnRSVP"
+                android:layout_marginTop="30dp"
+                tools:context="com.example.oneinamillion.EventDetailsActivity" />
+
             <ImageView
                 android:id="@+id/ivEventImage"
                 android:layout_width="match_parent"
@@ -65,6 +74,19 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
+            <TextView
+                android:id="@+id/tvDirectionsHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/mapPreview"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="20dp"
+                android:text="Get Directions"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnRSVP"
                 android:layout_width="381dp"
@@ -99,12 +121,23 @@
                 android:id="@+id/ivLocation"
                 android:layout_width="18dp"
                 android:layout_height="18dp"
-                android:layout_below="@+id/btnRSVP"
+                android:layout_below="@+id/mapPreview"
                 android:layout_alignParentStart="true"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="19dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="68dp"
                 android:backgroundTint="@color/colorAccent"
                 app:srcCompat="@drawable/ic_vector_location" />
+
+            <ImageView
+                android:id="@+id/ivNavigation"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_below="@+id/mapPreview"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="373dp"
+                android:layout_marginTop="21dp"
+                android:backgroundTint="@color/colorAccent"
+                app:srcCompat="@drawable/navigation" />
 
             <TextView
                 android:id="@+id/tvLocation"
