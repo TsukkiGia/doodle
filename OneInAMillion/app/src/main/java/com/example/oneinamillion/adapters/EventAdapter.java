@@ -98,10 +98,11 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
 
         public void bind(Event event) throws ParseException {
             Log.i(TAG,String.valueOf(event.getDistance()));
-            tvPrice.setText("$"+ event.getPrice());
+            tvPrice.setText(String.format("$%s", event.getPrice()));
             tvEventName.setText(event.getEventName());
             long now = System.currentTimeMillis();
-            Date DateTime = new SimpleDateFormat("MM/dd/yyyy HH:mm", Locale.ENGLISH).parse(event.getDate()+" "+event.getTime());
+            Date DateTime = new SimpleDateFormat("MM/dd/yyyy HH:mm",
+                    Locale.ENGLISH).parse(event.getDate()+" "+event.getTime());
             long DateTimeInMillies = DateTime.getTime();
             tvDateTime.setText(DateUtils.getRelativeTimeSpanString(DateTimeInMillies, now, 0L, DateUtils.FORMAT_ABBREV_ALL));
             if (event.getImage() != null) {
@@ -123,7 +124,8 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
                     Log.i(TAG, "onSuccess");
                     JSONObject jsonObject = json.jsonObject;
                     try {
-                        String address = jsonObject.getJSONArray("results").getJSONObject(0).getString("formatted_address");
+                        String address = jsonObject.getJSONArray("results")
+                                .getJSONObject(0).getString("formatted_address");
                         Intent i = new Intent(context, EventDetailsActivity.class);
                         i.putExtra(Event.class.getSimpleName(),Parcels.wrap(event));
                         i.putExtra("address",address);
@@ -179,7 +181,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
 
                     }
                 };
-                Snackbar.make(itemView,"You have successfully unRSVPed!", Snackbar.LENGTH_SHORT)
+                Snackbar.make(itemView, R.string.successful_unRSVP, Snackbar.LENGTH_SHORT)
                         .setAction(context.getString(R.string.snackbar_dismiss),onClickListener).show();
                 event.setAttendees(attendees);
                 event.saveInBackground();

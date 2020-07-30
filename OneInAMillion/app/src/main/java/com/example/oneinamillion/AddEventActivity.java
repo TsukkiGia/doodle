@@ -86,12 +86,47 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
         String apiKey = getString(R.string.google_maps_key);
         Places.initialize(getApplicationContext(), apiKey);
         placesClient = Places.createClient(this);
+        initializeViews();
+        setClickListeners();
+        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
+                getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
+        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.ADDRESS, Place.Field.NAME, Place.Field.LAT_LNG));
+        autocompleteFragment.setHint("Pick a location");
+        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(@NonNull Place place) {
+                latitude = place.getLatLng().latitude;
+                longitude = place.getLatLng().longitude;
+            }
+
+            @Override
+            public void onError(@NonNull Status status) {
+                Log.i(TAG,status.getStatusMessage());
+            }
+        });
+    }
+
+    private void initializeViews() {
         etEventName = findViewById(R.id.etEventName);
         tvDate = findViewById(R.id.tvDate);
         tvTime = findViewById(R.id.tvTime);
         etEventDescription = findViewById(R.id.etEventDescription);
         ivUploadedImage = findViewById(R.id.ivUploadedImage);
         btnPickADate = findViewById(R.id.btnPickADate);
+        fabSports = findViewById(R.id.extFabSports);
+        fabConcerts = findViewById(R.id.extFabConcerts);
+        fabAuction = findViewById(R.id.extFabAuction);
+        fabRaffle = findViewById(R.id.extFabRaffles);
+        fabCooking = findViewById(R.id.extFabCooking);
+        fabGalas = findViewById(R.id.extFabGalas);
+        fabCrafts = findViewById(R.id.extFabCrafts);
+        fabAthons = findViewById(R.id.extFabAthons);
+        btnPickATime = findViewById(R.id.btnPickATime);
+        btnPost = findViewById(R.id.btnPost);
+        btnUploadImage = findViewById(R.id.btnUploadImage);
+    }
+
+    private void setClickListeners() {
         btnPickADate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -99,7 +134,6 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
                 fragment.show(getSupportFragmentManager(), "datePicker");
             }
         });
-        btnPickATime = findViewById(R.id.btnPickATime);
         btnPickATime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -107,8 +141,6 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
                 fragment.show(getSupportFragmentManager(), "timePicker");
             }
         });
-        btnPost = findViewById(R.id.btnPost);
-        btnUploadImage = findViewById(R.id.btnUploadImage);
         btnPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -122,14 +154,6 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
                 onPickPhoto(view);
             }
         });
-        fabSports = findViewById(R.id.extFabSports);
-        fabConcerts = findViewById(R.id.extFabConcerts);
-        fabAuction = findViewById(R.id.extFabAuction);
-        fabRaffle = findViewById(R.id.extFabRaffles);
-        fabCooking = findViewById(R.id.extFabCooking);
-        fabGalas = findViewById(R.id.extFabGalas);
-        fabCrafts = findViewById(R.id.extFabCrafts);
-        fabAthons = findViewById(R.id.extFabAthons);
         fabSports.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -176,22 +200,6 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
             @Override
             public void onClick(View view) {
                 fabclicked(fabAthons,thon_tag,R.color.colorThonButton);
-            }
-        });
-        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
-                getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
-        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.ADDRESS, Place.Field.NAME, Place.Field.LAT_LNG));
-        autocompleteFragment.setHint("Pick a location");
-        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-            @Override
-            public void onPlaceSelected(@NonNull Place place) {
-                latitude = place.getLatLng().latitude;
-                longitude = place.getLatLng().longitude;
-            }
-
-            @Override
-            public void onError(@NonNull Status status) {
-
             }
         });
     }

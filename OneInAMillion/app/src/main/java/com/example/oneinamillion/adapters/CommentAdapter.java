@@ -68,9 +68,11 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         public void bind(Comment comment) {
             tvUsername.setText(comment.getCommenter().getUsername());
             tvDescription.setText(comment.getText());
-            if (comment.getCommenter().getParseFile("ProfileImage")!=null){
+            if (comment.getCommenter().getParseFile(context
+                    .getString(R.string.user_profile_picture_key))!=null){
                 Glide.with(context).load(comment.getCommenter()
-                        .getParseFile("ProfileImage").getUrl()).circleCrop().into(ivProfilePicture);
+                        .getParseFile(context
+                                .getString(R.string.user_profile_picture_key)).getUrl()).circleCrop().into(ivProfilePicture);
             }
             else {
                 ivProfilePicture.setImageDrawable(context.getDrawable(R.drawable.instagram_user_filled_24));

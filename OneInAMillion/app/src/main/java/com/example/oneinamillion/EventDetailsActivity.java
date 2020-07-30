@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -155,6 +156,18 @@ public class EventDetailsActivity extends AppCompatActivity {
         tvEventName.setText(event.getEventName());
         tvDateTime.setText(event.getDate()+" at "+event.getTime());
         tvLocation.setText(address);
+        tvLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Uri gmmIntentUri = Uri.parse("geo:0,0?q="+event.getLocation().getLatitude()
+                        +","+event.getLocation().getLongitude()+"("+event.getEventName()+")");
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                mapIntent.setPackage("com.google.android.apps.maps");
+                if (mapIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(mapIntent);
+                }
+            }
+        });
         tvDescription.setText(event.getDescription());
     }
 }

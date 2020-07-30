@@ -116,7 +116,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
                                 .replace(R.id.flContainer,fragment).commit();
                     }
                 };
-                Snackbar.make(getView(),"See results as a list?",Snackbar.LENGTH_LONG)
+                Snackbar.make(getView(),"See results as a list?",Snackbar.LENGTH_INDEFINITE)
                         .setAction("show",onClickListener).show();
                 return true;
             }

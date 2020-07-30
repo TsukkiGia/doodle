@@ -107,6 +107,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                 ivPost.setVisibility(View.VISIBLE);
                 Glide.with(context).load(post.getImage().getUrl()).centerCrop().into(ivPost);
             }
+            didUserLike(post);
+        }
+        private void didUserLike(Post post) {
             JSONArray likers = post.getLikers();
             Boolean didILike = false;
             for (int i = 0; i < likers.length(); i++) {
@@ -131,12 +134,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                 ivLike.setTag(R.drawable.ufi_heart);
                 ivLike.setColorFilter(Color.BLACK);
             }
-            if (likes!=1) {
-                tvLikes.setText(String.valueOf(likes) + " likes");
-            }
-            else {
-                tvLikes.setText("1 like");
-            }
+            tvLikes.setText(context.getResources().getQuantityString(R.plurals.numberOfLikes,likes,likes));
         }
 
         @Override
@@ -147,11 +145,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                     ivLike.setTag(R.drawable.ufi_heart_active);
                     ivLike.setColorFilter(Color.RED);
                     likes++;
-                    if (likes != 1) {
-                        tvLikes.setText(String.valueOf(likes) + " likes");
-                    } else {
-                        tvLikes.setText("1 like");
-                    }
+                    tvLikes.setText(context.getResources().getQuantityString(R.plurals.numberOfLikes,likes,likes));
                     Post post = posts.get(getAdapterPosition());
                     JSONArray likers = post.getLikers();
                     likers.put(ParseUser.getCurrentUser());
@@ -166,11 +160,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                     ivLike.setTag(R.drawable.ufi_heart);
                     ivLike.setColorFilter(Color.BLACK);
                     likes--;
-                    if (likes != 1) {
-                        tvLikes.setText(String.valueOf(likes) + " likes");
-                    } else {
-                        tvLikes.setText("1 like");
-                    }
+                    tvLikes.setText(context.getResources().getQuantityString(R.plurals.numberOfLikes,likes,likes));
                     Post post = posts.get(getAdapterPosition());
                     int index = 0;
                     JSONArray likers = post.getLikers();

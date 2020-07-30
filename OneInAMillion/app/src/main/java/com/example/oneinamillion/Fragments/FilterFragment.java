@@ -100,6 +100,10 @@ public class FilterFragment extends Fragment {
         fabGalas = view.findViewById(R.id.extFabGalas);
         fabCrafts = view.findViewById(R.id.extFabCrafts);
         fabAthons = view.findViewById(R.id.extFabAthons);
+        tvValueDistance = view.findViewById(R.id.tvValueDistance);
+        tvValuePrice = view.findViewById(R.id.tvValuePrice);
+        sbDistance = view.findViewById(R.id.sbDistance);
+        sbPrice = view.findViewById(R.id.sbPrice);
         Log.i(TAG,interests.toString());
         for (int i = 0; i < interests.size(); i++) {
             String interest = interests.get(i);
@@ -156,12 +160,8 @@ public class FilterFragment extends Fragment {
                 fragmentManager.beginTransaction().replace(R.id.flContainer, homeFragment).commit();
             }
         });
-        tvValueDistance = view.findViewById(R.id.tvValueDistance);
-        tvValuePrice = view.findViewById(R.id.tvValuePrice);
-        sbDistance = view.findViewById(R.id.sbDistance);
         tvValueDistance.setText(String.valueOf(max_distance));
         tvValuePrice.setText(String.valueOf(max_price));
-        sbPrice = view.findViewById(R.id.sbPrice);
         sbPrice.setX((float) max_price);
         sbDistance.setX((float) max_distance);
         sbPrice.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {

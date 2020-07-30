@@ -67,9 +67,9 @@ public class HomeFragment extends Fragment {
     private SwipeRefreshLayout swipeContainer;
     ImageView ivProfile;
     ProgressBar pbLoading;
-    String date_string = "date";
-    String distance_string = "distance";
-    String price_string = "price";
+    final String date_string = "date";
+    final String distance_string = "distance";
+    final String price_string = "price";
     private FusedLocationProviderClient fusedLocationProviderClient;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private boolean locationPermissionGranted;
@@ -123,112 +123,31 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (!filtertags) {
-            JSONArray tagg = ParseUser.getCurrentUser().getJSONArray("Interests");
-            for (int i = 0; i < tagg.length(); i++) {
-                try {
-                    tags.add(tagg.getString(i));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            };
+            getUsersTags();
+            filtertags = true;
         }
-        filtertags = true;
         results = new ArrayList<>();
         fragmentManager = getParentFragmentManager();
         ivMap = view.findViewById(R.id.ivMap);
-        ivMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getContext(), HomeMapActivity.class);
-                i.putExtra("results", Parcels.wrap(results));
-                startActivity(i);
-            }
-        });
-        ivFilter = view.findViewById(R.id.ivFilter);
-        ivFilter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FilterFragment filterFragment = new FilterFragment();
-                Bundle bundle = new Bundle();
-                bundle.putString("sort_metric",currentlySelected);
-                bundle.putString("max_distance", String.valueOf(max_distance));
-                bundle.putString("max_price", String.valueOf(max_distance));
-                bundle.putBoolean("friends",filterfriends);
-                bundle.putStringArrayList("tags", (ArrayList<String>) tags);
-                filterFragment.setArguments(bundle);
-                fragmentManager.beginTransaction().replace(R.id.flContainer, filterFragment).commit();
-            }
-        });
-        pbLoading = view.findViewById(R.id.pbLoading);
-        fabDate = view.findViewById(R.id.extFabDate);
-        fabDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!currentlySelected.equals(date_string)) {
-                    setActiveButton(fabDate);
-                    currentlySelected = date_string;
-                    setActiveButton(fabDate);
-                    fabDistance.setBackgroundColor(Color.WHITE);
-                    fabDistance.setTextColor(Color.BLACK);
-                    fabPrice.setBackgroundColor(Color.WHITE);
-                    fabPrice.setTextColor(Color.BLACK);
-                    pbLoading.setVisibility(View.VISIBLE);
-                    sort();
-                }
-            }
-        });
-        fabDistance = view.findViewById(R.id.extFabDistance);
-        fabDistance.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!currentlySelected.equals(distance_string)) {
-                    currentlySelected = distance_string;
-                    setActiveButton(fabDistance);
-                    fabDate.setBackgroundColor(Color.WHITE);
-                    fabDate.setTextColor(Color.BLACK);
-                    fabPrice.setBackgroundColor(Color.WHITE);
-                    fabPrice.setTextColor(Color.BLACK);
-                    pbLoading.setVisibility(View.VISIBLE);
-                    sort();
-                }
-            }
-        });
-        fabPrice = view.findViewById(R.id.extFabPrice);
-        fabPrice.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!currentlySelected.equals(price_string)) {
-                    currentlySelected = price_string;
-                    setActiveButton(fabPrice);
-                    fabDate.setBackgroundColor(Color.WHITE);
-                    fabDate.setTextColor(Color.BLACK);
-                    fabDistance.setBackgroundColor(Color.WHITE);
-                    fabDistance.setTextColor(Color.BLACK);
-                    pbLoading.setVisibility(View.VISIBLE);
-                    sort();
-                }
-            }
-        });
-        if (currentlySelected.equals(date_string)) {
-            setActiveButton(fabDate);
-        }
-        if (currentlySelected.equals(distance_string)) {
-            setActiveButton(fabDistance);
-        }
-        if (currentlySelected.equals(price_string)) {
-            setActiveButton(fabPrice);
-        }
         ivProfile = view.findViewById(R.id.ivProfile);
         rvEvents = view.findViewById(R.id.rvEvents);
         fabCreate = view.findViewById(R.id.fabCreate);
-        fabCreate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getContext(), AddEventActivity.class);
-                startActivity(i);
-            }
-        });
+        ivFilter = view.findViewById(R.id.ivFilter);
+        pbLoading = view.findViewById(R.id.pbLoading);
+        fabDate = view.findViewById(R.id.extFabDate);
+        fabPrice = view.findViewById(R.id.extFabPrice);
+        fabDistance = view.findViewById(R.id.extFabDistance);
         swipeContainer = view.findViewById(R.id.swipeContainer);
+        setClickListeners();
+        if (currentlySelected.equals(date_string)) {
+            setActiveButton(distance_string,fabDate,false);
+        }
+        if (currentlySelected.equals(distance_string)) {
+            setActiveButton(price_string,fabDistance,false);
+        }
+        if (currentlySelected.equals(price_string)) {
+            setActiveButton(date_string,fabPrice,false);
+        }
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -251,9 +170,100 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    private void setActiveButton(ExtendedFloatingActionButton fabButton) {
+    private void getUsersTags() {
+        JSONArray tagg = ParseUser.getCurrentUser().getJSONArray("Interests");
+        for (int i = 0; i < tagg.length(); i++) {
+            try {
+                tags.add(tagg.getString(i));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        };
+    }
+
+    private void setClickListeners() {
+        ivMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getContext(), HomeMapActivity.class);
+                i.putExtra("results", Parcels.wrap(results));
+                startActivity(i);
+            }
+        });
+        ivFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FilterFragment filterFragment = new FilterFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("sort_metric",currentlySelected);
+                bundle.putString("max_distance", String.valueOf(max_distance));
+                bundle.putString("max_price", String.valueOf(max_distance));
+                bundle.putBoolean("friends",filterfriends);
+                bundle.putStringArrayList("tags", (ArrayList<String>) tags);
+                filterFragment.setArguments(bundle);
+                fragmentManager.beginTransaction().replace(R.id.flContainer, filterFragment).commit();
+            }
+        });
+        fabDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!currentlySelected.equals(date_string)) {
+                    setActiveButton(currentlySelected,fabDate,true);
+                    currentlySelected = date_string;
+                }
+            }
+        });
+        fabDistance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!currentlySelected.equals(distance_string)) {
+                    setActiveButton(currentlySelected,fabDistance,true);
+                    currentlySelected = distance_string;
+                }
+            }
+        });
+        fabPrice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!currentlySelected.equals(price_string)) {
+                    setActiveButton(currentlySelected,fabPrice,true);
+                    currentlySelected = price_string;
+                }
+            }
+        });
+        fabCreate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getContext(), AddEventActivity.class);
+                startActivity(i);
+            }
+        });
+    }
+
+    private void setActiveButton(String previous, ExtendedFloatingActionButton fabButton, Boolean sort) {
+        switch (previous) {
+            case date_string:
+                fabDate.setBackgroundColor(Color.WHITE);
+                fabDate.setTextColor(Color.BLACK);
+                break;
+            case distance_string:
+                fabDistance.setBackgroundColor(Color.WHITE);
+                fabDistance.setTextColor(Color.BLACK);
+                break;
+            case price_string:
+                fabPrice.setBackgroundColor(Color.WHITE);
+                fabPrice.setTextColor(Color.BLACK);
+                break;
+
+            default:
+                throw new IllegalStateException("Unexpected value: " + previous);
+        }
         fabButton.setBackgroundColor(getContext().getColor(R.color.colorAccent));
         fabButton.setTextColor(Color.WHITE);
+        pbLoading.setVisibility(View.VISIBLE);
+        if (sort) {
+            sort();
+        }
     }
 
     //Gets the current location of the device, and positions the map's camera.

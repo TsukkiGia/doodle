@@ -97,8 +97,9 @@ public class ProfileFragment extends Fragment {
         else {
             facebook_login.setVisibility(View.GONE);
         }
-        tvName.setText(ParseUser.getCurrentUser().getString("FirstName") + " " + ParseUser.getCurrentUser().getString("LastName"));
-        tvUsername.setText("@" + ParseUser.getCurrentUser().getUsername());
+        tvName.setText(String.format("%s %s", ParseUser.getCurrentUser().getString("FirstName"),
+                ParseUser.getCurrentUser().getString("LastName")));
+        tvUsername.setText(String.format("@%s", ParseUser.getCurrentUser().getUsername()));
         if (ParseUser.getCurrentUser().getParseFile("ProfileImage") != null) {
             Glide.with(getContext()).load(ParseUser.getCurrentUser().getParseFile("ProfileImage").getUrl())
                     .circleCrop().into(ivProfile);
@@ -142,7 +143,8 @@ public class ProfileFragment extends Fragment {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         photoFile = getPhotoFileUri(photoFileName);
         // required for API >= 24
-        Uri fileProvider = FileProvider.getUriForFile(getActivity(), "com.gianna.fileprovider", photoFile);
+        Uri fileProvider = FileProvider.getUriForFile(getActivity(),
+                "com.gianna.fileprovider", photoFile);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
         if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
             // Start the image capture intent to take photo

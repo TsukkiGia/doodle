@@ -69,18 +69,18 @@
                 android:textColor="@color/colorAccent"
                 />
 
+
             <Button
                 android:id="@+id/btnPickADate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tfEventDescription"
                 android:layout_alignParentEnd="true"
-                android:layout_marginTop="82dp"
+                android:layout_marginTop="148dp"
                 android:layout_marginEnd="30dp"
                 android:backgroundTint="#FFFFFF"
                 android:text="Pick a Date"
-                android:textColor="@color/colorAccent"/>
-
+                android:textColor="@color/colorAccent" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tfEventName"
@@ -145,13 +145,25 @@
                 tools:text="something" />
 
             <TextView
-                android:id="@+id/tvDate"
+                android:id="@+id/tvPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/tfEventDescription"
                 android:layout_alignBottom="@+id/btnPickADate"
                 android:layout_marginStart="0dp"
                 android:layout_marginBottom="14dp"
+                android:textColor="#000000"
+                android:textStyle="bold"
+                tools:text="something" />
+
+            <TextView
+                android:id="@+id/tvDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/tfEventDescription"
+                android:layout_alignBottom="@+id/btnPickADate"
+                android:layout_marginStart="-3dp"
+                android:layout_marginBottom="81dp"
                 android:textColor="#000000"
                 android:textStyle="bold"
                 tools:text="something" />
@@ -294,6 +306,7 @@
                 android:text="A-thons"
                 android:textColor="#000000"
                 app:backgroundTint="#FFFFFF" />
+
         </RelativeLayout>
     </ScrollView>
 

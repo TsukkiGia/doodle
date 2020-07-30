@@ -64,10 +64,12 @@ public class EventsFragment extends Fragment {
         ivMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getContext(), EventMapActivity.class);
-                startActivity(i);
+                getParentFragmentManager().beginTransaction()
+                        .replace(R.id.flContainer,new CalendarFragment()).commit();
             }
         });
+        tvMyOrganizedEvents = view.findViewById(R.id.tvMyOrganizedEvents);
+        tvMyUpcomingEvents = view.findViewById(R.id.tvMyUpcomingEvents);
         ivDropdownAttending = view.findViewById(R.id.ivDropdownAttending);
         ivDropdownOrganized = view.findViewById(R.id.ivDropdownOrganizing);
         attendingEvents = new ArrayList<>();
@@ -78,8 +80,6 @@ public class EventsFragment extends Fragment {
         rvCreated.setAdapter(eventAdapterForOrganized);
         rvCreated.setLayoutManager(new LinearLayoutManager(getContext()));
         rvUpcoming.setLayoutManager(new LinearLayoutManager(getContext()));
-        tvMyOrganizedEvents = view.findViewById(R.id.tvMyOrganizedEvents);
-        tvMyUpcomingEvents = view.findViewById(R.id.tvMyUpcomingEvents);
         ivDropdownOrganized.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

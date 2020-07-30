@@ -46,7 +46,7 @@ public class DetailsFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_details, container, false);
     }
-//organizer, price, distance and friends that are attending
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -54,6 +54,11 @@ public class DetailsFragment extends Fragment {
         tvPrice = view.findViewById(R.id.tvPrice);
         tvDistance = view.findViewById(R.id.tvDistance);
         tvFriendsAttending = view.findViewById(R.id.tvFriendsAttending);
+        setInformationTextViews();
+        getFriendsAttending();
+    }
+
+    private void setInformationTextViews() {
         organizerName = event.getOrganizer().getString("FirstName")+" "+
                 event.getOrganizer().getString("LastName");
         price = String.valueOf(event.getPrice());
@@ -62,7 +67,6 @@ public class DetailsFragment extends Fragment {
         tvOrganizer.setText("Organized by "+organizerName);
         tvPrice.setText("$"+price);
         tvDistance.setText("This event is "+distance+" kilometers away from you");
-        getFriendsAttending();
     }
 
     private void getFriendsAttending() {
