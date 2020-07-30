@@ -142,10 +142,10 @@ public class EventDetailsActivity extends AppCompatActivity {
         tvLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Uri gmmIntentUri = Uri.parse("geo:0,0?q="+event.getLocation().getLatitude()
-                //        +","+event.getLocation().getLongitude()+"("+event.getEventName()+")");
-                Uri gmmIntentUri = Uri.parse("google.navigation:q="+event.getLocation().getLatitude()
-                        +","+event.getLocation().getLongitude());
+                 Uri gmmIntentUri = Uri.parse("geo:0,0?q="+event.getLocation().getLatitude()
+                        +","+event.getLocation().getLongitude()+"("+event.getEventName()+")");
+                //Uri gmmIntentUri = Uri.parse("google.navigation:q="+event.getLocation().getLatitude()
+                //        +","+event.getLocation().getLongitude());
                 Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
                 mapIntent.setPackage("com.google.android.apps.maps");
                 if (mapIntent.resolveActivity(getPackageManager()) != null) {

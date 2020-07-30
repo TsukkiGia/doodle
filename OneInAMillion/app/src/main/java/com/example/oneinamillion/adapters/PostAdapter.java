@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.oneinamillion.LikersActivity;
 import com.example.oneinamillion.Models.Post;
 import com.example.oneinamillion.PostDetailsActivity;
 import com.example.oneinamillion.ProfilePageActivity;
@@ -91,6 +92,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             ivComment.setOnClickListener(this);
             ivProfilePicture.setOnClickListener(this);
             tvDescription.setOnClickListener(this);
+            tvLikes.setOnClickListener(this);
         }
 
         public void bind(Post post) {
@@ -113,8 +115,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             Boolean didILike = false;
             for (int i = 0; i < likers.length(); i++) {
                 try {
-                    JSONObject user = (JSONObject) likers.get(i);
-                    String userID = user.getString("objectId");
+                    String userID = likers.getString(i);
                     if (userID.equals(ParseUser.getCurrentUser().getObjectId())) {
                         didILike = true;
                     }
@@ -138,6 +139,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
         @Override
         public void onClick(View view) {
+            if(view.getId() == tvLikes.getId()){
+                Intent i = new Intent(context, LikersActivity.class);
+                Post post = posts.get(getAdapterPosition());
+                i.putExtra("likers", String.valueOf(post.getLikers()));
+                context.startActivity(i);
+            }
             if (view.getId()==ivLike.getId()) {
                 if ((Integer) ivLike.getTag() == R.drawable.ufi_heart) {
                     ivLike.setImageDrawable(context.getResources().getDrawable(R.drawable.ufi_heart_active));
@@ -147,7 +154,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                     tvLikes.setText(context.getResources().getQuantityString(R.plurals.numberOfLikes,likes,likes));
                     Post post = posts.get(getAdapterPosition());
                     JSONArray likers = post.getLikers();
-                    likers.put(ParseUser.getCurrentUser());
+                    likers.put(ParseUser.getCurrentUser().getObjectId());
                     post.setLikers(likers);
                     post.saveInBackground(new SaveCallback() {
                         @Override
@@ -166,7 +173,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                     for (int i = 0; i < likers.length() - 1; i++) {
                         try {
                             ParseUser user = (ParseUser) likers.get(i);
-                            if (user.equals(ParseUser.getCurrentUser())) {
+                            if (user.equals(ParseUser.getCurrentUser().getObjectId())) {
                                 index = i;
                                 break;
                             }

@@ -54,11 +54,7 @@ public class DetailsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        tvOrganizer = view.findViewById(R.id.tvOrganizer);
-        tvPrice = view.findViewById(R.id.tvPrice);
-        tvDistance = view.findViewById(R.id.tvDistance);
-        tvFriendsAttending = view.findViewById(R.id.tvFriendsAttending);
-        btnBuyTickets = view.findViewById(R.id.btnBuyTicket);
+        initializeViews(view);
         if (event.getTicketLink()==null){
             btnBuyTickets.setVisibility(View.GONE);
         }
@@ -75,6 +71,14 @@ public class DetailsFragment extends Fragment {
         });
         setInformationTextViews();
         getFriendsAttending();
+    }
+
+    private void initializeViews(View view) {
+        tvOrganizer = view.findViewById(R.id.tvOrganizer);
+        tvPrice = view.findViewById(R.id.tvPrice);
+        tvDistance = view.findViewById(R.id.tvDistance);
+        tvFriendsAttending = view.findViewById(R.id.tvFriendsAttending);
+        btnBuyTickets = view.findViewById(R.id.btnBuyTicket);
     }
 
     private void setInformationTextViews() {

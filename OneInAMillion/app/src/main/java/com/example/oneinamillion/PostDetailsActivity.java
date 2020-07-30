@@ -114,7 +114,7 @@ public class PostDetailsActivity extends AppCompatActivity {
             ivLike.setImageDrawable(getResources().getDrawable(R.drawable.ufi_heart_active));
             ivLike.setColorFilter(Color.RED);
             JSONArray likers = post.getLikers();
-            likers.put(ParseUser.getCurrentUser());
+            likers.put(ParseUser.getCurrentUser().getObjectId());
             didIlike = true;
             post.setLikers(likers);
             post.saveInBackground(new SaveCallback() {
@@ -133,8 +133,8 @@ public class PostDetailsActivity extends AppCompatActivity {
             JSONArray likers = post.getLikers();
             for (int i = 0; i < likers.length() - 1; i++) {
                 try {
-                    ParseUser user = (ParseUser) likers.get(i);
-                    if (user.equals(ParseUser.getCurrentUser())) {
+                    String userID = likers.getString(i);
+                    if (userID.equals(ParseUser.getCurrentUser().getObjectId())) {
                         index = i;
                         break;
                     }
