@@ -50,7 +50,7 @@ public class PostDetailsActivity extends AppCompatActivity {
         initializeViews();
         comments = new ArrayList<>();
         post = Parcels.unwrap(getIntent().getParcelableExtra(Post.class.getSimpleName()));
-        didIlike = getIntent().getBooleanExtra("didilike",false);
+        didIlike = getIntent().getBooleanExtra("didilike",true);
         tvUsername.setText(post.getAuthor().getUsername());
         tvDescription.setText(post.getDescription());
         commentAdapter = new CommentAdapter(PostDetailsActivity.this,comments);

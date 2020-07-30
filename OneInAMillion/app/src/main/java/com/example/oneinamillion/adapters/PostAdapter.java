@@ -189,7 +189,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                 Post post = posts.get(getAdapterPosition());
                 Intent i = new Intent(context, PostDetailsActivity.class);
                 i.putExtra(Post.class.getSimpleName(), Parcels.wrap(post));
-                i.putExtra("didilike",didILike);
+                i.putExtra("didilike",(Integer) ivLike.getTag() == R.drawable.ufi_heart_active);
                 i.putExtra("likes",likes);
                 context.startActivity(i);
             }
