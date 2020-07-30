@@ -54,6 +54,9 @@ public class EventDetailsActivity extends AppCompatActivity {
         if (getIntent().getStringExtra("activity").equals("SearchFragment")) {
             overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         }
+        if (getIntent().getStringExtra("activity").equals("AdapterItem")) {
+            overridePendingTransition(R.anim.push_up_in, R.anim.push_up_out);
+        }
         address = getIntent().getStringExtra("address");
         double distance = getIntent().getDoubleExtra("distance",0);
         event = Parcels.unwrap(getIntent().getParcelableExtra(Event.class.getSimpleName()));

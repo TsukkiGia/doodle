@@ -15,9 +15,12 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +35,7 @@ import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.android.material.textfield.TextInputLayout;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
@@ -57,6 +61,9 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
     Button btnPickADate;
     TextView tvDate;
     TextView tvTime;
+    Spinner spTicketsAvailable;
+    TextInputLayout tfPrice;
+    TextInputLayout tfTicketLink;
     ExtendedFloatingActionButton fabSports;
     ExtendedFloatingActionButton fabConcerts;
     ExtendedFloatingActionButton fabAuction;
@@ -65,6 +72,7 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
     ExtendedFloatingActionButton fabGalas;
     ExtendedFloatingActionButton fabCrafts;
     ExtendedFloatingActionButton fabAthons;
+    Boolean ticketsforsale = false;
     String raffle_tag = "raffle";
     String thon_tag = "thon";
     String sport_tag = "sport";
@@ -111,6 +119,8 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
         etEventName = findViewById(R.id.etEventName);
         tvDate = findViewById(R.id.tvDate);
         tvTime = findViewById(R.id.tvTime);
+        tfPrice = findViewById(R.id.tfPrice);
+        tfTicketLink = findViewById(R.id.tfTicketLink);
         etEventDescription = findViewById(R.id.etEventDescription);
         etPrice = findViewById(R.id.etPrice);
         ivUploadedImage = findViewById(R.id.ivUploadedImage);
@@ -126,6 +136,36 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
         btnPickATime = findViewById(R.id.btnPickATime);
         btnPost = findViewById(R.id.btnPost);
         btnUploadImage = findViewById(R.id.btnUploadImage);
+        spTicketsAvailable = findViewById(R.id.spTickets);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.tickets_available, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        spTicketsAvailable.setAdapter(adapter);
+        spTicketsAvailable.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String item = String.valueOf(adapterView.getItemAtPosition(i));
+                Log.i(TAG,item);
+                if (item.equals("Yes")){
+                    tfPrice.setVisibility(View.VISIBLE);
+                    tfTicketLink.setVisibility(View.VISIBLE);
+                    ticketsforsale = true;
+                }
+                else{
+                    tfPrice.setVisibility(View.GONE);
+                    tfTicketLink.setVisibility(View.GONE);
+                    ticketsforsale = false;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
     }
 
     private void setClickListeners() {

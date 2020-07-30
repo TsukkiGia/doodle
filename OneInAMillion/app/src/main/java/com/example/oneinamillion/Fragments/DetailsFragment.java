@@ -1,5 +1,7 @@
 package com.example.oneinamillion.Fragments;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.oneinamillion.Models.Event;
@@ -36,6 +39,7 @@ public class DetailsFragment extends Fragment {
     Event event;
     String price;
     String distance;
+    Button btnBuyTickets;
     List<String> friendsAttendingList = new ArrayList<>();
     String friendsAttending="";
     public static final String TAG = "DetailsFragment";
@@ -54,6 +58,19 @@ public class DetailsFragment extends Fragment {
         tvPrice = view.findViewById(R.id.tvPrice);
         tvDistance = view.findViewById(R.id.tvDistance);
         tvFriendsAttending = view.findViewById(R.id.tvFriendsAttending);
+        btnBuyTickets = view.findViewById(R.id.btnBuyTicket);
+        if (event.getPrice()==0.0){
+            btnBuyTickets.setVisibility(View.GONE);
+        }
+        btnBuyTickets.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String url = "http://www.example.com";
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(url));
+                startActivity(i);
+            }
+        });
         setInformationTextViews();
         getFriendsAttending();
     }

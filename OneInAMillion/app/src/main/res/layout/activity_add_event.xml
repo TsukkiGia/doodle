@@ -68,14 +68,13 @@
                 android:text="@string/pick_a_time"
                 android:textColor="@color/colorAccent" />
 
-
             <Button
                 android:id="@+id/btnPickADate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tfPrice"
+                android:layout_below="@+id/tfTicketLink"
                 android:layout_alignParentEnd="true"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="45dp"
                 android:layout_marginEnd="30dp"
                 android:backgroundTint="#FFFFFF"
                 android:text="@string/pick_a_date"
@@ -85,17 +84,36 @@
                 android:id="@+id/tfPrice"
                 android:layout_width="345dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/card_view"
+                android:layout_below="@+id/tvTicketAvailable"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="29dp"
-                android:hint="@string/event_price">
+                android:hint="@string/event_price"
+                android:visibility="gone">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etPrice"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tfTicketLink"
+                android:layout_width="345dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tfPrice"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="29dp"
+                android:hint="Ticket Link"
+                android:visibility="gone">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etTicketLink"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -169,10 +187,22 @@
                 android:layout_alignStart="@+id/tfEventDescription"
                 android:layout_alignBottom="@+id/btnPickADate"
                 android:layout_marginStart="0dp"
-                android:layout_marginBottom="14dp"
+                android:layout_marginBottom="17dp"
                 android:textColor="#000000"
                 android:textStyle="bold"
                 tools:text="something" />
+
+            <TextView
+                android:id="@+id/tvTicketAvailable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/card_view"
+                android:layout_alignStart="@+id/tfEventDescription"
+                android:layout_marginStart="3dp"
+                android:layout_marginTop="15dp"
+                android:text="Are there tickets for sale?"
+                android:textColor="#000000"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tvTags"
@@ -222,7 +252,7 @@
                 android:layout_marginTop="215dp"
                 android:layout_marginEnd="58dp"
                 android:gravity="center"
-                android:text="Auctions"
+                android:text="@string/auctions"
                 android:textColor="#000000"
                 app:backgroundTint="#FFFFFF" />
 
@@ -235,7 +265,7 @@
                 android:layout_marginTop="147dp"
                 android:layout_marginEnd="115dp"
                 android:gravity="center"
-                android:text="Raffles"
+                android:text="@string/raffles"
                 android:textColor="#000000"
                 app:backgroundTint="#FFFFFF" />
 
@@ -248,7 +278,7 @@
                 android:layout_marginTop="151dp"
                 android:layout_marginEnd="264dp"
                 android:gravity="center"
-                android:text="Cooking"
+                android:text="@string/cooking"
                 android:textColor="#000000"
                 app:backgroundTint="#FFFFFF"
                 app:layout_constraintBottom_toTopOf="@id/extFabAthons" />
@@ -275,7 +305,7 @@
                 android:layout_marginTop="-3dp"
                 android:layout_marginEnd="100dp"
                 android:gravity="center"
-                android:text="Crafts"
+                android:text="@string/crafts"
                 android:textColor="#000000"
                 app:backgroundTint="#FFFFFF" />
 
@@ -309,10 +339,20 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="266dp"
                 android:gravity="center"
-                android:text="A-thons"
+                android:text="@string/a_thons"
                 android:textColor="#000000"
                 app:backgroundTint="#FFFFFF" />
 
+            <Spinner
+                android:id="@+id/spTickets"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/card_view"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="20dp"
+                android:outlineAmbientShadowColor="@color/colorAccent"
+                android:outlineSpotShadowColor="@color/colorAccent" />
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>

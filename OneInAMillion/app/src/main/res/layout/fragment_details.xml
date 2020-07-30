@@ -13,8 +13,8 @@
         android:layout_height="26dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="31dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="17dp"
         android:src="@drawable/person" />
 
     <ImageView
@@ -31,10 +31,10 @@
         android:id="@+id/ivFriendsAttending"
         android:layout_width="28dp"
         android:layout_height="26dp"
-        android:layout_below="@+id/ivOrganizer"
+        android:layout_below="@+id/ivDistance"
         android:layout_alignParentStart="true"
         android:layout_marginStart="31dp"
-        android:layout_marginTop="134dp"
+        android:layout_marginTop="31dp"
         android:src="@drawable/friends" />
 
     <ImageView
@@ -61,9 +61,9 @@
         android:id="@+id/tvPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/ivOrganizer"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="54dp"
+        android:layout_alignTop="@+id/ivPrice"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="3dp"
         android:layout_toEndOf="@+id/ivOrganizer"
         tools:text="$50 per person" />
 
@@ -71,9 +71,9 @@
         android:id="@+id/tvDistance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/ivOrganizer"
+        android:layout_alignTop="@+id/ivDistance"
         android:layout_marginStart="18dp"
-        android:layout_marginTop="106dp"
+        android:layout_marginTop="3dp"
         android:layout_toEndOf="@+id/ivOrganizer"
         tools:text="20 miles away" />
 
@@ -81,9 +81,19 @@
         android:id="@+id/tvFriendsAttending"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/ivOrganizer"
+        android:layout_alignTop="@+id/ivFriendsAttending"
         android:layout_marginStart="17dp"
-        android:layout_marginTop="163dp"
+        android:layout_marginTop="3dp"
         android:layout_toEndOf="@+id/ivOrganizer"
         tools:text="Gianna, Nico and Hamilton are attending this event." />
+
+    <Button
+        android:id="@+id/btnBuyTicket"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/tvPrice"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="-12dp"
+        android:layout_marginEnd="19dp"
+        android:text="Buy Tickets" />
 </RelativeLayout>

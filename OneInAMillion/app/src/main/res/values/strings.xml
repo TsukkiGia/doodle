@@ -52,5 +52,10 @@
     <string name="event_setting">%s at %s</string>
     <string name="attending">Attending</string>
     <string name="attend">Attend</string>
+    <string name="auctions">Auctions</string>
+    <string name="raffles">Raffles</string>
+    <string name="cooking">Cooking</string>
+    <string name="crafts">Crafts</string>
+    <string name="a_thons">A-thons</string>
 
 </resources>
