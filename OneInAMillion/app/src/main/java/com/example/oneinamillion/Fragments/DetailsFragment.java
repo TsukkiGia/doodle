@@ -84,11 +84,16 @@ public class DetailsFragment extends Fragment {
     private void setInformationTextViews() {
         organizerName = event.getOrganizer().getString("FirstName")+" "+
                 event.getOrganizer().getString("LastName");
-        price = String.valueOf(event.getPrice());
+        if (event.getPrice()==0.0){
+            tvPrice.setText("Free entry");
+        }
+        else {
+            price = String.valueOf(event.getPrice());
+            tvPrice.setText(getContext().getString(R.string.price, price));
+        }
         distance = String.valueOf(Math.round(event.distance));
         //Checker if the distance value is 0
         tvOrganizer.setText(getContext().getString(R.string.event_organizer,organizerName));
-        tvPrice.setText(getContext().getString(R.string.price,price));
         tvDistance.setText(getContext().getString(R.string.distance_from_user,distance));
     }
 
