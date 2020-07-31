@@ -225,10 +225,56 @@ public class FilterFragment extends Fragment {
                 sbDistance.setProgress((int)max_distance);
                 tvValueDistance.setText(String.valueOf((int)max_distance)+"km");
                 tvValuePrice.setText("$"+String.valueOf((int)max_price));
-                tvClearFilters.setVisibility(View.INVISIBLE);
                 cbFriendsAttending.setChecked(false);
+                setInactiveTags();
+                interests = new ArrayList<>();
+                tvClearFilters.setVisibility(View.INVISIBLE);
+                Log.i(TAG,interests.toString());
             }
         });
+    }
+
+    private void setInactiveTags() {
+        Log.i(TAG,interests.toString());
+        for (int i = 0; i < interests.size(); i++) {
+            String interest = interests.get(i);
+            switch (interest) {
+                case sport_tag:
+                    fabSports.setTextColor(Color.BLACK);
+                    fabSports.setBackgroundColor(Color.WHITE);
+                    break;
+                case auctions_tag:
+                    fabAuction.setTextColor(Color.BLACK);
+                    fabAuction.setBackgroundColor(Color.WHITE);
+                    break;
+                case concert_tag:
+                    fabConcerts.setTextColor(Color.BLACK);
+                    fabConcerts.setBackgroundColor(Color.WHITE);
+                    break;
+                case gala_tag:
+                    fabGalas.setTextColor(Color.BLACK);
+                    fabGalas.setBackgroundColor(Color.WHITE);
+                    break;
+                case raffle_tag:
+                    fabRaffle.setTextColor(Color.BLACK);
+                    fabRaffle.setBackgroundColor(Color.WHITE);
+                    break;
+                case cook_tag:
+                    fabCooking.setTextColor(Color.BLACK);
+                    fabCooking.setBackgroundColor(Color.WHITE);
+                    break;
+                case craft_tag:
+                    fabCrafts.setTextColor(Color.BLACK);
+                    fabCrafts.setBackgroundColor(Color.WHITE);
+                    break;
+                case thon_tag:
+                    fabAthons.setTextColor(Color.BLACK);
+                    fabAthons.setBackgroundColor(Color.WHITE);
+                    break;
+                default:
+                    throw new IllegalStateException("Unexpected value: " + interests.get(i));
+            }
+        }
     }
 
     private void setActiveTags() {
@@ -309,5 +355,6 @@ public class FilterFragment extends Fragment {
             button.setBackgroundColor(getContext().getColor(color));
         }
         Log.i(TAG,interests.toString());
+        tvClearFilters.setVisibility(View.VISIBLE);
     }
 }
