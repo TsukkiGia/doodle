@@ -258,7 +258,6 @@ public class HomeFragment extends Fragment {
                 fabPrice.setBackgroundColor(Color.WHITE);
                 fabPrice.setTextColor(Color.BLACK);
                 break;
-
             default:
                 throw new IllegalStateException("Unexpected value: " + previous);
         }

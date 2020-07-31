@@ -63,8 +63,10 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap map;
     public static final String TAG = "SearchFragment";
     private SearchView searchView = null;
+    Boolean fromSearchList = false;
     Toolbar toolbar;
     List<Event> results;
+    List<Event> events;
     private SearchView.OnQueryTextListener queryTextListener;
     // The entry point to the Fused Location Provider.
     private FusedLocationProviderClient fusedLocationProviderClient;
@@ -92,6 +94,10 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        if (getArguments() != null) {
+            events = getArguments().getParcelableArrayList("result");
+            fromSearchList = true;
+        }
     }
 
     @Override
@@ -207,20 +213,31 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
                 }
             }
         });
-        ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
-        query.include(Event.KEY_ORGANIZER);
-        query.findInBackground(new FindCallback<Event>() {
-            @Override
-            public void done(List<Event> events, ParseException e) {
-                for (Event event : events) {
-                    Double lat = event.getLocation().getLatitude();
-                    Double longitude = event.getLocation().getLongitude();
-                    Marker marker = map.addMarker(new MarkerOptions().position(new LatLng(lat, longitude)).snippet(event.getDescription()+". Click to see the details!").title(event.getEventName()));
-                    marker.setTag(event.getObjectId());
-                    results.add(event);
+        if (!fromSearchList) {
+            ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
+            query.include(Event.KEY_ORGANIZER);
+            query.findInBackground(new FindCallback<Event>() {
+                @Override
+                public void done(List<Event> events, ParseException e) {
+                    for (Event event : events) {
+                        Double lat = event.getLocation().getLatitude();
+                        Double longitude = event.getLocation().getLongitude();
+                        Marker marker = map.addMarker(new MarkerOptions().position(new LatLng(lat, longitude)).snippet(event.getDescription() + ". Click to see the details!").title(event.getEventName()));
+                        marker.setTag(event.getObjectId());
+                        results.add(event);
+                    }
                 }
+            });
+        }
+        else{
+            for (Event event : events) {
+                Double lat = event.getLocation().getLatitude();
+                Double longitude = event.getLocation().getLongitude();
+                Marker marker = map.addMarker(new MarkerOptions().position(new LatLng(lat, longitude)).snippet(event.getDescription() + ". Click to see the details!").title(event.getEventName()));
+                marker.setTag(event.getObjectId());
+                results.add(event);
             }
-        });
+        }
         // Prompt the user for permission.
         getLocationPermission();
         // Turn on the My Location layer and the related control on the map.

@@ -8,15 +8,18 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.example.oneinamillion.Models.Event;
 import com.example.oneinamillion.R;
 import com.example.oneinamillion.adapters.SearchResultAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SearchListFragment extends Fragment {
@@ -24,6 +27,7 @@ public class SearchListFragment extends Fragment {
     public static final String TAG = "SearchListFragment";
     RecyclerView rvSearchResults;
     SearchResultAdapter searchResultAdapter;
+    ImageView ivBack;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,6 +46,18 @@ public class SearchListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         rvSearchResults = view.findViewById(R.id.rvSearchResults);
+        ivBack = view.findViewById(R.id.ivBack);
+        ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("result", (ArrayList<? extends Parcelable>) events);
+                Fragment fragment = new SearchFragment();
+                fragment.setArguments(bundle);
+                getParentFragmentManager().beginTransaction()
+                        .replace(R.id.flContainer,fragment).commit();
+            }
+        });
         searchResultAdapter = new SearchResultAdapter(events,getContext());
         rvSearchResults.setAdapter(searchResultAdapter);
         rvSearchResults.setLayoutManager(new LinearLayoutManager(getContext()));
