@@ -171,13 +171,13 @@
                 android:layout_toEndOf="@+id/ivLocation"
                 android:text="Boston Museum" />
 
-            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/extFabDetails"
-                android:layout_width="wrap_content"
+                android:layout_width="180dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvEventDescription"
                 android:layout_alignParentStart="true"
-                android:layout_marginStart="40dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:gravity="center"
                 android:text="Event Details"
@@ -186,14 +186,14 @@
                 app:backgroundTint="@color/colorAccent"
                 app:iconSize="0dp" />
 
-            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/extFabPosts"
-                android:layout_width="wrap_content"
+                android:layout_width="180dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvEventDescription"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="20dp"
-                android:layout_marginEnd="40dp"
+                android:layout_marginEnd="20dp"
                 android:gravity="center"
                 android:text="User Posts"
                 android:textColor="#000000"

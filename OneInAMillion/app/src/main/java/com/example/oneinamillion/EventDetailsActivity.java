@@ -44,8 +44,8 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
     Event event;
     Boolean amIattending = false;
     String address;
-    ExtendedFloatingActionButton extFabDetails;
-    ExtendedFloatingActionButton extFabPosts;
+    MaterialButton extFabDetails;
+    MaterialButton extFabPosts;
     final FragmentManager fragmentManager = getSupportFragmentManager();
     public static final String TAG = "EventDetails";
 
