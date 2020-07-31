@@ -69,15 +69,17 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
         event = Parcels.unwrap(getIntent().getParcelableExtra(Event.class.getSimpleName()));
         event.setDistance(distance);
         initializeViews();
+        showDetailsFragment();
+        setClickListeners();
+        setInformationViews();
+    }
+
+    private void showDetailsFragment() {
         Bundle bundle = new Bundle();
         bundle.putParcelable("event",Parcels.wrap(event));
         Fragment fragment = new DetailsFragment();
         fragment.setArguments(bundle);
         fragmentManager.beginTransaction().replace(R.id.flContainer,fragment).commit();
-        setClickListeners();
-        setInformationViews();
-        SupportMapFragment mapFragment = (SupportMapFragment) fragmentManager.findFragmentById(R.id.mapPreview);
-        mapFragment.getMapAsync(this);
     }
 
     private void setInformationViews() {
@@ -106,6 +108,8 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
         tvDateTime.setText(getString(R.string.event_setting,event.getDate(),event.getTime()));
         tvLocation.setText(address);
         tvDescription.setText(event.getDescription());
+        SupportMapFragment mapFragment = (SupportMapFragment) fragmentManager.findFragmentById(R.id.mapPreview);
+        mapFragment.getMapAsync(this);
     }
 
     private void setClickListeners() {

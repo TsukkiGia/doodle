@@ -48,7 +48,7 @@
         android:text="Clear Filters"
         android:textColor="@color/colorAccent"
         android:textSize="14sp"
-        android:textStyle="italic" />
+        android:textStyle="bold" />
 
     <SeekBar
         android:id="@+id/sbDistance"

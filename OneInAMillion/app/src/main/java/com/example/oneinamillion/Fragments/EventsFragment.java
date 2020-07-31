@@ -59,6 +59,11 @@ public class EventsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initializeViews(view);
+        setUpViews();
+        queryEvents();
+    }
+
+    private void setUpViews() {
         attendingEvents = new ArrayList<>();
         organizedEvents = new ArrayList<>();
         eventAdapterForAttending = new EventAdapter(getContext(), attendingEvents);
@@ -100,7 +105,6 @@ public class EventsFragment extends Fragment {
                 toggleDropdown(rvUpcoming,ivDropdownAttending);
             }
         });
-        queryEvents();
     }
 
     private void initializeViews(View view) {

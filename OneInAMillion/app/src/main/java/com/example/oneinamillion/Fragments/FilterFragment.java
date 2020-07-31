@@ -100,6 +100,7 @@ public class FilterFragment extends Fragment {
     }
 
     private void setUpFilterMetrics() {
+        tvClearFilters.setVisibility(View.INVISIBLE);
         if (max_distance != 1000){
             filterdistance = true;
         }
@@ -117,6 +118,7 @@ public class FilterFragment extends Fragment {
                 tvValuePrice.setText("$"+String.valueOf(i));
                 max_price = i;
                 filterprice = true;
+                tvClearFilters.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -133,6 +135,7 @@ public class FilterFragment extends Fragment {
                 tvValueDistance.setText(String.valueOf(i)+"km");
                 max_distance = i;
                 filterdistance = true;
+                tvClearFilters.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -213,6 +216,19 @@ public class FilterFragment extends Fragment {
                 fabclicked(fabAthons,thon_tag,R.color.colorThonButton);
             }
         });
+        tvClearFilters.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                max_distance = 1000;
+                max_price = 500;
+                sbPrice.setProgress((int)max_price);
+                sbDistance.setProgress((int)max_distance);
+                tvValueDistance.setText(String.valueOf((int)max_distance)+"km");
+                tvValuePrice.setText("$"+String.valueOf((int)max_price));
+                tvClearFilters.setVisibility(View.INVISIBLE);
+                cbFriendsAttending.setChecked(false);
+            }
+        });
     }
 
     private void setActiveTags() {
@@ -273,6 +289,7 @@ public class FilterFragment extends Fragment {
         sbDistance = view.findViewById(R.id.sbDistance);
         sbPrice = view.findViewById(R.id.sbPrice);
         ivBack = view.findViewById(R.id.ivBack);
+        tvClearFilters = view.findViewById(R.id.tvClearFilter);
     }
 
     private void fabclicked(ExtendedFloatingActionButton button, String tag, int color) {

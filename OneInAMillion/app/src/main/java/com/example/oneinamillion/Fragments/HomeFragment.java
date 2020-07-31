@@ -125,10 +125,14 @@ public class HomeFragment extends Fragment {
             getUsersTags();
             filtertags = true;
         }
-        results = new ArrayList<>();
         initializeViews(view);
         setClickListeners();
+        setupHomeFeed();
+    }
+
+    private void setupHomeFeed() {
         events = new ArrayList<>();
+        results = new ArrayList<>();
         if (currentlySelected.equals(date_string)) {
             setActiveButton(distance_string,date_string,fabDate,false);
         }

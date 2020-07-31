@@ -62,23 +62,8 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        btnChangePreferences = view.findViewById(R.id.btnChangePref);
-        tvName = view.findViewById(R.id.tvName);
-        btnChange = view.findViewById(R.id.btnChange);
-        tvUsername = view.findViewById(R.id.tvUsername);
-        ivProfile = view.findViewById(R.id.ivProfile);
-        ivLogOut = view.findViewById(R.id.ivLogOut);
-        ivLogOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                logout();
-            }
-        });
-        AccessToken accessToken = AccessToken.getCurrentAccessToken();
-        Boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
-        tvName.setText(String.format("%s %s", ParseUser.getCurrentUser().getString("FirstName"),
-                ParseUser.getCurrentUser().getString("LastName")));
-        tvUsername.setText(String.format("@%s", ParseUser.getCurrentUser().getUsername()));
+        initializeViews(view);
+        setUpProfileViews();
         btnChange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -93,21 +78,33 @@ public class ProfileFragment extends Fragment {
                 startActivity(i);
             }
         });
+        ivLogOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                logout();
+            }
+        });
+    }
+
+    private void setUpProfileViews() {
+        tvName.setText(String.format("%s %s", ParseUser.getCurrentUser().getString("FirstName"),
+                ParseUser.getCurrentUser().getString("LastName")));
+        tvUsername.setText(String.format("@%s", ParseUser.getCurrentUser().getUsername()));
         if (ParseUser.getCurrentUser().getParseFile("ProfileImage") != null) {
             Glide.with(getContext()).load(ParseUser.getCurrentUser().getParseFile("ProfileImage").getUrl())
                     .circleCrop().into(ivProfile);
         } else {
             ivProfile.setImageDrawable(getResources().getDrawable(R.drawable.instagram_user_filled_24));
         }
-        AccessTokenTracker tokenTracker = new AccessTokenTracker() {
-            @Override
-            protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
-                if (currentAccessToken == null) {
-                    Log.d(TAG, "User Logged Out.");
-                    logout();
-                }
-            }
-        };
+    }
+
+    private void initializeViews(View view) {
+        btnChangePreferences = view.findViewById(R.id.btnChangePref);
+        tvName = view.findViewById(R.id.tvName);
+        btnChange = view.findViewById(R.id.btnChange);
+        tvUsername = view.findViewById(R.id.tvUsername);
+        ivProfile = view.findViewById(R.id.ivProfile);
+        ivLogOut = view.findViewById(R.id.ivLogOut);
     }
 
     private void logout() {

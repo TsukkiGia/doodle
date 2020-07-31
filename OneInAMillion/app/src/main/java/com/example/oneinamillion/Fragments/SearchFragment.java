@@ -141,8 +141,8 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         toolbar = view.findViewById(R.id.toolbar);
-        results =  new ArrayList<>();
         ivList = view.findViewById(R.id.ivList);
+        results =  new ArrayList<>();
         ivList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -156,9 +156,11 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
         });
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
-        // Construct a FusedLocationProviderClient.
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getContext());
-        // Build the map.
+        setupMapFragment();
+    }
+
+    private void setupMapFragment() {
         SupportMapFragment mMapFragment = SupportMapFragment.newInstance();
         FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.map, mMapFragment);

@@ -76,9 +76,7 @@ public class UserPostFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        rvUserPosts = view.findViewById(R.id.rvUserPosts);
-        etPost = view.findViewById(R.id.etPost);
-        tfInputLayout = view.findViewById(R.id.tfPost);
+        initializeViews(view);
         etPost.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,6 +90,12 @@ public class UserPostFragment extends Fragment {
         rvUserPosts.setAdapter(postAdapter);
         rvUserPosts.setLayoutManager(new LinearLayoutManager(getContext()));
         queryPosts();
+    }
+
+    private void initializeViews(View view) {
+        rvUserPosts = view.findViewById(R.id.rvUserPosts);
+        etPost = view.findViewById(R.id.etPost);
+        tfInputLayout = view.findViewById(R.id.tfPost);
     }
 
     private void queryPosts() {

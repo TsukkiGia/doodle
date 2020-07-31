@@ -49,19 +49,19 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
         if (day < 10 && month < 10) {
-            String date = "0"+String.valueOf(month) + "/0" + String.valueOf(day) + "/" + String.valueOf(year);
+            String date = "0"+String.valueOf(month+1) + "/0" + String.valueOf(day) + "/" + String.valueOf(year);
             notifyDatePickerListener(date);
         }
         else if (day < 10 && month > 10) {
-            String date = String.valueOf(month) + "/0" + String.valueOf(day) + "/" + String.valueOf(year);
+            String date = String.valueOf(month+1) + "/0" + String.valueOf(day) + "/" + String.valueOf(year);
             notifyDatePickerListener(date);
         }
         else if (day > 10 && month < 10) {
-            String date = "0"+String.valueOf(month) + "/"+ String.valueOf(day) + "/" + String.valueOf(year);
+            String date = "0"+String.valueOf(month+1) + "/"+ String.valueOf(day) + "/" + String.valueOf(year);
             notifyDatePickerListener(date);
         }
         else{
-            String date = String.valueOf(month) + "/"+ String.valueOf(day) + "/" + String.valueOf(year);
+            String date = String.valueOf(month+1) + "/"+ String.valueOf(day) + "/" + String.valueOf(year);
             notifyDatePickerListener(date);
         }
     }

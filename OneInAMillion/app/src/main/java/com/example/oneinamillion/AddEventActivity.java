@@ -93,11 +93,15 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_event);
+        initializeViews();
+        setClickListeners();
+        setUpLocationAutoComplete();
+    }
+
+    private void setUpLocationAutoComplete() {
         String apiKey = getString(R.string.google_maps_key);
         Places.initialize(getApplicationContext(), apiKey);
         placesClient = Places.createClient(this);
-        initializeViews();
-        setClickListeners();
         AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
                 getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
         autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.ADDRESS, Place.Field.NAME, Place.Field.LAT_LNG));
@@ -142,9 +146,7 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.tickets_available, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
         spTicketsAvailable.setAdapter(adapter);
         spTicketsAvailable.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
