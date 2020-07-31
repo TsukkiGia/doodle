@@ -49,21 +49,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/btnPickATime"
-                android:layout_alignParentEnd="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="24dp"
-                android:layout_marginEnd="30dp"
-                app:backgroundTint="#FFFFFF"
                 android:text="@string/upload_image"
-                android:textColor="@color/colorAccent" />
+                android:textColor="@color/colorAccent"
+                app:backgroundTint="#FFFFFF" />
 
             <Button
                 android:id="@+id/btnPickATime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/btnPickADate"
-                android:layout_alignParentEnd="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="24dp"
-                android:layout_marginEnd="30dp"
                 android:backgroundTint="#FFFFFF"
                 android:text="@string/pick_a_time"
                 android:textColor="@color/colorAccent" />
@@ -73,9 +73,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tfTicketLink"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="45dp"
-                android:layout_marginEnd="30dp"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="40dp"
                 android:backgroundTint="#FFFFFF"
                 android:text="@string/pick_a_date"
                 android:textColor="@color/colorAccent" />
@@ -121,10 +121,12 @@
                 android:id="@+id/tfEventName"
                 android:layout_width="347dp"
                 android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="72dp"
-                android:layout_marginEnd="29dp"
+                android:layout_marginEnd="20dp"
                 android:hint="@string/event_name"
                 app:endIconMode="clear_text">
 
@@ -140,9 +142,11 @@
                 android:layout_width="345dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tfEventName"
+                android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="24dp"
-                android:layout_marginEnd="30dp"
+                android:layout_marginEnd="20dp"
                 android:gravity="start|top"
                 android:hint="@string/event_description">
 
@@ -150,10 +154,10 @@
                     android:id="@+id/etEventDescription"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:inputType="textMultiLine"
-                    android:minLines="8"
+                    android:layout_gravity="start|top"
                     android:gravity="start|top"
-                    android:layout_gravity="start|top"/>
+                    android:inputType="textMultiLine"
+                    android:minLines="8" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -164,18 +168,18 @@
                 android:layout_below="@+id/btnPickATime"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="30dp"
-                android:layout_marginEnd="253dp"
+                android:layout_marginEnd="30dp"
                 android:scaleType="centerCrop"
-                app:srcCompat="@drawable/background" />
+                app:srcCompat="@drawable/placeholder" />
 
             <TextView
                 android:id="@+id/tvTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/tfEventDescription"
                 android:layout_alignTop="@+id/btnPickATime"
-                android:layout_marginStart="0dp"
+                android:layout_alignParentEnd="true"
                 android:layout_marginTop="13dp"
+                android:layout_marginEnd="30dp"
                 android:textColor="#000000"
                 android:textStyle="bold"
                 tools:text="something" />
@@ -184,9 +188,9 @@
                 android:id="@+id/tvDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/tfEventDescription"
                 android:layout_alignBottom="@+id/btnPickADate"
-                android:layout_marginStart="0dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="30dp"
                 android:layout_marginBottom="17dp"
                 android:textColor="#000000"
                 android:textStyle="bold"
@@ -197,8 +201,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/card_view"
-                android:layout_alignStart="@+id/tfEventDescription"
-                android:layout_marginStart="3dp"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="15dp"
                 android:text="Are there tickets for sale?"
                 android:textColor="#000000"
@@ -314,11 +318,12 @@
                 android:layout_width="347dp"
                 android:layout_height="40dp"
                 android:layout_below="@+id/tfEventDescription"
+                android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
                 android:layout_gravity="top"
-                android:layout_marginStart="5dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="24dp"
-                android:layout_marginEnd="30dp"
+                android:layout_marginEnd="20dp"
                 android:layout_marginBottom="5dp"
                 app:cardBackgroundColor="#e0e0e0"
                 app:cardCornerRadius="4dp">
@@ -326,7 +331,7 @@
                 <fragment
                     android:id="@+id/autocomplete_fragment"
                     android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
-                    android:layout_width="347dp"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent" />
             </androidx.cardview.widget.CardView>
 
