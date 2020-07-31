@@ -14,6 +14,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.EditText;
 
 import com.example.oneinamillion.AddPostActivity;
@@ -89,6 +91,8 @@ public class UserPostFragment extends Fragment {
         postAdapter = new PostAdapter(posts,getContext());
         rvUserPosts.setAdapter(postAdapter);
         rvUserPosts.setLayoutManager(new LinearLayoutManager(getContext()));
+        LayoutAnimationController animation = AnimationUtils.loadLayoutAnimation(getContext(),R.anim.layout_animation_fall_down);
+        rvUserPosts.setLayoutAnimation(animation);
         queryPosts();
     }
 

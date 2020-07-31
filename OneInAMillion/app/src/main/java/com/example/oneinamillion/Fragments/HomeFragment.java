@@ -20,6 +20,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
@@ -162,13 +164,12 @@ public class HomeFragment extends Fragment {
                 View.OnClickListener listener = new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
+                        Log.i(TAG,"Dismissed Snackbar");
                     }
                 };
                 if (!recyclerView.canScrollVertically(1) && newState==RecyclerView.SCROLL_STATE_IDLE) {
                     Snackbar.make(getView(),"You have reached the end of your feed",Snackbar.LENGTH_SHORT)
                             .setAction(getString(R.string.snackbar_dismiss),listener).show();
-
                 }
             }
         });
@@ -374,6 +375,7 @@ public class HomeFragment extends Fragment {
         filter();
         eventAdapter.addAll(results);
         eventAdapter.notifyDataSetChanged();
+        rvEvents.scheduleLayoutAnimation();
         rvEvents.smoothScrollToPosition(0);
         pbLoading.setVisibility(View.INVISIBLE);
     }
