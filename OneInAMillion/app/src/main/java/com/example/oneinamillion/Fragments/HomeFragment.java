@@ -74,11 +74,10 @@ public class HomeFragment extends Fragment {
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private boolean locationPermissionGranted;
     Location lastKnownLocation = new Location("");
-    double max_distance = 100;
-    double max_price = 100;
-    static String default_value = "100.0";
-    Boolean filterdistance=false;
-    Boolean filterprice=false;
+    double max_distance = 1000;
+    double max_price = 500;
+    Boolean filterdistance = false;
+    Boolean filterprice = false;
     Boolean filtertags = false;
     Boolean filterfriends = false;
     List<String> tags = new ArrayList<>();
@@ -100,11 +99,11 @@ public class HomeFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            if (!getArguments().getString("max_distance").equals(default_value)){
+            if (getArguments().getBoolean("filterdistance")){
                 max_distance = Double.valueOf(getArguments().getString("max_distance"));
                 filterdistance = true;
             }
-            if (!getArguments().getString("max_price").equals(default_value)){
+            if (getArguments().getBoolean("filterprice")){
                 max_price = Double.valueOf(getArguments().getString("max_price"));
                 filterprice = true;
             }
@@ -201,7 +200,7 @@ public class HomeFragment extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putString("sort_metric",currentlySelected);
                 bundle.putString("max_distance", String.valueOf(max_distance));
-                bundle.putString("max_price", String.valueOf(max_distance));
+                bundle.putString("max_price", String.valueOf(max_price));
                 bundle.putBoolean("friends",filterfriends);
                 bundle.putStringArrayList("tags", (ArrayList<String>) tags);
                 filterFragment.setArguments(bundle);

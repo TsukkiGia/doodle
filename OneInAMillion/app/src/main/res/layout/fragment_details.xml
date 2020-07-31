@@ -14,8 +14,8 @@
         android:layout_below="@+id/tvFriendsAttending"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="27dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="26dp"
         android:gravity="start"
         android:text="Events Similar to this one"
@@ -29,47 +29,47 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvSimilarEvents"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="27dp"
-        android:layout_marginTop="35dp" />
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="12dp" />
 
     <ImageView
         android:id="@+id/ivOrganizer"
-        android:layout_width="28dp"
-        android:layout_height="26dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="17dp"
         android:src="@drawable/person" />
 
     <ImageView
         android:id="@+id/ivPrice"
-        android:layout_width="28dp"
-        android:layout_height="26dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:layout_below="@+id/ivOrganizer"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="31dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
         android:src="@drawable/price" />
 
     <ImageView
         android:id="@+id/ivFriendsAttending"
-        android:layout_width="28dp"
-        android:layout_height="26dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:layout_below="@+id/ivDistance"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="31dp"
-        android:layout_marginTop="31dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
         android:src="@drawable/friends" />
 
     <ImageView
         android:id="@+id/ivDistance"
-        android:layout_width="28dp"
-        android:layout_height="26dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:layout_below="@+id/ivPrice"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="31dp"
-        android:layout_marginTop="26dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
         android:src="@drawable/map" />
 
     <TextView
@@ -88,7 +88,7 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/ivPrice"
         android:layout_marginStart="18dp"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="0dp"
         android:layout_toEndOf="@+id/ivOrganizer"
         tools:text="$50 per person" />
 
@@ -98,7 +98,7 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/ivDistance"
         android:layout_marginStart="18dp"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="0dp"
         android:layout_toEndOf="@+id/ivOrganizer"
         tools:text="20 miles away" />
 
@@ -108,7 +108,7 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/ivFriendsAttending"
         android:layout_marginStart="17dp"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="0dp"
         android:layout_toEndOf="@+id/ivOrganizer"
         tools:text="Gianna, Nico and Hamilton are attending this event." />
 

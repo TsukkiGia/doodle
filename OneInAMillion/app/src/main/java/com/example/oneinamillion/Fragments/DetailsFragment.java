@@ -116,8 +116,12 @@ public class DetailsFragment extends Fragment {
     }
 
     private void setInformationTextViews() {
-        organizerName = event.getOrganizer().getString("FirstName")+" "+
-                event.getOrganizer().getString("LastName");
+        try {
+            organizerName = event.getOrganizer().fetchIfNeeded().getString("FirstName")+" "+
+                    event.getOrganizer().fetchIfNeeded().getString("LastName");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         if (event.getPrice()==0.0){
             tvPrice.setText("Free entry");
         }

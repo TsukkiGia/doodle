@@ -4,24 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp">
+    android:layout_margin="5dp"
+    >
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp">
 
             <ImageView
                 android:id="@+id/ivEventImage"
-                android:layout_width="38dp"
-                android:layout_height="31dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="21dp"
+                android:scaleType="centerCrop"
                 tools:layout_editor_absoluteX="8dp"
                 tools:layout_editor_absoluteY="5dp"
                 tools:srcCompat="@tools:sample/avatars" />
@@ -31,7 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/ivEventImage"
-                android:layout_marginStart="5dp"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="4dp"
                 android:layout_toEndOf="@+id/ivEventImage"
                 android:textColor="#000000"
@@ -47,9 +50,9 @@
                 android:layout_below="@+id/tvEventName"
                 android:layout_alignStart="@+id/ivEventImage"
                 android:layout_marginStart="2dp"
-                android:layout_marginTop="23dp"
+                android:layout_marginTop="10dp"
                 android:textColor="#000000"
                 tools:text="Come play bingo to help save the whales!" />
         </RelativeLayout>
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 </RelativeLayout>

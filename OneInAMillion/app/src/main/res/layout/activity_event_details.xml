@@ -21,7 +21,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="179dp"
                 android:layout_below="@+id/btnRSVP"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="20dp"
                 tools:context="com.example.oneinamillion.EventDetailsActivity" />
 
             <ImageView
@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ivEventImage"
                 android:layout_alignParentStart="true"
-                android:layout_marginStart="15dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="15dp"
                 android:textColor="#1D8165"
                 android:textStyle="bold"
@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvDateTime"
                 android:layout_alignParentStart="true"
-                android:layout_marginStart="15dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="5dp"
                 android:textColor="#000000"
                 android:textSize="18sp"
@@ -67,34 +67,65 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvLocation"
                 android:layout_alignParentStart="true"
-                android:layout_marginStart="12dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:text="Description"
                 android:textColor="#000000"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/tvDirectionsHeader"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cvDirectionsHolder"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
                 android:layout_below="@+id/mapPreview"
                 android:layout_alignParentStart="true"
-                android:layout_marginStart="12dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
-                android:text="Get Directions"
-                android:textColor="#000000"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:layout_marginEnd="20dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/tvDirectionsHeader"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="18dp"
+                        android:text="Get Directions"
+                        android:textColor="#000000"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/ivNavigation"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_alignTop="@+id/tvDirectionsHeader"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginEnd="20dp"
+                        android:backgroundTint="@color/colorAccent"
+                        android:tint="#000000"
+                        app:srcCompat="@drawable/navigation" />
+                </RelativeLayout>
+            </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnRSVP"
-                android:layout_width="381dp"
+                android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:layout_below="@+id/tvEventName"
                 android:layout_alignParentStart="true"
-                android:layout_marginStart="13dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
                 android:backgroundTint="@color/colorAccent"
                 android:gravity="center"
                 android:text="RSVP"
@@ -111,9 +142,9 @@
                 android:layout_below="@+id/tvDetailsHeader"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginStart="11dp"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginEnd="11dp"
+                android:layout_marginEnd="20dp"
                 android:justificationMode="inter_word"
                 tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." />
 
@@ -121,31 +152,22 @@
                 android:id="@+id/ivLocation"
                 android:layout_width="18dp"
                 android:layout_height="18dp"
-                android:layout_below="@+id/mapPreview"
+                android:layout_below="@+id/cvDirectionsHolder"
                 android:layout_alignParentStart="true"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="68dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
                 android:backgroundTint="@color/colorAccent"
                 app:srcCompat="@drawable/ic_vector_location" />
-
-            <ImageView
-                android:id="@+id/ivNavigation"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_below="@+id/mapPreview"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="373dp"
-                android:layout_marginTop="21dp"
-                android:backgroundTint="@color/colorAccent"
-                app:srcCompat="@drawable/navigation" />
 
             <TextView
                 android:id="@+id/tvLocation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/ivLocation"
+                android:layout_alignParentEnd="true"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="-1dp"
+                android:layout_marginEnd="20dp"
                 android:layout_toEndOf="@+id/ivLocation"
                 android:text="Boston Museum" />
 
@@ -182,7 +204,7 @@
             <FrameLayout
                 android:id="@+id/flContainer"
                 android:layout_width="match_parent"
-                android:layout_height="590dp"
+                android:layout_height="535dp"
                 android:layout_below="@+id/extFabDetails"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="0dp"

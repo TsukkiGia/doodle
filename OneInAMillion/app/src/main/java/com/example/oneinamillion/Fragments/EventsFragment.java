@@ -70,8 +70,10 @@ public class EventsFragment extends Fragment {
         ivMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getParentFragmentManager().beginTransaction()
-                        .replace(R.id.flContainer,new CalendarFragment()).commit();
+                Intent i = new Intent(getContext(), EventMapActivity.class);
+                startActivity(i);
+                //getParentFragmentManager().beginTransaction()
+                //        .replace(R.id.flContainer,new CalendarFragment()).commit();
             }
         });
         ivDropdownOrganized.setOnClickListener(new View.OnClickListener() {

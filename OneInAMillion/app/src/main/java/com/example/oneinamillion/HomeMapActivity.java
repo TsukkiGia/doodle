@@ -137,7 +137,7 @@ public class HomeMapActivity extends AppCompatActivity
                                     Intent i = new Intent(HomeMapActivity.this, EventDetailsActivity.class);
                                     i.putExtra(Event.class.getSimpleName(), Parcels.wrap(event));
                                     i.putExtra("address",address);
-                                    //i.putExtra("activity","HomeFragment");
+                                    i.putExtra("activity","HomeFragment");
                                     startActivity(i);
                                 }
                                 catch (JSONException e) {

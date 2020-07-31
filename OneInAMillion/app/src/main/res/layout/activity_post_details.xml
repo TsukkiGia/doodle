@@ -9,7 +9,8 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cvPost"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -24,6 +25,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="21dp"
+                android:scaleType="centerCrop"
                 tools:layout_editor_absoluteX="8dp"
                 tools:layout_editor_absoluteY="5dp"
                 tools:srcCompat="@tools:sample/avatars" />
@@ -37,6 +39,8 @@
                 android:layout_marginTop="4dp"
                 android:layout_toEndOf="@+id/ivProfilePicture"
                 android:text="gtorpey"
+                android:textColor="#000000"
+                android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/ivProfilePicture"
                 tools:layout_editor_absoluteY="5dp" />
 
@@ -46,9 +50,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvUsername"
                 android:layout_alignStart="@+id/ivProfilePicture"
-                android:layout_marginStart="-2dp"
+                android:layout_marginStart="0dp"
                 android:layout_marginTop="23dp"
-                android:text="TextView" />
+                android:text="TextView"
+                android:textColor="#000000" />
 
             <ImageView
                 android:id="@+id/ivPost"

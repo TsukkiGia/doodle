@@ -51,14 +51,17 @@ public class FilterFragment extends Fragment {
     final String concert_tag = "music";
     final String gala_tag = "gala";
     final String craft_tag = "craft";
-    double max_distance = 100;
-    double max_price = 100;
+    double max_distance = 1000;
+    double max_price = 500;
     TextView tvValueDistance;
+    TextView tvClearFilters;
     SeekBar sbDistance;
     SeekBar sbPrice;
     String sort_metric;
     Boolean isChecked=false;
     CheckBox cbFriendsAttending;
+    Boolean filterdistance = false;
+    Boolean filterprice = false;
     List<String> interests = new ArrayList<>();
     public static final String TAG = "FilterFragment";
 
@@ -90,84 +93,30 @@ public class FilterFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        cbFriendsAttending = view.findViewById(R.id.cbFriendsAttending);
-        cbFriendsAttending.setChecked(isChecked);
-        fabSports = view.findViewById(R.id.extFabSports);
-        fabConcerts = view.findViewById(R.id.extFabConcerts);
-        fabAuction = view.findViewById(R.id.extFabAuction);
-        fabRaffle = view.findViewById(R.id.extFabRaffles);
-        fabCooking = view.findViewById(R.id.extFabCooking);
-        fabGalas = view.findViewById(R.id.extFabGalas);
-        fabCrafts = view.findViewById(R.id.extFabCrafts);
-        fabAthons = view.findViewById(R.id.extFabAthons);
-        tvValueDistance = view.findViewById(R.id.tvValueDistance);
-        tvValuePrice = view.findViewById(R.id.tvValuePrice);
-        sbDistance = view.findViewById(R.id.sbDistance);
-        sbPrice = view.findViewById(R.id.sbPrice);
-        Log.i(TAG,interests.toString());
-        for (int i = 0; i < interests.size(); i++) {
-            String interest = interests.get(i);
-            switch (interest) {
-                case sport_tag:
-                    fabSports.setTextColor(Color.WHITE);
-                    fabSports.setBackgroundColor(getContext().getColor(R.color.colorSportButton));
-                    break;
-                case auctions_tag:
-                    fabAuction.setTextColor(Color.WHITE);
-                    fabAuction.setBackgroundColor(getContext().getColor(R.color.colorAuctionsButton));
-                    break;
-                case concert_tag:
-                    fabConcerts.setTextColor(Color.WHITE);
-                    fabConcerts.setBackgroundColor(getContext().getColor(R.color.colorMusicButton));
-                    break;
-                case gala_tag:
-                    fabGalas.setTextColor(Color.WHITE);
-                    fabGalas.setBackgroundColor(getContext().getColor(R.color.colorGalaButton));
-                    break;
-                case raffle_tag:
-                    fabRaffle.setTextColor(Color.WHITE);
-                    fabRaffle.setBackgroundColor(getContext().getColor(R.color.colorRaffleButton));
-                    break;
-                case cook_tag:
-                    fabCooking.setTextColor(Color.WHITE);
-                    fabCooking.setBackgroundColor(getContext().getColor(R.color.colorCookButton));
-                    break;
-                case craft_tag:
-                    fabCrafts.setTextColor(Color.WHITE);
-                    fabCrafts.setBackgroundColor(getContext().getColor(R.color.colorCraftButton));
-                    break;
-                case thon_tag:
-                    fabAthons.setTextColor(Color.WHITE);
-                    fabAthons.setBackgroundColor(getContext().getColor(R.color.colorThonButton));
-                    break;
-                default:
-                    throw new IllegalStateException("Unexpected value: " + interests.get(i));
-            }
+        initializeViews(view);
+        setActiveTags();
+        setClickListeners();
+        setUpFilterMetrics();
+    }
+
+    private void setUpFilterMetrics() {
+        if (max_distance != 1000){
+            filterdistance = true;
         }
-        ivBack = view.findViewById(R.id.ivBack);
-        ivBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bundle bundle = new Bundle();
-                bundle.putString("sort_metric", sort_metric);
-                bundle.putString("max_distance", tvValueDistance.getText().toString());
-                bundle.putString("max_price", tvValuePrice.getText().toString());
-                bundle.putBoolean("friends",cbFriendsAttending.isChecked());
-                bundle.putStringArrayList("tags", (ArrayList<String>) interests);
-                HomeFragment homeFragment = new HomeFragment();
-                homeFragment.setArguments(bundle);
-                FragmentManager fragmentManager = getParentFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.flContainer, homeFragment).commit();
-            }
-        });
-        tvValueDistance.setText(String.valueOf(max_distance));
-        tvValuePrice.setText(String.valueOf(max_price));
-        sbPrice.setX((float) max_price);
-        sbDistance.setX((float) max_distance);
+        if (max_price != 500){
+            filterprice = true;
+        }
+        cbFriendsAttending.setChecked(isChecked);
+        tvValueDistance.setText(String.valueOf((int)max_distance)+"km");
+        tvValuePrice.setText("$"+String.valueOf((int)max_price));
+        sbDistance.setProgress((int) max_distance);
+        sbPrice.setProgress((int) max_price);
         sbPrice.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                tvValuePrice.setText(String.valueOf(i));
+                tvValuePrice.setText("$"+String.valueOf(i));
+                max_price = i;
+                filterprice = true;
             }
 
             @Override
@@ -181,7 +130,9 @@ public class FilterFragment extends Fragment {
         sbDistance.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                tvValueDistance.setText(String.valueOf(i));
+                tvValueDistance.setText(String.valueOf(i)+"km");
+                max_distance = i;
+                filterdistance = true;
             }
 
             @Override
@@ -192,6 +143,26 @@ public class FilterFragment extends Fragment {
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
+            }
+        });
+    }
+
+    private void setClickListeners() {
+        ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putString("sort_metric", sort_metric);
+                bundle.putString("max_distance", String.valueOf(max_distance));
+                bundle.putString("max_price", String.valueOf(max_price));
+                bundle.putBoolean("friends",cbFriendsAttending.isChecked());
+                bundle.putBoolean("filterprice",filterprice);
+                bundle.putBoolean("filterdistance",filterdistance);
+                bundle.putStringArrayList("tags", (ArrayList<String>) interests);
+                HomeFragment homeFragment = new HomeFragment();
+                homeFragment.setArguments(bundle);
+                FragmentManager fragmentManager = getParentFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.flContainer, homeFragment).commit();
             }
         });
         fabSports.setOnClickListener(new View.OnClickListener() {
@@ -242,6 +213,66 @@ public class FilterFragment extends Fragment {
                 fabclicked(fabAthons,thon_tag,R.color.colorThonButton);
             }
         });
+    }
+
+    private void setActiveTags() {
+        Log.i(TAG,interests.toString());
+        for (int i = 0; i < interests.size(); i++) {
+            String interest = interests.get(i);
+            switch (interest) {
+                case sport_tag:
+                    fabSports.setTextColor(Color.WHITE);
+                    fabSports.setBackgroundColor(getContext().getColor(R.color.colorSportButton));
+                    break;
+                case auctions_tag:
+                    fabAuction.setTextColor(Color.WHITE);
+                    fabAuction.setBackgroundColor(getContext().getColor(R.color.colorAuctionsButton));
+                    break;
+                case concert_tag:
+                    fabConcerts.setTextColor(Color.WHITE);
+                    fabConcerts.setBackgroundColor(getContext().getColor(R.color.colorMusicButton));
+                    break;
+                case gala_tag:
+                    fabGalas.setTextColor(Color.WHITE);
+                    fabGalas.setBackgroundColor(getContext().getColor(R.color.colorGalaButton));
+                    break;
+                case raffle_tag:
+                    fabRaffle.setTextColor(Color.WHITE);
+                    fabRaffle.setBackgroundColor(getContext().getColor(R.color.colorRaffleButton));
+                    break;
+                case cook_tag:
+                    fabCooking.setTextColor(Color.WHITE);
+                    fabCooking.setBackgroundColor(getContext().getColor(R.color.colorCookButton));
+                    break;
+                case craft_tag:
+                    fabCrafts.setTextColor(Color.WHITE);
+                    fabCrafts.setBackgroundColor(getContext().getColor(R.color.colorCraftButton));
+                    break;
+                case thon_tag:
+                    fabAthons.setTextColor(Color.WHITE);
+                    fabAthons.setBackgroundColor(getContext().getColor(R.color.colorThonButton));
+                    break;
+                default:
+                    throw new IllegalStateException("Unexpected value: " + interests.get(i));
+            }
+        }
+    }
+
+    private void initializeViews(View view) {
+        cbFriendsAttending = view.findViewById(R.id.cbFriendsAttending);
+        fabSports = view.findViewById(R.id.extFabSports);
+        fabConcerts = view.findViewById(R.id.extFabConcerts);
+        fabAuction = view.findViewById(R.id.extFabAuction);
+        fabRaffle = view.findViewById(R.id.extFabRaffles);
+        fabCooking = view.findViewById(R.id.extFabCooking);
+        fabGalas = view.findViewById(R.id.extFabGalas);
+        fabCrafts = view.findViewById(R.id.extFabCrafts);
+        fabAthons = view.findViewById(R.id.extFabAthons);
+        tvValueDistance = view.findViewById(R.id.tvValueDistance);
+        tvValuePrice = view.findViewById(R.id.tvValuePrice);
+        sbDistance = view.findViewById(R.id.sbDistance);
+        sbPrice = view.findViewById(R.id.sbPrice);
+        ivBack = view.findViewById(R.id.ivBack);
     }
 
     private void fabclicked(ExtendedFloatingActionButton button, String tag, int color) {

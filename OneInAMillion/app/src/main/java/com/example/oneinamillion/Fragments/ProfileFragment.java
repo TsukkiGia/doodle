@@ -26,6 +26,7 @@ import com.example.oneinamillion.LoginActivity;
 import com.example.oneinamillion.R;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
+import com.facebook.login.LoginManager;
 import com.facebook.login.widget.LoginButton;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
@@ -39,14 +40,13 @@ public class ProfileFragment extends Fragment {
     TextView tvName;
     TextView tvUsername;
     ImageView ivProfile;
-    Button btnLogOut;
     Button btnChange;
     Button btnChangePreferences;
+    ImageView ivLogOut;
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 24;
     public String photoFileName = "photo.jpg";
     File photoFile;
     public static final String TAG = "ProfileFragment";
-    LoginButton facebook_login;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -65,27 +65,20 @@ public class ProfileFragment extends Fragment {
         btnChangePreferences = view.findViewById(R.id.btnChangePref);
         tvName = view.findViewById(R.id.tvName);
         btnChange = view.findViewById(R.id.btnChange);
-        facebook_login = view.findViewById(R.id.facebook_login);
         tvUsername = view.findViewById(R.id.tvUsername);
         ivProfile = view.findViewById(R.id.ivProfile);
-        btnLogOut = view.findViewById(R.id.btnLogOut);
-        AccessToken accessToken = AccessToken.getCurrentAccessToken();
-        Boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
-        if (isLoggedIn){
-            btnLogOut.setVisibility(View.GONE);
-        }
-        else {
-            facebook_login.setVisibility(View.GONE);
-        }
-        tvName.setText(String.format("%s %s", ParseUser.getCurrentUser().getString("FirstName"),
-                ParseUser.getCurrentUser().getString("LastName")));
-        tvUsername.setText(String.format("@%s", ParseUser.getCurrentUser().getUsername()));
-        btnLogOut.setOnClickListener(new View.OnClickListener() {
+        ivLogOut = view.findViewById(R.id.ivLogOut);
+        ivLogOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 logout();
             }
         });
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        Boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
+        tvName.setText(String.format("%s %s", ParseUser.getCurrentUser().getString("FirstName"),
+                ParseUser.getCurrentUser().getString("LastName")));
+        tvUsername.setText(String.format("@%s", ParseUser.getCurrentUser().getUsername()));
         btnChange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -115,10 +108,14 @@ public class ProfileFragment extends Fragment {
                 }
             }
         };
-        tokenTracker.startTracking();
     }
 
     private void logout() {
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        Boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
+        if(isLoggedIn){
+            LoginManager.getInstance().logOut();
+        }
         ParseUser.getCurrentUser().logOut();
         Intent i = new Intent(getContext(), LoginActivity.class);
         getContext().startActivity(i);
