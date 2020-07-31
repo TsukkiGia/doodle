@@ -26,6 +26,7 @@ import android.widget.ProgressBar;
 import com.bumptech.glide.Glide;
 import com.example.oneinamillion.AddEventActivity;
 import com.example.oneinamillion.HomeMapActivity;
+import com.example.oneinamillion.Models.EndlessRecyclerViewScrollListener;
 import com.example.oneinamillion.Models.Event;
 import com.example.oneinamillion.Models.MergeSort;
 import com.example.oneinamillion.R;
@@ -36,6 +37,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
@@ -153,6 +155,23 @@ public class HomeFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         rvEvents.setLayoutManager(layoutManager);
         rvEvents.setAdapter(eventAdapter);
+        rvEvents.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                View.OnClickListener listener = new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                    }
+                };
+                if (!recyclerView.canScrollVertically(1) && newState==RecyclerView.SCROLL_STATE_IDLE) {
+                    Snackbar.make(getView(),"You have reached the end of your feed",Snackbar.LENGTH_SHORT)
+                            .setAction(getString(R.string.snackbar_dismiss),listener).show();
+
+                }
+            }
+        });
         final AccessToken accessToken = AccessToken.getCurrentAccessToken();
         boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
         if (ParseUser.getCurrentUser().getParseFile("ProfileImage") != null) {
