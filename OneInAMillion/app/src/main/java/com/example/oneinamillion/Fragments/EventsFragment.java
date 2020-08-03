@@ -1,11 +1,14 @@
 package com.example.oneinamillion.Fragments;
 
 import android.content.Intent;
+import android.graphics.Canvas;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -47,6 +50,7 @@ public class EventsFragment extends Fragment {
     ImageView ivDropdownOrganized;
     ImageView ivDropdownAttending;
     ImageView ivMap;
+    Boolean shown = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -105,6 +109,68 @@ public class EventsFragment extends Fragment {
                 toggleDropdown(rvUpcoming,ivDropdownAttending);
             }
         });
+        setupSwipeForOptions();
+    }
+
+    private void setupSwipeForOptions() {
+        if (!shown) {
+            ItemTouchHelper.SimpleCallback touchHelperCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+                private final ColorDrawable background = new ColorDrawable(getResources().getColor(R.color.colorAccent));
+
+                @Override
+                public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                    return false;
+                }
+
+                @Override
+                public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                    eventAdapterForAttending.showMenu(viewHolder.getAdapterPosition());
+                    shown=true;
+                    setupSwipeForOptions();
+                }
+
+                @Override
+                public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                    super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+                    View itemView = viewHolder.itemView;
+                    if (dX > 0) {
+                        background.setBounds(itemView.getLeft(), itemView.getTop(), itemView.getLeft() + ((int) dX), itemView.getBottom());
+                    } else if (dX < 0) {
+                        background.setBounds(itemView.getRight() + ((int) dX), itemView.getTop(), itemView.getRight(), itemView.getBottom());
+                    } else {
+                        background.setBounds(0, 0, 0, 0);
+                    }
+
+                    background.draw(c);
+                }
+            };
+            ItemTouchHelper itemTouchHelper = new ItemTouchHelper(touchHelperCallback);
+            itemTouchHelper.attachToRecyclerView(rvUpcoming);
+        }
+        else{
+            ItemTouchHelper.SimpleCallback touchHelperCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+                private final ColorDrawable background = new ColorDrawable(getResources().getColor(R.color.colorAccent));
+
+                @Override
+                public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                    return false;
+                }
+
+                @Override
+                public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                    eventAdapterForAttending.closeMenu();
+                    shown = false;
+                    setupSwipeForOptions();
+                }
+
+                @Override
+                public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                    super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+                }
+            };
+            ItemTouchHelper itemTouchHelper = new ItemTouchHelper(touchHelperCallback);
+            itemTouchHelper.attachToRecyclerView(rvUpcoming);
+        }
     }
 
     private void initializeViews(View view) {

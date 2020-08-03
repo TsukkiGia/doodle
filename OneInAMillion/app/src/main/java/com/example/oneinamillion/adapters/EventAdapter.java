@@ -84,7 +84,7 @@ public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         Event event = events.get(position);
-        if(holder instanceof ViewHolder){
+        if (holder instanceof ViewHolder){
             Log.i(TAG,String.valueOf(event.getDistance()));
             ((ViewHolder) holder).tvPrice.setText(String.format("$%s", event.getPrice()));
             ((ViewHolder) holder).tvEventName.setText(event.getEventName());
@@ -102,9 +102,6 @@ public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 Glide.with(context).load(event.getImage().getUrl()).into(((ViewHolder) holder).ivEventImage);
             }
         }
-        if (holder instanceof MenuViewHolder){
-
-        }
     }
 
     @Override
@@ -113,7 +110,7 @@ public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     public void showMenu(int position) {
-        for(int i=0; i<events.size(); i++){
+        for(int i = 0; i <events.size(); i++){
             events.get(i).setShowMenu(false);
         }
         events.get(position).setShowMenu(true);
@@ -303,7 +300,35 @@ public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             ivDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Log.i(TAG,"hello");
+                    Event event = events.get(getAdapterPosition());
+                    JSONArray attendees = event.getAttendees();
+                    for (int i = 0; i < attendees.length(); i++){
+                        try {
+                            String userID = attendees.getString(i);
+                            if (userID.equals(ParseUser.getCurrentUser().getObjectId())) {
+                                attendees.remove(i);
+                                break;
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    View.OnClickListener onClickListener = new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                        }
+                    };
+                    Snackbar.make(itemView, R.string.successful_unRSVP, Snackbar.LENGTH_SHORT)
+                            .setAction(context.getString(R.string.snackbar_dismiss),onClickListener).show();
+                    event.setAttendees(attendees);
+                    event.saveInBackground();
+                    for (int i = 0; i < events.size(); i++){
+                        if (events.get(i).getObjectId().equals(event.getObjectId())){
+                            events.remove(i);
+                            notifyItemRemoved(i);
+                        }
+                    }
                 }
             });
         }
