@@ -295,8 +295,17 @@ public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     private class MenuViewHolder extends RecyclerView.ViewHolder {
+        ImageView ivDelete;
+
         public MenuViewHolder(View view) {
             super(view);
+            ivDelete = view.findViewById(R.id.ivDelete);
+            ivDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.i(TAG,"hello");
+                }
+            });
         }
     }
 }

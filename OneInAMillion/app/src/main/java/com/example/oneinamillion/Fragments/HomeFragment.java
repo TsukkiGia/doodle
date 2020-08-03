@@ -90,6 +90,7 @@ public class HomeFragment extends Fragment {
     List<String> tags = new ArrayList<>();
     ImageView ivFilter;
     FragmentManager fragmentManager;
+    Boolean shown = false;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -135,43 +136,79 @@ public class HomeFragment extends Fragment {
         initializeViews(view);
         setClickListeners();
         setupHomeFeed();
-        ItemTouchHelper.SimpleCallback touchHelperCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
-            private final ColorDrawable background = new ColorDrawable(getResources().getColor(R.color.colorAccent));
+        setupSwipeForOptions();
+    }
 
-            @Override
-            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                return false;
-            }
+    private void setupSwipeForOptions() {
+        if (!shown) {
+            ItemTouchHelper.SimpleCallback touchHelperCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+                private final ColorDrawable background = new ColorDrawable(getResources().getColor(R.color.colorAccent));
 
-            @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                if (eventAdapter.isMenuShown()) {
-                    eventAdapter.closeMenu();
+                @Override
+                public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                    return false;
                 }
-                else {
+
+                @Override
+                public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                     eventAdapter.showMenu(viewHolder.getAdapterPosition());
-                }
-            }
-
-            @Override
-            public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
-
-                View itemView = viewHolder.itemView;
-
-                if (dX > 0) {
-                    background.setBounds(itemView.getLeft(), itemView.getTop(), itemView.getLeft() + ((int) dX), itemView.getBottom());
-                } else if (dX < 0) {
-                    background.setBounds(itemView.getRight() + ((int) dX), itemView.getTop(), itemView.getRight(), itemView.getBottom());
-                } else {
-                    background.setBounds(0, 0, 0, 0);
+                    shown=true;
+                    setupSwipeForOptions();
                 }
 
-                background.draw(c);
-            }
-        };
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(touchHelperCallback);
-        itemTouchHelper.attachToRecyclerView(rvEvents);
+                @Override
+                public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                    super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+                    View itemView = viewHolder.itemView;
+                    if (dX > 0) {
+                        background.setBounds(itemView.getLeft(), itemView.getTop(), itemView.getLeft() + ((int) dX), itemView.getBottom());
+                    } else if (dX < 0) {
+                        background.setBounds(itemView.getRight() + ((int) dX), itemView.getTop(), itemView.getRight(), itemView.getBottom());
+                    } else {
+                        background.setBounds(0, 0, 0, 0);
+                    }
+
+                    background.draw(c);
+                }
+            };
+            ItemTouchHelper itemTouchHelper = new ItemTouchHelper(touchHelperCallback);
+            itemTouchHelper.attachToRecyclerView(rvEvents);
+        }
+        else{
+            ItemTouchHelper.SimpleCallback touchHelperCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+                private final ColorDrawable background = new ColorDrawable(getResources().getColor(R.color.colorAccent));
+
+                @Override
+                public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                    return false;
+                }
+
+                @Override
+                public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                    Log.i(TAG, String.valueOf(direction));
+                    eventAdapter.closeMenu();
+                    shown=false;
+                    setupSwipeForOptions();
+                }
+
+                @Override
+                public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                    super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+                    View itemView = viewHolder.itemView;
+                    if (dX > 0) {
+                        background.setBounds(itemView.getLeft(), itemView.getTop(), itemView.getLeft() + ((int) dX), itemView.getBottom());
+                    } else if (dX < 0) {
+                        background.setBounds(itemView.getRight() + ((int) dX), itemView.getTop(), itemView.getRight(), itemView.getBottom());
+                    } else {
+                        background.setBounds(0, 0, 0, 0);
+                    }
+
+                    background.draw(c);
+                }
+            };
+            ItemTouchHelper itemTouchHelper = new ItemTouchHelper(touchHelperCallback);
+            itemTouchHelper.attachToRecyclerView(rvEvents);
+        }
     }
 
     private void setupHomeFeed() {
