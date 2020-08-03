@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,6 +18,7 @@ import android.widget.ImageView;
 
 import com.example.oneinamillion.Models.Event;
 import com.example.oneinamillion.R;
+import com.example.oneinamillion.adapters.EventAdapter;
 import com.example.oneinamillion.adapters.SearchResultAdapter;
 
 import java.util.ArrayList;
@@ -26,7 +28,7 @@ public class SearchListFragment extends Fragment {
     List<Event> events;
     public static final String TAG = "SearchListFragment";
     RecyclerView rvSearchResults;
-    SearchResultAdapter searchResultAdapter;
+    EventAdapter searchResultAdapter;
     ImageView ivBack;
 
     @Override
@@ -58,7 +60,7 @@ public class SearchListFragment extends Fragment {
                         .replace(R.id.flContainer,fragment).commit();
             }
         });
-        searchResultAdapter = new SearchResultAdapter(events,getContext());
+        searchResultAdapter = new EventAdapter(getContext(),events);
         rvSearchResults.setAdapter(searchResultAdapter);
         rvSearchResults.setLayoutManager(new LinearLayoutManager(getContext()));
     }

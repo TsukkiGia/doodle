@@ -26,6 +26,7 @@ public class Event extends ParseObject {
     public static final String KEY_PRICE="Price";
     public static final String KEY_LINK="TicketLink";
     public String Address;
+    private boolean showMenu = false;
     //Set address with reverse geocoding - make another request using async client
     public double distance;
 
@@ -135,5 +136,13 @@ public class Event extends ParseObject {
 
     public void setOrganizer(ParseUser parseUser) {
         put(KEY_ORGANIZER,parseUser);
+    }
+
+    public boolean isShowMenu() {
+        return showMenu;
+    }
+
+    public void setShowMenu(boolean b) {
+        showMenu = b;
     }
 }

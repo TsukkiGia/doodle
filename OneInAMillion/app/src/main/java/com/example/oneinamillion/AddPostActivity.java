@@ -114,7 +114,7 @@ public class AddPostActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
+        if ((data != null) && requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             Log.i(TAG,"camera");
             ivImage.setVisibility(View.VISIBLE);
             fromCameraorGallery = "camera";
@@ -136,6 +136,9 @@ public class AddPostActivity extends AppCompatActivity {
             fromCameraorGallery = "gallery";
             // Create the ParseFile
             file = new ParseFile("picture.png", image);
+        }
+        else {
+            fromCameraorGallery="none";
         }
     }
 

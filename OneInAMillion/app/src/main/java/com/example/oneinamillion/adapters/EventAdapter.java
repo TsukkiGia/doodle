@@ -10,6 +10,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -37,14 +38,25 @@ import java.util.Locale;
 
 import okhttp3.Headers;
 
-public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> {
+public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     List<Event> events;
     Context context;
     public static final String TAG = "EventAdapter";
+    private final int SHOW_MENU = 1;
+    private final int HIDE_MENU = 2;
 
     public EventAdapter(Context context, List<Event> events) {
         this.events=events;
         this.context=context;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if(events.get(position).isShowMenu()){
+            return SHOW_MENU;
+        }else{
+            return HIDE_MENU;
+        }
     }
 
     public void clear() {
@@ -57,20 +69,41 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         notifyDataSetChanged();
     }
 
-    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_event,parent,false);
-        return new ViewHolder(view);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if(viewType==SHOW_MENU) {
+            View view = LayoutInflater.from(context).inflate(R.layout.menu, parent, false);
+            return new MenuViewHolder(view);
+        }
+        else {
+            View view = LayoutInflater.from(context).inflate(R.layout.item_event, parent, false);
+            return new ViewHolder(view);
+        }
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         Event event = events.get(position);
-        try {
-            holder.bind(event);
-        } catch (ParseException e) {
-            e.printStackTrace();
+        if(holder instanceof ViewHolder){
+            Log.i(TAG,String.valueOf(event.getDistance()));
+            ((ViewHolder) holder).tvPrice.setText(String.format("$%s", event.getPrice()));
+            ((ViewHolder) holder).tvEventName.setText(event.getEventName());
+            long now = System.currentTimeMillis();
+            Date DateTime = null;
+            try {
+                DateTime = new SimpleDateFormat("MM/dd/yyyy HH:mm",
+                        Locale.ENGLISH).parse(event.getDate()+" "+event.getTime());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            long DateTimeInMillies = DateTime.getTime();
+            ((ViewHolder) holder).tvDateTime.setText(DateUtils.getRelativeTimeSpanString(DateTimeInMillies, now, 0L, DateUtils.FORMAT_ABBREV_ALL));
+            if (event.getImage() != null) {
+                Glide.with(context).load(event.getImage().getUrl()).into(((ViewHolder) holder).ivEventImage);
+            }
+        }
+        if (holder instanceof MenuViewHolder){
+
         }
     }
 
@@ -79,11 +112,37 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
         return events.size();
     }
 
+    public void showMenu(int position) {
+        for(int i=0; i<events.size(); i++){
+            events.get(i).setShowMenu(false);
+        }
+        events.get(position).setShowMenu(true);
+        notifyDataSetChanged();
+    }
+
+
+    public boolean isMenuShown() {
+        for(int i=0; i<events.size(); i++){
+            if(events.get(i).isShowMenu()){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void closeMenu() {
+        for(int i=0; i<events.size(); i++){
+            events.get(i).setShowMenu(false);
+        }
+        notifyDataSetChanged();
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnTouchListener, GestureDetector.OnGestureListener, GestureDetector.OnDoubleTapListener {
         TextView tvDateTime;
         TextView tvPrice;
         TextView tvEventName;
         ImageView ivEventImage;
+        RelativeLayout container;
         private GestureDetector mGestureDetector;
 
         public ViewHolder(@NonNull View itemView) {
@@ -94,20 +153,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
             ivEventImage = itemView.findViewById(R.id.ivEventImage);
             ivEventImage.setOnTouchListener(this);
             mGestureDetector = new GestureDetector(context,this);
-        }
-
-        public void bind(Event event) throws ParseException {
-            Log.i(TAG,String.valueOf(event.getDistance()));
-            tvPrice.setText(String.format("$%s", event.getPrice()));
-            tvEventName.setText(event.getEventName());
-            long now = System.currentTimeMillis();
-            Date DateTime = new SimpleDateFormat("MM/dd/yyyy HH:mm",
-                    Locale.ENGLISH).parse(event.getDate()+" "+event.getTime());
-            long DateTimeInMillies = DateTime.getTime();
-            tvDateTime.setText(DateUtils.getRelativeTimeSpanString(DateTimeInMillies, now, 0L, DateUtils.FORMAT_ABBREV_ALL));
-            if (event.getImage() != null) {
-                Glide.with(context).load(event.getImage().getUrl()).into(ivEventImage);
-            }
+            container = itemView.findViewById(R.id.rlContainer);
         }
 
         @Override
@@ -234,6 +280,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
 
         @Override
         public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+            Log.i(TAG,"flung");
             return false;
         }
 
@@ -244,6 +291,12 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> 
                 return true;
             }
             return false;
+        }
+    }
+
+    private class MenuViewHolder extends RecyclerView.ViewHolder {
+        public MenuViewHolder(View view) {
+            super(view);
         }
     }
 }

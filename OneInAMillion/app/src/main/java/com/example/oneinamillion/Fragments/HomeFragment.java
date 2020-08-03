@@ -2,7 +2,9 @@ package com.example.oneinamillion.Fragments;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.os.Bundle;
 
@@ -12,6 +14,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -132,6 +135,43 @@ public class HomeFragment extends Fragment {
         initializeViews(view);
         setClickListeners();
         setupHomeFeed();
+        ItemTouchHelper.SimpleCallback touchHelperCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+            private final ColorDrawable background = new ColorDrawable(getResources().getColor(R.color.colorAccent));
+
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                if (eventAdapter.isMenuShown()) {
+                    eventAdapter.closeMenu();
+                }
+                else {
+                    eventAdapter.showMenu(viewHolder.getAdapterPosition());
+                }
+            }
+
+            @Override
+            public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+
+                View itemView = viewHolder.itemView;
+
+                if (dX > 0) {
+                    background.setBounds(itemView.getLeft(), itemView.getTop(), itemView.getLeft() + ((int) dX), itemView.getBottom());
+                } else if (dX < 0) {
+                    background.setBounds(itemView.getRight() + ((int) dX), itemView.getTop(), itemView.getRight(), itemView.getBottom());
+                } else {
+                    background.setBounds(0, 0, 0, 0);
+                }
+
+                background.draw(c);
+            }
+        };
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(touchHelperCallback);
+        itemTouchHelper.attachToRecyclerView(rvEvents);
     }
 
     private void setupHomeFeed() {
@@ -182,6 +222,7 @@ public class HomeFragment extends Fragment {
             ivProfile.setImageDrawable(getContext().getDrawable(R.drawable.instagram_user_filled_24));
         }
     }
+
 
     private void initializeViews(View view) {
         fragmentManager = getParentFragmentManager();

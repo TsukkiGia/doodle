@@ -44,7 +44,8 @@ public class ProfileFragment extends Fragment {
     Button btnChangePreferences;
     ImageView ivLogOut;
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 24;
-    public String photoFileName = "photo.jpg";
+    public String photoFileName = "photo";
+    int counter = 0;
     File photoFile;
     public static final String TAG = "ProfileFragment";
 
@@ -135,7 +136,8 @@ public class ProfileFragment extends Fragment {
 
     public void launchCamera() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        photoFile = getPhotoFileUri(photoFileName);
+        photoFile = getPhotoFileUri(photoFileName+counter+".jpg");
+        counter++;
         // required for API >= 24
         Uri fileProvider = FileProvider.getUriForFile(getActivity(),
                 "com.gianna.fileprovider", photoFile);

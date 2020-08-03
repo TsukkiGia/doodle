@@ -3,6 +3,7 @@ package com.example.oneinamillion.Fragments;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.DatePicker;
 
 import androidx.fragment.app.DialogFragment;
@@ -48,6 +49,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
     }
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
+        Log.i("Date Picker", String.valueOf(month));
         if (day < 10 && month < 10) {
             String date = "0"+String.valueOf(month+1) + "/0" + String.valueOf(day) + "/" + String.valueOf(year);
             notifyDatePickerListener(date);
