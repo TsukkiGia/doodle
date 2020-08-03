@@ -50,6 +50,7 @@ public class EventsFragment extends Fragment {
     ImageView ivDropdownOrganized;
     ImageView ivDropdownAttending;
     ImageView ivMap;
+    ImageView ivCalendar;
     Boolean shown = false;
 
     @Override
@@ -81,8 +82,13 @@ public class EventsFragment extends Fragment {
             public void onClick(View view) {
                 Intent i = new Intent(getContext(), EventMapActivity.class);
                 startActivity(i);
-                //getParentFragmentManager().beginTransaction()
-                //        .replace(R.id.flContainer,new CalendarFragment()).commit();
+            }
+        });
+        ivCalendar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getParentFragmentManager().beginTransaction()
+                        .replace(R.id.flContainer,new CalendarFragment()).commit();
             }
         });
         ivDropdownOrganized.setOnClickListener(new View.OnClickListener() {
@@ -181,6 +187,7 @@ public class EventsFragment extends Fragment {
         tvMyUpcomingEvents = view.findViewById(R.id.tvMyUpcomingEvents);
         ivDropdownAttending = view.findViewById(R.id.ivDropdownAttending);
         ivDropdownOrganized = view.findViewById(R.id.ivDropdownOrganizing);
+        ivCalendar = view.findViewById(R.id.ivCalendar);
     }
 
     private void toggleDropdown(RecyclerView recyclerView, ImageView ivArrow) {

@@ -1,5 +1,6 @@
 package com.example.oneinamillion.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,8 +13,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.oneinamillion.EventMapActivity;
 import com.example.oneinamillion.Models.Event;
 import com.example.oneinamillion.R;
 import com.example.oneinamillion.adapters.EventAdapter;
@@ -40,7 +43,9 @@ public class CalendarEventFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        date = getArguments().getString("date");
+        if (getArguments()!=null) {
+            date = getArguments().getString("date");
+        }
     }
 
     @Override

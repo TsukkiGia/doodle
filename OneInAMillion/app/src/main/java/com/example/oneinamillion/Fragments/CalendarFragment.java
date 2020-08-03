@@ -1,5 +1,6 @@
 package com.example.oneinamillion.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,7 +13,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
+import android.widget.ImageView;
 
+import com.example.oneinamillion.EventMapActivity;
 import com.example.oneinamillion.R;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
@@ -23,6 +26,8 @@ import java.util.Locale;
 public class CalendarFragment extends Fragment {
     CalendarView calendarView;
     public static final String TAG = "CalendarFragment";
+    ImageView ivList;
+    ImageView ivMap;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,6 +53,22 @@ public class CalendarFragment extends Fragment {
         dates.putString("date",formattedDate);
         Fragment fragment = new CalendarEventFragment();
         fragment.setArguments(dates);
+        ivList = view.findViewById(R.id.ivList);
+        ivMap = view.findViewById(R.id.ivMap);
+        ivMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getContext(), EventMapActivity.class);
+                startActivity(i);
+            }
+        });
+        ivList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getParentFragmentManager().beginTransaction()
+                        .replace(R.id.flContainer,new EventsFragment()).commit();
+            }
+        });
         getChildFragmentManager().beginTransaction().replace(R.id.flEvents,fragment).commit();
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override

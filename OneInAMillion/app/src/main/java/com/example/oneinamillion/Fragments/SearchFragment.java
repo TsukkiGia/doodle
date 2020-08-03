@@ -2,6 +2,7 @@ package com.example.oneinamillion.Fragments;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 
@@ -38,6 +39,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -67,6 +70,14 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
     Toolbar toolbar;
     List<Event> results;
     List<Event> events;
+    final String raffle_tag = "raffle";
+    final String thon_tag= "thon";
+    final String sport_tag = "sport";
+    final String auctions_tag = "auction";
+    final String cook_tag = "cook";
+    final String concert_tag = "music";
+    final String gala_tag = "gala";
+    final String craft_tag = "craft";
     private SearchView.OnQueryTextListener queryTextListener;
     // The entry point to the Fused Location Provider.
     private FusedLocationProviderClient fusedLocationProviderClient;
@@ -224,6 +235,39 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
                         Double longitude = event.getLocation().getLongitude();
                         Marker marker = map.addMarker(new MarkerOptions().position(new LatLng(lat, longitude)).snippet(event.getDescription() + ". Click to see the details!").title(event.getEventName()));
                         marker.setTag(event.getObjectId());
+                        try {
+                            String firsttag = event.getEventTag().getString(0);
+                            switch(firsttag){
+                                case sport_tag:
+                                    marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.sportmarker));
+                                    break;
+                                case auctions_tag:
+                                    marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.auctionmarker));
+                                    break;
+                                case concert_tag:
+                                    marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.concertmarker));
+                                    break;
+                                case gala_tag:
+                                    marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.galamarker));
+                                    break;
+                                case raffle_tag:
+                                    marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.rafflemarker));
+                                    break;
+                                case cook_tag:
+                                    marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.cookmarker));
+                                    break;
+                                case craft_tag:
+                                    marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.craftmarker));
+                                    break;
+                                case thon_tag:
+                                    marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.thonmarker));
+                                    break;
+                                default:
+                                    throw new IllegalStateException("Unexpected value: " + firsttag);
+                            }
+                        } catch (JSONException ex) {
+                            ex.printStackTrace();
+                        }
                         results.add(event);
                     }
                 }
@@ -235,6 +279,39 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
                 Double longitude = event.getLocation().getLongitude();
                 Marker marker = map.addMarker(new MarkerOptions().position(new LatLng(lat, longitude)).snippet(event.getDescription() + ". Click to see the details!").title(event.getEventName()));
                 marker.setTag(event.getObjectId());
+                try {
+                    String firsttag = event.getEventTag().getString(0);
+                    switch(firsttag){
+                        case sport_tag:
+                            marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.sportmarker));
+                            break;
+                        case auctions_tag:
+                            marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.auctionmarker));
+                            break;
+                        case concert_tag:
+                            marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.concertmarker));
+                            break;
+                        case gala_tag:
+                            marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.galamarker));
+                            break;
+                        case raffle_tag:
+                            marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.rafflemarker));
+                            break;
+                        case cook_tag:
+                            marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.cookmarker));
+                            break;
+                        case craft_tag:
+                            marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.craftmarker));
+                            break;
+                        case thon_tag:
+                            marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.thonmarker));
+                            break;
+                        default:
+                            throw new IllegalStateException("Unexpected value: " + firsttag);
+                    }
+                } catch (JSONException ex) {
+                    ex.printStackTrace();
+                }
                 results.add(event);
             }
         }
