@@ -90,7 +90,6 @@ public class HomeFragment extends Fragment {
     List<String> tags = new ArrayList<>();
     ImageView ivFilter;
     FragmentManager fragmentManager;
-    Boolean shown = false;
 
     public HomeFragment() {
         // Required empty public constructor

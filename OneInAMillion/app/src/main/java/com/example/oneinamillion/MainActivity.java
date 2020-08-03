@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.example.oneinamillion.Fragments.CalendarFragment;
 import com.example.oneinamillion.Fragments.EventsFragment;
 import com.example.oneinamillion.Fragments.HomeFragment;
 import com.example.oneinamillion.Fragments.ProfileFragment;
@@ -64,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
                         fragment = new SearchFragment();
                         break;
                     case R.id.action_events:
-                        fragment = new EventsFragment();
+                        fragment = new CalendarFragment();
                         break;
                     case R.id.action_profile:
                         fragment = new ProfileFragment();
