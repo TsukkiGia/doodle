@@ -48,6 +48,7 @@ public class ProfileFragment extends Fragment {
     int counter = 0;
     File photoFile;
     public static final String TAG = "ProfileFragment";
+    Button btnHosting;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -65,6 +66,10 @@ public class ProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         initializeViews(view);
         setUpProfileViews();
+        setClickListeners();
+    }
+
+    private void setClickListeners() {
         btnChange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -83,6 +88,12 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 logout();
+            }
+        });
+        btnHosting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
     }
@@ -106,6 +117,7 @@ public class ProfileFragment extends Fragment {
         tvUsername = view.findViewById(R.id.tvUsername);
         ivProfile = view.findViewById(R.id.ivProfile);
         ivLogOut = view.findViewById(R.id.ivLogOut);
+        btnHosting = view.findViewById(R.id.btnHosting);
     }
 
     private void logout() {

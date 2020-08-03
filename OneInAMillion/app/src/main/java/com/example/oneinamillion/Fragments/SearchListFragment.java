@@ -47,8 +47,11 @@ public class SearchListFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        rvSearchResults = view.findViewById(R.id.rvSearchResults);
-        ivBack = view.findViewById(R.id.ivBack);
+        initializeViews(view);
+        setupViews();
+    }
+
+    private void setupViews() {
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,5 +66,10 @@ public class SearchListFragment extends Fragment {
         searchResultAdapter = new EventAdapter(getContext(),events);
         rvSearchResults.setAdapter(searchResultAdapter);
         rvSearchResults.setLayoutManager(new LinearLayoutManager(getContext()));
+    }
+
+    private void initializeViews(View view) {
+        rvSearchResults = view.findViewById(R.id.rvSearchResults);
+        ivBack = view.findViewById(R.id.ivBack);
     }
 }

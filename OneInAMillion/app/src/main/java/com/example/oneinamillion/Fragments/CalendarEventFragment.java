@@ -51,8 +51,12 @@ public class CalendarEventFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        tvHeader = view.findViewById(R.id.tvHeader);
-        rvCalendarEvents = view.findViewById(R.id.rvCalendarEvents);
+        initializeViews(view);
+        setUpViews();
+        InitialQuery();
+    }
+
+    private void setUpViews() {
         results = new ArrayList<>();
         adapter = new EventAdapter(getContext(),results);
         rvCalendarEvents.setAdapter(adapter);
@@ -60,12 +64,16 @@ public class CalendarEventFragment extends Fragment {
         Date currentDate = new Date(System.currentTimeMillis());
         String currentDateinString = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH).format(currentDate);
         if (date.equals(currentDateinString)){
-            tvHeader.setText("Events for today");
+            tvHeader.setText(R.string.events_today);
         }
         else {
             tvHeader.setText("Events for "+date);
         }
-        InitialQuery();
+    }
+
+    private void initializeViews(View view) {
+        tvHeader = view.findViewById(R.id.tvHeader);
+        rvCalendarEvents = view.findViewById(R.id.rvCalendarEvents);
     }
 
     @Override

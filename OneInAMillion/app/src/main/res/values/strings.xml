@@ -57,5 +57,6 @@
     <string name="cooking">Cooking</string>
     <string name="crafts">Crafts</string>
     <string name="a_thons">A-thons</string>
+    <string name="events_today">Events for today</string>
 
 </resources>

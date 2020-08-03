@@ -7,6 +7,9 @@ import android.util.Log;
 import android.widget.DatePicker;
 
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
+
+import com.example.oneinamillion.R;
 
 import java.util.Calendar;
 
@@ -50,15 +53,15 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
         Log.i("Date Picker", String.valueOf(month));
-        if (day < 10 && month < 10) {
+        if (day < 10 && month < 9) {
             String date = "0"+String.valueOf(month+1) + "/0" + String.valueOf(day) + "/" + String.valueOf(year);
             notifyDatePickerListener(date);
         }
-        else if (day < 10 && month > 10) {
+        else if (day < 10 && month >= 9) {
             String date = String.valueOf(month+1) + "/0" + String.valueOf(day) + "/" + String.valueOf(year);
             notifyDatePickerListener(date);
         }
-        else if (day > 10 && month < 10) {
+        else if (day >= 10 && month < 9) {
             String date = "0"+String.valueOf(month+1) + "/"+ String.valueOf(day) + "/" + String.valueOf(year);
             notifyDatePickerListener(date);
         }

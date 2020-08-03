@@ -59,20 +59,6 @@ public class DetailsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initializeViews(view);
-        if (event.getTicketLink()==null){
-            btnBuyTickets.setVisibility(View.GONE);
-        }
-        btnBuyTickets.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (event.getTicketLink() != null) {
-                    String url = "https://"+event.getTicketLink();
-                    Intent i = new Intent(Intent.ACTION_VIEW);
-                    i.setData(Uri.parse(url));
-                    startActivity(i);
-                }
-            }
-        });
         setInformationTextViews();
         getFriendsAttending();
         queryForSimilarEvents();
@@ -133,6 +119,20 @@ public class DetailsFragment extends Fragment {
         //Checker if the distance value is 0
         tvOrganizer.setText(getContext().getString(R.string.event_organizer,organizerName));
         tvDistance.setText(getContext().getString(R.string.distance_from_user,distance));
+        if (event.getTicketLink()==null){
+            btnBuyTickets.setVisibility(View.GONE);
+        }
+        btnBuyTickets.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (event.getTicketLink() != null) {
+                    String url = "https://"+event.getTicketLink();
+                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    i.setData(Uri.parse(url));
+                    startActivity(i);
+                }
+            }
+        });
     }
 
     private void getFriendsAttending() {

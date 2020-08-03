@@ -2,7 +2,10 @@ package com.example.oneinamillion.Fragments;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.os.Bundle;
 
@@ -157,8 +160,12 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        toolbar = view.findViewById(R.id.toolbar);
-        ivList = view.findViewById(R.id.ivList);
+        initializeViews(view);
+        setupViews();
+        setupMapFragment();
+    }
+
+    private void setupViews() {
         results =  new ArrayList<>();
         ivList.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -173,11 +180,15 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
         });
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
         ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getContext());
-        setupMapFragment();
+    }
+
+    private void initializeViews(View view) {
+        toolbar = view.findViewById(R.id.toolbar);
+        ivList = view.findViewById(R.id.ivList);
     }
 
     private void setupMapFragment() {
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getContext());
         SupportMapFragment mMapFragment = SupportMapFragment.newInstance();
         FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.map, mMapFragment);
@@ -441,6 +452,39 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
                                 position(new LatLng(lat, longitude)).snippet(event.getDescription()+". Click to see details!")
                                 .title(event.getEventName()));
                         marker.setTag(event.getObjectId());
+                        try {
+                            String firsttag = event.getEventTag().getString(0);
+                            switch(firsttag){
+                                case sport_tag:
+                                    marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.sportmarker));
+                                    break;
+                                case auctions_tag:
+                                    marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.auctionmarker));
+                                    break;
+                                case concert_tag:
+                                    marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.concertmarker));
+                                    break;
+                                case gala_tag:
+                                    marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.galamarker));
+                                    break;
+                                case raffle_tag:
+                                    marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.rafflemarker));
+                                    break;
+                                case cook_tag:
+                                    marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.cookmarker));
+                                    break;
+                                case craft_tag:
+                                    marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.craftmarker));
+                                    break;
+                                case thon_tag:
+                                    marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.thonmarker));
+                                    break;
+                                default:
+                                    throw new IllegalStateException("Unexpected value: " + firsttag);
+                            }
+                        } catch (JSONException ex) {
+                            ex.printStackTrace();
+                        }
                     }
                 }
             });
@@ -448,7 +492,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private boolean isInside(Event event, List<Event> results) {
-        Boolean amIhere=false;
+        Boolean amIhere = false;
         for (Event ev: results) {
             if (event.getObjectId().equals(ev.getObjectId())) {
                 amIhere=true;

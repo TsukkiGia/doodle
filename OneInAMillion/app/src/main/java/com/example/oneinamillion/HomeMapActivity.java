@@ -36,6 +36,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -79,6 +80,14 @@ public class HomeMapActivity extends AppCompatActivity
     private static final String KEY_CAMERA_POSITION = "camera_position";
     private static final String KEY_LOCATION = "location";
     List<Event> homevents;
+    final String raffle_tag = "raffle";
+    final String thon_tag= "thon";
+    final String sport_tag = "sport";
+    final String auctions_tag = "auction";
+    final String cook_tag = "cook";
+    final String concert_tag = "music";
+    final String gala_tag = "gala";
+    final String craft_tag = "craft";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,6 +170,39 @@ public class HomeMapActivity extends AppCompatActivity
             Marker marker = map.addMarker(new MarkerOptions().position(new LatLng(lat, longitude))
                     .title(event.getEventName()).snippet(event.getDescription()));
             marker.setTag(event.getObjectId());
+            try {
+                String firsttag = event.getEventTag().getString(0);
+                switch(firsttag){
+                    case sport_tag:
+                        marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.sportmarker));
+                        break;
+                    case auctions_tag:
+                        marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.auctionmarker));
+                        break;
+                    case concert_tag:
+                        marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.concertmarker));
+                        break;
+                    case gala_tag:
+                        marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.galamarker));
+                        break;
+                    case raffle_tag:
+                        marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.rafflemarker));
+                        break;
+                    case cook_tag:
+                        marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.cookmarker));
+                        break;
+                    case craft_tag:
+                        marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.craftmarker));
+                        break;
+                    case thon_tag:
+                        marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.thonmarker));
+                        break;
+                    default:
+                        throw new IllegalStateException("Unexpected value: " + firsttag);
+                }
+            } catch (JSONException ex) {
+                ex.printStackTrace();
+            }
         }
             // Prompt the user for permission.
             getLocationPermission();
