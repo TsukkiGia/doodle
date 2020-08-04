@@ -97,7 +97,8 @@ public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 e.printStackTrace();
             }
             long DateTimeInMillies = DateTime.getTime();
-            ((ViewHolder) holder).tvDateTime.setText(DateUtils.getRelativeTimeSpanString(DateTimeInMillies, now, 0L, DateUtils.FORMAT_ABBREV_ALL));
+            ((ViewHolder) holder).tvDateTime.setText(
+                    DateUtils.getRelativeTimeSpanString(DateTimeInMillies, now, 0L, DateUtils.FORMAT_ABBREV_ALL));
             if (event.getImage() != null) {
                 Glide.with(context).load(event.getImage().getUrl()).into(((ViewHolder) holder).ivEventImage);
             }
@@ -110,7 +111,7 @@ public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     public void showMenu(int position) {
-        for(int i = 0; i <events.size(); i++){
+        for (int i = 0; i <events.size(); i++){
             events.get(i).setShowMenu(false);
         }
         events.get(position).setShowMenu(true);

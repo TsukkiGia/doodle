@@ -1,6 +1,7 @@
 package com.example.oneinamillion.Fragments;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -15,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.oneinamillion.Models.Event;
@@ -46,6 +48,8 @@ public class DetailsFragment extends Fragment {
     List<String> friendsAttendingList = new ArrayList<>();
     String friendsAttending="";
     RecyclerView rvSimilarEvents;
+    ImageView ivAlarm;
+    Boolean alarmon = false;
     public static final String TAG = "DetailsFragment";
 
     @Override
@@ -99,6 +103,7 @@ public class DetailsFragment extends Fragment {
         tvFriendsAttending = view.findViewById(R.id.tvFriendsAttending);
         btnBuyTickets = view.findViewById(R.id.btnBuyTicket);
         rvSimilarEvents = view.findViewById(R.id.rvSimilarEvents);
+        ivAlarm = view.findViewById(R.id.ivAlarm);
     }
 
     private void setInformationTextViews() {
@@ -122,6 +127,22 @@ public class DetailsFragment extends Fragment {
         if (event.getTicketLink()==null){
             btnBuyTickets.setVisibility(View.GONE);
         }
+        ivAlarm.setTag(1);
+        ivAlarm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!alarmon) {
+                    ivAlarm.setImageResource(R.drawable.alarmfilled);
+                    ivAlarm.setColorFilter(getResources().getColor(R.color.colorAccent));
+                    alarmon = true;
+                }
+                else {
+                    ivAlarm.setImageResource(R.drawable.alarmoutline);
+                    ivAlarm.setColorFilter(Color.BLACK);
+                    alarmon = false;
+                }
+            }
+        });
         btnBuyTickets.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -11,7 +11,7 @@
         android:id="@+id/tvSimilarEvents"
         android:layout_width="355dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvFriendsAttending"
+        android:layout_below="@+id/ivAlarm"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="20dp"
@@ -63,6 +63,16 @@
         android:src="@drawable/friends" />
 
     <ImageView
+        android:id="@+id/ivAlarm"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_below="@+id/ivFriendsAttending"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/alarmoutline" />
+
+    <ImageView
         android:id="@+id/ivDistance"
         android:layout_width="20dp"
         android:layout_height="20dp"
@@ -111,6 +121,16 @@
         android:layout_marginTop="0dp"
         android:layout_toEndOf="@+id/ivOrganizer"
         tools:text="Gianna, Nico and Hamilton are attending this event." />
+
+    <TextView
+        android:id="@+id/tvReminder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/ivFriendsAttending"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="50dp"
+        android:layout_toEndOf="@+id/ivOrganizer"
+        tools:text="Remind me 15 minutes before the event" />
 
     <Button
         android:id="@+id/btnBuyTicket"

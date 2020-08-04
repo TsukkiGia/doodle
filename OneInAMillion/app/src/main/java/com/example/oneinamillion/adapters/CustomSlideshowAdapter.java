@@ -39,7 +39,7 @@ public class CustomSlideshowAdapter extends PagerAdapter {
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = inflater.inflate(R.layout.fullimage,null);
         ImageView ivEventImage = v.findViewById(R.id.ivEventImage);
-        Glide.with(context).load(images[position]).into(ivEventImage);
+        Glide.with(context).load(images[position]).centerCrop().into(ivEventImage);
         ViewPager viewPager = (ViewPager) container;
         viewPager.addView(v,0);
         return v;
