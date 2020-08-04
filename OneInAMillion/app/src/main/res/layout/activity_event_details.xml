@@ -211,6 +211,11 @@
                 android:background="#ffffff">
 
             </FrameLayout>
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/vpSlideshow"
+                android:layout_width="match_parent"
+                android:layout_height="142dp" />
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>

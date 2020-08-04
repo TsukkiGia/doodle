@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -19,6 +20,7 @@ import com.example.oneinamillion.Fragments.DetailsFragment;
 import com.example.oneinamillion.Fragments.UserPostFragment;
 import com.example.oneinamillion.Models.Event;
 import com.example.oneinamillion.Models.Post;
+import com.example.oneinamillion.adapters.CustomSlideshowAdapter;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -41,11 +43,14 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
     TextView tvDateTime;
     MaterialButton btnRSVP;
     ImageView ivNavigation;
+    CustomSlideshowAdapter slideshowAdapter;
+    ViewPager pager;
     Event event;
     Boolean amIattending = false;
     String address;
     MaterialButton extFabDetails;
     MaterialButton extFabPosts;
+    int count=0;
     final FragmentManager fragmentManager = getSupportFragmentManager();
     public static final String TAG = "EventDetails";
 
@@ -103,7 +108,33 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
             btnRSVP.setText(R.string.attend);
             btnRSVP.setIcon(getResources().getDrawable(R.drawable.icons_plus));
         }
-        Glide.with(EventDetailsActivity.this).load(event.getImage().getUrl()).into(ivEventImage);
+        if (event.getImage() != null){
+            count++;
+        }
+        if (event.getImage2() != null){
+            count++;
+        }
+        if (event.getImage3() != null){
+            count++;
+        }
+        final String images[] = new String[count];
+        if (event.getImage() != null){
+            images[0]=event.getImage().getUrl();
+            Log.i(TAG,images[0]);
+        }
+        if (event.getImage2() != null){
+            images[1]=event.getImage2().getUrl();
+            Log.i(TAG,images[1]);
+        }
+        if (event.getImage3() != null){
+            images[2]=event.getImage3().getUrl();
+            Log.i(TAG,images[2]);
+        }
+        slideshowAdapter = new CustomSlideshowAdapter(EventDetailsActivity.this, images);
+        pager.setAdapter(slideshowAdapter);
+        pager.setCurrentItem(0,true);
+        //Glide.with(EventDetailsActivity.this).load(event.getImage().getUrl()).into(ivEventImage);
+        //ivEventImage.setVisibility(View.INVISIBLE);
         tvEventName.setText(event.getEventName());
         tvDateTime.setText(getString(R.string.event_setting,event.getDate(),event.getTime()));
         tvLocation.setText(address);
@@ -188,6 +219,7 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
         tvDateTime = findViewById(R.id.tvDateTime);
         btnRSVP = findViewById(R.id.btnRSVP);
         ivNavigation = findViewById(R.id.ivNavigation);
+        pager = findViewById(R.id.vpSlideshow);
     }
 
     private void RSVPforEvent() {
