@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.Toast;
 import android.widget.VideoView;
 
@@ -136,7 +137,19 @@ public class AddPostActivity extends AppCompatActivity {
             ivImage.setImageBitmap(takenImage);
         }
         if ((data != null) && requestCode == PICK_VIDEO_CODE) {
-
+            Uri uri = data.getData();
+            Log.i(TAG,uri.toString());
+            try{
+                MediaController mc = new MediaController(this);
+                vvVideo.setMediaController(mc);
+                vvVideo.setVideoURI(uri);
+                vvVideo.start();
+                Log.i(TAG,String.valueOf(vvVideo.isPlaying()));
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+            vvVideo.resume();
+            Log.i(TAG,String.valueOf(vvVideo.isPlaying()));
         }
         if((data != null) && requestCode==PICK_PHOTO_CODE){
             Log.i(TAG,"gallery");

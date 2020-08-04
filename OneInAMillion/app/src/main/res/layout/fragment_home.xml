@@ -40,7 +40,7 @@
         android:gravity="center"
         android:text="Distance"
         android:textColor="#000000"
-        android:textSize="12sp"
+        android:textSize="10sp"
         app:backgroundTint="#FFFFFF"
         app:iconSize="0dp" />
 
@@ -55,7 +55,7 @@
         android:gravity="center"
         android:text="Price"
         android:textColor="#000000"
-        android:textSize="12sp"
+        android:textSize="10sp"
         app:backgroundTint="#FFFFFF"
         app:iconSize="0dp" />
 
@@ -70,7 +70,7 @@
         android:gravity="center"
         android:text="Date"
         android:textColor="#000000"
-        android:textSize="12sp"
+        android:textSize="10sp"
         app:backgroundTint="#FFFFFF"
         app:iconSize="0dp" />
 
