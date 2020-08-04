@@ -130,6 +130,7 @@
         android:layout_marginStart="17dp"
         android:layout_marginTop="50dp"
         android:layout_toEndOf="@+id/ivOrganizer"
+        android:text="Remind me 15 minutes before the event"
         tools:text="Remind me 15 minutes before the event" />
 
     <Button

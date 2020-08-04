@@ -6,9 +6,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -66,13 +69,11 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
         if (getIntent().getStringExtra("activity").equals("SearchFragment")) {
             overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         }
-        if (getIntent().getStringExtra("activity").equals("AdapterItem")) {
-            overridePendingTransition(R.anim.push_up_in, R.anim.push_up_out);
-        }
         address = getIntent().getStringExtra("address");
         double distance = getIntent().getDoubleExtra("distance",0);
         event = Parcels.unwrap(getIntent().getParcelableExtra(Event.class.getSimpleName()));
         event.setDistance(distance);
+        createNotificationChannel();
         initializeViews();
         showDetailsFragment();
         setClickListeners();
@@ -133,8 +134,6 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
         slideshowAdapter = new CustomSlideshowAdapter(EventDetailsActivity.this, images);
         pager.setAdapter(slideshowAdapter);
         pager.setCurrentItem(0,true);
-        //Glide.with(EventDetailsActivity.this).load(event.getImage().getUrl()).into(ivEventImage);
-        //ivEventImage.setVisibility(View.INVISIBLE);
         tvEventName.setText(event.getEventName());
         tvDateTime.setText(getString(R.string.event_setting,event.getDate(),event.getTime()));
         tvLocation.setText(address);
@@ -259,5 +258,21 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
         googleMap.moveCamera(CameraUpdateFactory
                 .newLatLngZoom(eventLocation, 15));
         googleMap.addMarker(new MarkerOptions().position(eventLocation).title(event.getEventName()));
+    }
+
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "Event Notification";
+            String description = "Reminder that an event is upcoming";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("20", name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 }

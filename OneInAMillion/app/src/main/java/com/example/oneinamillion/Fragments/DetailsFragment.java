@@ -1,5 +1,8 @@
 package com.example.oneinamillion.Fragments;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -19,6 +22,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.oneinamillion.MainActivity;
 import com.example.oneinamillion.Models.Event;
 import com.example.oneinamillion.Models.Post;
 import com.example.oneinamillion.R;
@@ -32,8 +36,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.parceler.Parcels;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class DetailsFragment extends Fragment {
     String organizerName;
@@ -135,6 +142,19 @@ public class DetailsFragment extends Fragment {
                     ivAlarm.setImageResource(R.drawable.alarmfilled);
                     ivAlarm.setColorFilter(getResources().getColor(R.color.colorAccent));
                     alarmon = true;
+                    Intent intent = new Intent(getActivity(), MainActivity.class);
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(),0,intent,0);
+                    AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
+                    try {
+                        Date date = new SimpleDateFormat("MM/dd/yyyy HH:mm", Locale.ENGLISH)
+                                .parse(event.getDate() + " " + event.getTime());
+                        long fifteenbefore = date.getTime()-900000;
+                        alarmManager.set(AlarmManager.RTC_WAKEUP,fifteenbefore,pendingIntent);
+
+                    } catch (java.text.ParseException e) {
+                        e.printStackTrace();
+                    }
+
                 }
                 else {
                     ivAlarm.setImageResource(R.drawable.alarmoutline);
