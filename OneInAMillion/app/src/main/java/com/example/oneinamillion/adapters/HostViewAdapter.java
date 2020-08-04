@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,13 +16,24 @@ import com.example.oneinamillion.R;
 
 import java.util.List;
 
-public class HostViewAdapter extends RecyclerView.Adapter<HostViewAdapter.ViewHolder> {
+public class HostViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context context;
     List<Event> events;
+    private final int SHOW_MENU = 1;
+    private final int HIDE_MENU = 2;
 
     public HostViewAdapter(Context context, List<Event> events) {
         this.context = context;
         this.events = events;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if(events.get(position).isShowMenu()){
+            return SHOW_MENU;
+        }else{
+            return HIDE_MENU;
+        }
     }
 
     public void clear() {
@@ -33,17 +46,29 @@ public class HostViewAdapter extends RecyclerView.Adapter<HostViewAdapter.ViewHo
         notifyDataSetChanged();
     }
 
+
+
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_host_view,parent,false);
-        return new ViewHolder(view);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if(viewType==SHOW_MENU) {
+            View view = LayoutInflater.from(context).inflate(R.layout.menu2, parent, false);
+            return new HostViewAdapter.MenuViewHolder(view);
+        }
+        else {
+            View view = LayoutInflater.from(context).inflate(R.layout.item_host_view, parent, false);
+            return new HostViewAdapter.ViewHolder(view);
+        }
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Event event = events.get(position);
-        holder.bind(event);
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        if (holder instanceof HostViewAdapter.ViewHolder) {
+            Event event = events.get(position);
+            ((ViewHolder) holder).tvEventName.setText(event.getEventName());
+            ((ViewHolder) holder).tvAttendees.setText(event.getAttendees().length()+" attendees");
+            ((ViewHolder) holder).tvDate.setText(event.getDate());
+        }
     }
 
     @Override
@@ -51,22 +76,58 @@ public class HostViewAdapter extends RecyclerView.Adapter<HostViewAdapter.ViewHo
         return events.size();
     }
 
+    public void showMenu(int position) {
+        for(int i = 0; i < events.size(); i++){
+            events.get(i).setShowMenu(false);
+        }
+        events.get(position).setShowMenu(true);
+        notifyDataSetChanged();
+    }
+
+
+    public boolean isMenuShown() {
+        for(int i = 0; i < events.size(); i++){
+            if(events.get(i).isShowMenu()){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void closeMenu() {
+        for(int i = 0; i < events.size(); i++){
+            events.get(i).setShowMenu(false);
+        }
+        notifyDataSetChanged();
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvEventName;
         TextView tvDate;
         TextView tvAttendees;
+        RelativeLayout container;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvEventName = itemView.findViewById(R.id.tvEventName);
             tvDate = itemView.findViewById(R.id.tvDateTime);
             tvAttendees = itemView.findViewById(R.id.tvAttendees);
+            container = itemView.findViewById(R.id.container);
         }
+    }
 
-        public void bind(Event event) {
-            tvEventName.setText(event.getEventName());
-            tvAttendees.setText(event.getAttendees().length()+" attendees");
-            tvDate.setText(event.getDate());
+    public class MenuViewHolder extends RecyclerView.ViewHolder {
+        ImageView ivDelete;
+
+        public MenuViewHolder(View view) {
+            super(view);
+            ivDelete = view.findViewById(R.id.ivDelete);
+            ivDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            });
         }
     }
 }

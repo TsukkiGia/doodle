@@ -1,11 +1,15 @@
 package com.example.oneinamillion;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.graphics.Canvas;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.example.oneinamillion.Models.Event;
 import com.example.oneinamillion.Models.MergeSort;
@@ -29,6 +33,7 @@ public class HostingActivity extends AppCompatActivity {
     HostViewAdapter adapter;
     List<Event> events;
     RecyclerView rvHostEvents;
+    Boolean shown = false;
 
 
     @Override
@@ -41,6 +46,68 @@ public class HostingActivity extends AppCompatActivity {
         adapter = new HostViewAdapter(HostingActivity.this,events);
         rvHostEvents.setAdapter(adapter);
         queryEvents();
+        setupSwipeForOptions();
+    }
+
+    private void setupSwipeForOptions() {
+        if (!shown) {
+            ItemTouchHelper.SimpleCallback touchHelperCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+                private final ColorDrawable background = new ColorDrawable(getResources().getColor(R.color.colorAccent));
+
+                @Override
+                public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                    return false;
+                }
+
+                @Override
+                public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                    adapter.showMenu(viewHolder.getAdapterPosition());
+                    shown = true;
+                    setupSwipeForOptions();
+                }
+
+                @Override
+                public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                    super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+                    View itemView = viewHolder.itemView;
+                    if (dX > 0) {
+                        background.setBounds(itemView.getLeft(), itemView.getTop(), itemView.getLeft() + ((int) dX), itemView.getBottom());
+                    } else if (dX < 0) {
+                        background.setBounds(itemView.getRight() + ((int) dX), itemView.getTop(), itemView.getRight(), itemView.getBottom());
+                    } else {
+                        background.setBounds(0, 0, 0, 0);
+                    }
+
+                    background.draw(c);
+                }
+            };
+            ItemTouchHelper itemTouchHelper = new ItemTouchHelper(touchHelperCallback);
+            itemTouchHelper.attachToRecyclerView(rvHostEvents);
+        }
+        else{
+            ItemTouchHelper.SimpleCallback touchHelperCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+                private final ColorDrawable background = new ColorDrawable(getResources().getColor(R.color.colorAccent));
+
+                @Override
+                public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                    return false;
+                }
+
+                @Override
+                public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                    adapter.closeMenu();
+                    shown = false;
+                    setupSwipeForOptions();
+                }
+
+                @Override
+                public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+                    super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+                }
+            };
+            ItemTouchHelper itemTouchHelper = new ItemTouchHelper(touchHelperCallback);
+            itemTouchHelper.attachToRecyclerView(rvHostEvents);
+        }
     }
 
     private void queryEvents() {
