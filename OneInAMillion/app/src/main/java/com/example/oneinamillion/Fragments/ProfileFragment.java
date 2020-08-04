@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.oneinamillion.HostingActivity;
 import com.example.oneinamillion.InterestActivity;
 import com.example.oneinamillion.LoginActivity;
 import com.example.oneinamillion.R;
@@ -93,7 +94,8 @@ public class ProfileFragment extends Fragment {
         btnHosting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent i = new Intent(getContext(), HostingActivity.class);
+                startActivity(i);
             }
         });
     }

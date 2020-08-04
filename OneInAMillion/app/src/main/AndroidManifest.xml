@@ -32,7 +32,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".LikersActivity"></activity>
+        <activity android:name=".HostingActivity"></activity>
+        <activity android:name=".LikersActivity" />
         <activity android:name=".AddPostActivity" />
         <activity android:name=".ProfilePageActivity" />
         <activity android:name=".PostDetailsActivity" />
