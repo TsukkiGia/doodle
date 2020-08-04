@@ -66,14 +66,11 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_details);
-        if (getIntent().getStringExtra("activity").equals("SearchFragment")) {
-            overridePendingTransition(R.anim.fadein, R.anim.fadeout);
-        }
+        //if (getIntent().getStringExtra("activity").equals("SearchFragment")) {
+        //    overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+        //}
         address = getIntent().getStringExtra("address");
-        double distance = getIntent().getDoubleExtra("distance",0);
         event = Parcels.unwrap(getIntent().getParcelableExtra(Event.class.getSimpleName()));
-        event.setDistance(distance);
-        createNotificationChannel();
         initializeViews();
         showDetailsFragment();
         setClickListeners();
@@ -258,21 +255,5 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
         googleMap.moveCamera(CameraUpdateFactory
                 .newLatLngZoom(eventLocation, 15));
         googleMap.addMarker(new MarkerOptions().position(eventLocation).title(event.getEventName()));
-    }
-
-    private void createNotificationChannel() {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = "Event Notification";
-            String description = "Reminder that an event is upcoming";
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel("20", name, importance);
-            channel.setDescription(description);
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-        }
     }
 }

@@ -1,11 +1,14 @@
 package com.example.oneinamillion.Fragments;
 
 import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -25,6 +28,7 @@ import android.widget.TextView;
 import com.example.oneinamillion.MainActivity;
 import com.example.oneinamillion.Models.Event;
 import com.example.oneinamillion.Models.Post;
+import com.example.oneinamillion.Models.ReminderBroadcast;
 import com.example.oneinamillion.R;
 import com.example.oneinamillion.adapters.HorizontalEventAdapter;
 import com.parse.FindCallback;
@@ -73,6 +77,7 @@ public class DetailsFragment extends Fragment {
         setInformationTextViews();
         getFriendsAttending();
         queryForSimilarEvents();
+        createNotificationChannel();
     }
 
     private void queryForSimilarEvents() {
@@ -142,7 +147,7 @@ public class DetailsFragment extends Fragment {
                     ivAlarm.setImageResource(R.drawable.alarmfilled);
                     ivAlarm.setColorFilter(getResources().getColor(R.color.colorAccent));
                     alarmon = true;
-                    Intent intent = new Intent(getActivity(), MainActivity.class);
+                    Intent intent = new Intent(getActivity(), ReminderBroadcast.class);
                     PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(),0,intent,0);
                     AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
                     try {
@@ -150,16 +155,18 @@ public class DetailsFragment extends Fragment {
                                 .parse(event.getDate() + " " + event.getTime());
                         long fifteenbefore = date.getTime()-900000;
                         alarmManager.set(AlarmManager.RTC_WAKEUP,fifteenbefore,pendingIntent);
-
                     } catch (java.text.ParseException e) {
                         e.printStackTrace();
                     }
-
                 }
                 else {
                     ivAlarm.setImageResource(R.drawable.alarmoutline);
                     ivAlarm.setColorFilter(Color.BLACK);
                     alarmon = false;
+                    Intent intent = new Intent(getActivity(), ReminderBroadcast.class);
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(),0,intent,0);
+                    AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
+                    alarmManager.cancel(pendingIntent);
                 }
             }
         });
@@ -221,5 +228,21 @@ public class DetailsFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         event = Parcels.unwrap(getArguments().getParcelable("event"));
+    }
+
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "Event Notification";
+            String description = "Reminder that an event is upcoming";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel("20", name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getContext().getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 }

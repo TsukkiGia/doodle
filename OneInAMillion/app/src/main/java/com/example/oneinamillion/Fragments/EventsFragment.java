@@ -131,7 +131,7 @@ public class EventsFragment extends Fragment {
                 @Override
                 public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
                     eventAdapterForAttending.showMenu(viewHolder.getAdapterPosition());
-                    shown=true;
+                    shown = true;
                     setupSwipeForOptions();
                 }
 
@@ -146,7 +146,6 @@ public class EventsFragment extends Fragment {
                     } else {
                         background.setBounds(0, 0, 0, 0);
                     }
-
                     background.draw(c);
                 }
             };
@@ -155,7 +154,6 @@ public class EventsFragment extends Fragment {
         }
         else{
             ItemTouchHelper.SimpleCallback touchHelperCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
-                private final ColorDrawable background = new ColorDrawable(getResources().getColor(R.color.colorAccent));
 
                 @Override
                 public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {

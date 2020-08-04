@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import com.bumptech.glide.Glide;
 import com.example.oneinamillion.Models.Event;
@@ -34,6 +35,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 
+import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO;
+
 public class AddPostActivity extends AppCompatActivity {
     ImageView ivCamera;
     ImageView ivGallery;
@@ -42,13 +45,16 @@ public class AddPostActivity extends AppCompatActivity {
     public static final String TAG = "AddPostActivity";
     public final static int PICK_PHOTO_CODE = 1046;
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 24;
+    public static final int PICK_VIDEO_CODE = 20;
     public String photoFileName = "finalphoto.jpg";
     File photoFile;
     ImageView ivImage;
+    ImageView ivVideo;
     ParseFile file;
     String fromCameraorGallery = "none";
     Event event;
     Post post;
+    VideoView vvVideo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +71,8 @@ public class AddPostActivity extends AppCompatActivity {
         ivCamera = findViewById(R.id.ivCamera);
         ivGallery = findViewById(R.id.ivGallery);
         ivImage = findViewById(R.id.ivImage);
+        vvVideo = findViewById(R.id.vvVideo);
+        ivVideo = findViewById(R.id.ivVideo);
     }
 
     private void setClickListeners() {
@@ -85,6 +93,12 @@ public class AddPostActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 onPickPhoto();
+            }
+        });
+        ivVideo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onPickVideo();
             }
         });
     }
@@ -121,6 +135,9 @@ public class AddPostActivity extends AppCompatActivity {
             Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
             ivImage.setImageBitmap(takenImage);
         }
+        if ((data != null) && requestCode == PICK_VIDEO_CODE) {
+
+        }
         if((data != null) && requestCode==PICK_PHOTO_CODE){
             Log.i(TAG,"gallery");
             Uri photoUri = data.getData();
@@ -148,6 +165,14 @@ public class AddPostActivity extends AppCompatActivity {
         if (intent.resolveActivity(getPackageManager()) != null) {
             // Bring up gallery to select a photo
             startActivityForResult(intent, PICK_PHOTO_CODE);
+        }
+    }
+
+    public void onPickVideo() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            // Bring up gallery to select a photo
+            startActivityForResult(intent, PICK_VIDEO_CODE);
         }
     }
 
