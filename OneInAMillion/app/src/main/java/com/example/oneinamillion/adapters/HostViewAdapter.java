@@ -1,18 +1,23 @@
 package com.example.oneinamillion.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.oneinamillion.Models.Event;
 import com.example.oneinamillion.R;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
 
 import java.util.List;
 
@@ -21,6 +26,7 @@ public class HostViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     List<Event> events;
     private final int SHOW_MENU = 1;
     private final int HIDE_MENU = 2;
+    public static final String TAG = "HostViewAdapter";
 
     public HostViewAdapter(Context context, List<Event> events) {
         this.context = context;
@@ -125,7 +131,21 @@ public class HostViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             ivDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
+                    Event event = events.get(getAdapterPosition());
+                    query.getInBackground(event.getObjectId(), new GetCallback<Event>() {
+                        @Override
+                        public void done(Event object, ParseException e) {
+                            if (e==null) {
+                                object.deleteInBackground();
+                                events.remove(getAdapterPosition());
+                                notifyItemRemoved(getAdapterPosition());
+                            }
+                            else {
+                                Log.e(TAG,"Error",e);
+                            }
+                        }
+                    });
                 }
             });
         }
