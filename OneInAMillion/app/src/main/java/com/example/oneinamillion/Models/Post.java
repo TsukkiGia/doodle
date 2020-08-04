@@ -16,6 +16,7 @@ public class Post extends ParseObject {
     public static final String KEY_DESCRIPTION="Description";
     public static final String KEY_EVENT="EventID";
     public static final String KEY_LIKERS="Likers";
+    public static final String KEY_VIDEO="Video";
 
     public Post() {
     }
@@ -58,6 +59,14 @@ public class Post extends ParseObject {
 
     public void setImage(ParseFile parseFile) {
         put(KEY_IMAGE, parseFile);
+    }
+
+    public ParseFile getVideo() {
+        return getParseFile(KEY_VIDEO);
+    }
+
+    public void setVideo(ParseFile parseFile) {
+        put(KEY_VIDEO, parseFile);
     }
 
 }

@@ -34,6 +34,8 @@ import org.parceler.Parcels;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import static android.provider.MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO;
@@ -49,10 +51,12 @@ public class AddPostActivity extends AppCompatActivity {
     public static final int PICK_VIDEO_CODE = 20;
     public String photoFileName = "finalphoto.jpg";
     File photoFile;
+    File videoFile;
+    ParseFile parseVideoFile;
     ImageView ivImage;
     ImageView ivVideo;
     ParseFile file;
-    String fromCameraorGallery = "none";
+    String fromCameraorGallery = "video";
     Event event;
     Post post;
     VideoView vvVideo;
@@ -109,6 +113,7 @@ public class AddPostActivity extends AppCompatActivity {
         post.setAuthor(ParseUser.getCurrentUser());
         post.setDescription(etPost.getText().toString());
         post.setEventID(event.getObjectId());
+        //post.setVideo(parseVideoFile);
         if (fromCameraorGallery.equals("camera")){
             post.setImage(new ParseFile(photoFile));
         }
@@ -137,19 +142,34 @@ public class AddPostActivity extends AppCompatActivity {
             ivImage.setImageBitmap(takenImage);
         }
         if ((data != null) && requestCode == PICK_VIDEO_CODE) {
-            Uri uri = data.getData();
-            Log.i(TAG,uri.toString());
+            Uri selected = data.getData();
+            File file = new File(String.valueOf(selected));
+            FileInputStream fis = null;
+            try {
+                fis = new FileInputStream(file);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            byte[] buf = new byte[(int) file.length()];
+            try {
+                for (int readnum; (readnum = fis.read(buf)) != -1; ) {
+                    bos.write(buf, 0, readnum);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            byte[] bytes = bos.toByteArray();
+            parseVideoFile = new ParseFile("video.mp4",bytes);
+            fromCameraorGallery = "video";
             try{
                 MediaController mc = new MediaController(this);
                 vvVideo.setMediaController(mc);
-                vvVideo.setVideoURI(uri);
+                vvVideo.setVideoURI(selected);
                 vvVideo.start();
-                Log.i(TAG,String.valueOf(vvVideo.isPlaying()));
             }catch(Exception e){
                 e.printStackTrace();
             }
-            vvVideo.resume();
-            Log.i(TAG,String.valueOf(vvVideo.isPlaying()));
         }
         if((data != null) && requestCode==PICK_PHOTO_CODE){
             Log.i(TAG,"gallery");
@@ -166,9 +186,6 @@ public class AddPostActivity extends AppCompatActivity {
             fromCameraorGallery = "gallery";
             // Create the ParseFile
             file = new ParseFile("picture.png", image);
-        }
-        else {
-            fromCameraorGallery="none";
         }
     }
 

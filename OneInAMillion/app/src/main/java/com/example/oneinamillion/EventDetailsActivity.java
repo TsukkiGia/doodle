@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -46,6 +47,7 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
     TextView tvDateTime;
     MaterialButton btnRSVP;
     ImageView ivNavigation;
+    ProgressBar progressBar;
     CustomSlideshowAdapter slideshowAdapter;
     ViewPager pager;
     Event event;
@@ -53,7 +55,7 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
     String address;
     MaterialButton extFabDetails;
     MaterialButton extFabPosts;
-    int count=0;
+    int count = 0;
     final FragmentManager fragmentManager = getSupportFragmentManager();
     public static final String TAG = "EventDetails";
 
@@ -66,9 +68,6 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_details);
-        //if (getIntent().getStringExtra("activity").equals("SearchFragment")) {
-        //    overridePendingTransition(R.anim.fadein, R.anim.fadeout);
-        //}
         address = getIntent().getStringExtra("address");
         event = Parcels.unwrap(getIntent().getParcelableExtra(Event.class.getSimpleName()));
         initializeViews();
@@ -130,7 +129,28 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
         }
         slideshowAdapter = new CustomSlideshowAdapter(EventDetailsActivity.this, images);
         pager.setAdapter(slideshowAdapter);
+        progressBar.setMax(count);
+        if (count==1){
+            progressBar.setVisibility(View.GONE);
+        }
+        pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                progressBar.setProgress(position+1);
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         pager.setCurrentItem(0,true);
+        pager.getCurrentItem();
         tvEventName.setText(event.getEventName());
         tvDateTime.setText(getString(R.string.event_setting,event.getDate(),event.getTime()));
         tvLocation.setText(address);
@@ -216,6 +236,7 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
         btnRSVP = findViewById(R.id.btnRSVP);
         ivNavigation = findViewById(R.id.ivNavigation);
         pager = findViewById(R.id.vpSlideshow);
+        progressBar = findViewById(R.id.progressBar);
     }
 
     private void RSVPforEvent() {

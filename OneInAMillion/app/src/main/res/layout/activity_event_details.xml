@@ -216,6 +216,17 @@
                 android:id="@+id/vpSlideshow"
                 android:layout_width="match_parent"
                 android:layout_height="142dp" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ivEventImage"
+                android:layout_marginTop="0dp"
+                android:max="3"
+                android:progress="1"
+                android:progressTint="@color/colorAccent" />
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>
