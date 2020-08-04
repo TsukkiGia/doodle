@@ -36,9 +36,9 @@
                 style="@style/SubmitButton"
                 android:layout_width="wrap_content"
                 android:layout_height="59dp"
-                android:layout_below="@+id/btnUploadImage"
+                android:layout_below="@+id/extFabAuction"
                 android:layout_alignParentEnd="true"
-                android:layout_marginTop="437dp"
+                android:layout_marginTop="48dp"
                 android:layout_marginEnd="20dp"
                 android:background="@color/colorAccent"
                 android:text="@string/submit_event"
@@ -162,6 +162,30 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <ImageView
+                android:id="@+id/ivUploadedImage2"
+                android:layout_width="126dp"
+                android:layout_height="104dp"
+                android:layout_below="@+id/ivUploadedImage"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="21dp"
+                android:layout_marginEnd="29dp"
+                android:scaleType="centerCrop"
+                android:visibility="gone"
+                app:srcCompat="@drawable/placeholder" />
+
+            <ImageView
+                android:id="@+id/ivUploadedImage3"
+                android:layout_width="126dp"
+                android:layout_height="104dp"
+                android:layout_below="@+id/ivUploadedImage2"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="21dp"
+                android:layout_marginEnd="28dp"
+                android:scaleType="centerCrop"
+                android:visibility="gone"
+                app:srcCompat="@drawable/placeholder" />
+
+            <ImageView
                 android:id="@+id/ivUploadedImage"
                 android:layout_width="126dp"
                 android:layout_height="104dp"
@@ -212,7 +236,7 @@
                 android:id="@+id/tvTags"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/ivUploadedImage"
+                android:layout_below="@+id/ivUploadedImage3"
                 android:layout_alignStart="@+id/tfEventDescription"
                 android:layout_marginStart="-4dp"
                 android:layout_marginTop="50dp"
@@ -358,6 +382,34 @@
                 android:layout_marginEnd="20dp"
                 android:outlineAmbientShadowColor="@color/colorAccent"
                 android:outlineSpotShadowColor="@color/colorAccent" />
+
+            <TextView
+                android:id="@+id/tvAddmore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btnUploadImage"
+                android:layout_alignStart="@+id/btnUploadImage"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="39dp"
+                android:text="Add More?"
+                android:textColor="@color/colorAccent"
+                android:textSize="14sp"
+                android:visibility="gone"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvAddmore2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/btnUploadImage"
+                android:layout_alignStart="@+id/btnUploadImage"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="168dp"
+                android:text="Add More?"
+                android:textColor="@color/colorAccent"
+                android:textSize="14sp"
+                android:visibility="gone"
+                android:textStyle="bold" />
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>

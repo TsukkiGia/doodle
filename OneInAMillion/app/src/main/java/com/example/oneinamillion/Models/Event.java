@@ -19,6 +19,8 @@ public class Event extends ParseObject {
     public static final String KEY_TIME = "Time";
     public static final String KEY_DESCRIPTION = "Description";
     public static final String KEY_IMAGE = "EventImage";
+    public static final String KEY_IMAGE2 = "EventImageTwo";
+    public static final String KEY_IMAGE3 = "EventImageThree";
     public static final String KEY_ATTENDEES = "Attendees";
     public static final String KEY_ORGANIZER = "Organizer";
     public static final String KEY_EVENTNAME = "EventName";
@@ -128,6 +130,22 @@ public class Event extends ParseObject {
 
     public void setImage(ParseFile parseFile) {
         put(KEY_IMAGE, parseFile);
+    }
+
+    public ParseFile getImage2() {
+        return getParseFile(KEY_IMAGE2);
+    }
+
+    public void setImage2(ParseFile parseFile) {
+        put(KEY_IMAGE2, parseFile);
+    }
+
+    public ParseFile getImage3() {
+        return getParseFile(KEY_IMAGE3);
+    }
+
+    public void setImage3(ParseFile parseFile) {
+        put(KEY_IMAGE3, parseFile);
     }
 
     public ParseUser getOrganizer() {

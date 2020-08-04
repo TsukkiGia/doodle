@@ -57,7 +57,13 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
     Button btnPost;
     Button btnUploadImage;
     ImageView ivUploadedImage;
+    ImageView ivUploadedImage2;
+    ImageView ivUploadedImage3;
+    TextView tvAddMore;
+    TextView tvAddMore2;
     ParseFile file;
+    ParseFile file2;
+    ParseFile file3;
     Button btnPickATime;
     Button btnPickADate;
     TextView tvDate;
@@ -87,6 +93,8 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
     double latitude = 0;
     public static final String TAG = "AddEvent";
     public final static int PICK_PHOTO_CODE = 1046;
+    public final static int PICK_PHOTO_CODE2 = 1047;
+    public final static int PICK_PHOTO_CODE3 = 1048;
     private PlacesClient placesClient;
 
     @Override
@@ -121,6 +129,10 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
     }
 
     private void initializeViews() {
+        ivUploadedImage2 = findViewById(R.id.ivUploadedImage2);
+        ivUploadedImage3 = findViewById(R.id.ivUploadedImage3);
+        tvAddMore = findViewById(R.id.tvAddmore);
+        tvAddMore2 = findViewById(R.id.tvAddmore2);
         etEventName = findViewById(R.id.etEventName);
         tvDate = findViewById(R.id.tvDate);
         tvTime = findViewById(R.id.tvTime);
@@ -197,7 +209,19 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
         btnUploadImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onPickPhoto(view);
+                onPickPhoto(view,PICK_PHOTO_CODE);
+            }
+        });
+        tvAddMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onPickPhoto(view,PICK_PHOTO_CODE2);
+            }
+        });
+        tvAddMore2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onPickPhoto(view,PICK_PHOTO_CODE3);
             }
         });
         fabSports.setOnClickListener(new View.OnClickListener() {
@@ -250,12 +274,12 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
         });
     }
 
-    public void onPickPhoto(View view) {
+    public void onPickPhoto(View view, int code) {
         // Create intent for picking a photo from the gallery
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         if (intent.resolveActivity(getPackageManager()) != null) {
             // Bring up gallery to select a photo
-            startActivityForResult(intent, PICK_PHOTO_CODE);
+            startActivityForResult(intent, code);
         }
     }
 
@@ -275,6 +299,12 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
                     event.setLocation(new ParseGeoPoint(latitude, longitude));
                     event.setOrganizer(ParseUser.getCurrentUser());
                     event.setImage(file);
+                    if (ivUploadedImage2.getVisibility()==View.VISIBLE){
+                        event.setImage2(file2);
+                    }
+                    if (ivUploadedImage2.getVisibility()==View.VISIBLE){
+                        event.setImage3(file3);
+                    }
                     if(ticketsforsale) {
                         event.setPrice(Double.parseDouble(etPrice.getText().toString()));
                         event.setTicketLink(etTicketLink.getText().toString());
@@ -308,12 +338,44 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
             Bitmap selectedImage = loadFromUri(photoUri);
             // Load the selected image into a preview
             ivUploadedImage.setImageBitmap(selectedImage);
+            tvAddMore.setVisibility(View.VISIBLE);
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             // Compress image to lower quality scale 1 - 100
             selectedImage.compress(Bitmap.CompressFormat.PNG, 100, stream);
             byte[] image = stream.toByteArray();
             // Create the ParseFile
             file = new ParseFile("picture.png", image);
+        }
+        if ((data != null) && requestCode == PICK_PHOTO_CODE2) {
+            Uri photoUri = data.getData();
+            // Load the image located at photoUri into selectedImage
+            Bitmap selectedImage = loadFromUri(photoUri);
+            // Load the selected image into a preview
+            tvAddMore2.setVisibility(View.VISIBLE);
+            tvAddMore.setVisibility(View.INVISIBLE);
+            ivUploadedImage2.setVisibility(View.VISIBLE);
+            ivUploadedImage2.setImageBitmap(selectedImage);
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            // Compress image to lower quality scale 1 - 100
+            selectedImage.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] image = stream.toByteArray();
+            // Create the ParseFile
+            file2 = new ParseFile("picture.png", image);
+        }
+        if ((data != null) && requestCode == PICK_PHOTO_CODE3) {
+            Uri photoUri = data.getData();
+            // Load the image located at photoUri into selectedImage
+            Bitmap selectedImage = loadFromUri(photoUri);
+            // Load the selected image into a preview
+            tvAddMore2.setVisibility(View.INVISIBLE);
+            ivUploadedImage3.setVisibility(View.VISIBLE);
+            ivUploadedImage3.setImageBitmap(selectedImage);
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            // Compress image to lower quality scale 1 - 100
+            selectedImage.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] image = stream.toByteArray();
+            // Create the ParseFile
+            file3 = new ParseFile("picture.png", image);
         }
     }
 
