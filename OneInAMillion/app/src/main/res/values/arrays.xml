@@ -4,4 +4,13 @@
         <item>No</item>
         <item>Yes</item>
     </string-array>
+    <string-array name="reminder">
+        <item>Remind when?</item>
+        <item>15 minutes before the event</item>
+        <item>30 minutes before the event</item>
+        <item>45 minutes before the event</item>
+        <item>1 hour before the event</item>
+        <item>2 hours before the event</item>
+        <item>Never</item>
+    </string-array>
 </resources>

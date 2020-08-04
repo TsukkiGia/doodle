@@ -30,7 +30,7 @@
         android:layout_below="@+id/tvSimilarEvents"
         android:layout_alignParentStart="true"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="12dp" />
+        android:layout_marginTop="20dp" />
 
     <ImageView
         android:id="@+id/ivOrganizer"
@@ -122,16 +122,14 @@
         android:layout_toEndOf="@+id/ivOrganizer"
         tools:text="Gianna, Nico and Hamilton are attending this event." />
 
-    <TextView
-        android:id="@+id/tvReminder"
+    <Spinner
+        android:id="@+id/spReminder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/ivFriendsAttending"
-        android:layout_marginStart="17dp"
+        android:layout_marginStart="15dp"
         android:layout_marginTop="50dp"
-        android:layout_toEndOf="@+id/ivOrganizer"
-        android:text="Remind me 15 minutes before the event"
-        tools:text="Remind me 15 minutes before the event" />
+        android:layout_toEndOf="@+id/ivOrganizer" />
 
     <Button
         android:id="@+id/btnBuyTicket"

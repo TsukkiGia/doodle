@@ -21,8 +21,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.oneinamillion.MainActivity;
@@ -52,6 +55,7 @@ public class DetailsFragment extends Fragment {
     TextView tvPrice;
     TextView tvDistance;
     TextView tvFriendsAttending;
+    Spinner spReminder;
     Event event;
     String price;
     String distance;
@@ -116,6 +120,7 @@ public class DetailsFragment extends Fragment {
         btnBuyTickets = view.findViewById(R.id.btnBuyTicket);
         rvSimilarEvents = view.findViewById(R.id.rvSimilarEvents);
         ivAlarm = view.findViewById(R.id.ivAlarm);
+        spReminder = view.findViewById(R.id.spReminder);
     }
 
     private void setInformationTextViews() {
@@ -140,6 +145,111 @@ public class DetailsFragment extends Fragment {
             btnBuyTickets.setVisibility(View.GONE);
         }
         ivAlarm.setTag(1);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
+                R.array.reminder, R.layout.custom_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spReminder.setAdapter(adapter);
+        spReminder.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                int minutes;
+                Intent intent = new Intent(getActivity(), ReminderBroadcast.class);
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(getContext(),0,intent,0);
+                AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
+                switch(i){
+                    case 0:
+                        break;
+                    case 1:
+                        minutes = 15;
+                        alarmManager.cancel(pendingIntent);
+                        ivAlarm.setImageResource(R.drawable.alarmfilled);
+                        ivAlarm.setColorFilter(getResources().getColor(R.color.colorAccent));
+                        alarmon = true;
+                        try {
+                            Date date = new SimpleDateFormat("MM/dd/yyyy HH:mm", Locale.ENGLISH)
+                                    .parse(event.getDate() + " " + event.getTime());
+                            long timebefore = date.getTime()-minutes*60000;
+                            alarmManager.set(AlarmManager.RTC_WAKEUP,timebefore,pendingIntent);
+                        } catch (java.text.ParseException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case 2:
+                        minutes = 30;
+                        alarmManager.cancel(pendingIntent);
+                        ivAlarm.setImageResource(R.drawable.alarmfilled);
+                        ivAlarm.setColorFilter(getResources().getColor(R.color.colorAccent));
+                        alarmon = true;
+                        try {
+                            Date date = new SimpleDateFormat("MM/dd/yyyy HH:mm", Locale.ENGLISH)
+                                    .parse(event.getDate() + " " + event.getTime());
+                            long timebefore = date.getTime()-minutes*60000;
+                            alarmManager.set(AlarmManager.RTC_WAKEUP,timebefore,pendingIntent);
+                        } catch (java.text.ParseException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case 3:
+                        minutes = 45;
+                        alarmManager.cancel(pendingIntent);
+                        ivAlarm.setImageResource(R.drawable.alarmfilled);
+                        ivAlarm.setColorFilter(getResources().getColor(R.color.colorAccent));
+                        alarmon = true;
+                        try {
+                            Date date = new SimpleDateFormat("MM/dd/yyyy HH:mm", Locale.ENGLISH)
+                                    .parse(event.getDate() + " " + event.getTime());
+                            long timebefore = date.getTime()-minutes*60000;
+                            alarmManager.set(AlarmManager.RTC_WAKEUP,timebefore,pendingIntent);
+                        } catch (java.text.ParseException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case 4:
+                        minutes = 60;
+                        alarmManager.cancel(pendingIntent);
+                        ivAlarm.setImageResource(R.drawable.alarmfilled);
+                        ivAlarm.setColorFilter(getResources().getColor(R.color.colorAccent));
+                        alarmon = true;
+                        try {
+                            Date date = new SimpleDateFormat("MM/dd/yyyy HH:mm", Locale.ENGLISH)
+                                    .parse(event.getDate() + " " + event.getTime());
+                            long timebefore = date.getTime()-minutes*60000;
+                            alarmManager.set(AlarmManager.RTC_WAKEUP,timebefore,pendingIntent);
+                        } catch (java.text.ParseException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case 5:
+                        minutes = 120;
+                        alarmManager.cancel(pendingIntent);
+                        ivAlarm.setImageResource(R.drawable.alarmfilled);
+                        ivAlarm.setColorFilter(getResources().getColor(R.color.colorAccent));
+                        alarmon = true;
+                        try {
+                            Date date = new SimpleDateFormat("MM/dd/yyyy HH:mm", Locale.ENGLISH)
+                                    .parse(event.getDate() + " " + event.getTime());
+                            long timebefore = date.getTime()-minutes*60000;
+                            alarmManager.set(AlarmManager.RTC_WAKEUP,timebefore,pendingIntent);
+                        } catch (java.text.ParseException e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case 6:
+                        ivAlarm.setImageResource(R.drawable.alarmoutline);
+                        ivAlarm.setColorFilter(Color.BLACK);
+                        alarmon = false;
+                        alarmManager.cancel(pendingIntent);
+                        break;
+                    default:
+                        Log.i(TAG,String.valueOf(i));
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
         ivAlarm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
