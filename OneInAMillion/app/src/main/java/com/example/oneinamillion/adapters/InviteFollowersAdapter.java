@@ -97,8 +97,10 @@ public class InviteFollowersAdapter extends RecyclerView.Adapter<InviteFollowers
             btnInvite.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Log.i(TAG,follower.getEmail());
-                    /*
+                    Log.i(TAG,follower.getUsername());
+                    Log.i(TAG,String.valueOf(follower.getString("email")==null));
+                    Log.i(TAG,String.valueOf(follower.getEmail()==null));
+                    Log.i(TAG,String.valueOf(follower.getString("AltEmail")==null));
                     AsyncHttpClient client = new AsyncHttpClient();
                     client.get("https://maps.googleapis.com/maps/api/geocode/json?latlng="+
                             String.valueOf(event.getLocation().getLatitude())+","+String.valueOf(event.getLocation().getLongitude())+
@@ -113,7 +115,7 @@ public class InviteFollowersAdapter extends RecyclerView.Adapter<InviteFollowers
                                 BackgroundMail.newBuilder(context)
                                         .withUsername("aprilgtropse@gmail.com")
                                         .withPassword("FinnBalor")
-                                        .withMailto("jeonjunie97@gmail.com")
+                                        .withMailto(follower.getString("AltEmail"))
                                         .withType(BackgroundMail.TYPE_PLAIN)
                                         .withSubject("Invite to my event")
                                         .withBody("Hi! On "+event.getDate()+" at "+event.getTime()+", I will be hosting "+event.getEventName()
@@ -121,6 +123,8 @@ public class InviteFollowersAdapter extends RecyclerView.Adapter<InviteFollowers
                                         .withOnSuccessCallback(new BackgroundMail.OnSuccessCallback() {
                                             @Override
                                             public void onSuccess() {
+                                                btnInvite.setText("Sent");
+                                                btnInvite.setBackgroundColor(Color.GRAY);
                                             }
                                         })
                                         .withOnFailCallback(new BackgroundMail.OnFailCallback() {
@@ -139,9 +143,7 @@ public class InviteFollowersAdapter extends RecyclerView.Adapter<InviteFollowers
                         public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
                             Log.e(TAG, "Failed",throwable);
                         }
-                    });*/
-                    btnInvite.setText("Sent");
-                    btnInvite.setBackgroundColor(Color.GRAY);
+                    });
                 }
             });
         }

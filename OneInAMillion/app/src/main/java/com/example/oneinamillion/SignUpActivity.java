@@ -83,6 +83,7 @@ public class SignUpActivity extends AppCompatActivity {
         user.put("FirstName",FirstName);
         user.put("LastName",LastName);
         user.setEmail(Email);
+        user.put("AltEmail",Email);
         user.signUpInBackground(new SignUpCallback() {
             @Override
             public void done(ParseException e) {
