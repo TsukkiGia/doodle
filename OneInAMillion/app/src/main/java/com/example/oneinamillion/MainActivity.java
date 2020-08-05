@@ -1,6 +1,7 @@
 package com.example.oneinamillion;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -24,6 +25,7 @@ import com.example.oneinamillion.Fragments.ProfileFragment;
 import com.example.oneinamillion.Fragments.SearchFragment;
 import com.example.oneinamillion.Models.Event;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.snackbar.Snackbar;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -44,13 +46,13 @@ public class MainActivity extends AppCompatActivity {
     final FragmentManager fragmentManager = getSupportFragmentManager();
     String CHANNEL_ID = "120";
     int id = 0;
-    //for wrapping to details activity
-    Event event;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Snackbar.make(findViewById(R.id.rlContainer),
+                "Welcome back "+ParseUser.getCurrentUser().getString("FirstName"),Snackbar.LENGTH_SHORT).show();
         //First create notification channel in order to send notification
         createNotificationChannel();
         bottomNavigationView = findViewById(R.id.bottom_navigation);

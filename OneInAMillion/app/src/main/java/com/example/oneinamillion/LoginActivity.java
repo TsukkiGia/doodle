@@ -2,7 +2,10 @@ package com.example.oneinamillion;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,6 +21,7 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.parse.FindCallback;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
@@ -46,28 +50,32 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
-        if (ParseUser.getCurrentUser() != null) {
-            goMainActivity();
-        }
-        etUsername = findViewById(R.id.etUsername);
-        facebook_login = findViewById(R.id.facebook_login);
-        etPassword = findViewById(R.id.etPassword);
-        btnSignUp = findViewById(R.id.btnSignUp);
+        checkIfLoggedIn();
+        initializeViews();
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(LoginActivity.this, SignUpActivity.class);
-                startActivity(i);
+                if (isConnected()) {
+                    Intent i = new Intent(LoginActivity.this, SignUpActivity.class);
+                    startActivity(i);
+                }
+                else {
+                    Toast.makeText(LoginActivity.this,"No internet",Toast.LENGTH_SHORT).show();
+                }
             }
         });
-        btnLogin = findViewById(R.id.btnLogin);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i(TAG,"Logging in");
-                String username = etUsername.getText().toString();
-                String password = etPassword.getText().toString();
-                loginUser(username,password);
+                Log.i(TAG, "Logging in");
+                if (isConnected()) {
+                    String username = etUsername.getText().toString();
+                    String password = etPassword.getText().toString();
+                    loginUser(username, password);
+                }
+                else {
+                    Toast.makeText(LoginActivity.this,"No internet",Toast.LENGTH_SHORT).show();
+                }
             }
         });
         callbackManager = CallbackManager.Factory.create();
@@ -86,6 +94,29 @@ public class LoginActivity extends AppCompatActivity {
                 Log.e(TAG,"what",error);
             }
         });
+    }
+
+    private boolean isConnected() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+        return isConnected;
+    }
+
+    private void checkIfLoggedIn() {
+        if (ParseUser.getCurrentUser() != null) {
+            goMainActivity();
+        }
+    }
+
+    private void initializeViews() {
+        etUsername = findViewById(R.id.etUsername);
+        facebook_login = findViewById(R.id.facebook_login);
+        etPassword = findViewById(R.id.etPassword);
+        btnSignUp = findViewById(R.id.btnSignUp);
+        btnLogin = findViewById(R.id.btnLogin);
     }
 
     @Override
@@ -131,7 +162,6 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 dialog.dismissDialog();
                 goMainActivity();
-                Toast.makeText(LoginActivity.this,"Successful Login "+username, Toast.LENGTH_SHORT).show();
             }
         });
     }
