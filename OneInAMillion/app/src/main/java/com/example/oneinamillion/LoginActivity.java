@@ -7,13 +7,14 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.oneinamillion.Models.Event;
 import com.example.oneinamillion.Models.LoadingDialog;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -21,7 +22,7 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputLayout;
 import com.parse.FindCallback;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
@@ -37,6 +38,8 @@ public class LoginActivity extends AppCompatActivity {
     public static final String TAG = "LoginActivity";
     private EditText etUsername;
     private EditText etPassword;
+    TextInputLayout tfUsername;
+    TextInputLayout tfPassword;
     private Button btnLogin;
     private Button btnSignUp;
     private LoginButton facebook_login;
@@ -45,13 +48,35 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FacebookSdk.sdkInitialize(getApplicationContext());
-        AppEventsLogger.activateApp(this);
         setContentView(R.layout.activity_login);
-        AccessToken accessToken = AccessToken.getCurrentAccessToken();
-        boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
         checkIfLoggedIn();
         initializeViews();
+        initializeFacebookSDK();
+        setListeners();
+    }
+
+    private void initializeFacebookSDK() {
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
+        callbackManager = CallbackManager.Factory.create();
+        facebook_login.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                Log.i(TAG,loginResult.getAccessToken().getUserId());
+            }
+
+            @Override
+            public void onCancel() {
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                Log.e(TAG,"what",error);
+            }
+        });
+    }
+
+    private void setListeners() {
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,20 +103,36 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
-        callbackManager = CallbackManager.Factory.create();
-        facebook_login.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+        etUsername.addTextChangedListener(new TextWatcher() {
             @Override
-            public void onSuccess(LoginResult loginResult) {
-                Log.i(TAG,loginResult.getAccessToken().getUserId());
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
             }
 
             @Override
-            public void onCancel() {
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
             }
 
             @Override
-            public void onError(FacebookException error) {
-                Log.e(TAG,"what",error);
+            public void afterTextChanged(Editable editable) {
+                tfUsername.setErrorEnabled(false);
+            }
+        });
+        etPassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                tfPassword.setErrorEnabled(false);
             }
         });
     }
@@ -117,6 +158,8 @@ public class LoginActivity extends AppCompatActivity {
         etPassword = findViewById(R.id.etPassword);
         btnSignUp = findViewById(R.id.btnSignUp);
         btnLogin = findViewById(R.id.btnLogin);
+        tfUsername = findViewById(R.id.tfUsername);
+        tfPassword = findViewById(R.id.tfPassword);
     }
 
     @Override
@@ -150,20 +193,29 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void loginUser(final String username, String password) {
-        final LoadingDialog dialog = new LoadingDialog(LoginActivity.this,"login");
-        dialog.startLoadingDialog();
-        Log.i(TAG,"Attempt to login");
-        ParseUser.logInInBackground(username, password, new LogInCallback() {
-            @Override
-            public void done(ParseUser user, ParseException e) {
-                if(e != null) {
-                    Log.e(TAG,"Error logging in",e);
-                    return;
+        if (username.matches("")) {
+            tfUsername.setErrorEnabled(true);
+            tfUsername.setError("Enter a username");
+        }
+        if (password.matches("")) {
+            tfPassword.setErrorEnabled(true);
+            tfPassword.setError("Enter a password");
+        } else {
+            final LoadingDialog dialog = new LoadingDialog(LoginActivity.this, "login");
+            dialog.startLoadingDialog();
+            Log.i(TAG, "Attempt to login");
+            ParseUser.logInInBackground(username, password, new LogInCallback() {
+                @Override
+                public void done(ParseUser user, ParseException e) {
+                    if (e != null) {
+                        Log.e(TAG, "Error logging in", e);
+                        return;
+                    }
+                    dialog.dismissDialog();
+                    goMainActivity();
                 }
-                dialog.dismissDialog();
-                goMainActivity();
-            }
-        });
+            });
+        }
     }
 
     private void goMainActivity() {
