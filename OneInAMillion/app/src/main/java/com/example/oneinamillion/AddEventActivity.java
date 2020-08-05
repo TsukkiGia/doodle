@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.content.ClipData;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -47,13 +48,19 @@ import org.json.JSONException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class AddEventActivity extends AppCompatActivity implements DatePickerFragment.DatePickerFragmentListener, TimePickerFragment.TimePickerFragmentListener {
     EditText etEventName;
     EditText etEventDescription;
     EditText etPrice;
     EditText etTicketLink;
+    TextInputLayout tfEventName;
+    TextInputLayout tfEventDescription;
+    TextInputLayout tfPrice;
+    TextInputLayout tfTicketLink;
     Button btnPost;
     Button btnUploadImage;
     ImageView ivUploadedImage;
@@ -69,8 +76,7 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
     TextView tvDate;
     TextView tvTime;
     Spinner spTicketsAvailable;
-    TextInputLayout tfPrice;
-    TextInputLayout tfTicketLink;
+    int counter = 0;
     ExtendedFloatingActionButton fabSports;
     ExtendedFloatingActionButton fabConcerts;
     ExtendedFloatingActionButton fabAuction;
@@ -136,6 +142,8 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
         etEventName = findViewById(R.id.etEventName);
         tvDate = findViewById(R.id.tvDate);
         tvTime = findViewById(R.id.tvTime);
+        tfEventName = findViewById(R.id.tfEventName);
+        tfEventDescription = findViewById(R.id.tfEventDescription);
         tfPrice = findViewById(R.id.tfPrice);
         tfTicketLink = findViewById(R.id.tfTicketLink);
         etEventDescription = findViewById(R.id.etEventDescription);
@@ -155,7 +163,6 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
         btnUploadImage = findViewById(R.id.btnUploadImage);
         spTicketsAvailable = findViewById(R.id.spTickets);
         etTicketLink = findViewById(R.id.etTicketLink);
-        // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.tickets_available, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -215,13 +222,13 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
         tvAddMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onPickPhoto(view,PICK_PHOTO_CODE2);
+                onPickPhoto(view,PICK_PHOTO_CODE);
             }
         });
         tvAddMore2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onPickPhoto(view,PICK_PHOTO_CODE3);
+                onPickPhoto(view,PICK_PHOTO_CODE);
             }
         });
         fabSports.setOnClickListener(new View.OnClickListener() {
@@ -277,6 +284,7 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
     public void onPickPhoto(View view, int code) {
         // Create intent for picking a photo from the gallery
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         if (intent.resolveActivity(getPackageManager()) != null) {
             // Bring up gallery to select a photo
             startActivityForResult(intent, code);
@@ -285,68 +293,118 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
 
     private void saveEvent() {
         Log.i(TAG, "Saving File");
-        file.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "help", e);
-                } else {
-                    Log.i(TAG, "Saving");
-                    Event event = new Event();
-                    event.setEventTags(interests);
-                    event.setEventName(etEventName.getText().toString());
-                    event.setDescription(etEventDescription.getText().toString());
-                    event.setDate(tvDate.getText().toString());
-                    event.setTime(tvTime.getText().toString());
-                    event.setLocation(new ParseGeoPoint(latitude, longitude));
-                    event.setOrganizer(ParseUser.getCurrentUser());
-                    event.setImage(file);
-                    if (ivUploadedImage2.getVisibility()==View.VISIBLE){
-                        event.setImage2(file2);
-                    }
-                    if (ivUploadedImage2.getVisibility()==View.VISIBLE){
-                        event.setImage3(file3);
-                    }
-                    if(ticketsforsale) {
-                        event.setPrice(Double.parseDouble(etPrice.getText().toString()));
-                        event.setTicketLink(etTicketLink.getText().toString());
-                    }
-                    else {
-                        event.setPrice(0);
-                    }
-                    event.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            if (e != null) {
-                                Log.e(TAG, "Error while saving", e);
-                                Toast.makeText(AddEventActivity.this, "Error while saving", Toast.LENGTH_SHORT).show();
-                                return;
-                            }
-                            Log.i(TAG, "Save successful");
-                            finish();
+        if (etEventName.getText().toString().matches("")){
+            tfEventName.setErrorEnabled(true);
+            tfEventName.setError("Enter an Event Name");
+        }
+        if (etEventDescription.getText().toString().matches("")){
+            tfEventDescription.setErrorEnabled(true);
+            tfEventDescription.setError("Enter an Event Description");
+        }
+        if (etPrice.getText().toString().matches("")){
+            tfPrice.setErrorEnabled(true);
+            tfPrice.setError("Enter a ticket price");
+        }
+        if (etTicketLink.getText().toString().matches("")){
+
+        }
+        if (tvDate.getText().toString().matches("")){
+
+        }
+        if (tvTime.getText().toString().matches("")){
+
+        }
+        if (latitude==0){
+
+        }
+        else {
+            file.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if (e != null) {
+                        Log.e(TAG, "help", e);
+                    } else {
+                        Log.i(TAG, "Saving");
+                        Event event = new Event();
+                        event.setEventTags(interests);
+                        event.setEventName(etEventName.getText().toString());
+                        event.setDescription(etEventDescription.getText().toString());
+                        event.setDate(tvDate.getText().toString());
+                        event.setTime(tvTime.getText().toString());
+                        event.setLocation(new ParseGeoPoint(latitude, longitude));
+                        event.setOrganizer(ParseUser.getCurrentUser());
+                        event.setImage(file);
+                        if (ivUploadedImage2.getVisibility() == View.VISIBLE) {
+                            event.setImage2(file2);
                         }
-                    });
+                        if (ivUploadedImage2.getVisibility() == View.VISIBLE) {
+                            event.setImage3(file3);
+                        }
+                        if (ticketsforsale) {
+                            event.setPrice(Double.parseDouble(etPrice.getText().toString()));
+                            event.setTicketLink(etTicketLink.getText().toString());
+                        } else {
+                            event.setPrice(0);
+                        }
+                        event.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                if (e != null) {
+                                    Log.e(TAG, "Error while saving", e);
+                                    Toast.makeText(AddEventActivity.this, "Error while saving", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+                                Log.i(TAG, "Save successful");
+                                finish();
+                            }
+                        });
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if ((data != null) && requestCode == PICK_PHOTO_CODE) {
-            Uri photoUri = data.getData();
-            // Load the image located at photoUri into selectedImage
-            Bitmap selectedImage = loadFromUri(photoUri);
-            // Load the selected image into a preview
-            ivUploadedImage.setImageBitmap(selectedImage);
-            tvAddMore.setVisibility(View.VISIBLE);
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            // Compress image to lower quality scale 1 - 100
-            selectedImage.compress(Bitmap.CompressFormat.PNG, 100, stream);
-            byte[] image = stream.toByteArray();
-            // Create the ParseFile
-            file = new ParseFile("picture.png", image);
+            ClipData mClipData = data.getClipData();
+            for (int i = 0; i < mClipData.getItemCount(); i++) {
+                if (i <= 2) {
+                    ClipData.Item item = mClipData.getItemAt(i);
+                    Uri uri = item.getUri();
+                    Bitmap bitmap = loadFromUri(uri);
+                    switch (counter) {
+                        case 0:
+                            ivUploadedImage.setImageBitmap(bitmap);
+                            tvAddMore.setVisibility(View.VISIBLE);
+                            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                            byte[] image = stream.toByteArray();
+                            file = new ParseFile("picture.png", image);
+                            break;
+                        case 1:
+                            ivUploadedImage2.setImageBitmap(bitmap);
+                            tvAddMore.setVisibility(View.GONE);
+                            tvAddMore2.setVisibility(View.VISIBLE);
+                            ByteArrayOutputStream stream1 = new ByteArrayOutputStream();
+                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream1);
+                            byte[] image1 = stream1.toByteArray();
+                            file2 = new ParseFile("picture.png", image1);
+                            break;
+                        case 2:
+                            tvAddMore2.setVisibility(View.GONE);
+                            ivUploadedImage3.setVisibility(View.VISIBLE);
+                            ivUploadedImage3.setImageBitmap(bitmap);
+                            ByteArrayOutputStream stream2 = new ByteArrayOutputStream();
+                            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream2);
+                            byte[] image2 = stream2.toByteArray();
+                            file3 = new ParseFile("picture.png", image2);
+                            break;
+                    }
+                    counter++;
+                }
+            }
         }
         if ((data != null) && requestCode == PICK_PHOTO_CODE2) {
             Uri photoUri = data.getData();

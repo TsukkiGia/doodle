@@ -171,43 +171,43 @@ public class FilterFragment extends Fragment {
         fabSports.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fabclicked(fabSports,sport_tag,R.color.colorSportButton);
+                fabclicked(fabSports,sport_tag,R.color.colorThonButton);
             }
         });
         fabConcerts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fabclicked(fabConcerts,concert_tag,R.color.colorMusicButton);
+                fabclicked(fabConcerts,concert_tag,R.color.colorThonButton);
             }
         });
         fabAuction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fabclicked(fabAuction,auctions_tag,R.color.colorAuctionsButton);
+                fabclicked(fabAuction,auctions_tag,R.color.colorThonButton);
             }
         });
         fabRaffle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fabclicked(fabRaffle,raffle_tag,R.color.colorRaffleButton);
+                fabclicked(fabRaffle,raffle_tag,R.color.colorThonButton);
             }
         });
         fabCooking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fabclicked(fabCooking,cook_tag,R.color.colorCookButton);
+                fabclicked(fabCooking,cook_tag,R.color.colorThonButton);
             }
         });
         fabGalas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fabclicked(fabGalas,gala_tag,R.color.colorGalaButton);
+                fabclicked(fabGalas,gala_tag,R.color.colorThonButton);
             }
         });
         fabCrafts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                fabclicked(fabCrafts,craft_tag,R.color.colorCraftButton);
+                fabclicked(fabCrafts,craft_tag,R.color.colorThonButton);
             }
         });
         fabAthons.setOnClickListener(new View.OnClickListener() {

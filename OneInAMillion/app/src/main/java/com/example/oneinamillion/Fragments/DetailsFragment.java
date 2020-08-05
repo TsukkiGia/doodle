@@ -138,9 +138,13 @@ public class DetailsFragment extends Fragment {
             tvPrice.setText(getContext().getString(R.string.price, price));
         }
         distance = String.valueOf(Math.round(event.distance));
-        //Checker if the distance value is 0
+        if (distance.equals("0")){
+            tvDistance.setText("Right around the corner");
+        }
+        else {
+            tvDistance.setText(getContext().getString(R.string.distance_from_user,distance));
+        }
         tvOrganizer.setText(getContext().getString(R.string.event_organizer,organizerName));
-        tvDistance.setText(getContext().getString(R.string.distance_from_user,distance));
         if (event.getTicketLink()==null){
             btnBuyTickets.setVisibility(View.GONE);
         }

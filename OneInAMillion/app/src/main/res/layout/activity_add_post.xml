@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:background="@color/quantum_white_100"
             android:gravity="top|left"
-            android:hint="What are your thoughts?"
+            android:hint="What are your thoughts about this event?"
             android:inputType="textMultiLine"
             android:minLines="8"/>
 

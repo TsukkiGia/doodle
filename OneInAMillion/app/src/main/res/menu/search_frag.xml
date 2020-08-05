@@ -8,6 +8,7 @@
         android:title="Search"
         android:icon="@android:drawable/ic_menu_search"
         android:iconTint="#FFFFFF"
+        android:iconTintMode="src_atop"
         app:showAsAction="always|collapseActionView"
         app:actionViewClass="androidx.appcompat.widget.SearchView" />
 </menu>

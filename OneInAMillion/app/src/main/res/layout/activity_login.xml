@@ -99,7 +99,7 @@
         android:layout_marginStart="0dp"
         android:layout_marginTop="85dp"
         android:layout_marginEnd="0dp"
-        android:fontFamily="@font/berkshire_swash"
+        android:fontFamily="@font/droid_sans"
         android:gravity="center"
         android:text="One in a Million"
         android:textColor="@color/colorAccent"
