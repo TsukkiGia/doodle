@@ -119,7 +119,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void loginUser(final String username, String password) {
-        final LoadingDialog dialog = new LoadingDialog(LoginActivity.this);
+        final LoadingDialog dialog = new LoadingDialog(LoginActivity.this,"login");
         dialog.startLoadingDialog();
         Log.i(TAG,"Attempt to login");
         ParseUser.logInInBackground(username, password, new LogInCallback() {

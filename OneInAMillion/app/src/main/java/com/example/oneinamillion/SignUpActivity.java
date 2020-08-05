@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.oneinamillion.Models.LoadingDialog;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
@@ -82,8 +83,9 @@ public class SignUpActivity extends AppCompatActivity {
         user.setPassword(password);
         user.put("FirstName",FirstName);
         user.put("LastName",LastName);
-        user.setEmail(Email);
         user.put("AltEmail",Email);
+        final LoadingDialog dialog = new LoadingDialog(SignUpActivity.this,"signup");
+        dialog.startLoadingDialog();
         user.signUpInBackground(new SignUpCallback() {
             @Override
             public void done(ParseException e) {
@@ -97,6 +99,7 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
     private void goMainActivity() {
+
         Intent i = new Intent(this, InterestActivity.class);
         i.putExtra("activity","signup");
         startActivity(i);

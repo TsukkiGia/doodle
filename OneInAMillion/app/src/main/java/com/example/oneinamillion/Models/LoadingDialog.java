@@ -9,15 +9,22 @@ import com.example.oneinamillion.R;
 public class LoadingDialog {
     Activity activity;
     AlertDialog dialog;
+    String signOrLog;
 
-    public LoadingDialog(Activity activity) {
+    public LoadingDialog(Activity activity, String signOrLog) {
         this.activity = activity;
+        this.signOrLog = signOrLog;
     }
 
     public void startLoadingDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         LayoutInflater inflater = activity.getLayoutInflater();
-        builder.setView(inflater.inflate(R.layout.custom_loading_dialog,null));
+        if (signOrLog.equals("login")) {
+            builder.setView(inflater.inflate(R.layout.custom_loading_dialog, null));
+        }
+        else{
+            builder.setView(inflater.inflate(R.layout.custom_signing_up_dialog, null));
+        }
         builder.setCancelable(true);
         dialog = builder.create();
         dialog.show();

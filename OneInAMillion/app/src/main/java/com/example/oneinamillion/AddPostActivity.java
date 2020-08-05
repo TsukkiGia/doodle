@@ -132,7 +132,8 @@ public class AddPostActivity extends AppCompatActivity {
                 .withType(BackgroundMail.TYPE_PLAIN)
                 .withSubject("Someone posted under your event")
                 .withProcessVisibility(false)
-                .withBody("Hi! "+ParseUser.getCurrentUser().getString("FirstName")+" posted underneath your event")
+                .withBody("Hi! "+ParseUser.getCurrentUser().getString("FirstName")+
+                        " posted underneath your event. Open One In a Million to see the post!")
                 .withOnSuccessCallback(new BackgroundMail.OnSuccessCallback() {
                     @Override
                     public void onSuccess() {

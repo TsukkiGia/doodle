@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -178,14 +179,20 @@ public class HomeFragment extends Fragment {
         });
         final AccessToken accessToken = AccessToken.getCurrentAccessToken();
         boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
+
         if (ParseUser.getCurrentUser().getParseFile("ProfileImage") != null) {
             Glide.with(getContext()).load(ParseUser.getCurrentUser().getParseFile("ProfileImage").getUrl())
                     .circleCrop().into(ivProfile);
         } else {
-            ivProfile.setImageDrawable(getContext().getDrawable(R.drawable.instagram_user_filled_24));
+            Glide.with(getContext()).load(getURLForResource(R.drawable.instagram_user_filled_24))
+                    .circleCrop().into(ivProfile);
         }
     }
 
+    public String getURLForResource (int resourceId) {
+        //use BuildConfig.APPLICATION_ID instead of R.class.getPackage().getName() if both are not same
+        return Uri.parse("android.resource://"+R.class.getPackage().getName()+"/" +resourceId).toString();
+    }
 
     private void initializeViews(View view) {
         fragmentManager = getParentFragmentManager();
