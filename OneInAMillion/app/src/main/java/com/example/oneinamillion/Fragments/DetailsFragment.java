@@ -144,9 +144,32 @@ public class DetailsFragment extends Fragment {
         if (event.getTicketLink()==null){
             btnBuyTickets.setVisibility(View.GONE);
         }
-        ivAlarm.setTag(1);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
-                R.array.reminder, R.layout.custom_spinner_item);
+        List<String> reminderOptions = new ArrayList<>();
+        reminderOptions.add("When do you want be reminded?");
+        try {
+            Date date = new SimpleDateFormat("MM/dd/yyyy HH:mm", Locale.ENGLISH)
+                    .parse(event.getDate() + " " + event.getTime());
+            long dateinmillis = date.getTime();
+            if (dateinmillis-System.currentTimeMillis()>15*60000){
+                reminderOptions.add("15 minutes before the event");
+            }
+            if (dateinmillis-System.currentTimeMillis()>30*60000){
+                reminderOptions.add("30 minutes before the event");
+            }
+            if (dateinmillis-System.currentTimeMillis()>45*60000){
+                reminderOptions.add("45 minutes before the event");
+            }
+            if (dateinmillis-System.currentTimeMillis()>60*60000){
+                reminderOptions.add("1 hour before the event");
+            }
+            if (dateinmillis-System.currentTimeMillis()>120*60000){
+                reminderOptions.add("2 hours before the event");
+            }
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+        }
+
+        ArrayAdapter adapter =  new ArrayAdapter(getContext(),R.layout.custom_spinner_item,reminderOptions);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spReminder.setAdapter(adapter);
         spReminder.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
