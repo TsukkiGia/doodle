@@ -17,6 +17,21 @@
         android:textSize="24sp"
         tools:text="Events for today" />
 
+    <TextView
+        android:id="@+id/tvNoEvents"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="150dp"
+        android:layout_marginEnd="0dp"
+        android:gravity="center"
+        android:text="No Events For Today"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="24sp" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvCalendarEvents"
         android:layout_width="match_parent"

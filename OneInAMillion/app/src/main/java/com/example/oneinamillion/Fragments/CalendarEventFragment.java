@@ -39,6 +39,7 @@ public class CalendarEventFragment extends Fragment {
     public static final String TAG = "CalendarEvents";
     EventAdapter adapter;
     List<Event> results;
+    TextView tvNoEvents;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -74,6 +75,7 @@ public class CalendarEventFragment extends Fragment {
     private void initializeViews(View view) {
         tvHeader = view.findViewById(R.id.tvHeader);
         rvCalendarEvents = view.findViewById(R.id.rvCalendarEvents);
+        tvNoEvents = view.findViewById(R.id.tvNoEvents);
     }
 
     @Override
@@ -100,6 +102,9 @@ public class CalendarEventFragment extends Fragment {
                     if (event.getDate().equals(date)) {
                         results.add(event);
                     }
+                }
+                if (results.size()!=0) {
+                    tvNoEvents.setVisibility(View.GONE);
                 }
                 adapter.notifyDataSetChanged();
             }

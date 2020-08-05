@@ -7,7 +7,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +16,6 @@ import android.widget.ImageView;
 
 import com.example.oneinamillion.EventMapActivity;
 import com.example.oneinamillion.R;
-import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -50,7 +48,7 @@ public class CalendarFragment extends Fragment {
         String formattedDate = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH)
                 .format(currentDate);
         Bundle dates = new Bundle();
-        dates.putString("date",formattedDate);
+        dates.putString("date", formattedDate);
         Fragment fragment = new CalendarEventFragment();
         fragment.setArguments(dates);
         ivList = view.findViewById(R.id.ivList);
@@ -66,45 +64,43 @@ public class CalendarFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 getParentFragmentManager().beginTransaction()
-                        .replace(R.id.flContainer,new EventsFragment()).commit();
+                        .replace(R.id.flContainer, new EventsFragment()).commit();
             }
         });
-        getChildFragmentManager().beginTransaction().replace(R.id.flEvents,fragment).commit();
+        getChildFragmentManager().beginTransaction().replace(R.id.flEvents, fragment).commit();
+
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int day) {
                 if (day < 10 && month < 9) {
-                    String date = "0"+String.valueOf(month+1) + "/0" + String.valueOf(day) + "/" + String.valueOf(year);
+                    String date = "0" + String.valueOf(month + 1) + "/0" + String.valueOf(day) + "/" + String.valueOf(year);
                     Bundle dates = new Bundle();
-                    dates.putString("date",date);
+                    dates.putString("date", date);
                     Fragment fragment = new CalendarEventFragment();
                     fragment.setArguments(dates);
-                    getChildFragmentManager().beginTransaction().replace(R.id.flEvents,fragment).commit();
-                }
-                else if (day < 10 && month >= 9) {
-                    Log.i(TAG,String.valueOf(month));
-                    String date = String.valueOf(month+1) + "/0" + String.valueOf(day) + "/" + String.valueOf(year);
+                    getChildFragmentManager().beginTransaction().replace(R.id.flEvents, fragment).commit();
+                } else if (day < 10 && month >= 9) {
+                    Log.i(TAG, String.valueOf(month));
+                    String date = String.valueOf(month + 1) + "/0" + String.valueOf(day) + "/" + String.valueOf(year);
                     Bundle dates = new Bundle();
-                    dates.putString("date",date);
+                    dates.putString("date", date);
                     Fragment fragment = new CalendarEventFragment();
                     fragment.setArguments(dates);
-                    getChildFragmentManager().beginTransaction().replace(R.id.flEvents,fragment).commit();
-                }
-                else if (day >= 10 && month < 9) {
-                    String date = "0"+String.valueOf(month+1) + "/"+ String.valueOf(day) + "/" + String.valueOf(year);
+                    getChildFragmentManager().beginTransaction().replace(R.id.flEvents, fragment).commit();
+                } else if (day >= 10 && month < 9) {
+                    String date = "0" + String.valueOf(month + 1) + "/" + String.valueOf(day) + "/" + String.valueOf(year);
                     Bundle dates = new Bundle();
-                    dates.putString("date",date);
+                    dates.putString("date", date);
                     Fragment fragment = new CalendarEventFragment();
                     fragment.setArguments(dates);
-                    getChildFragmentManager().beginTransaction().replace(R.id.flEvents,fragment).commit();
-                }
-                else{
-                    String date = String.valueOf(month+1) + "/"+ String.valueOf(day) + "/" + String.valueOf(year);
+                    getChildFragmentManager().beginTransaction().replace(R.id.flEvents, fragment).commit();
+                } else {
+                    String date = String.valueOf(month + 1) + "/" + String.valueOf(day) + "/" + String.valueOf(year);
                     Bundle dates = new Bundle();
-                    dates.putString("date",date+4);
+                    dates.putString("date", date + 4);
                     Fragment fragment = new CalendarEventFragment();
                     fragment.setArguments(dates);
-                    getChildFragmentManager().beginTransaction().replace(R.id.flEvents,fragment).commit();
+                    getChildFragmentManager().beginTransaction().replace(R.id.flEvents, fragment).commit();
                 }
             }
         });

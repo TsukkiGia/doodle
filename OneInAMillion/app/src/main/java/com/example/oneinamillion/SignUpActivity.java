@@ -25,6 +25,7 @@ public class SignUpActivity extends AppCompatActivity {
     EditText etLastName;
     EditText etUsername;
     EditText etPassword;
+    EditText etEmail;
     Button btnSignUp;
     public static final String TAG = "SignUp";
 
@@ -36,12 +37,13 @@ public class SignUpActivity extends AppCompatActivity {
         etLastName = findViewById(R.id.etLastName);
         etUsername = findViewById(R.id.etUsername);
         etPassword = findViewById(R.id.etPassword);
+        etEmail = findViewById(R.id.etEmail);
         btnSignUp = findViewById(R.id.btnSignUp);
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 signupUser(etUsername.getText().toString(),etPassword.getText().toString(),
-                        etFirstName.getText().toString(),etLastName.getText().toString());
+                        etFirstName.getText().toString(),etLastName.getText().toString(),etEmail.getText().toString());
             }
         });
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
@@ -68,7 +70,7 @@ public class SignUpActivity extends AppCompatActivity {
             graphRequest.executeAsync();
         }
     }
-    private void signupUser(final String username, String password, String FirstName, String LastName) {
+    private void signupUser(final String username, String password, String FirstName, String LastName, String Email) {
         Log.i(TAG,"Attempt to sign up");
         ParseUser user = new ParseUser();
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
@@ -80,6 +82,7 @@ public class SignUpActivity extends AppCompatActivity {
         user.setPassword(password);
         user.put("FirstName",FirstName);
         user.put("LastName",LastName);
+        user.setEmail(Email);
         user.signUpInBackground(new SignUpCallback() {
             @Override
             public void done(ParseException e) {
@@ -96,5 +99,6 @@ public class SignUpActivity extends AppCompatActivity {
         Intent i = new Intent(this, InterestActivity.class);
         i.putExtra("activity","signup");
         startActivity(i);
+        finish();
     }
 }
