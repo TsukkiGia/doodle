@@ -358,7 +358,6 @@ public class HomeFragment extends Fragment {
                         ex.printStackTrace();
                     }
                     long dateInMillies = datetime.getTime();
-                    Log.i(TAG,lastKnownLocation.toString());
                     if (dateInMillies > now) {
                         event.setDistance(event.getLocation()
                                 .distanceInKilometersTo(new ParseGeoPoint(lastKnownLocation.getLatitude(),

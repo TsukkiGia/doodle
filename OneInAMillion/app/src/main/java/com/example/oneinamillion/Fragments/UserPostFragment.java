@@ -110,8 +110,8 @@ public class UserPostFragment extends Fragment {
                 postAdapter.clear();
                 postAdapter.addAll(posts);
                 postAdapter.notifyDataSetChanged();
-                //LayoutAnimationController animation = AnimationUtils.loadLayoutAnimation(getContext(),R.anim.layout_animation_fall_down);
-                //rvUserPosts.setLayoutAnimation(animation);
+                LayoutAnimationController animation = AnimationUtils.loadLayoutAnimation(getContext(),R.anim.layout_animation_fall_down);
+                rvUserPosts.setLayoutAnimation(animation);
             }
         });
     }

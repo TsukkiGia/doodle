@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.oneinamillion.Models.Event;
+import com.example.oneinamillion.Models.LoadingDialog;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -118,6 +119,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void loginUser(final String username, String password) {
+        final LoadingDialog dialog = new LoadingDialog(LoginActivity.this);
+        dialog.startLoadingDialog();
         Log.i(TAG,"Attempt to login");
         ParseUser.logInInBackground(username, password, new LogInCallback() {
             @Override
@@ -126,6 +129,7 @@ public class LoginActivity extends AppCompatActivity {
                     Log.e(TAG,"Error logging in",e);
                     return;
                 }
+                dialog.dismissDialog();
                 goMainActivity();
                 Toast.makeText(LoginActivity.this,"Successful Login "+username, Toast.LENGTH_SHORT).show();
             }

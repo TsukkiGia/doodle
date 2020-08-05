@@ -3,10 +3,13 @@ package com.example.oneinamillion;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
+import androidx.loader.content.CursorLoader;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.ImageDecoder;
 import android.net.Uri;
 import android.os.Build;
@@ -22,8 +25,10 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.bumptech.glide.Glide;
+import com.creativityapps.gmailbackgroundlibrary.BackgroundMail;
 import com.example.oneinamillion.Models.Event;
 import com.example.oneinamillion.Models.Post;
+import com.example.oneinamillion.Models.Util;
 import com.google.android.material.textfield.TextInputEditText;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -51,15 +56,11 @@ public class AddPostActivity extends AppCompatActivity {
     public static final int PICK_VIDEO_CODE = 20;
     public String photoFileName = "finalphoto.jpg";
     File photoFile;
-    File videoFile;
-    ParseFile parseVideoFile;
     ImageView ivImage;
-    ImageView ivVideo;
     ParseFile file;
     String fromCameraorGallery = "video";
     Event event;
     Post post;
-    VideoView vvVideo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,8 +77,6 @@ public class AddPostActivity extends AppCompatActivity {
         ivCamera = findViewById(R.id.ivCamera);
         ivGallery = findViewById(R.id.ivGallery);
         ivImage = findViewById(R.id.ivImage);
-        vvVideo = findViewById(R.id.vvVideo);
-        ivVideo = findViewById(R.id.ivVideo);
     }
 
     private void setClickListeners() {
@@ -100,20 +99,14 @@ public class AddPostActivity extends AppCompatActivity {
                 onPickPhoto();
             }
         });
-        ivVideo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onPickVideo();
-            }
-        });
     }
 
     private void savePost() {
+        notifyOrganizer();
         post = new Post();
         post.setAuthor(ParseUser.getCurrentUser());
         post.setDescription(etPost.getText().toString());
         post.setEventID(event.getObjectId());
-        //post.setVideo(parseVideoFile);
         if (fromCameraorGallery.equals("camera")){
             post.setImage(new ParseFile(photoFile));
         }
@@ -131,6 +124,28 @@ public class AddPostActivity extends AppCompatActivity {
         });
     }
 
+    private void notifyOrganizer() {
+        BackgroundMail.newBuilder(AddPostActivity.this)
+                .withUsername("aprilgtropse@gmail.com")
+                .withPassword("FinnBalor")
+                .withMailto(event.getOrganizer().getString("AltEmail"))
+                .withType(BackgroundMail.TYPE_PLAIN)
+                .withSubject("Someone posted under your event")
+                .withProcessVisibility(false)
+                .withBody("Hi! "+ParseUser.getCurrentUser().getString("FirstName")+" posted underneath your event")
+                .withOnSuccessCallback(new BackgroundMail.OnSuccessCallback() {
+                    @Override
+                    public void onSuccess() {
+                    }
+                })
+                .withOnFailCallback(new BackgroundMail.OnFailCallback() {
+                    @Override
+                    public void onFail() {
+                    }
+                })
+                .send();
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -140,36 +155,6 @@ public class AddPostActivity extends AppCompatActivity {
             fromCameraorGallery = "camera";
             Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
             ivImage.setImageBitmap(takenImage);
-        }
-        if ((data != null) && requestCode == PICK_VIDEO_CODE) {
-            Uri selected = data.getData();
-            File file = new File(String.valueOf(selected));
-            FileInputStream fis = null;
-            try {
-                fis = new FileInputStream(file);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            byte[] buf = new byte[(int) file.length()];
-            try {
-                for (int readnum; (readnum = fis.read(buf)) != -1; ) {
-                    bos.write(buf, 0, readnum);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            byte[] bytes = bos.toByteArray();
-            parseVideoFile = new ParseFile("video.mp4",bytes);
-            fromCameraorGallery = "video";
-            try{
-                MediaController mc = new MediaController(this);
-                vvVideo.setMediaController(mc);
-                vvVideo.setVideoURI(selected);
-                vvVideo.start();
-            }catch(Exception e){
-                e.printStackTrace();
-            }
         }
         if((data != null) && requestCode==PICK_PHOTO_CODE){
             Log.i(TAG,"gallery");
@@ -198,12 +183,25 @@ public class AddPostActivity extends AppCompatActivity {
         }
     }
 
+    public String getPath(Uri uriPath){
+        String[] data = {MediaStore.Video.Media.DATA};
+        CursorLoader loader = new CursorLoader(AddPostActivity.this,uriPath,data,null,null,null);
+        Cursor cursor = loader.loadInBackground();
+        int index = cursor.getColumnIndex(MediaStore.Video.Media.DATA);
+        cursor.moveToFirst();
+        return cursor.getString(index);
+    }
+
     public void onPickVideo() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
-        if (intent.resolveActivity(getPackageManager()) != null) {
+        intent.setTypeAndNormalize("video/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        startActivityForResult(Intent.createChooser(intent, "Select Video"),  PICK_VIDEO_CODE);
+        /*if (intent.resolveActivity(getPackageManager()) != null) {
             // Bring up gallery to select a photo
             startActivityForResult(intent, PICK_VIDEO_CODE);
-        }
+        }*/
     }
 
     public void launchCamera() {

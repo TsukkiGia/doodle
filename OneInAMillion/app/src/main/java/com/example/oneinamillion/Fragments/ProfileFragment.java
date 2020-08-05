@@ -46,7 +46,7 @@ public class ProfileFragment extends Fragment {
     Button btnChangePreferences;
     ImageView ivLogOut;
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 24;
-    public String photoFileName = "photo";
+    public String photoFileName = "bigphoto";
     int counter = 0;
     File photoFile;
     public static final String TAG = "ProfileFragment";
@@ -99,29 +99,6 @@ public class ProfileFragment extends Fragment {
                 startActivity(i);
             }
         });
-    }
-
-    private void sendEmail(){
-        BackgroundMail.newBuilder(getContext())
-                .withUsername("aprilgtropse@gmail.com")
-                .withPassword("FinnBalor")
-                .withMailto("jeonjunie97@gmail.com")
-                .withType(BackgroundMail.TYPE_PLAIN)
-                .withSubject("this is the subject")
-                .withBody("this is the body")
-                .withOnSuccessCallback(new BackgroundMail.OnSuccessCallback() {
-                    @Override
-                    public void onSuccess() {
-                        Log.i(TAG,"Sent");
-                    }
-                })
-                .withOnFailCallback(new BackgroundMail.OnFailCallback() {
-                    @Override
-                    public void onFail() {
-                        Log.i(TAG,"Failed");
-                    }
-                })
-                .send();
     }
 
     private void setUpProfileViews() {

@@ -68,16 +68,6 @@
         app:srcCompat="@drawable/camera" />
 
     <ImageView
-        android:id="@+id/ivVideo"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_alignBottom="@+id/btnPost"
-        android:layout_marginStart="14dp"
-        android:layout_marginBottom="4dp"
-        android:layout_toEndOf="@+id/ivCamera"
-        app:srcCompat="@drawable/camcorder" />
-
-    <ImageView
         android:id="@+id/ivGallery"
         android:layout_width="30dp"
         android:layout_height="30dp"
@@ -96,17 +86,5 @@
         android:layout_marginTop="5dp"
         android:layout_marginEnd="8dp"
         android:text="Post" />
-
-    <VideoView
-        android:id="@+id/vvVideo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ivCamera"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="18dp"
-        android:layout_marginEnd="25dp"
-        android:visibility="gone" />
 
 </RelativeLayout>

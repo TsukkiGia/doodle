@@ -76,6 +76,7 @@ public class InviteFollowersAdapter extends RecyclerView.Adapter<InviteFollowers
         TextView tvName;
         ImageView ivProfilePicture;
         Button btnInvite;
+        Boolean canSend = true;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -97,53 +98,57 @@ public class InviteFollowersAdapter extends RecyclerView.Adapter<InviteFollowers
             btnInvite.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Log.i(TAG,follower.getUsername());
-                    Log.i(TAG,String.valueOf(follower.getString("email")==null));
-                    Log.i(TAG,String.valueOf(follower.getEmail()==null));
-                    Log.i(TAG,String.valueOf(follower.getString("AltEmail")==null));
-                    AsyncHttpClient client = new AsyncHttpClient();
-                    client.get("https://maps.googleapis.com/maps/api/geocode/json?latlng="+
-                            String.valueOf(event.getLocation().getLatitude())+","+String.valueOf(event.getLocation().getLongitude())+
-                            "&key="+context.getString(R.string.api_key), new JsonHttpResponseHandler() {
-                        @Override
-                        public void onSuccess(int statusCode, Headers headers, JSON json) {
-                            Log.i(TAG, "onSuccess");
-                            JSONObject jsonObject = json.jsonObject;
-                            try {
-                                String address = jsonObject.getJSONArray("results")
-                                        .getJSONObject(0).getString("formatted_address");
-                                BackgroundMail.newBuilder(context)
-                                        .withUsername("aprilgtropse@gmail.com")
-                                        .withPassword("FinnBalor")
-                                        .withMailto(follower.getString("AltEmail"))
-                                        .withType(BackgroundMail.TYPE_PLAIN)
-                                        .withSubject("Invite to my event")
-                                        .withBody("Hi! On "+event.getDate()+" at "+event.getTime()+", I will be hosting "+event.getEventName()
-                                                +" and I will love for you to join! This event would be taking place at "+address+". I hope to see you there!")
-                                        .withOnSuccessCallback(new BackgroundMail.OnSuccessCallback() {
-                                            @Override
-                                            public void onSuccess() {
-                                                btnInvite.setText("Sent");
-                                                btnInvite.setBackgroundColor(Color.GRAY);
-                                            }
-                                        })
-                                        .withOnFailCallback(new BackgroundMail.OnFailCallback() {
-                                            @Override
-                                            public void onFail() {
-                                            }
-                                        })
-                                        .send();
+                    if (canSend) {
+                        Log.i(TAG, follower.getUsername());
+                        Log.i(TAG, String.valueOf(follower.getString("email") == null));
+                        Log.i(TAG, String.valueOf(follower.getEmail() == null));
+                        Log.i(TAG, String.valueOf(follower.getString("AltEmail") == null));
+                        AsyncHttpClient client = new AsyncHttpClient();
+                        client.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" +
+                                String.valueOf(event.getLocation().getLatitude()) + "," + String.valueOf(event.getLocation().getLongitude()) +
+                                "&key=" + context.getString(R.string.api_key), new JsonHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                                Log.i(TAG, "onSuccess");
+                                JSONObject jsonObject = json.jsonObject;
+                                try {
+                                    String address = jsonObject.getJSONArray("results")
+                                            .getJSONObject(0).getString("formatted_address");
+                                    BackgroundMail.newBuilder(context)
+                                            .withUsername("aprilgtropse@gmail.com")
+                                            .withPassword("FinnBalor")
+                                            .withProcessVisibility(false)
+                                            .withMailto(follower.getString("AltEmail"))
+                                            .withType(BackgroundMail.TYPE_PLAIN)
+                                            .withSubject("Invite to my event")
+                                            .withBody("Hi! On " + event.getDate() + " at " + event.getTime() + ", I will be hosting " + event.getEventName()
+                                                    + " and I will love for you to join! This event would be taking place at " + address + ". I hope to see you there!")
+                                            .withOnSuccessCallback(new BackgroundMail.OnSuccessCallback() {
+                                                @Override
+                                                public void onSuccess() {
+                                                }
+                                            })
+                                            .withOnFailCallback(new BackgroundMail.OnFailCallback() {
+                                                @Override
+                                                public void onFail() {
+                                                }
+                                            })
+                                            .send();
+                                    btnInvite.setText("Sent");
+                                    btnInvite.setBackgroundColor(Color.GRAY);
+                                    canSend = false;
+                                } catch (JSONException e) {
+                                    Log.e(TAG, "Hit JSON exception", e);
+                                    e.printStackTrace();
+                                }
                             }
-                            catch (JSONException e) {
-                                Log.e(TAG, "Hit JSON exception",e);
-                                e.printStackTrace();
+
+                            @Override
+                            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                                Log.e(TAG, "Failed", throwable);
                             }
-                        }
-                        @Override
-                        public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                            Log.e(TAG, "Failed",throwable);
-                        }
-                    });
+                        });
+                    }
                 }
             });
         }
