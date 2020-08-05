@@ -10,6 +10,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.example.oneinamillion.Models.Event;
 import com.example.oneinamillion.Models.MergeSort;
@@ -34,6 +35,7 @@ public class HostingActivity extends AppCompatActivity {
     List<Event> events;
     RecyclerView rvHostEvents;
     Boolean shown = false;
+    ImageView ivInvite;
 
 
     @Override

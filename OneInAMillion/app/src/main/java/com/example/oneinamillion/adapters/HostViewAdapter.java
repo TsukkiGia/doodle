@@ -1,6 +1,7 @@
 package com.example.oneinamillion.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,11 +14,15 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.example.oneinamillion.InviteFollowersActivity;
 import com.example.oneinamillion.Models.Event;
 import com.example.oneinamillion.R;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -52,8 +57,6 @@ public class HostViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         notifyDataSetChanged();
     }
 
-
-
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -74,6 +77,7 @@ public class HostViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             ((ViewHolder) holder).tvEventName.setText(event.getEventName());
             ((ViewHolder) holder).tvAttendees.setText(event.getAttendees().length()+" attendees");
             ((ViewHolder) holder).tvDate.setText(event.getDate());
+            Glide.with(context).load(event.getImage().getUrl()).into(((ViewHolder) holder).ivEventImage);
         }
     }
 
@@ -89,7 +93,6 @@ public class HostViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         events.get(position).setShowMenu(true);
         notifyDataSetChanged();
     }
-
 
     public boolean isMenuShown() {
         for(int i = 0; i < events.size(); i++){
@@ -112,6 +115,8 @@ public class HostViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         TextView tvDate;
         TextView tvAttendees;
         RelativeLayout container;
+        ImageView ivEventImage;
+        ImageView ivInvite;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -119,6 +124,17 @@ public class HostViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             tvDate = itemView.findViewById(R.id.tvDateTime);
             tvAttendees = itemView.findViewById(R.id.tvAttendees);
             container = itemView.findViewById(R.id.container);
+            ivEventImage = itemView.findViewById(R.id.ivEventImage);
+            ivInvite = itemView.findViewById(R.id.ivInvite);
+            ivInvite.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Event event = events.get(getAdapterPosition());
+                    Intent i = new Intent(context, InviteFollowersActivity.class);
+                    i.putExtra(Event.class.getSimpleName(), Parcels.wrap(event));
+                    context.startActivity(i);
+                }
+            });
         }
     }
 

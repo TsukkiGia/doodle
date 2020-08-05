@@ -223,7 +223,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ivEventImage"
-                android:layout_marginTop="0dp"
+                android:layout_marginTop="-10dp"
                 android:max="3"
                 android:progress="1"
                 android:progressTint="@color/colorAccent" />

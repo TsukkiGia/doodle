@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.creativityapps.gmailbackgroundlibrary.BackgroundMail;
 import com.example.oneinamillion.HostingActivity;
 import com.example.oneinamillion.InterestActivity;
 import com.example.oneinamillion.LoginActivity;
@@ -98,6 +99,29 @@ public class ProfileFragment extends Fragment {
                 startActivity(i);
             }
         });
+    }
+
+    private void sendEmail(){
+        BackgroundMail.newBuilder(getContext())
+                .withUsername("aprilgtropse@gmail.com")
+                .withPassword("FinnBalor")
+                .withMailto("jeonjunie97@gmail.com")
+                .withType(BackgroundMail.TYPE_PLAIN)
+                .withSubject("this is the subject")
+                .withBody("this is the body")
+                .withOnSuccessCallback(new BackgroundMail.OnSuccessCallback() {
+                    @Override
+                    public void onSuccess() {
+                        Log.i(TAG,"Sent");
+                    }
+                })
+                .withOnFailCallback(new BackgroundMail.OnFailCallback() {
+                    @Override
+                    public void onFail() {
+                        Log.i(TAG,"Failed");
+                    }
+                })
+                .send();
     }
 
     private void setUpProfileViews() {

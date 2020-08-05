@@ -33,7 +33,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".HostingActivity"></activity>
+        <activity android:name=".InviteFollowersActivity"></activity>
+        <activity android:name=".HostingActivity" />
         <activity android:name=".LikersActivity" />
         <activity android:name=".AddPostActivity" />
         <activity android:name=".ProfilePageActivity" />
@@ -88,6 +89,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.gianna.fileprovider"
@@ -101,7 +103,8 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-        <receiver android:name=".Models.ReminderBroadcast"/>
+
+        <receiver android:name=".Models.ReminderBroadcast" />
     </application>
 
 </manifest>

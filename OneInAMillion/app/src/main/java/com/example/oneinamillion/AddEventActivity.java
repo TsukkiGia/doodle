@@ -284,12 +284,14 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
     }
 
     private void saveEvent() {
+        Log.i(TAG, "Saving File");
         file.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
                 if (e != null) {
                     Log.e(TAG, "help", e);
                 } else {
+                    Log.i(TAG, "Saving");
                     Event event = new Event();
                     event.setEventTags(interests);
                     event.setEventName(etEventName.getText().toString());

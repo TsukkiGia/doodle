@@ -2,14 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
     android:layout_width="match_parent"
-    android:layout_height="110dp"
+    android:layout_height="300dp"
     android:layout_margin="10dp">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="300dp"
         app:cardCornerRadius="4dp">
 
         <RelativeLayout
@@ -21,24 +20,32 @@
                 android:id="@+id/tvEventName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/tvDateTime"
                 android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="0dp"
+                android:layout_marginTop="4dp"
                 android:text="Event Name"
                 android:textColor="#000000"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:transitionName="name" />
 
+            <ImageView
+                android:id="@+id/ivEventImage"
+                android:layout_width="match_parent"
+                android:layout_height="186dp"
+                android:scaleType="centerCrop"
+                android:transitionName="image"
+                tools:srcCompat="@tools:sample/avatars" />
+
             <TextView
                 android:id="@+id/tvDateTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvEventName"
+                android:layout_below="@+id/ivEventImage"
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="22dp"
                 android:text="Date and Time"
                 android:textColor="#1D8165"
                 android:textStyle="bold"
@@ -48,13 +55,23 @@
                 android:id="@+id/tvAttendees"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvDateTime"
+                android:layout_below="@+id/tvEventName"
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="4dp"
                 android:visibility="visible"
-                tools:text="Number of Attendees: 59" />
+                tools:text="FAKE LOCATION" />
+
+            <ImageView
+                android:id="@+id/ivInvite"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="7dp"
+                android:tint="@color/colorAccent"
+                app:srcCompat="@drawable/invite" />
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
-
 </RelativeLayout>

@@ -64,7 +64,7 @@ public class Event extends ParseObject {
     }
 
     public void setAddress(String address) {
-        Address = address;
+        this.Address = address;
     }
 
     public JSONArray getEventTag() {
