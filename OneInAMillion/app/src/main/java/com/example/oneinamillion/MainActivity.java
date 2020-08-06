@@ -40,6 +40,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import me.leolin.shortcutbadger.ShortcutBadger;
+
 public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
     public static final String TAG = "MainActivity";
@@ -165,6 +167,7 @@ public class MainActivity extends AppCompatActivity {
                 .setContentTitle("Event Notification")
                 .setContentText(event.getEventName()+" is coming up within an hour!")
                 .setContentIntent(pendingIntent)
+                .setNumber(6)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
         notificationManager.notify(id, builder.build());

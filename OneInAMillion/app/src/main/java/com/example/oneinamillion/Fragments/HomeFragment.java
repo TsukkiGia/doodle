@@ -84,6 +84,7 @@ public class HomeFragment extends Fragment {
     Location lastKnownLocation = new Location("");
     double max_distance = 1000;
     double max_price = 500;
+    int count = 0;
     Boolean filterdistance = false;
     Boolean filterprice = false;
     Boolean filtertags = false;
@@ -267,6 +268,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getContext(), AddEventActivity.class);
+                i.putExtra("function","add");
                 startActivity(i);
             }
         });
@@ -368,8 +370,13 @@ public class HomeFragment extends Fragment {
                                         lastKnownLocation.getLongitude())));
                         results.add(event);
                     }
+                    else{
+                        event.setAttendees(new JSONArray());
+                        event.saveInBackground();
+                    }
                 }
                 sort();
+                CountActiveEvents();
             }
         });
         swipeContainer.setRefreshing(false);
@@ -462,5 +469,36 @@ public class HomeFragment extends Fragment {
             }
         }
         return interestingEvents;
+    }
+
+    private void CountActiveEvents(){
+        ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
+        query.include(Event.KEY_ORGANIZER);
+        query.findInBackground(new FindCallback<Event>() {
+            @Override
+            public void done(List<Event> events, ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "problem!", e);
+                }
+                for (Event event : events) {
+                    JSONArray attendees = event.getAttendees();
+                    for (int i = 0; i < attendees.length(); i++) {
+                        String userID;
+                        try {
+                            userID = attendees.getString(i);
+                            if (userID.equals(ParseUser.getCurrentUser().getObjectId())) {
+                                count++;
+                                break;
+                            }
+                        } catch (JSONException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                }
+                Log.i(TAG,String.valueOf(count));
+                ParseUser.getCurrentUser().put("ActiveEvents",count);
+                ParseUser.getCurrentUser().saveInBackground();
+            }
+        });
     }
 }

@@ -61,7 +61,7 @@ public class DetailsFragment extends Fragment {
     String distance;
     Button btnBuyTickets;
     List<String> friendsAttendingList = new ArrayList<>();
-    String friendsAttending="";
+    String friendsAttending = "";
     RecyclerView rvSimilarEvents;
     ImageView ivAlarm;
     Boolean alarmon = false;

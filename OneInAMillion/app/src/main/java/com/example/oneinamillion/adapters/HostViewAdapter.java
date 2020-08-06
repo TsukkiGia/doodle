@@ -15,6 +15,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.oneinamillion.AddEventActivity;
+import com.example.oneinamillion.EditEventActivity;
 import com.example.oneinamillion.InviteFollowersActivity;
 import com.example.oneinamillion.Models.Event;
 import com.example.oneinamillion.R;
@@ -117,9 +119,11 @@ public class HostViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         RelativeLayout container;
         ImageView ivEventImage;
         ImageView ivInvite;
+        ImageView ivEdit;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            ivEdit = itemView.findViewById(R.id.ivEdit);
             tvEventName = itemView.findViewById(R.id.tvEventName);
             tvDate = itemView.findViewById(R.id.tvDateTime);
             tvAttendees = itemView.findViewById(R.id.tvAttendees);
@@ -132,6 +136,16 @@ public class HostViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     Event event = events.get(getAdapterPosition());
                     Intent i = new Intent(context, InviteFollowersActivity.class);
                     i.putExtra(Event.class.getSimpleName(), Parcels.wrap(event));
+                    context.startActivity(i);
+                }
+            });
+            ivEdit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Event event = events.get(getAdapterPosition());
+                    Intent i = new Intent(context, AddEventActivity.class);
+                    i.putExtra(Event.class.getSimpleName(), Parcels.wrap(event));
+                    i.putExtra("function","edit");
                     context.startActivity(i);
                 }
             });

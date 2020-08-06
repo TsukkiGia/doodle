@@ -28,6 +28,16 @@ public class Event extends ParseObject {
     public static final String KEY_PRICE="Price";
     public static final String KEY_LINK="TicketLink";
     public String Address;
+    public String city;
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
     private boolean showMenu = false;
     //Set address with reverse geocoding - make another request using async client
     public double distance;

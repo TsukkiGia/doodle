@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.ClipData;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -25,12 +24,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.example.oneinamillion.Fragments.DatePickerFragment;
-import com.example.oneinamillion.Models.Event;
 import com.example.oneinamillion.Fragments.TimePickerFragment;
+import com.example.oneinamillion.Models.Event;
 import com.google.android.gms.common.api.Status;
-import com.google.android.gms.maps.GoogleMap;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.net.PlacesClient;
@@ -52,11 +49,9 @@ import org.parceler.Parcels;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
-public class AddEventActivity extends AppCompatActivity implements DatePickerFragment.DatePickerFragmentListener, TimePickerFragment.TimePickerFragmentListener {
+public class EditEventActivity extends AppCompatActivity implements DatePickerFragment.DatePickerFragmentListener, TimePickerFragment.TimePickerFragmentListener {
     EditText etEventName;
     EditText etEventDescription;
     EditText etPrice;
@@ -80,6 +75,16 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
     TextView tvDate;
     TextView tvTime;
     Spinner spTicketsAvailable;
+    Boolean updateName = false;
+    Boolean updateDescription = false;
+    Boolean updateDate = false;
+    Boolean updateTime = false;
+    Boolean updateLink = false;
+    Boolean updatePrice = false;
+    Boolean updateTags = false;
+    Boolean updatePhoto1 = false;
+    Boolean updatePhoto2 = false;
+    Boolean updatePhoto3 = false;
     int counter = 0;
     ExtendedFloatingActionButton fabSports;
     ExtendedFloatingActionButton fabConcerts;
@@ -90,113 +95,43 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
     ExtendedFloatingActionButton fabCrafts;
     ExtendedFloatingActionButton fabAthons;
     Boolean ticketsforsale = false;
-    final String raffle_tag = "raffle";
-    final String thon_tag = "thon";
-    final String sport_tag = "sport";
-    final String auctions_tag = "auction";
-    final String cook_tag = "cook";
-    final String concert_tag = "music";
-    final String gala_tag = "gala";
-    final String craft_tag = "craft";
+    String raffle_tag = "raffle";
+    String thon_tag = "thon";
+    String sport_tag = "sport";
+    String auctions_tag = "auction";
+    String cook_tag = "cook";
+    String concert_tag = "music";
+    String gala_tag = "gala";
+    String craft_tag = "craft";
     JSONArray interests = new JSONArray();
     double longitude = 0;
     double latitude = 0;
     public static final String TAG = "AddEvent";
     public final static int PICK_PHOTO_CODE = 1046;
-    public final static int PICK_PHOTO_CODE1 = 1047;
-    public final static int PICK_PHOTO_CODE2 = 1048;
-    public final static int PICK_PHOTO_CODE3 = 1049;
     private PlacesClient placesClient;
     Event event;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_event);
+        setContentView(R.layout.activity_edit_event);
         initializeViews();
-        if (getIntent().getStringExtra("function").equals("edit")){
-            try {
-                setupPreviousData();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
+        setupPreviousData();
         setClickListeners();
         setUpLocationAutoComplete();
     }
 
-    private void setupPreviousData() throws JSONException {
+    private void setupPreviousData() {
         event = Parcels.unwrap(getIntent().getParcelableExtra(Event.class.getSimpleName()));
         etEventName.setText(event.getEventName());
         etEventDescription.setText(event.getDescription());
         tvDate.setVisibility(View.VISIBLE);
         tvTime.setVisibility(View.VISIBLE);
         tvDate.setText(event.getDate());
-        tvDate.setVisibility(View.VISIBLE);
-        tvTime.setVisibility(View.VISIBLE);
         tvTime.setText(event.getTime());
-        latitude = event.getLocation().getLatitude();
-        longitude = event.getLocation().getLongitude();
         if (event.getTicketLink() != null){
-            spTicketsAvailable.setSelection(1);
             etPrice.setText(String.valueOf(event.getPrice()));
             etTicketLink.setText(event.getTicketLink());
-        }
-        if (event.getImage()!=null){
-            file = event.getImage();
-            Glide.with(AddEventActivity.this).load(event.getImage().getUrl()).centerCrop().into(ivUploadedImage);
-        }
-        if (event.getImage2()!=null){
-            file2 = event.getImage2();
-            Glide.with(AddEventActivity.this).load(event.getImage2().getUrl()).centerCrop().into(ivUploadedImage2);
-        }
-        if (event.getImage3()!=null){
-            file3 = event.getImage3();
-            Glide.with(AddEventActivity.this).load(event.getImage3().getUrl()).centerCrop().into(ivUploadedImage3);
-        }
-        setActiveTags();
-    }
-
-    private void setActiveTags() throws JSONException {
-       interests = event.getEventTag();
-        for (int i = 0; i < interests.length(); i++) {
-            String interest = interests.getString(i);
-            switch (interest) {
-                case sport_tag:
-                    fabSports.setTextColor(Color.WHITE);
-                    fabSports.setBackgroundColor(getColor(R.color.colorSportButton));
-                    break;
-                case auctions_tag:
-                    fabAuction.setTextColor(Color.WHITE);
-                    fabAuction.setBackgroundColor(getColor(R.color.colorAuctionsButton));
-                    break;
-                case concert_tag:
-                    fabConcerts.setTextColor(Color.WHITE);
-                    fabConcerts.setBackgroundColor(getColor(R.color.colorMusicButton));
-                    break;
-                case gala_tag:
-                    fabGalas.setTextColor(Color.WHITE);
-                    fabGalas.setBackgroundColor(getColor(R.color.colorGalaButton));
-                    break;
-                case raffle_tag:
-                    fabRaffle.setTextColor(Color.WHITE);
-                    fabRaffle.setBackgroundColor(getColor(R.color.colorRaffleButton));
-                    break;
-                case cook_tag:
-                    fabCooking.setTextColor(Color.WHITE);
-                    fabCooking.setBackgroundColor(getColor(R.color.colorCookButton));
-                    break;
-                case craft_tag:
-                    fabCrafts.setTextColor(Color.WHITE);
-                    fabCrafts.setBackgroundColor(getColor(R.color.colorCraftButton));
-                    break;
-                case thon_tag:
-                    fabAthons.setTextColor(Color.WHITE);
-                    fabAthons.setBackgroundColor(getColor(R.color.colorThonButton));
-                    break;
-                default:
-                    throw new IllegalStateException("Unexpected value: " + interests.get(i));
-            }
         }
     }
 
@@ -280,35 +215,17 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
     }
 
     private void setClickListeners() {
-        ivUploadedImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onPickPhoto(view,PICK_PHOTO_CODE1);
-            }
-        });
-        ivUploadedImage2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onPickPhoto(view,PICK_PHOTO_CODE2);
-            }
-        });
-        ivUploadedImage3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onPickPhoto(view,PICK_PHOTO_CODE3);
-            }
-        });
         btnPickADate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatePickerFragment fragment = DatePickerFragment.newInstance(AddEventActivity.this);
+                DatePickerFragment fragment = DatePickerFragment.newInstance(EditEventActivity.this);
                 fragment.show(getSupportFragmentManager(), "datePicker");
             }
         });
         btnPickATime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TimePickerFragment fragment = TimePickerFragment.newInstance(AddEventActivity.this);
+                TimePickerFragment fragment = TimePickerFragment.newInstance(EditEventActivity.this);
                 fragment.show(getSupportFragmentManager(), "timePicker");
             }
         });
@@ -316,17 +233,23 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
             @Override
             public void onClick(View view) {
                 Log.i(TAG, etEventName.getText().toString());
-                if (getIntent().getStringExtra("function").equals("add")) {
-                    Log.i(TAG,"Saving new event");
-                    saveEvent();
-                }
-                else {
-                    Log.i(TAG,"Editing");
-                    editEvent();
-                }
+                //saveEvent();
+                editEvent();
             }
         });
         btnUploadImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onPickPhoto(view,PICK_PHOTO_CODE);
+            }
+        });
+        tvAddMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onPickPhoto(view,PICK_PHOTO_CODE);
+            }
+        });
+        tvAddMore2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onPickPhoto(view,PICK_PHOTO_CODE);
@@ -386,35 +309,14 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
         ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
         query.getInBackground(event.getObjectId(), new GetCallback<Event>() {
             @Override
-            public void done(Event event, ParseException e) {
-                event.setEventTags(interests);
-                event.setEventName(etEventName.getText().toString());
-                event.setDescription(etEventDescription.getText().toString());
-                event.setDate(tvDate.getText().toString());
-                event.setTime(tvTime.getText().toString());
-                event.setLocation(new ParseGeoPoint(latitude, longitude));
-                event.setOrganizer(ParseUser.getCurrentUser());
-                event.setImage(file);
-                if (file2!=null) {
-                    event.setImage2(file2);
-                }
-                if (file3!=null) {
-                    event.setImage3(file3);
-                }
-                if (ticketsforsale) {
-                    event.setPrice(Double.parseDouble(etPrice.getText().toString()));
-                    event.setTicketLink(etTicketLink.getText().toString());
-                } else {
-                    event.setPrice(0);
-                }
-                event.saveInBackground(new SaveCallback() {
+            public void done(Event object, ParseException e) {
+                object.setEventName("Gianna");
+                object.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
                         if (e!=null){
                             Log.e(TAG,"problem!",e);
                         }
-                        Log.i(TAG, "Edit successful");
-                        finish();
                     }
                 });
             }
@@ -424,9 +326,7 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
     public void onPickPhoto(View view, int code) {
         // Create intent for picking a photo from the gallery
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        if (code==PICK_PHOTO_CODE) {
-            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-        }
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         if (intent.resolveActivity(getPackageManager()) != null) {
             // Bring up gallery to select a photo
             startActivityForResult(intent, code);
@@ -493,7 +393,7 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
                             public void done(ParseException e) {
                                 if (e != null) {
                                     Log.e(TAG, "Error while saving", e);
-                                    Toast.makeText(AddEventActivity.this, "Error while saving", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(EditEventActivity.this, "Error while saving", Toast.LENGTH_SHORT).show();
                                     return;
                                 }
                                 Log.i(TAG, "Save successful");
@@ -509,34 +409,6 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if ((data != null) && requestCode == PICK_PHOTO_CODE1) {
-            Uri uri = data.getData();
-            Bitmap bitmap = loadFromUri(uri);
-            ivUploadedImage.setImageBitmap(bitmap);
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-            byte[] image = stream.toByteArray();
-            file = new ParseFile("picture.png", image);
-        }
-
-        if ((data != null) && requestCode == PICK_PHOTO_CODE2) {
-            Uri uri = data.getData();
-            Bitmap bitmap = loadFromUri(uri);
-            ivUploadedImage2.setImageBitmap(bitmap);
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-            byte[] image = stream.toByteArray();
-            file2 = new ParseFile("picture.png", image);
-        }
-        if ((data != null) && requestCode == PICK_PHOTO_CODE3) {
-            Uri uri = data.getData();
-            Bitmap bitmap = loadFromUri(uri);
-            ivUploadedImage3.setImageBitmap(bitmap);
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-            byte[] image = stream.toByteArray();
-            file3 = new ParseFile("picture.png", image);
-        }
         if ((data != null) && requestCode == PICK_PHOTO_CODE) {
             ClipData mClipData = data.getClipData();
             for (int i = 0; i < mClipData.getItemCount(); i++) {
@@ -547,6 +419,7 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
                     switch (counter) {
                         case 0:
                             ivUploadedImage.setImageBitmap(bitmap);
+                            tvAddMore.setVisibility(View.VISIBLE);
                             ByteArrayOutputStream stream = new ByteArrayOutputStream();
                             bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
                             byte[] image = stream.toByteArray();
@@ -554,12 +427,16 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
                             break;
                         case 1:
                             ivUploadedImage2.setImageBitmap(bitmap);
+                            tvAddMore.setVisibility(View.GONE);
+                            tvAddMore2.setVisibility(View.VISIBLE);
                             ByteArrayOutputStream stream1 = new ByteArrayOutputStream();
                             bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream1);
                             byte[] image1 = stream1.toByteArray();
                             file2 = new ParseFile("picture.png", image1);
                             break;
                         case 2:
+                            tvAddMore2.setVisibility(View.GONE);
+                            ivUploadedImage3.setVisibility(View.VISIBLE);
                             ivUploadedImage3.setImageBitmap(bitmap);
                             ByteArrayOutputStream stream2 = new ByteArrayOutputStream();
                             bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream2);

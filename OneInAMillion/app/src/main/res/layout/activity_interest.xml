@@ -138,7 +138,7 @@
         android:layout_marginEnd="29dp"
         android:background="#FFFFFF"
         android:text="What type of events interest you?"
-        android:textColor="#000000"
+        android:textColor="#212121"
         android:textSize="24sp"
         android:textStyle="bold" />
 

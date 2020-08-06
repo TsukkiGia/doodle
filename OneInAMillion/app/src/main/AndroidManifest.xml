@@ -29,12 +29,13 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_newlauncher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_newlauncher_round"
         android:supportsRtl="true"
-        android:requestLegacyExternalStorage="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".InviteFollowersActivity"></activity>
+        <activity android:name=".EditEventActivity"></activity>
+        <activity android:name=".InviteFollowersActivity" />
         <activity android:name=".HostingActivity" />
         <activity android:name=".LikersActivity" />
         <activity android:name=".AddPostActivity" />
