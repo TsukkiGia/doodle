@@ -107,7 +107,7 @@ public class ProfileFragment extends Fragment {
         tvUsername.setText(String.format("@%s", ParseUser.getCurrentUser().getUsername()));
         if (ParseUser.getCurrentUser().getParseFile("ProfileImage") != null) {
             Glide.with(getContext()).load(ParseUser.getCurrentUser().getParseFile("ProfileImage").getUrl())
-                    .circleCrop().into(ivProfile);
+                    .centerCrop().into(ivProfile);
         } else {
             ivProfile.setImageDrawable(getResources().getDrawable(R.drawable.instagram_user_filled_24));
         }
@@ -140,7 +140,7 @@ public class ProfileFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-                Glide.with(getContext()).load(photoFile.getAbsolutePath()).circleCrop().into(ivProfile);
+                Glide.with(getContext()).load(photoFile.getAbsolutePath()).centerCrop().into(ivProfile);
                 ParseUser.getCurrentUser().put("ProfileImage", new ParseFile(photoFile));
                 ParseUser.getCurrentUser().saveInBackground();
             } else { // Result was a failure

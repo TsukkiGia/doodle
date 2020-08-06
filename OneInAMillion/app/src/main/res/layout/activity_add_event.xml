@@ -46,7 +46,7 @@
 
             <Button
                 android:id="@+id/btnUploadImage"
-                android:layout_width="150dp"
+                android:layout_width="170dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvTime"
                 android:layout_alignParentStart="true"
@@ -58,7 +58,7 @@
 
             <Button
                 android:id="@+id/btnPickATime"
-                android:layout_width="wrap_content"
+                android:layout_width="170dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvDate"
                 android:layout_alignParentStart="true"
@@ -70,7 +70,7 @@
 
             <Button
                 android:id="@+id/btnPickADate"
-                android:layout_width="wrap_content"
+                android:layout_width="170dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tfTicketLink"
                 android:layout_alignParentStart="true"
@@ -209,6 +209,7 @@
                 android:layout_marginTop="20dp"
                 android:textColor="#000000"
                 android:textStyle="bold"
+                android:visibility="gone"
                 tools:text="something" />
 
             <TextView
@@ -221,6 +222,7 @@
                 android:layout_marginTop="20dp"
                 android:textColor="#000000"
                 android:textStyle="bold"
+                android:visibility="gone"
                 tools:text="something" />
 
             <TextView
@@ -253,8 +255,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvTags"
-                android:layout_marginStart="-209dp"
-                android:layout_marginTop="86dp"
+                android:layout_marginStart="34dp"
+                android:layout_marginTop="84dp"
                 android:layout_toEndOf="@+id/extFabConcerts"
                 android:gravity="center"
                 android:text="@string/sports"
@@ -266,9 +268,9 @@
                 android:layout_width="148dp"
                 android:layout_height="51dp"
                 android:layout_below="@+id/tvTags"
-                android:layout_alignParentEnd="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="24dp"
                 android:layout_marginTop="86dp"
-                android:layout_marginEnd="219dp"
                 android:gravity="center"
                 android:text="@string/concerts"
                 android:textColor="#000000"
@@ -293,8 +295,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvTags"
                 android:layout_alignParentEnd="true"
-                android:layout_marginTop="147dp"
-                android:layout_marginEnd="115dp"
+                android:layout_marginTop="148dp"
+                android:layout_marginEnd="120dp"
                 android:gravity="center"
                 android:text="@string/raffles"
                 android:textColor="#000000"
@@ -332,9 +334,9 @@
                 android:layout_width="148dp"
                 android:layout_height="51dp"
                 android:layout_alignTop="@+id/extFabAthons"
-                android:layout_alignParentEnd="true"
+                android:layout_marginStart="38dp"
                 android:layout_marginTop="-3dp"
-                android:layout_marginEnd="100dp"
+                android:layout_toEndOf="@+id/extFabAthons"
                 android:gravity="center"
                 android:text="@string/crafts"
                 android:textColor="#000000"
@@ -367,9 +369,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvTags"
-                android:layout_alignParentEnd="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="45dp"
                 android:layout_marginTop="20dp"
-                android:layout_marginEnd="266dp"
                 android:gravity="center"
                 android:text="@string/a_thons"
                 android:textColor="#000000"
@@ -397,8 +399,7 @@
                 android:text="Add More?"
                 android:textColor="@color/colorAccent"
                 android:textSize="14sp"
-                android:textStyle="bold"
-                android:visibility="gone" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tvAddmore2"

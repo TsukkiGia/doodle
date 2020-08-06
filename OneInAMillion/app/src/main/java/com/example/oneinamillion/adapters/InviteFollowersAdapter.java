@@ -18,15 +18,14 @@ import com.bumptech.glide.Glide;
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.creativityapps.gmailbackgroundlibrary.BackgroundMail;
-import com.example.oneinamillion.EventDetailsActivity;
 import com.example.oneinamillion.Models.Event;
 import com.example.oneinamillion.R;
 import com.parse.ParseUser;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.parceler.Parcels;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.Headers;
@@ -35,6 +34,12 @@ public class InviteFollowersAdapter extends RecyclerView.Adapter<InviteFollowers
     Context context;
     List<ParseUser> followers;
     Event event;
+    List<ParseUser> followersToInvite = new ArrayList<>();
+
+    public List<ParseUser> getFollowersToInvite() {
+        return followersToInvite;
+    }
+
     public static final String TAG = "InviteAdapter";
 
     public InviteFollowersAdapter(Context context, List<ParseUser> followers, Event event) {

@@ -44,10 +44,14 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="13dp"
-        android:layout_marginEnd="9dp"
-        android:text="Clear Filters"
+        android:layout_marginEnd="35dp"
+        android:drawableRight="@drawable/clear"
+        android:drawablePadding="6dp"
+        android:drawableTint="@color/quantum_white_100"
+        android:gravity="right"
+        android:text="Clear"
         android:textColor="#FFFFFF"
-        android:textSize="14sp"
+        android:textSize="18sp"
         android:textStyle="bold" />
 
     <SeekBar

@@ -99,8 +99,6 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
     double latitude = 0;
     public static final String TAG = "AddEvent";
     public final static int PICK_PHOTO_CODE = 1046;
-    public final static int PICK_PHOTO_CODE2 = 1047;
-    public final static int PICK_PHOTO_CODE3 = 1048;
     private PlacesClient placesClient;
 
     @Override
@@ -334,10 +332,10 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
                         event.setLocation(new ParseGeoPoint(latitude, longitude));
                         event.setOrganizer(ParseUser.getCurrentUser());
                         event.setImage(file);
-                        if (ivUploadedImage2.getVisibility() == View.VISIBLE) {
+                        if (file2!=null) {
                             event.setImage2(file2);
                         }
-                        if (ivUploadedImage2.getVisibility() == View.VISIBLE) {
+                        if (file3!=null) {
                             event.setImage3(file3);
                         }
                         if (ticketsforsale) {
@@ -406,37 +404,6 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
                 }
             }
         }
-        if ((data != null) && requestCode == PICK_PHOTO_CODE2) {
-            Uri photoUri = data.getData();
-            // Load the image located at photoUri into selectedImage
-            Bitmap selectedImage = loadFromUri(photoUri);
-            // Load the selected image into a preview
-            tvAddMore2.setVisibility(View.VISIBLE);
-            tvAddMore.setVisibility(View.INVISIBLE);
-            ivUploadedImage2.setVisibility(View.VISIBLE);
-            ivUploadedImage2.setImageBitmap(selectedImage);
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            // Compress image to lower quality scale 1 - 100
-            selectedImage.compress(Bitmap.CompressFormat.PNG, 100, stream);
-            byte[] image = stream.toByteArray();
-            // Create the ParseFile
-            file2 = new ParseFile("picture.png", image);
-        }
-        if ((data != null) && requestCode == PICK_PHOTO_CODE3) {
-            Uri photoUri = data.getData();
-            // Load the image located at photoUri into selectedImage
-            Bitmap selectedImage = loadFromUri(photoUri);
-            // Load the selected image into a preview
-            tvAddMore2.setVisibility(View.INVISIBLE);
-            ivUploadedImage3.setVisibility(View.VISIBLE);
-            ivUploadedImage3.setImageBitmap(selectedImage);
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            // Compress image to lower quality scale 1 - 100
-            selectedImage.compress(Bitmap.CompressFormat.PNG, 100, stream);
-            byte[] image = stream.toByteArray();
-            // Create the ParseFile
-            file3 = new ParseFile("picture.png", image);
-        }
     }
 
     public Bitmap loadFromUri(Uri photoUri) {
@@ -459,11 +426,13 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
 
     @Override
     public void DateSet(String date) {
+        tvDate.setVisibility(View.VISIBLE);
         tvDate.setText(date);
     }
 
     @Override
     public void TimeSet(String time) {
+        tvTime.setVisibility(View.VISIBLE);
         tvTime.setText(time);
     }
 
