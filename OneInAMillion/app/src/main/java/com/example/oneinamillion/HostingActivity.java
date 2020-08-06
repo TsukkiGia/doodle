@@ -10,7 +10,9 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.example.oneinamillion.Models.Event;
 import com.example.oneinamillion.Models.MergeSort;
@@ -35,14 +37,15 @@ public class HostingActivity extends AppCompatActivity {
     List<Event> events;
     RecyclerView rvHostEvents;
     Boolean shown = false;
-    ImageView ivInvite;
-
+    ProgressBar pbLoading;
+    Button btnInvite;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hosting);
         rvHostEvents = findViewById(R.id.rvHostEvents);
+        pbLoading = findViewById(R.id.pbLoading);
         rvHostEvents.setLayoutManager(new LinearLayoutManager(HostingActivity.this));
         events = new ArrayList<>();
         adapter = new HostViewAdapter(HostingActivity.this,events);
@@ -144,6 +147,7 @@ public class HostingActivity extends AppCompatActivity {
                 m.mergeSort(organizedEvents);
                 adapter.addAll(organizedEvents);
                 adapter.notifyDataSetChanged();
+                pbLoading.setVisibility(View.GONE);
             }
         });
     }

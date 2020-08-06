@@ -43,6 +43,7 @@ public class ProfileFragment extends Fragment {
     TextView tvUsername;
     ImageView ivProfile;
     Button btnChange;
+    TextView tvChangeImage;
     Button btnChangePreferences;
     ImageView ivLogOut;
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 24;
@@ -72,7 +73,7 @@ public class ProfileFragment extends Fragment {
     }
 
     private void setClickListeners() {
-        btnChange.setOnClickListener(new View.OnClickListener() {
+        tvChangeImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 launchCamera();
@@ -109,14 +110,14 @@ public class ProfileFragment extends Fragment {
             Glide.with(getContext()).load(ParseUser.getCurrentUser().getParseFile("ProfileImage").getUrl())
                     .centerCrop().into(ivProfile);
         } else {
-            ivProfile.setImageDrawable(getResources().getDrawable(R.drawable.instagram_user_filled_24));
+            ivProfile.setImageDrawable(getResources().getDrawable(R.drawable.defaultprofile));
         }
     }
 
     private void initializeViews(View view) {
+        tvChangeImage = view.findViewById(R.id.tvChangeProfile);
         btnChangePreferences = view.findViewById(R.id.btnChangePref);
         tvName = view.findViewById(R.id.tvName);
-        btnChange = view.findViewById(R.id.btnChange);
         tvUsername = view.findViewById(R.id.tvUsername);
         ivProfile = view.findViewById(R.id.ivProfile);
         ivLogOut = view.findViewById(R.id.ivLogOut);

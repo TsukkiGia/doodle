@@ -51,8 +51,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Snackbar.make(findViewById(R.id.rlContainer),
-                "Welcome back "+ParseUser.getCurrentUser().getString("FirstName"),Snackbar.LENGTH_SHORT).show();
         //First create notification channel in order to send notification
         createNotificationChannel();
         bottomNavigationView = findViewById(R.id.bottom_navigation);

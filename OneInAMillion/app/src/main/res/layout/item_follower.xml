@@ -18,10 +18,10 @@
                 android:id="@+id/ivProfilePicture"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="13dp"
+                android:layout_alignTop="@+id/cbSend"
+                android:layout_marginStart="17dp"
+                android:layout_marginTop="8dp"
+                android:layout_toEndOf="@+id/cbSend"
                 tools:srcCompat="@tools:sample/avatars" />
 
             <TextView
@@ -29,8 +29,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/ivProfilePicture"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="-1dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="-10dp"
                 android:layout_toEndOf="@+id/ivProfilePicture"
                 android:text="Gianna Torpey"
                 android:textColor="#000000"
@@ -42,26 +42,21 @@
                 android:id="@+id/tvUsername"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/ivProfilePicture"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="24dp"
+                android:layout_below="@+id/tvName"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
                 android:layout_toEndOf="@+id/ivProfilePicture"
                 android:textColor="#575757"
                 app:layout_constraintStart_toEndOf="@+id/ivProfilePicture"
                 tools:layout_editor_absoluteY="5dp"
                 tools:text="gtorpey" />
 
-            <Button
-                android:id="@+id/btnInvite"
-                android:layout_width="100dp"
-                android:layout_height="40dp"
+            <CheckBox
+                android:id="@+id/cbSend"
+                android:layout_width="30dp"
+                android:layout_height="35dp"
                 android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="5dp"
-                android:text="Send"
-                android:textColor="#A5A5A5"
-                android:textSize="10sp" />
+                android:layout_marginTop="10dp" />
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 </RelativeLayout>

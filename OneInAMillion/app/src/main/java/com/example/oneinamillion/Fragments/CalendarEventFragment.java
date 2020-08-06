@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.oneinamillion.EventMapActivity;
@@ -40,6 +41,7 @@ public class CalendarEventFragment extends Fragment {
     EventAdapter adapter;
     List<Event> results;
     TextView tvNoEvents;
+    ProgressBar pbLoading;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -76,6 +78,7 @@ public class CalendarEventFragment extends Fragment {
         tvHeader = view.findViewById(R.id.tvHeader);
         rvCalendarEvents = view.findViewById(R.id.rvCalendarEvents);
         tvNoEvents = view.findViewById(R.id.tvNoEvents);
+        pbLoading = view.findViewById(R.id.pbLoading);
     }
 
     @Override
@@ -103,10 +106,11 @@ public class CalendarEventFragment extends Fragment {
                         results.add(event);
                     }
                 }
-                if (results.size()!=0) {
-                    tvNoEvents.setVisibility(View.GONE);
+                if (results.size()==0) {
+                    tvNoEvents.setVisibility(View.VISIBLE);
                 }
                 adapter.notifyDataSetChanged();
+                pbLoading.setVisibility(View.GONE);
             }
         });
     }

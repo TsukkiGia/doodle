@@ -118,6 +118,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.search_frag, menu);
         MenuItem searchItem = menu.findItem(R.id.action_search);
+        searchItem.getIcon().setTint(Color.parseColor("#FFFFFF"));
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override

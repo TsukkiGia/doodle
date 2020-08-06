@@ -26,26 +26,12 @@
 
     <ImageView
         android:id="@+id/ivProfile"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:layout_below="@+id/toolbar"
         android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="153dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="158dp"
-        tools:src="@tools:sample/avatars" />
-
-    <ImageView
-        android:id="@+id/ivOverlay"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_below="@+id/toolbar"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="153dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="158dp"
+        android:layout_marginStart="146dp"
+        android:layout_marginTop="60dp"
         tools:src="@tools:sample/avatars" />
 
     <ImageView
@@ -67,7 +53,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="0dp"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="15dp"
         android:layout_marginEnd="0dp"
         android:gravity="center_horizontal"
         android:textColor="@color/colorAccent"
@@ -79,39 +65,25 @@
         android:id="@+id/tvUsername"
         android:layout_width="103dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ivProfile"
+        android:layout_below="@+id/tvName"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="2dp"
-        android:layout_marginTop="47dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="-2dp"
         android:layout_marginBottom="50dp"
         android:gravity="center_horizontal"
         tools:text="gtorpey" />
 
     <Button
-        android:id="@+id/btnChange"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvName"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="68dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="68dp"
-        android:backgroundTint="@color/colorAccent"
-        android:text="Change Image"
-        android:textColor="#FFFFFF" />
-
-    <Button
         android:id="@+id/btnChangePref"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/btnChange"
+        android:layout_below="@+id/tvUsername"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="68dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="0dp"
         android:layout_marginEnd="68dp"
         android:backgroundTint="@color/colorAccent"
         android:text="Change Event Preferences"
@@ -130,5 +102,20 @@
         android:backgroundTint="@color/colorAccent"
         android:text="Your Hosted Events"
         android:textColor="#FFFFFF" />
+
+    <TextView
+        android:id="@+id/tvChangeProfile"
+        android:layout_width="120dp"
+        android:layout_height="29dp"
+        android:layout_alignStart="@+id/ivProfile"
+        android:layout_alignBottom="@+id/ivProfile"
+        android:layout_marginStart="0dp"
+        android:layout_marginBottom="0dp"
+        android:background="@android:color/darker_gray"
+        android:gravity="center"
+        android:text="Change Image"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        android:textStyle="bold" />
 
 </RelativeLayout>
