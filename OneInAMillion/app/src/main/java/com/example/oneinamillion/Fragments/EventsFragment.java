@@ -1,8 +1,12 @@
 package com.example.oneinamillion.Fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -21,8 +25,12 @@ import android.widget.TextView;
 
 import com.example.oneinamillion.EventMapActivity;
 import com.example.oneinamillion.Models.Event;
+import com.example.oneinamillion.Models.EventDao;
+import com.example.oneinamillion.Models.EventForSaving;
+import com.example.oneinamillion.ParseApplication;
 import com.example.oneinamillion.R;
 import com.example.oneinamillion.adapters.EventAdapter;
+import com.example.oneinamillion.adapters.SavedEventAdapter;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -47,6 +55,10 @@ public class EventsFragment extends Fragment {
     EventAdapter eventAdapterForOrganized;
     List<Event> attendingEvents;
     List<Event> organizedEvents;
+    SavedEventAdapter savedeventAdapterForAttending;
+    SavedEventAdapter savedeventAdapterForOrganized;
+    List<EventForSaving> attendingSavedEvents;
+    List<EventForSaving> organizedSavedEvents;
     ImageView ivDropdownOrganized;
     ImageView ivDropdownAttending;
     ImageView ivMap;
@@ -65,7 +77,50 @@ public class EventsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         initializeViews(view);
         setUpViews();
-        queryEvents();
+        if (isConnected()) {
+            rvUpcoming.setAdapter(eventAdapterForAttending);
+            rvCreated.setAdapter(eventAdapterForOrganized);
+            queryEvents();
+        }
+        else {
+            rvUpcoming.setAdapter(savedeventAdapterForAttending);
+            rvCreated.setAdapter(savedeventAdapterForOrganized);
+            queryDatabase();
+        }
+    }
+
+    private void queryDatabase() {
+        final EventDao eventDao = ((ParseApplication)getContext().getApplicationContext()).getMyDatabase().eventDao();
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                List<EventForSaving> events = eventDao.recentItems();
+                Log.i(TAG,events.toString());
+                for (EventForSaving event : events) {
+                    if (event.getEventOrganizerID().equals(ParseUser.getCurrentUser().getObjectId())) {
+                        organizedSavedEvents.add(event);
+                    }
+                    if(event.getEventAttendees().contains(ParseUser.getCurrentUser().getObjectId())){
+                        attendingSavedEvents.add(event);
+                    }
+                }
+            }
+        });
+        savedeventAdapterForAttending.clear();
+        savedeventAdapterForAttending.addAll(attendingSavedEvents);
+        savedeventAdapterForAttending.notifyDataSetChanged();
+        savedeventAdapterForOrganized.clear();
+        savedeventAdapterForOrganized.addAll(organizedSavedEvents);
+        savedeventAdapterForOrganized.notifyDataSetChanged();
+    }
+
+    private boolean isConnected() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+        return isConnected;
     }
 
     private void setUpViews() {
@@ -73,8 +128,10 @@ public class EventsFragment extends Fragment {
         organizedEvents = new ArrayList<>();
         eventAdapterForAttending = new EventAdapter(getContext(), attendingEvents);
         eventAdapterForOrganized = new EventAdapter(getContext(), organizedEvents);
-        rvUpcoming.setAdapter(eventAdapterForAttending);
-        rvCreated.setAdapter(eventAdapterForOrganized);
+        attendingSavedEvents = new ArrayList<>();
+        organizedSavedEvents = new ArrayList<>();
+        savedeventAdapterForAttending = new SavedEventAdapter(getContext(), attendingSavedEvents);
+        savedeventAdapterForOrganized = new SavedEventAdapter(getContext(), organizedSavedEvents);
         rvCreated.setLayoutManager(new LinearLayoutManager(getContext()));
         rvUpcoming.setLayoutManager(new LinearLayoutManager(getContext()));
         ivMap.setOnClickListener(new View.OnClickListener() {

@@ -8,8 +8,11 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -68,12 +71,23 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_details);
-        address = getIntent().getStringExtra("address");
+        if (isConnected()) {
+            address = getIntent().getStringExtra("address");
+        }
         event = Parcels.unwrap(getIntent().getParcelableExtra(Event.class.getSimpleName()));
         initializeViews();
         showDetailsFragment();
         setClickListeners();
         setInformationViews();
+    }
+
+    private boolean isConnected() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+        return isConnected;
     }
 
     private void showDetailsFragment() {

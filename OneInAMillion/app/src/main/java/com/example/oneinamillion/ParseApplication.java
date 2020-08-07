@@ -2,13 +2,21 @@ package com.example.oneinamillion;
 
 import android.app.Application;
 
+import androidx.room.Room;
+
 import com.example.oneinamillion.Models.Comment;
 import com.example.oneinamillion.Models.Event;
+import com.example.oneinamillion.Models.MyDatabase;
 import com.example.oneinamillion.Models.Post;
 import com.parse.Parse;
 import com.parse.ParseObject;
 
 public class ParseApplication extends Application {
+    MyDatabase myDatabase;
+
+    public MyDatabase getMyDatabase() {
+        return myDatabase;
+    }
     @Override
     public void onCreate() {
         super.onCreate();
@@ -22,5 +30,6 @@ public class ParseApplication extends Application {
                 .applicationId("one-in-a-million") // should correspond to APP_ID env variable
                 .clientKey("JinIsLovelyLovelyLovely")  // set explicitly unless clientKey is explicitly configured on Parse server
                 .server("https://one-in-a-million.herokuapp.com/parse/").build());
+        myDatabase = Room.databaseBuilder(this, MyDatabase.class, MyDatabase.NAME).fallbackToDestructiveMigration().build();
     }
 }

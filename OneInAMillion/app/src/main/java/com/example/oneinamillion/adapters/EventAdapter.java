@@ -145,7 +145,7 @@ public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
 
     public boolean isMenuShown() {
-        for(int i=0; i<events.size(); i++){
+        for(int i = 0; i < events.size(); i++){
             if(events.get(i).isShowMenu()){
                 return true;
             }
@@ -154,7 +154,7 @@ public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     public void closeMenu() {
-        for(int i=0; i<events.size(); i++){
+        for(int i = 0; i<events.size(); i++){
             events.get(i).setShowMenu(false);
         }
         notifyDataSetChanged();

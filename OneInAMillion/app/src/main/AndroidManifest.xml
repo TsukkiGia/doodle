@@ -34,7 +34,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".EditEventActivity"></activity>
         <activity android:name=".InviteFollowersActivity" />
         <activity android:name=".HostingActivity" />
         <activity android:name=".LikersActivity" />

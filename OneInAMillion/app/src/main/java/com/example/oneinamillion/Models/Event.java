@@ -1,5 +1,10 @@
 package com.example.oneinamillion.Models;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
@@ -8,8 +13,6 @@ import com.parse.ParseUser;
 
 import org.json.JSONArray;
 import org.parceler.Parcel;
-
-import java.util.Date;
 
 @ParseClassName("Event")
 @Parcel(analyze={Event.class})

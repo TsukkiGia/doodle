@@ -9,14 +9,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.oneinamillion.AddEventActivity;
-import com.example.oneinamillion.EditEventActivity;
 import com.example.oneinamillion.InviteFollowersActivity;
 import com.example.oneinamillion.Models.Event;
 import com.example.oneinamillion.R;

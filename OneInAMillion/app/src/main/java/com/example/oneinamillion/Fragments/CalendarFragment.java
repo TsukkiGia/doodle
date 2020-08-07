@@ -1,6 +1,9 @@
 package com.example.oneinamillion.Fragments;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -42,7 +45,20 @@ public class CalendarFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        calendarView = view.findViewById(R.id.calendarView);
+        if (isConnected()) {
+            calendarView = view.findViewById(R.id.calendarView);
+            ivList = view.findViewById(R.id.ivList);
+            ivMap = view.findViewById(R.id.ivMap);
+            setCalendarCurrentDate();
+            setListeners();
+        }
+        else{
+            getParentFragmentManager().beginTransaction()
+                    .replace(R.id.flContainer, new EventsFragment()).commit();
+        }
+    }
+
+    private void setCalendarCurrentDate() {
         long currentDateTime = System.currentTimeMillis();
         Date currentDate = new Date(currentDateTime);
         String formattedDate = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH)
@@ -51,8 +67,10 @@ public class CalendarFragment extends Fragment {
         dates.putString("date", formattedDate);
         Fragment fragment = new CalendarEventFragment();
         fragment.setArguments(dates);
-        ivList = view.findViewById(R.id.ivList);
-        ivMap = view.findViewById(R.id.ivMap);
+        getChildFragmentManager().beginTransaction().replace(R.id.flEvents, fragment).commit();
+    }
+
+    private void setListeners() {
         ivMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,8 +85,6 @@ public class CalendarFragment extends Fragment {
                         .replace(R.id.flContainer, new EventsFragment()).commit();
             }
         });
-        getChildFragmentManager().beginTransaction().replace(R.id.flEvents, fragment).commit();
-
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int day) {
@@ -104,5 +120,14 @@ public class CalendarFragment extends Fragment {
                 }
             }
         });
+    }
+
+    private boolean isConnected() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+        return isConnected;
     }
 }

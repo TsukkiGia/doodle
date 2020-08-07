@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -34,7 +35,10 @@ import com.example.oneinamillion.AddEventActivity;
 import com.example.oneinamillion.HomeMapActivity;
 import com.example.oneinamillion.Models.EndlessRecyclerViewScrollListener;
 import com.example.oneinamillion.Models.Event;
+import com.example.oneinamillion.Models.EventDao;
+import com.example.oneinamillion.Models.EventForSaving;
 import com.example.oneinamillion.Models.MergeSort;
+import com.example.oneinamillion.ParseApplication;
 import com.example.oneinamillion.R;
 import com.example.oneinamillion.adapters.EventAdapter;
 import com.facebook.AccessToken;
@@ -64,6 +68,7 @@ public class HomeFragment extends Fragment {
     RecyclerView rvEvents;
     EventAdapter eventAdapter;
     List<Event> events;
+    List<EventForSaving> eventsForSaving = new ArrayList<>();
     List<Event> results;
     ImageView ivMap;
     String currentlySelected = "distance";
@@ -107,6 +112,13 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        final EventDao eventDao = ((ParseApplication)getContext().getApplicationContext()).getMyDatabase().eventDao();
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                Log.i(TAG,eventDao.recentItems().toString());
+            }
+        });
         if (getArguments() != null) {
             if (getArguments().getBoolean("filterdistance")){
                 max_distance = Double.valueOf(getArguments().getString("max_distance"));
@@ -369,17 +381,56 @@ public class HomeFragment extends Fragment {
                                 .distanceInKilometersTo(new ParseGeoPoint(lastKnownLocation.getLatitude(),
                                         lastKnownLocation.getLongitude())));
                         results.add(event);
+                        EventForSaving eventForSaving = new EventForSaving();
+                        eventForSaving.setEventID(event.getObjectId());
+                        eventForSaving.setEventName(event.getEventName());
+                        eventForSaving.setEventDate(event.getDate());
+                        eventForSaving.setEventTime(event.getTime());
+                        eventForSaving.setEventDescription(event.getDescription());
+                        eventForSaving.setEventOrganizerID(event.getOrganizer().getObjectId());
+                        eventForSaving.setEventAttendees(event.getAttendees().toString());
+                        eventsForSaving.add(eventForSaving);
                     }
                     else{
                         event.setAttendees(new JSONArray());
                         event.saveInBackground();
                     }
                 }
+                insertEventIntoDatabase();
                 sort();
                 CountActiveEvents();
             }
         });
         swipeContainer.setRefreshing(false);
+    }
+
+    private void deleteRows() {
+        final EventDao eventDao = ((ParseApplication)getContext().getApplicationContext()).getMyDatabase().eventDao();
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                eventDao.nukeTable();
+            }
+        });
+    }
+
+    private void insertEventIntoDatabase() {
+        for (final EventForSaving event: eventsForSaving){
+            final EventDao eventDao = ((ParseApplication)getContext().getApplicationContext()).getMyDatabase().eventDao();
+            AsyncTask.execute(new Runnable() {
+                @Override
+                public void run() {
+                    eventDao.insertEvent(event);
+                }
+            });
+            }
+        final EventDao eventDao = ((ParseApplication)getContext().getApplicationContext()).getMyDatabase().eventDao();
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                Log.i("TESTING",eventDao.recentItems().toString());
+            }
+        });
     }
 
     private void sort() {
