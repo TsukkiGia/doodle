@@ -26,6 +26,7 @@ import com.bumptech.glide.Glide;
 import com.example.oneinamillion.Fragments.DetailsFragment;
 import com.example.oneinamillion.Fragments.UserPostFragment;
 import com.example.oneinamillion.Models.Event;
+import com.example.oneinamillion.Models.EventForSaving;
 import com.example.oneinamillion.Models.Post;
 import com.example.oneinamillion.adapters.CustomSlideshowAdapter;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -54,6 +55,7 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
     CustomSlideshowAdapter slideshowAdapter;
     ViewPager pager;
     Event event;
+    EventForSaving savedEvent;
     Boolean amIattending = false;
     String address;
     MaterialButton extFabDetails;
@@ -73,12 +75,45 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
         setContentView(R.layout.activity_event_details);
         if (isConnected()) {
             address = getIntent().getStringExtra("address");
+            event = Parcels.unwrap(getIntent().getParcelableExtra(Event.class.getSimpleName()));
+            showDetailsFragment();
+            initializeViews();
+            setClickListeners();
+            setInformationViews();
         }
-        event = Parcels.unwrap(getIntent().getParcelableExtra(Event.class.getSimpleName()));
-        initializeViews();
-        showDetailsFragment();
-        setClickListeners();
-        setInformationViews();
+        else {
+            savedEvent = Parcels.unwrap(getIntent().getParcelableExtra(EventForSaving.class.getSimpleName()));
+            btnRSVP.setText(R.string.attending);
+            btnRSVP.setIcon(getResources().getDrawable(R.drawable.checkmark));
+            tvLocation.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Uri gmmIntentUri = Uri.parse("geo:0,0?q="+savedEvent.getEventLatitude()
+                            +","+savedEvent.getEventLongitude()+"("+savedEvent.getEventName()+")");
+                    Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                    mapIntent.setPackage("com.google.android.apps.maps");
+                    if (mapIntent.resolveActivity(getPackageManager()) != null) {
+                        startActivity(mapIntent);
+                    }
+                }
+            });
+            ivNavigation.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Uri gmmIntentUri = Uri.parse("google.navigation:q="+savedEvent.getEventLatitude()
+                            +","+savedEvent.getEventLongitude());
+                    Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                    mapIntent.setPackage("com.google.android.apps.maps");
+                    if (mapIntent.resolveActivity(getPackageManager()) != null) {
+                        startActivity(mapIntent);
+                    }
+                }
+            });
+            tvEventName.setText(savedEvent.getEventName());
+            tvDateTime.setText(getString(R.string.event_setting,savedEvent.getEventDate(),savedEvent.getEventTime()));
+            tvLocation.setText(savedEvent.getEventAddress());
+            tvDescription.setText(savedEvent.getEventDescription());
+        }
     }
 
     private boolean isConnected() {

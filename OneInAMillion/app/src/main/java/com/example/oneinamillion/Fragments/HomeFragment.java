@@ -31,6 +31,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.bumptech.glide.Glide;
+import com.codepath.asynchttpclient.AsyncHttpClient;
+import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.oneinamillion.AddEventActivity;
 import com.example.oneinamillion.HomeMapActivity;
 import com.example.oneinamillion.Models.EndlessRecyclerViewScrollListener;
@@ -56,6 +58,7 @@ import com.parse.ParseUser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.parceler.Parcels;
 
 import java.text.SimpleDateFormat;
@@ -64,6 +67,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import okhttp3.Headers;
+
 public class HomeFragment extends Fragment {
     RecyclerView rvEvents;
     EventAdapter eventAdapter;
@@ -71,6 +76,7 @@ public class HomeFragment extends Fragment {
     List<EventForSaving> eventsForSaving = new ArrayList<>();
     List<Event> results;
     ImageView ivMap;
+    EventDao eventDao;
     String currentlySelected = "distance";
     ExtendedFloatingActionButton fabDistance;
     ExtendedFloatingActionButton fabDate;
@@ -112,7 +118,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        final EventDao eventDao = ((ParseApplication)getContext().getApplicationContext()).getMyDatabase().eventDao();
+        eventDao = ((ParseApplication)getContext().getApplicationContext()).getMyDatabase().eventDao();
         AsyncTask.execute(new Runnable() {
             @Override
             public void run() {
@@ -365,7 +371,7 @@ public class HomeFragment extends Fragment {
                 if (e != null) {
                     Log.e(TAG, "problem!", e);
                 }
-                for (Event event : events) {
+                for (final Event event : events) {
                     Log.i(TAG,event.getEventName());
                     long now = System.currentTimeMillis();
                     Date datetime = null;
@@ -381,22 +387,53 @@ public class HomeFragment extends Fragment {
                                 .distanceInKilometersTo(new ParseGeoPoint(lastKnownLocation.getLatitude(),
                                         lastKnownLocation.getLongitude())));
                         results.add(event);
-                        EventForSaving eventForSaving = new EventForSaving();
-                        eventForSaving.setEventID(event.getObjectId());
-                        eventForSaving.setEventName(event.getEventName());
-                        eventForSaving.setEventDate(event.getDate());
-                        eventForSaving.setEventTime(event.getTime());
-                        eventForSaving.setEventDescription(event.getDescription());
-                        eventForSaving.setEventOrganizerID(event.getOrganizer().getObjectId());
-                        eventForSaving.setEventAttendees(event.getAttendees().toString());
-                        eventsForSaving.add(eventForSaving);
+                        AsyncHttpClient client = new AsyncHttpClient();
+                        client.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" +
+                                String.valueOf(event.getLocation().getLatitude()) + "," + String.valueOf(event.getLocation().getLongitude()) +
+                                "&key=" + getString(R.string.api_key), new JsonHttpResponseHandler() {
+                            @Override
+                            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                                Log.i(TAG, "onSuccess");
+                                JSONObject jsonObject = json.jsonObject;
+                                try {
+                                    String address = jsonObject.getJSONArray("results")
+                                            .getJSONObject(0).getString("formatted_address");
+                                    final EventForSaving eventForSaving = new EventForSaving();
+                                    eventForSaving.setEventID(event.getObjectId());
+                                    eventForSaving.setEventName(event.getEventName());
+                                    eventForSaving.setEventDate(event.getDate());
+                                    eventForSaving.setEventTime(event.getTime());
+                                    eventForSaving.setEventDescription(event.getDescription());
+                                    eventForSaving.setEventOrganizerID(event.getOrganizer().getObjectId());
+                                    eventForSaving.setEventAttendees(event.getAttendees().toString());
+                                    eventForSaving.setEventAddress(address);
+                                    eventForSaving.setEventLatitude(event.getLocation().getLatitude());
+                                    eventForSaving.setEventLongitude(event.getLocation().getLongitude());
+                                    eventForSaving.setDistance(event.getDistance());
+                                    AsyncTask.execute(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            eventDao.insertEvent(eventForSaving);
+                                        }
+                                    });
+                                } catch (JSONException e) {
+                                    Log.e(TAG, "Hit JSON exception", e);
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                                Log.e(TAG, "Failed", throwable);
+                            }
+                        });
                     }
                     else{
                         event.setAttendees(new JSONArray());
                         event.saveInBackground();
                     }
                 }
-                insertEventIntoDatabase();
+                //deleteRows();
                 sort();
                 CountActiveEvents();
             }

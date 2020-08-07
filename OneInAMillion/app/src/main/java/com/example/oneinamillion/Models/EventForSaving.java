@@ -6,9 +6,14 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import org.json.JSONArray;
+import org.parceler.Parcel;
 
+@Parcel
 @Entity
 public class EventForSaving {
+    public EventForSaving() {
+    }
+
     @NonNull
     @ColumnInfo
     @PrimaryKey
@@ -31,6 +36,39 @@ public class EventForSaving {
 
     @ColumnInfo
     public String eventAttendees;
+
+    @ColumnInfo
+    public double eventLatitude;
+
+    @ColumnInfo
+    public double eventLongitude;
+
+    public double getEventLatitude() {
+        return eventLatitude;
+    }
+
+    public void setEventLatitude(double eventLatitude) {
+        this.eventLatitude = eventLatitude;
+    }
+
+    public double getEventLongitude() {
+        return eventLongitude;
+    }
+
+    public void setEventLongitude(double eventLongitude) {
+        this.eventLongitude = eventLongitude;
+    }
+
+    public double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
+    }
+
+    @ColumnInfo
+    public double distance;
 
     public String getEventAddress() {
         return eventAddress;

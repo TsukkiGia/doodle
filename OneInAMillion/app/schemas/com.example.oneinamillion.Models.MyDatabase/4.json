@@ -1,0 +1,88 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 4,
+    "identityHash": "fb9903a8c36da432b8bdf8a46e121330",
+    "entities": [
+      {
+        "tableName": "EventForSaving",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`eventID` TEXT NOT NULL, `eventName` TEXT, `eventDescription` TEXT, `eventDate` TEXT, `eventTime` TEXT, `eventAddress` TEXT, `eventAttendees` TEXT, `eventLatitude` REAL NOT NULL, `eventLongitude` REAL NOT NULL, `eventOrganizerID` TEXT, PRIMARY KEY(`eventID`))",
+        "fields": [
+          {
+            "fieldPath": "eventID",
+            "columnName": "eventID",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eventName",
+            "columnName": "eventName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "eventDescription",
+            "columnName": "eventDescription",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "eventDate",
+            "columnName": "eventDate",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "eventTime",
+            "columnName": "eventTime",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "eventAddress",
+            "columnName": "eventAddress",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "eventAttendees",
+            "columnName": "eventAttendees",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "eventLatitude",
+            "columnName": "eventLatitude",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eventLongitude",
+            "columnName": "eventLongitude",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "eventOrganizerID",
+            "columnName": "eventOrganizerID",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "eventID"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'fb9903a8c36da432b8bdf8a46e121330')"
+    ]
+  }
+}

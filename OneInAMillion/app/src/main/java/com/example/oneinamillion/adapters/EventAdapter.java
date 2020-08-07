@@ -2,6 +2,7 @@ package com.example.oneinamillion.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -21,6 +22,9 @@ import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.oneinamillion.EventDetailsActivity;
 import com.example.oneinamillion.Models.Event;
+import com.example.oneinamillion.Models.EventDao;
+import com.example.oneinamillion.Models.EventForSaving;
+import com.example.oneinamillion.ParseApplication;
 import com.example.oneinamillion.R;
 import com.google.android.material.snackbar.Snackbar;
 import com.parse.ParseUser;
@@ -32,6 +36,7 @@ import org.parceler.Parcels;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -102,8 +107,8 @@ public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             if (event.getImage() != null) {
                 Glide.with(context).load(event.getImage().getUrl()).into(((ViewHolder) holder).ivEventImage);
             }
-            AsyncHttpClient client = new AsyncHttpClient();
             if (event.getAddress()==null) {
+                AsyncHttpClient client = new AsyncHttpClient();
                 client.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" +
                         String.valueOf(event.getLocation().getLatitude()) + "," + String.valueOf(event.getLocation().getLongitude()) +
                         "&key=" + context.getString(R.string.api_key), new JsonHttpResponseHandler() {
