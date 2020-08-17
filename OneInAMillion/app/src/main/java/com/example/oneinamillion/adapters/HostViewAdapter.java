@@ -1,5 +1,6 @@
 package com.example.oneinamillion.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -61,7 +62,7 @@ public class HostViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if(viewType==SHOW_MENU) {
-            View view = LayoutInflater.from(context).inflate(R.layout.menu2, parent, false);
+            View view = LayoutInflater.from(context).inflate(R.layout.menu, parent, false);
             return new HostViewAdapter.MenuViewHolder(view);
         }
         else {
@@ -75,7 +76,8 @@ public class HostViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         if (holder instanceof HostViewAdapter.ViewHolder) {
             Event event = events.get(position);
             ((ViewHolder) holder).tvEventName.setText(event.getEventName());
-            ((ViewHolder) holder).tvAttendees.setText(event.getAttendees().length()+" attendees");
+            ((ViewHolder) holder).tvAttendees.setText(context.getResources()
+                    .getQuantityString(R.plurals.numberOfAttendees,event.getAttendees().length(),event.getAttendees().length()));
             ((ViewHolder) holder).tvDate.setText(event.getDate());
             Glide.with(context).load(event.getImage().getUrl()).into(((ViewHolder) holder).ivEventImage);
         }
@@ -144,7 +146,7 @@ public class HostViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     Intent i = new Intent(context, AddEventActivity.class);
                     i.putExtra(Event.class.getSimpleName(), Parcels.wrap(event));
                     i.putExtra("function","edit");
-                    context.startActivity(i);
+                    ((Activity)context).startActivityForResult(i,20);
                 }
             });
         }

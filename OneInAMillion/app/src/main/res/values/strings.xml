@@ -44,6 +44,10 @@
         <item quantity="one">%d like</item>
         <item quantity="other">%d likes</item>
     </plurals>
+    <plurals name="numberOfAttendees">
+        <item quantity="one">%d attendee</item>
+        <item quantity="other">%d attendees</item>
+    </plurals>
     <string name="distance_from_user">This event is %s kilometers away from you</string>
     <string name="event_organizer">Organized by %s</string>
     <string name="price">$%s</string>

@@ -218,6 +218,8 @@ public class SignUpActivity extends AppCompatActivity {
                     if (e != null) {
                         Log.e(TAG, "Error signing up", e);
                         ParseUser.logOut();
+                        Toast.makeText(SignUpActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
+                        dialog.dismissDialog();
                         return;
                     }
                     goMainActivity();

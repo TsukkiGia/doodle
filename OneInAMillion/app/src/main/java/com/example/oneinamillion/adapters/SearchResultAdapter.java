@@ -1,6 +1,8 @@
 package com.example.oneinamillion.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +13,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.oneinamillion.EventDetailsActivity;
 import com.example.oneinamillion.Models.Event;
 import com.example.oneinamillion.R;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -64,6 +69,20 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
             tvEventName = itemView.findViewById(R.id.tvEventName);
             tvDescription = itemView.findViewById(R.id.tvDescription);
             ivEventImage = itemView.findViewById(R.id.ivEventImage);
+            ivEventImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition();
+                    final Event event = events.get(position);
+                    Log.i(TAG,String.valueOf(event.getDistance()));
+                    Intent i = new Intent(context, EventDetailsActivity.class);
+                    i.putExtra(Event.class.getSimpleName(), Parcels.wrap(event));
+                    i.putExtra("address", event.getParseAddress());
+                    i.putExtra("activity", "AdapterItem");
+                    i.putExtra("distance", event.getDistance());
+                    context.startActivity(i);
+                }
+            });
         }
 
         public void bind(Event event) {

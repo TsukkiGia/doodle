@@ -107,7 +107,7 @@ public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             if (event.getImage() != null) {
                 Glide.with(context).load(event.getImage().getUrl()).into(((ViewHolder) holder).ivEventImage);
             }
-            if (event.getAddress()==null) {
+            if (event.getParseAddress()==null) {
                 AsyncHttpClient client = new AsyncHttpClient();
                 client.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" +
                         String.valueOf(event.getLocation().getLatitude()) + "," + String.valueOf(event.getLocation().getLongitude()) +
@@ -119,7 +119,8 @@ public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                         try {
                             String address = jsonObject.getJSONArray("results")
                                     .getJSONObject(0).getString("formatted_address");
-                            event.setAddress(address);
+                            event.setParseAddress(address);
+                            event.saveInBackground();
                         } catch (JSONException e) {
                             Log.e(TAG, "Hit JSON exception", e);
                             e.printStackTrace();
@@ -191,7 +192,7 @@ public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             Log.i(TAG,String.valueOf(event.getDistance()));
             Intent i = new Intent(context, EventDetailsActivity.class);
             i.putExtra(Event.class.getSimpleName(), Parcels.wrap(event));
-            i.putExtra("address", event.getAddress());
+            i.putExtra("address", event.getParseAddress());
             i.putExtra("activity", "AdapterItem");
             i.putExtra("distance", event.getDistance());
             context.startActivity(i);

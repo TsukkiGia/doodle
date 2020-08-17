@@ -95,7 +95,7 @@ public class DetailsFragment extends Fragment {
                     for (int i = 0; i < ev.getEventTag().length(); i++){
                         try {
                             String tag = ev.getEventTag().getString(i);
-                            if (tags.contains(tag)){
+                            if (tags.contains(tag) && !ev.getObjectId().equals(event.getObjectId())){
                                 similarEvents.add(ev);
                                 break;
                             }
@@ -351,11 +351,8 @@ public class DetailsFragment extends Fragment {
                     tvFriendsAttending.setText(getContext().getString(R.string.one_friend,friendname));
                 }
                 if (friendsAttendingList.size()>1){
-                    for (String firstname : friendsAttendingList){
-                        friendsAttending+=firstname+", ";
-                    }
-                    Log.i(TAG,friendsAttendingList.toString());
-                    tvFriendsAttending.setText(friendsAttending+" are attending");
+                    friendsAttending = friendsAttendingList.get(0)+", "+friendsAttendingList.get(1)+", and others are attending";
+                    tvFriendsAttending.setText(friendsAttending);
                 }
             }
         });

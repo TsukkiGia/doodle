@@ -73,17 +73,18 @@ public class EventDetailsActivity extends AppCompatActivity implements OnMapRead
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_details);
+        initializeViews();
         if (isConnected()) {
             address = getIntent().getStringExtra("address");
             event = Parcels.unwrap(getIntent().getParcelableExtra(Event.class.getSimpleName()));
             showDetailsFragment();
-            initializeViews();
             setClickListeners();
             setInformationViews();
         }
         else {
             savedEvent = Parcels.unwrap(getIntent().getParcelableExtra(EventForSaving.class.getSimpleName()));
             btnRSVP.setText(R.string.attending);
+            progressBar.setVisibility(View.INVISIBLE);
             btnRSVP.setIcon(getResources().getDrawable(R.drawable.checkmark));
             tvLocation.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -91,7 +92,7 @@ public class ProfilePageActivity extends AppCompatActivity {
         rvAttended.setAdapter(AttendedEventAdapter);
         user = Parcels.unwrap(getIntent().getParcelableExtra("user"));
         assert user != null;
-        tvUsername.setText(user.getUsername());
+        tvUsername.setText("@"+user.getUsername());
         tvName.setText(String.format("%s %s", user.getString(getString(R.string.user_first_name_key)),
                 user.getString(getString(R.string.user_last_name_key))));
         if (user.getParseFile(getString(R.string.user_profile_picture_key)) != null) {
@@ -99,7 +100,8 @@ public class ProfilePageActivity extends AppCompatActivity {
                     .load(user.getParseFile(getString(R.string.user_profile_picture_key)).getUrl())
                     .circleCrop().into(ivProfilePicture);
         } else {
-            ivProfilePicture.setImageDrawable(getDrawable(R.drawable.instagram_user_filled_24));
+            Glide.with(ProfilePageActivity.this).load(getURLForResource(R.drawable.defaultprofile))
+                    .circleCrop().into(ivProfilePicture);
         }
         JSONArray friends = ParseUser.getCurrentUser().getJSONArray(getString(R.string.user_friends_key));
         for (int i = 0; i < friends.length();i++){
@@ -186,5 +188,10 @@ public class ProfilePageActivity extends AppCompatActivity {
                 OrganizedEventAdapter.notifyDataSetChanged();
             }
         });
+    }
+
+    public String getURLForResource (int resourceId) {
+        //use BuildConfig.APPLICATION_ID instead of R.class.getPackage().getName() if both are not same
+        return Uri.parse("android.resource://"+R.class.getPackage().getName()+"/" +resourceId).toString();
     }
 }

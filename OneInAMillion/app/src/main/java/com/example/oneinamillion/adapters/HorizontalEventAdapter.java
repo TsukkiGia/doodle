@@ -80,7 +80,7 @@ public class HorizontalEventAdapter extends RecyclerView.Adapter<HorizontalEvent
 
         public void bind(Event event) {
             tvEventName.setText(event.getEventName());
-            tvLocation.setText(String.valueOf(event.getPrice()));
+            tvLocation.setText(String.format("$%s", event.getPrice()));
             if (event.getImage() != null) {
                 Glide.with(context).load(event.getImage().getUrl()).into(ivEvent);
             }
@@ -91,33 +91,12 @@ public class HorizontalEventAdapter extends RecyclerView.Adapter<HorizontalEvent
             int position = getAdapterPosition();
             final Event event = events.get(position);
             Log.i(TAG,String.valueOf(event.getDistance()));
-            AsyncHttpClient client = new AsyncHttpClient();
-            client.get("https://maps.googleapis.com/maps/api/geocode/json?latlng="+
-                    String.valueOf(event.getLocation().getLatitude())+","+String.valueOf(event.getLocation().getLongitude())+
-                    "&key="+context.getString(R.string.api_key), new JsonHttpResponseHandler() {
-                @Override
-                public void onSuccess(int statusCode, Headers headers, JSON json) {
-                    Log.i(TAG, "onSuccess");
-                    JSONObject jsonObject = json.jsonObject;
-                    try {
-                        String address = jsonObject.getJSONArray("results").getJSONObject(0).getString("formatted_address");
-                        Intent i = new Intent(context, EventDetailsActivity.class);
-                        i.putExtra(Event.class.getSimpleName(), Parcels.wrap(event));
-                        i.putExtra("address",address);
-                        i.putExtra("activity","AdapterItem");
-                        i.putExtra("distance",event.getDistance());
-                        context.startActivity(i);
-                    }
-                    catch (JSONException e) {
-                        Log.e(TAG, "Hit JSON exception",e);
-                        e.printStackTrace();
-                    }
-                }
-                @Override
-                public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                    Log.e(TAG, "Failed",throwable);
-                }
-            });
+            Intent i = new Intent(context, EventDetailsActivity.class);
+            i.putExtra(Event.class.getSimpleName(), Parcels.wrap(event));
+            i.putExtra("address",event.getParseAddress());
+            i.putExtra("activity","AdapterItem");
+            i.putExtra("distance",event.getDistance());
+            context.startActivity(i);
         }
     }
 }

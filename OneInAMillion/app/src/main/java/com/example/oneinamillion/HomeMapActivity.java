@@ -133,32 +133,11 @@ public class HomeMapActivity extends AppCompatActivity
             public void onInfoWindowClick(Marker marker) {
                 for (final Event event : homevents) {
                     if (event.getObjectId().equals(marker.getTag())){
-                        AsyncHttpClient client = new AsyncHttpClient();
-                        client.get("https://maps.googleapis.com/maps/api/geocode/json?latlng="+
-                                String.valueOf(event.getLocation().getLatitude())+","+String.valueOf(event.getLocation().getLongitude())+
-                                "&key="+getString(R.string.api_key), new JsonHttpResponseHandler() {
-                            @Override
-                            public void onSuccess(int statusCode, Headers headers, JSON json) {
-                                Log.i(TAG, "onSuccess");
-                                JSONObject jsonObject = json.jsonObject;
-                                try {
-                                    String address = jsonObject.getJSONArray("results").getJSONObject(0).getString("formatted_address");
-                                    Intent i = new Intent(HomeMapActivity.this, EventDetailsActivity.class);
-                                    i.putExtra(Event.class.getSimpleName(), Parcels.wrap(event));
-                                    i.putExtra("address",address);
-                                    i.putExtra("activity","HomeFragment");
-                                    startActivity(i);
-                                }
-                                catch (JSONException e) {
-                                    Log.e(TAG, "Hit JSON exception",e);
-                                    e.printStackTrace();
-                                }
-                            }
-                            @Override
-                            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                                Log.i(TAG, "Failed");
-                            }
-                        });
+                        Intent i = new Intent(HomeMapActivity.this, EventDetailsActivity.class);
+                        i.putExtra(Event.class.getSimpleName(), Parcels.wrap(event));
+                        i.putExtra("address",event.getParseAddress());
+                        i.putExtra("activity","HomeFragment");
+                        startActivity(i);
                     }
                 }
             }

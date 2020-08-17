@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -102,14 +103,24 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                 Glide.with(context).load(post.getAuthor().getParseFile("ProfileImage").getUrl()).circleCrop().into(ivProfilePicture);
             }
             else {
-                ivProfilePicture.setImageDrawable(context.getDrawable(R.drawable.instagram_user_filled_24));
+                Glide.with(context).load(getURLForResource(R.drawable.defaultprofile))
+                        .circleCrop().into(ivProfilePicture);
             }
             if (post.getImage() != null) {
                 ivPost.setVisibility(View.VISIBLE);
                 Glide.with(context).load(post.getImage().getUrl()).centerCrop().into(ivPost);
             }
+            else {
+                ivPost.setVisibility(View.GONE);
+            }
             didUserLike(post);
         }
+
+        public String getURLForResource (int resourceId) {
+            //use BuildConfig.APPLICATION_ID instead of R.class.getPackage().getName() if both are not same
+            return Uri.parse("android.resource://"+R.class.getPackage().getName()+"/" +resourceId).toString();
+        }
+
         private void didUserLike(Post post) {
             JSONArray likers = post.getLikers();
             Boolean didILike = false;

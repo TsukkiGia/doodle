@@ -47,7 +47,7 @@ public class ProfileFragment extends Fragment {
     Button btnChangePreferences;
     ImageView ivLogOut;
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 24;
-    public String photoFileName = "bigphoto";
+    public String photoFileName = "biggphoto";
     int counter = 0;
     File photoFile;
     public static final String TAG = "ProfileFragment";

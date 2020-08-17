@@ -1,6 +1,7 @@
 package com.example.oneinamillion.adapters;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,8 +63,14 @@ public class LikersAdapter extends RecyclerView.Adapter<LikersAdapter.ViewHolder
                 Glide.with(context).load(parseUser.getParseFile("ProfileImage").getUrl()).circleCrop().into(ivProfilePicture);
             }
             else {
-                ivProfilePicture.setImageDrawable(context.getDrawable(R.drawable.instagram_user_filled_24));
+                Glide.with(context).load(getURLForResource(R.drawable.defaultprofile))
+                        .circleCrop().into(ivProfilePicture);
             }
+        }
+
+        public String getURLForResource (int resourceId) {
+            //use BuildConfig.APPLICATION_ID instead of R.class.getPackage().getName() if both are not same
+            return Uri.parse("android.resource://"+R.class.getPackage().getName()+"/" +resourceId).toString();
         }
     }
 }

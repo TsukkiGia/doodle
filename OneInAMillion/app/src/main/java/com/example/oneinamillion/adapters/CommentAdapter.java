@@ -2,6 +2,7 @@ package com.example.oneinamillion.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -89,9 +90,15 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
                                 .getString(R.string.user_profile_picture_key)).getUrl()).circleCrop().into(ivProfilePicture);
             }
             else {
-                ivProfilePicture.setImageDrawable(context.getDrawable(R.drawable.instagram_user_filled_24));
+                Glide.with(context).load(getURLForResource(R.drawable.defaultprofile))
+                        .circleCrop().into(ivProfilePicture);
             }
             didUserLike(comment);
+        }
+
+        public String getURLForResource (int resourceId) {
+            //use BuildConfig.APPLICATION_ID instead of R.class.getPackage().getName() if both are not same
+            return Uri.parse("android.resource://"+R.class.getPackage().getName()+"/" +resourceId).toString();
         }
 
         @Override

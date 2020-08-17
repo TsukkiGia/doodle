@@ -1,10 +1,12 @@
 package com.example.oneinamillion;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -112,6 +114,14 @@ public class HostingActivity extends AppCompatActivity {
             };
             ItemTouchHelper itemTouchHelper = new ItemTouchHelper(touchHelperCallback);
             itemTouchHelper.attachToRecyclerView(rvHostEvents);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 20 && resultCode == RESULT_OK){
+            queryEvents();
         }
     }
 

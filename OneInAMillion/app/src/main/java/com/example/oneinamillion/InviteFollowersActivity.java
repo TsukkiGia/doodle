@@ -57,27 +57,7 @@ public class InviteFollowersActivity extends AppCompatActivity {
         rvFollowers = findViewById(R.id.rvFollowers);
         btnInvite = findViewById(R.id.btnInvite);
         btnInvite = findViewById(R.id.btnInvite);
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" +
-                String.valueOf(event.getLocation().getLatitude()) + "," + String.valueOf(event.getLocation().getLongitude()) +
-                "&key=" + getString(R.string.api_key), new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Headers headers, JSON json) {
-                Log.i(TAG, "onSuccess");
-                JSONObject jsonObject = json.jsonObject;
-                try {
-                    address = jsonObject.getJSONArray("results")
-                            .getJSONObject(0).getString("formatted_address");
-                } catch (JSONException e) {
-                    Log.e(TAG, "Hit JSON exception", e);
-                    e.printStackTrace();
-                }
-            }
-            @Override
-            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                Log.e(TAG, "Failed", throwable);
-            }
-        });
+        address = event.getParseAddress();
         btnInvite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

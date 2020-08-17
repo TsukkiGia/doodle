@@ -27,7 +27,6 @@ public class MergeSort {
         int right_index = 0;
         int index = 0;
         while (left_index < left.size() && right_index < right.size()) {
-            //static variable or string resources
             switch(sort_metric) {
                 case date_metric:
                     try {
@@ -55,7 +54,6 @@ public class MergeSort {
                     break;
 
                 default:
-                    //change log
                     Log.i(TAG,sort_metric+ " cannot be found!");
                 }
 

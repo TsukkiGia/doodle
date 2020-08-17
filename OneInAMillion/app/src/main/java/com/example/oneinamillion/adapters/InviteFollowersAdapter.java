@@ -3,6 +3,7 @@ package com.example.oneinamillion.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -99,7 +100,8 @@ public class InviteFollowersAdapter extends RecyclerView.Adapter<InviteFollowers
                 Glide.with(context).load(follower.getParseFile("ProfileImage").getUrl()).circleCrop().into(ivProfilePicture);
             }
             else {
-                ivProfilePicture.setImageDrawable(context.getDrawable(R.drawable.instagram_user_filled_24));
+                Glide.with(context).load(getURLForResource(R.drawable.defaultprofile))
+                        .circleCrop().into(ivProfilePicture);
             }
             cbSend.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
@@ -118,6 +120,10 @@ public class InviteFollowersAdapter extends RecyclerView.Adapter<InviteFollowers
                     Log.i(TAG,followersToInvite.toString());
                 }
             });
+        }
+        public String getURLForResource (int resourceId) {
+            //use BuildConfig.APPLICATION_ID instead of R.class.getPackage().getName() if both are not same
+            return Uri.parse("android.resource://"+R.class.getPackage().getName()+"/" +resourceId).toString();
         }
     }
 }

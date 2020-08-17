@@ -30,6 +30,7 @@ public class Event extends ParseObject {
     public static final String KEY_TAG= "Tag";
     public static final String KEY_PRICE="Price";
     public static final String KEY_LINK="TicketLink";
+    public static final String KEY_ADDRESS="Address";
     public String Address;
     public String city;
 
@@ -78,6 +79,14 @@ public class Event extends ParseObject {
 
     public void setAddress(String address) {
         this.Address = address;
+    }
+
+    public String getParseAddress() {
+        return getString(KEY_ADDRESS);
+    }
+
+    public void setParseAddress(String address) {
+        put(KEY_ADDRESS,address);
     }
 
     public JSONArray getEventTag() {

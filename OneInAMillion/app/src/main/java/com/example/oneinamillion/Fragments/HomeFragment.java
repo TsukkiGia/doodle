@@ -92,7 +92,7 @@ public class HomeFragment extends Fragment {
     private FusedLocationProviderClient fusedLocationProviderClient;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private boolean locationPermissionGranted;
-    Location lastKnownLocation = new Location("");
+    Location lastKnownLocation;
     double max_distance = 1000;
     double max_price = 500;
     int count = 0;
@@ -200,7 +200,7 @@ public class HomeFragment extends Fragment {
             Glide.with(getContext()).load(ParseUser.getCurrentUser().getParseFile("ProfileImage").getUrl())
                     .circleCrop().into(ivProfile);
         } else {
-            Glide.with(getContext()).load(getURLForResource(R.drawable.instagram_user_filled_24))
+            Glide.with(getContext()).load(getURLForResource(R.drawable.defaultprofile))
                     .circleCrop().into(ivProfile);
         }
     }
@@ -331,9 +331,11 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<Location> task) {
                         if (task.isSuccessful()) {
-                            Log.i(TAG,"location retrieved");
+                            Log.i(TAG, "location retrieved");
                             lastKnownLocation = task.getResult();
-                            InitialQuery();
+                            if (lastKnownLocation != null) {
+                                InitialQuery();
+                            }
                         }
                         else {
                             Log.e(TAG, "Exception: %s", task.getException());
@@ -387,44 +389,22 @@ public class HomeFragment extends Fragment {
                                 .distanceInKilometersTo(new ParseGeoPoint(lastKnownLocation.getLatitude(),
                                         lastKnownLocation.getLongitude())));
                         results.add(event);
-                        AsyncHttpClient client = new AsyncHttpClient();
-                        client.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" +
-                                String.valueOf(event.getLocation().getLatitude()) + "," + String.valueOf(event.getLocation().getLongitude()) +
-                                "&key=" + getString(R.string.api_key), new JsonHttpResponseHandler() {
+                        final EventForSaving eventForSaving = new EventForSaving();
+                        eventForSaving.setEventID(event.getObjectId());
+                        eventForSaving.setEventName(event.getEventName());
+                        eventForSaving.setEventDate(event.getDate());
+                        eventForSaving.setEventTime(event.getTime());
+                        eventForSaving.setEventDescription(event.getDescription());
+                        eventForSaving.setEventOrganizerID(event.getOrganizer().getObjectId());
+                        eventForSaving.setEventAttendees(event.getAttendees().toString());
+                        eventForSaving.setEventAddress(event.getParseAddress());
+                        eventForSaving.setEventLatitude(event.getLocation().getLatitude());
+                        eventForSaving.setEventLongitude(event.getLocation().getLongitude());
+                        eventForSaving.setDistance(event.getDistance());
+                        AsyncTask.execute(new Runnable() {
                             @Override
-                            public void onSuccess(int statusCode, Headers headers, JSON json) {
-                                Log.i(TAG, "onSuccess");
-                                JSONObject jsonObject = json.jsonObject;
-                                try {
-                                    String address = jsonObject.getJSONArray("results")
-                                            .getJSONObject(0).getString("formatted_address");
-                                    final EventForSaving eventForSaving = new EventForSaving();
-                                    eventForSaving.setEventID(event.getObjectId());
-                                    eventForSaving.setEventName(event.getEventName());
-                                    eventForSaving.setEventDate(event.getDate());
-                                    eventForSaving.setEventTime(event.getTime());
-                                    eventForSaving.setEventDescription(event.getDescription());
-                                    eventForSaving.setEventOrganizerID(event.getOrganizer().getObjectId());
-                                    eventForSaving.setEventAttendees(event.getAttendees().toString());
-                                    eventForSaving.setEventAddress(address);
-                                    eventForSaving.setEventLatitude(event.getLocation().getLatitude());
-                                    eventForSaving.setEventLongitude(event.getLocation().getLongitude());
-                                    eventForSaving.setDistance(event.getDistance());
-                                    AsyncTask.execute(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            eventDao.insertEvent(eventForSaving);
-                                        }
-                                    });
-                                } catch (JSONException e) {
-                                    Log.e(TAG, "Hit JSON exception", e);
-                                    e.printStackTrace();
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                                Log.e(TAG, "Failed", throwable);
+                            public void run() {
+                                eventDao.insertEvent(eventForSaving);
                             }
                         });
                     }

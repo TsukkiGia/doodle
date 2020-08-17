@@ -14,6 +14,7 @@
 
 package com.example.oneinamillion;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -33,8 +34,10 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -48,8 +51,10 @@ import com.parse.ParseUser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.parceler.Parcels;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -76,9 +81,18 @@ public class EventMapActivity extends AppCompatActivity
     // The geographical location where the device is currently located. That is, the last-known
     // location retrieved by the Fused Location Provider.
     private Location lastKnownLocation;
+    List<Event> eventList;
     // Keys for storing activity state.
     private static final String KEY_CAMERA_POSITION = "camera_position";
     private static final String KEY_LOCATION = "location";
+    final String raffle_tag = "raffle";
+    final String thon_tag= "thon";
+    final String sport_tag = "sport";
+    final String auctions_tag = "auction";
+    final String cook_tag = "cook";
+    final String concert_tag = "music";
+    final String gala_tag = "gala";
+    final String craft_tag = "craft";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,11 +133,26 @@ public class EventMapActivity extends AppCompatActivity
     public void onMapReady(final GoogleMap map) {
         this.map = map;
         map.setInfoWindowAdapter(new CustomWindowAdapter(getLayoutInflater()));
+        map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                for (final Event event : eventList) {
+                    if (event.getObjectId().equals(marker.getTag())){
+                        Intent i = new Intent(EventMapActivity.this, EventDetailsActivity.class);
+                        i.putExtra(Event.class.getSimpleName(), Parcels.wrap(event));
+                        i.putExtra("address",event.getParseAddress());
+                        i.putExtra("activity","HomeFragment");
+                        startActivity(i);
+                    }
+                }
+            }
+        });
         ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
         query.include(Event.KEY_ORGANIZER);
         query.findInBackground(new FindCallback<Event>() {
             @Override
             public void done(List<Event> events, ParseException e) {
+                eventList = new ArrayList<>();
                 for (Event event : events) {
                     long now = System.currentTimeMillis();
                     Date datetime = null;
@@ -139,7 +168,43 @@ public class EventMapActivity extends AppCompatActivity
                         if (parseUser.getUsername().equals(ParseUser.getCurrentUser().getUsername())) {
                             Double lat = event.getLocation().getLatitude();
                             Double longitude = event.getLocation().getLongitude();
-                            map.addMarker(new MarkerOptions().position(new LatLng(lat, longitude)).title(event.getEventName()));
+                            Marker marker = map.addMarker(new MarkerOptions().position(new LatLng(lat, longitude))
+                                    .title(event.getEventName()).snippet(event.getDescription()));
+                            marker.setTag(event.getObjectId());
+                            eventList.add(event);
+                            try {
+                                String firsttag = event.getEventTag().getString(0);
+                                switch(firsttag){
+                                    case sport_tag:
+                                        marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.sportmarker));
+                                        break;
+                                    case auctions_tag:
+                                        marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.auctionmarker));
+                                        break;
+                                    case concert_tag:
+                                        marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.concertmarker));
+                                        break;
+                                    case gala_tag:
+                                        marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.galamarker));
+                                        break;
+                                    case raffle_tag:
+                                        marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.rafflemarker));
+                                        break;
+                                    case cook_tag:
+                                        marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.cookmarker));
+                                        break;
+                                    case craft_tag:
+                                        marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.craftmarker));
+                                        break;
+                                    case thon_tag:
+                                        marker.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.thonmarker));
+                                        break;
+                                    default:
+                                        throw new IllegalStateException("Unexpected value: " + firsttag);
+                                }
+                            } catch (JSONException ex) {
+                                ex.printStackTrace();
+                            }
                         } else {
                             JSONArray attendees = event.getAttendees();
                             for (int i = 0; i < attendees.length(); i++) {

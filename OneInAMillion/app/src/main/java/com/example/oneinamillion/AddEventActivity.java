@@ -29,6 +29,7 @@ import com.bumptech.glide.Glide;
 import com.example.oneinamillion.Fragments.DatePickerFragment;
 import com.example.oneinamillion.Models.Event;
 import com.example.oneinamillion.Fragments.TimePickerFragment;
+import com.example.oneinamillion.Models.LoadingDialog;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.libraries.places.api.Places;
@@ -101,6 +102,7 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
     JSONArray interests = new JSONArray();
     double longitude = 0;
     double latitude = 0;
+    String address;
     public static final String TAG = "AddEvent";
     public final static int PICK_PHOTO_CODE = 1046;
     public final static int PICK_PHOTO_CODE1 = 1047;
@@ -137,6 +139,7 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
         tvTime.setText(event.getTime());
         latitude = event.getLocation().getLatitude();
         longitude = event.getLocation().getLongitude();
+        address = event.getParseAddress();
         if (event.getTicketLink() != null){
             spTicketsAvailable.setSelection(1);
             etPrice.setText(String.valueOf(event.getPrice()));
@@ -213,6 +216,7 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
             public void onPlaceSelected(@NonNull Place place) {
                 latitude = place.getLatLng().latitude;
                 longitude = place.getLatLng().longitude;
+                address = place.getAddress();
             }
 
             @Override
@@ -407,6 +411,8 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
                 } else {
                     event.setPrice(0);
                 }
+                LoadingDialog dialog = new LoadingDialog(AddEventActivity.this,"edit");
+                dialog.startLoadingDialog();
                 event.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
@@ -414,6 +420,8 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
                             Log.e(TAG,"problem!",e);
                         }
                         Log.i(TAG, "Edit successful");
+                        Intent i = new Intent();
+                        setResult(RESULT_OK,i);
                         finish();
                     }
                 });
@@ -460,6 +468,8 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
 
         }
         else {
+            LoadingDialog dialog = new LoadingDialog(AddEventActivity.this,"save");
+            dialog.startLoadingDialog();
             file.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
@@ -476,6 +486,7 @@ public class AddEventActivity extends AppCompatActivity implements DatePickerFra
                         event.setLocation(new ParseGeoPoint(latitude, longitude));
                         event.setOrganizer(ParseUser.getCurrentUser());
                         event.setImage(file);
+                        event.setParseAddress(address);
                         if (file2!=null) {
                             event.setImage2(file2);
                         }

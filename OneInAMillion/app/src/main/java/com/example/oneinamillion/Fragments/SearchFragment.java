@@ -206,32 +206,11 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
             public void onInfoWindowClick(Marker marker) {
                 for (final Event event : results) {
                     if (event.getObjectId().equals(marker.getTag().toString())) {
-                        AsyncHttpClient client = new AsyncHttpClient();
-                        client.get("https://maps.googleapis.com/maps/api/geocode/json?latlng="+
-                                event.getLocation().getLatitude()+","+event.getLocation().getLongitude()+
-                                "&key="+getString(R.string.api_key), new JsonHttpResponseHandler() {
-                            @Override
-                            public void onSuccess(int statusCode, Headers headers, JSON json) {
-                                Log.i(TAG, "onSuccess");
-                                JSONObject jsonObject = json.jsonObject;
-                                try {
-                                    String address = jsonObject.getJSONArray("results").getJSONObject(0).getString("formatted_address");
-                                    Intent i = new Intent(getContext(), EventDetailsActivity.class);
-                                    i.putExtra(Event.class.getSimpleName(), Parcels.wrap(event));
-                                    i.putExtra("address",address);
-                                    i.putExtra("activity","SearchFragment");
-                                    getContext().startActivity(i);
-                                }
-                                catch (JSONException e) {
-                                    Log.e(TAG, "Hit JSON exception",e);
-                                    e.printStackTrace();
-                                }
-                            }
-                            @Override
-                            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                                Log.i(TAG, "Failed");
-                            }
-                        });
+                        Intent i = new Intent(getContext(), EventDetailsActivity.class);
+                        i.putExtra(Event.class.getSimpleName(), Parcels.wrap(event));
+                        i.putExtra("address",event.getParseAddress());
+                        i.putExtra("activity","SearchFragment");
+                        getContext().startActivity(i);
                     }
                 }
             }

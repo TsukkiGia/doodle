@@ -22,7 +22,13 @@ public class LoadingDialog {
         if (signOrLog.equals("login")) {
             builder.setView(inflater.inflate(R.layout.custom_loading_dialog, null));
         }
-        else{
+        if (signOrLog.equals("edit")){
+            builder.setView(inflater.inflate(R.layout.custom_edit_progress, null));
+        }
+        if (signOrLog.equals("save")){
+            builder.setView(inflater.inflate(R.layout.custom_save_progress, null));
+        }
+        if (signOrLog.equals("signup")){
             builder.setView(inflater.inflate(R.layout.custom_signing_up_dialog, null));
         }
         builder.setCancelable(true);

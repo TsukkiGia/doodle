@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -61,7 +62,8 @@ public class PostDetailsActivity extends AppCompatActivity {
                     .getParseFile("ProfileImage").getUrl()).circleCrop().into(ivProfilePicture);
         }
         else {
-            ivProfilePicture.setImageDrawable(getDrawable(R.drawable.instagram_user_filled_24));
+            Glide.with(PostDetailsActivity.this).load(getURLForResource(R.drawable.defaultprofile))
+                    .circleCrop().into(ivProfilePicture);
         }
         if (didIlike){
             ivLike.setImageDrawable(getResources().getDrawable(R.drawable.ufi_heart_active));
@@ -153,6 +155,11 @@ public class PostDetailsActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    public String getURLForResource (int resourceId) {
+        //use BuildConfig.APPLICATION_ID instead of R.class.getPackage().getName() if both are not same
+        return Uri.parse("android.resource://"+R.class.getPackage().getName()+"/" +resourceId).toString();
     }
 
     private void queryComments() {
